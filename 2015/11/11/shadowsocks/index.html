@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="shortcut icon" href="/images/icon.png">
+  
+  <title>VPS搭建ShadowSocks服务 | Shintaku&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="由于校园网的资费坑得一逼，况且有流量限制，这种感觉甚是让人不爽。之前曾看到郑老湿和陈老湿在VPS搭上VPN免流量上网，后来又在开源课上受到杜老师的启发，决定通过ShadowSocks代理后的IPv6教育网实现免流量上网。
+ShadowSocks是一个安全的socks5代理，它通过客户端以指定的密码、加密方式和端口连接服务器，成功连接到服务器后，客户端在用户的电脑上构建一个本地socks5代理。使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VPS搭建ShadowSocks服务">
+<meta property="og:url" content="https://www.shintaku.cc/2015/11/11/shadowsocks/index.html">
+<meta property="og:site_name" content="Shintaku's Blog">
+<meta property="og:description" content="由于校园网的资费坑得一逼，况且有流量限制，这种感觉甚是让人不爽。之前曾看到郑老湿和陈老湿在VPS搭上VPN免流量上网，后来又在开源课上受到杜老师的启发，决定通过ShadowSocks代理后的IPv6教育网实现免流量上网。
+ShadowSocks是一个安全的socks5代理，它通过客户端以指定的密码、加密方式和端口连接服务器，成功连接到服务器后，客户端在用户的电脑上构建一个本地socks5代理。使用">
+<meta property="og:image" content="https://www.shintaku.cc/img/ssbanner.png">
+<meta property="og:updated_time" content="2016-11-06T15:00:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="VPS搭建ShadowSocks服务">
+<meta name="twitter:description" content="由于校园网的资费坑得一逼，况且有流量限制，这种感觉甚是让人不爽。之前曾看到郑老湿和陈老湿在VPS搭上VPN免流量上网，后来又在开源课上受到杜老师的启发，决定通过ShadowSocks代理后的IPv6教育网实现免流量上网。
+ShadowSocks是一个安全的socks5代理，它通过客户端以指定的密码、加密方式和端口连接服务器，成功连接到服务器后，客户端在用户的电脑上构建一个本地socks5代理。使用">
+<meta name="twitter:image" content="https://www.shintaku.cc/img/ssbanner.png">
+<link rel="publisher" href="114761524022260760000">
+  
+    <link rel="alternative" href="/atom.xml" title="Shintaku&#39;s Blog" type="application/atom+xml">
+  
+  
+    <meta name="google-site-verification" content="5mRgj8NanEMpGZuNfHNJNmH90RgNlrnJXsFlTaKD6Gs" />
+  
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <script src="/js/jquery-2.1.0.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"><div id="banner-right"></div></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Shintaku&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">希パワーたーっぷり注入！はーいプシュッ</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          
+            <a class="main-nav-link" href="/"><i class=fa-home title='Home'></i> Home</a>
+          
+        
+          
+            <a class="main-nav-link" href="/about"><i class=fa-user title='About'></i> About</a>
+          
+        
+          
+            <a class="main-nav-link" href="/archives"><i class=fa-archive title='Archives'></i> Archives</a>
+          
+        
+          
+            <a class="main-nav-link" href="/tags"><i class=fa-tags title='Tags'></i> Tags</a>
+          
+        
+          
+            <a class="main-nav-link" href="/gallery"><i class=fa-camera title='Gallery'></i> Gallery</a>
+          
+        
+          
+            <a class="main-nav-link" href="/works"><i class=fa-trophy title='Works'></i> Works</a>
+          
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.shintaku.cc"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        
+          <section id="main" class='pjax'><article id="post-shadowsocks" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2015/11/11/shadowsocks/" class="article-date">
+  <time datetime="2015-11-11T15:33:33.000Z" itemprop="datePublished">2015-11-11</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/网络/">网络</a>►<a class="article-category-link" href="/categories/网络/科学上网/">科学上网</a>
+  </div>
+
+  </div>
+  <div class="article-inner ">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/ssbanner.png" rel="gallery_civ6rqs7d0016eepremt7graq">
+        <img src="/img/ssbanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      VPS搭建ShadowSocks服务
+    </h1>
+  
+
+      </header>
+        
+    <footer class="article-footer">
+      <a data-url="https://www.shintaku.cc/2015/11/11/shadowsocks/" data-id="civ6rqs7d0016eepremt7graq" class="article-share-link">Share</a>
+      
+        <a href="https://www.shintaku.cc/2015/11/11/shadowsocks/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ShadowSocks/">ShadowSocks</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/代理/">代理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/服务器/">服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/科学上网/">科学上网</a></li></ul>
+
+    </footer>
+    <div class="article-entry " itemprop="articleBody">
+      
+          
+              <div id="toc" class="toc-article">
+              <h2 class="toc-title"><span>contents</span></h2>
+              
+                  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#服务器端"><span class="toc-number">1.</span> <span class="toc-text">服务器端</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#搭建服务"><span class="toc-number">1.1.</span> <span class="toc-text">搭建服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动服务"><span class="toc-number">1.2.</span> <span class="toc-text">启动服务</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#性能优化"><span class="toc-number">2.</span> <span class="toc-text">性能优化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#本地客户端"><span class="toc-number">3.</span> <span class="toc-text">本地客户端</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows"><span class="toc-number">3.1.</span> <span class="toc-text">Windows</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#macOS"><span class="toc-number">3.2.</span> <span class="toc-text">macOS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux"><span class="toc-number">3.3.</span> <span class="toc-text">Linux</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Android"><span class="toc-number">3.4.</span> <span class="toc-text">Android</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenWrt"><span class="toc-number">3.5.</span> <span class="toc-text">OpenWrt</span></a></li></ol></li></ol>
+              
+              </div>
+          
+        
+          <p>由于校园网的资费坑得一逼，况且有流量限制，这种感觉甚是让人不爽。之前曾看到郑老湿和陈老湿在VPS搭上VPN免流量上网，后来又在开源课上受到<a href="http://www.pufengdu.org/" target="_blank" rel="external">杜老师</a>的启发，决定通过ShadowSocks代理后的IPv6教育网实现<strong>免流量上网</strong>。</p>
+<p>ShadowSocks是一个安全的socks5代理，它通过客户端以指定的密码、加密方式和端口连接服务器，成功连接到服务器后，客户端在用户的电脑上构建一个本地socks5代理。使用时将流量分到本地socks5代理，客户端将自动加密并转发流量到服务器，服务器以同样的加密方式将流量回传给客户端，以此实现代理上网。</p>
+<h1 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h1><h2 id="搭建服务"><a href="#搭建服务" class="headerlink" title="搭建服务"></a>搭建服务</h2><p>SSH登录到VPS服务器后要使用pip安装ShadowSocks，所以先装<code>pip</code>。</p>
+<p>如果服务器是基于Red Hat的系统（CentOS等等），使用命令：</p>
+<pre><code>yum install python-setuptools &amp;&amp; easy_install pip
+</code></pre><p>如果是基于Debian的系统（Ubuntu等等），使用命令：</p>
+<pre><code>apt-get install python-pip
+</code></pre><p>之后通过pip安装ShadowSocks：</p>
+<pre><code>pip install shadowsocks
+</code></pre><p>安装完成后，在<code>/etc/</code>下新建一个叫<code>shadowsocks.json</code>的配置文件，内容如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">	<span class="attr">"server"</span> : <span class="string">"::"</span>,</div><div class="line">	<span class="attr">"server_port"</span> : <span class="number">8388</span>,</div><div class="line">	<span class="attr">"local_address"</span> : <span class="string">"127.0.0.1"</span>,</div><div class="line">	<span class="attr">"local_port"</span> : <span class="number">1080</span>,</div><div class="line">	<span class="attr">"password"</span> : <span class="string">"PASSWORD"</span>,</div><div class="line">	<span class="attr">"timeout"</span> : <span class="number">300</span>,</div><div class="line">	<span class="attr">"method"</span> : <span class="string">"rc4-md5"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中<code>&quot;server&quot;</code>一栏之所以填<code>&quot;::&quot;</code>是为了同时监听IPv4/v6两个端口，因为本文的需求中我们需要双栈连接，如果VPS没有IPv6功能或仅是为了搭梯子用，这里面填写一个IPv4的地址就可以了。<code>&quot;password&quot;</code>栏填写自己要设置的密码。至于<code>&quot;method&quot;</code>加密方式一栏，主流的有<code>rc4-md5</code>和<code>aes-256-cfb</code>等等，据说前者速度快，后者更安全，可以根据个人喜好自行权衡。</p>
+<p>如果有多个用户需要使用而不想都使用一套端口和密码，可以如下写成多端口配置文件：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">	<span class="attr">"server"</span> : <span class="string">"::"</span>,</div><div class="line">	<span class="attr">"local_address"</span> : <span class="string">"127.0.0.1"</span>,</div><div class="line">	<span class="attr">"local_port"</span> : <span class="number">1080</span>,</div><div class="line">	<span class="attr">"port_password"</span>:</div><div class="line">	&#123;</div><div class="line">		<span class="attr">"8388"</span>:<span class="string">"PASSWORD0"</span>,</div><div class="line">		<span class="attr">"8389"</span>:<span class="string">"PASSWORD1"</span>,</div><div class="line">		<span class="attr">"8340"</span>:<span class="string">"PASSWORD2"</span></div><div class="line">	&#125;,</div><div class="line">   	<span class="attr">"timeout"</span> : <span class="number">300</span>,</div><div class="line">	<span class="attr">"method"</span> : <span class="string">"rc4-md5"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><p>保存配置文件后就可以通过以下命令启动和停止ShadowSocks服务了：</p>
+<pre><code>ssserver -c /etc/shadowsocks.json --fast-open -d start
+ssserver -d stop
+</code></pre><p>如果发现开启服务后连接不上，可以<strong>停用防火墙</strong>试一下。</p>
+<p>要是觉得以上命令太长难于记忆，可以在<code>~/.bashrc</code>里加入alias：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">alias</span> ssstart=<span class="string">'ssserver -c /etc/shadowsocks.json --fast-open -d start'</span></div><div class="line"><span class="built_in">alias</span> ssstop=<span class="string">'ssserver -d stop'</span></div></pre></td></tr></table></figure>
+<p>保存后记得使用<code>source ~/.bashrc</code>命令应用配置，这样就可以每次通过<code>ssstart</code>和<code>ssstop</code>命令启动或停止服务了。</p>
+<p>在CentOS7以后可以用<strong>systemd</strong>的方式启动Shadowsocks，先新建启动脚本<code>/etc/systemd/system/shadowsocks.service</code>：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="section">[Unit]</span></div><div class="line"><span class="attr">Description</span>=Shadowsocks</div><div class="line"><span class="section"></span></div><div class="line">[Service]</div><div class="line"><span class="attr">TimeoutStartSec</span>=<span class="number">0</span></div><div class="line"><span class="attr">ExecStart</span>=/usr/bin/ssserver -c /etc/shadowsocks.json</div><div class="line"><span class="attr">ExecStop</span>=/usr/bin/ssserver -d stop</div><div class="line"><span class="section"></span></div><div class="line">[Install]</div><div class="line"><span class="attr">WantedBy</span>=multi-user.target</div></pre></td></tr></table></figure>
+<p>然后就可以通过<code>systemctl start shadowsocks</code>启动了，并通过<code>systemctl enable shadowsocks</code>设置开机自启。</p>
+<h1 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h1><p>现在我们要祭出TCP加速神器——<strong>锐速</strong>了。</p>
+<p><del>锐速是一款免费的TCP底层加速软件</del>，可以便捷地完成服务器网络的优化，配合ShadowSocks效果甚好。</p>
+<p>首先要去<a href="http://www.serverspeeder.com/" target="_blank" rel="external">锐速官网</a>注册。然后在服务器上通过以下命令下载安装：</p>
+<pre><code>wget http://my.serverspeeder.com/d/ls/serverSpeederInstaller.tar.gz
+tar xzvf serverSpeederInstaller.tar.gz
+bash serverSpeederInstaller.sh
+</code></pre><p>安装过程中需要填写刚注册的账号密码等，一路回车安装结束。</p>
+<p>之后还要编辑配置文件<code>/serverspeeder/etc/config</code>，修改以下参数:</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="attr">advinacc</span>=<span class="string">"1"</span></div><div class="line"><span class="attr">maxmode</span>=<span class="string">"1"</span></div><div class="line"><span class="attr">rsc</span>=<span class="string">"1"</span></div><div class="line"><span class="attr">gso</span>=<span class="string">"1"</span></div></pre></td></tr></table></figure>
+<p>保存后重启服务就可以了：</p>
+<pre><code>service serverSpeeder restart
+</code></pre><p>目前锐速不再开放使用，想用的同学可以到<a href="https://www.91yun.org/en/serverspeeder91yun" target="_blank" rel="external">91云</a>寻找新大陆。</p>
+<h1 id="本地客户端"><a href="#本地客户端" class="headerlink" title="本地客户端"></a>本地客户端</h1><p>首先确定你可以获取到IPv6地址，最简便的方法就是打开<a href="http://bt.neu.edu.cn/" target="_blank" rel="external">六维空间</a>测试一下，如果可以打开就说明没问题。</p>
+<h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><blockquote>
+<p><a href="https://github.com/shadowsocks/shadowsocks-windows/releases" target="_blank" rel="external">Shadowsocks for Windows</a></p>
+</blockquote>
+<h2 id="macOS"><a href="#macOS" class="headerlink" title="macOS"></a>macOS</h2><blockquote>
+<p><a href="https://github.com/shadowsocks/shadowsocks-iOS/releases" target="_blank" rel="external">ShadowsocksX</a></p>
+</blockquote>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><blockquote>
+<p><a href="https://github.com/shadowsocks/shadowsocks-qt5/wiki/%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97#linux" target="_blank" rel="external">Shadowsocks-Qt5</a></p>
+<p>也可以按照类似服务端的命令行方式进行启动，将<code>ssserver</code>改成<code>sslocal</code>即可。</p>
+</blockquote>
+<h2 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h2><blockquote>
+<p><a href="https://github.com/shadowsocks/shadowsocks-android/releases" target="_blank" rel="external">Shadowsocks for Android</a></p>
+<p>如果能上Google Play也可以从<a href="https://play.google.com/store/apps/details?id=com.github.shadowsocks" target="_blank" rel="external">应用商店</a>直接安装。</p>
+</blockquote>
+<h2 id="OpenWrt"><a href="#OpenWrt" class="headerlink" title="OpenWrt"></a>OpenWrt</h2><blockquote>
+<p><a href="https://sourceforge.net/projects/openwrt-dist/files/shadowsocks-libev/" target="_blank" rel="external">shadowsocks-libev</a></p>
+</blockquote>
+<p>各种平台上的服务器配置按照之前服务器端的设置填写即可，但是server地址记得<strong>填写IPv6的</strong>，然后设成全局代理。</p>
+<p>这时Google一下自己的<a href="https://www.google.com/#newwindow=1&amp;safe=active&amp;q=ip" target="_blank" rel="external">IP</a>，如果地址确实是VPS的地址，就可以开始愉快的上网了。</p>
+
+        
+      
+    </div>
+
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/12/03/aria2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          使用aria2多线程下载
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/11/01/digitalocean/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Digital Ocean开通VPS</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+          
+            <div id="ukagaka_panel"></div>
+
+<aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/课程/">课程</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/课程/VLSI/">VLSI</a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a class="text" href="/2016/09/01/ngrok/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            搭建Ngrok内网穿透服务</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/08/26/denyhosts/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            DenyHosts防止ssh暴力登录</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/08/06/gfwlist/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            GFWlist+ShadowSocks实现路由器透明代理</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/07/07/adb/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            使用adb工具刷机</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/07/01/baidu-interview/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            百度PHP实习生面试实录</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/06/18/dropbear/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            OpenWrt上的ssh免密登录</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/06/01/chinadns/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            ChinaDNS+ShadowSocks实现路由器透明代理</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/05/20/app/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            将jar程序打包成app</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/04/11/verilog/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Mac上进行Verilog仿真</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/03/21/centos-lemp/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            CentOS 7配置LEMP环境</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ChinaDNS/" style="font-size: 10px;">ChinaDNS</a> <a href="/tags/GFWlist/" style="font-size: 10px;">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 10px;">GoAgent</a> <a href="/tags/LEMP/" style="font-size: 10px;">LEMP</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Minecraft/" style="font-size: 11.25px;">Minecraft</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 11.25px;">Nginx</a> <a href="/tags/OpenWrt/" style="font-size: 16.25px;">OpenWrt</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/ShadowSocks/" style="font-size: 13.75px;">ShadowSocks</a> <a href="/tags/SoftEther/" style="font-size: 10px;">SoftEther</a> <a href="/tags/Unix/" style="font-size: 11.25px;">Unix</a> <a href="/tags/VPN/" style="font-size: 10px;">VPN</a> <a href="/tags/VPS/" style="font-size: 17.5px;">VPS</a> <a href="/tags/Verilog/" style="font-size: 10px;">Verilog</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/macOS/" style="font-size: 12.5px;">macOS</a> <a href="/tags/ssh/" style="font-size: 15px;">ssh</a> <a href="/tags/下载/" style="font-size: 10px;">下载</a> <a href="/tags/代理/" style="font-size: 13.75px;">代理</a> <a href="/tags/刷机/" style="font-size: 10px;">刷机</a> <a href="/tags/服务器/" style="font-size: 18.75px;">服务器</a> <a href="/tags/游戏/" style="font-size: 11.25px;">游戏</a> <a href="/tags/科学上网/" style="font-size: 16.25px;">科学上网</a> <a href="/tags/舰队Collection/" style="font-size: 10px;">舰队Collection</a> <a href="/tags/路由器/" style="font-size: 16.25px;">路由器</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget widget-background1">   
+      	<ul>
+	      <li><a href="https://github.com/" target="_blank" title="GitHub"><i class="fa-github"></i> GitHub </a></li>
+	      <li><a href="https://developers.google.com/" target="_blank" title="Google Developers"><i class="fa-google"></i> Google Developers </a></li>
+	      <li><a href="https://liangzhenduo0608.github.io/" target="_blank" title="github.io"><i class="fa-github-alt"></i> Recursion </a></li>
+          <li><a href="http://wiki.shintaku.cc/" target="_blank" title="Wiki"><i class="fa-wikipedia-w"></i> My Wiki </a></li>
+	      <li><a href="http://xzjqx.cn/" target="_blank" title="笑卒渐清晰"><i class="fa-wordpress"></i> 笑卒渐清晰 </a></li>
+	      <li><a href="http://muyus.cc/" target="_blank" title="暮雨今夕"><i class="fa-wordpress"></i> 暮雨今夕 </a></li>
+    	</ul>
+    </div>
+</div>
+
+
+</script>
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Statistics
+</h3>
+    <div class="widget widget-background1">   
+      	<a href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3f3f3f/txt_FFFFFF/border_3f3f3f/columns_2/maxflags_32/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="www.shintaku.cc" border="0"></a>
+    </div>
+</div>
+
+
+</script>
+  
+    
+<script src="/js/jquery-ui.js"></script>
+<script src="/js/jquery.morris.ukagaka.resource.js"></script>
+<script src="/js/typed.js"></script>
+<script type="text/javascript">
+  $('#ukagaka_panel').ukagaka();
+</script>
+  
+</aside>
+
+          
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer" align="center">    
+    <div class="social-group">
+      
+      <a href="https://github.com/liangzhenduo0608" target="_blank" title="GitHub"><i class="fa-github"></i></a>
+      
+      
+      <a href="https://plus.google.com/114761524022260759157" target="_blank" title="Google+"><i class="fa-google-plus"></i></a>
+      
+      
+      <a href="https://www.facebook.com/100005630052910" target="_blank" title="Facebook"><i class="fa-facebook-square"></i></a>
+      
+      
+      <a href="https://twitter.com/liangzhenduo" target="_blank" title="Twitter" ><i class="fa-twitter"></i></a>
+      
+      
+      <a href="http://weibo.com/378950608" target="_blank" title="Weibo" ><i class="fa-weibo"></i></a>
+      
+      
+      <a href="http://www.renren.com/357959793" target="_blank" title="Renren" ><i class="fa-renren"></i></a>
+      
+      
+      <a href="http://user.qzone.qq.com/825875484" target="_blank" title="Qzone" ><i class="fa-qq"></i></a>
+      
+      
+      <a href="mailto:liangzhenduo0608@hotmail.com" target="_blank" title="Email" ><i class="fa-send-o"></i></a>
+      
+    </div>
+    <div id="footer-info" class="inner" align="center">
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2016 Shintaku 
+    </div>  
+
+  </div>
+</footer>
+
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/gallery" class="mobile-nav-link">Gallery</a>
+  
+    <a href="/works" class="mobile-nav-link">Works</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'shintaku';
+  
+  var disqus_url = 'https://www.shintaku.cc/2015/11/11/shadowsocks/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/jquery.lazyload.js"></script>
+<script src="/js/jquery.als-1.6.js"></script>
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

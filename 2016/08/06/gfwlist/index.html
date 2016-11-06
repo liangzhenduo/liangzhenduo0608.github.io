@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="shortcut icon" href="/images/icon.png">
+  
+  <title>GFWlist+ShadowSocks实现路由器透明代理 | Shintaku&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前两个月OpenWrt一直使用ChinaDNS+ShadowSocks的方式按IP切换代理，但是由于长城宽带非常蛋疼代理时常上不去，导致平时可以正常访问的一些网站也无法访问，得不偿失。于是趁这周换了移动光纤，为了避免发生之前的情况，也把代理方式换成了按GFWlist得域名切换。
+必要软件首先是在OpenWrt下装上一堆必要软件：
+
+ipset
+iptables-mod-nat-extra
+libo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GFWlist+ShadowSocks实现路由器透明代理">
+<meta property="og:url" content="https://www.shintaku.cc/2016/08/06/gfwlist/index.html">
+<meta property="og:site_name" content="Shintaku's Blog">
+<meta property="og:description" content="前两个月OpenWrt一直使用ChinaDNS+ShadowSocks的方式按IP切换代理，但是由于长城宽带非常蛋疼代理时常上不去，导致平时可以正常访问的一些网站也无法访问，得不偿失。于是趁这周换了移动光纤，为了避免发生之前的情况，也把代理方式换成了按GFWlist得域名切换。
+必要软件首先是在OpenWrt下装上一堆必要软件：
+
+ipset
+iptables-mod-nat-extra
+libo">
+<meta property="og:image" content="https://www.shintaku.cc/img/gfwbanner.png">
+<meta property="og:updated_time" content="2016-11-06T14:37:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GFWlist+ShadowSocks实现路由器透明代理">
+<meta name="twitter:description" content="前两个月OpenWrt一直使用ChinaDNS+ShadowSocks的方式按IP切换代理，但是由于长城宽带非常蛋疼代理时常上不去，导致平时可以正常访问的一些网站也无法访问，得不偿失。于是趁这周换了移动光纤，为了避免发生之前的情况，也把代理方式换成了按GFWlist得域名切换。
+必要软件首先是在OpenWrt下装上一堆必要软件：
+
+ipset
+iptables-mod-nat-extra
+libo">
+<meta name="twitter:image" content="https://www.shintaku.cc/img/gfwbanner.png">
+<link rel="publisher" href="114761524022260760000">
+  
+    <link rel="alternative" href="/atom.xml" title="Shintaku&#39;s Blog" type="application/atom+xml">
+  
+  
+    <meta name="google-site-verification" content="5mRgj8NanEMpGZuNfHNJNmH90RgNlrnJXsFlTaKD6Gs" />
+  
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <script src="/js/jquery-2.1.0.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"><div id="banner-right"></div></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Shintaku&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">希パワーたーっぷり注入！はーいプシュッ</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          
+            <a class="main-nav-link" href="/"><i class=fa-home title='Home'></i> Home</a>
+          
+        
+          
+            <a class="main-nav-link" href="/about"><i class=fa-user title='About'></i> About</a>
+          
+        
+          
+            <a class="main-nav-link" href="/archives"><i class=fa-archive title='Archives'></i> Archives</a>
+          
+        
+          
+            <a class="main-nav-link" href="/tags"><i class=fa-tags title='Tags'></i> Tags</a>
+          
+        
+          
+            <a class="main-nav-link" href="/gallery"><i class=fa-camera title='Gallery'></i> Gallery</a>
+          
+        
+          
+            <a class="main-nav-link" href="/works"><i class=fa-trophy title='Works'></i> Works</a>
+          
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.shintaku.cc"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        
+          <section id="main" class='pjax'><article id="post-gfwlist" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2016/08/06/gfwlist/" class="article-date">
+  <time datetime="2016-08-06T10:18:18.000Z" itemprop="datePublished">2016-08-06</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/网络/">网络</a>►<a class="article-category-link" href="/categories/网络/科学上网/">科学上网</a>
+  </div>
+
+  </div>
+  <div class="article-inner ">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/gfwbanner.png" rel="gallery_civ6rqs6t000teepr3qwgvjtt">
+        <img src="/img/gfwbanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      GFWlist+ShadowSocks实现路由器透明代理
+    </h1>
+  
+
+      </header>
+        
+    <footer class="article-footer">
+      <a data-url="https://www.shintaku.cc/2016/08/06/gfwlist/" data-id="civ6rqs6t000teepr3qwgvjtt" class="article-share-link">Share</a>
+      
+        <a href="https://www.shintaku.cc/2016/08/06/gfwlist/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GFWlist/">GFWlist</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWrt/">OpenWrt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ShadowSocks/">ShadowSocks</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/科学上网/">科学上网</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/路由器/">路由器</a></li></ul>
+
+    </footer>
+    <div class="article-entry " itemprop="articleBody">
+      
+          
+              <div id="toc" class="toc-article">
+              <h2 class="toc-title"><span>contents</span></h2>
+              
+                  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#必要软件"><span class="toc-number">1.</span> <span class="toc-text">必要软件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置ShadowSocks"><span class="toc-number">2.</span> <span class="toc-text">配置ShadowSocks</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置dnsmasq"><span class="toc-number">3.</span> <span class="toc-text">配置dnsmasq</span></a></li></ol>
+              
+              </div>
+          
+        
+          <p>前两个月OpenWrt一直使用<a href="https://www.shintaku.cc/2016/06/01/chinadns/">ChinaDNS+ShadowSocks</a>的方式按IP切换代理，但是由于长城宽带非常蛋疼代理时常上不去，导致平时可以正常访问的一些网站也无法访问，得不偿失。于是趁这周换了移动光纤，为了避免发生之前的情况，也把代理方式换成了按<a href="https://github.com/gfwlist/gfwlist" target="_blank" rel="external">GFWlist</a>得域名切换。</p>
+<h1 id="必要软件"><a href="#必要软件" class="headerlink" title="必要软件"></a>必要软件</h1><p>首先是在OpenWrt下装上一堆必要软件：</p>
+<ul>
+<li>ipset</li>
+<li>iptables-mod-nat-extra</li>
+<li>libopenssl</li>
+<li>dnsmasq-full</li>
+<li>shadowsocks-libev</li>
+</ul>
+<p>其中前三个正常安装即可，<code>dnsmasq-full</code>需要先卸载预装的<code>dnsmasq</code>再安装。</p>
+<p><code>shadowsocks-libev</code>可以在<a href="https://sourceforge.net/projects/openwrt-dist/files/shadowsocks-libev/" target="_blank" rel="external">sourceforge</a>里找到。如果无法访问也可以下载我备份在服务器上的较老版本（注意软件所适配的架构）：</p>
+<pre><code>wget https://www.shintaku.cc/files/shadowsocks-libev_2.4.8-3_ar71xx.ipk
+</code></pre><p>下载完成后使用<code>opkg install</code>命令直接安装即可。</p>
+<h1 id="配置ShadowSocks"><a href="#配置ShadowSocks" class="headerlink" title="配置ShadowSocks"></a>配置ShadowSocks</h1><p>编辑<code>/etc/shadowsocks.json</code>文件：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"server"</span>: <span class="string">""</span>,</div><div class="line">    <span class="attr">"server_port"</span>: <span class="number">8388</span>,</div><div class="line">    <span class="attr">"local_port"</span>: <span class="number">1080</span>,</div><div class="line">    <span class="attr">"password"</span>: <span class="string">""</span>,</div><div class="line">    <span class="attr">"timeout"</span>: <span class="number">300</span>,</div><div class="line">    <span class="attr">"method"</span>: <span class="string">"rc4-md5"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>修改<code>/etc/init.d/shadowsocks</code>成如下（就是把关于<code>ss-local</code>的注释掉再把<code>ss-redir</code>的解注释）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/bin/sh /etc/rc.common</span></div><div class="line"></div><div class="line">START=95</div><div class="line"></div><div class="line">SERVICE_USE_PID=1</div><div class="line">SERVICE_WRITE_PID=1</div><div class="line">SERVICE_DAEMONIZE=1</div><div class="line"></div><div class="line">CONFIG=/etc/shadowsocks.json</div><div class="line"></div><div class="line"><span class="function"><span class="title">start</span></span>() &#123;</div><div class="line">	<span class="comment">#service_start /usr/bin/ss-local -c $CONFIG -b 0.0.0.0</span></div><div class="line">	service_start /usr/bin/ss-redir -c <span class="variable">$CONFIG</span> -b 0.0.0.0</div><div class="line">	<span class="comment">#service_start /usr/bin/ss-tunnel -c $CONFIG -b 0.0.0.0 -l 5353 -L 8.8.8.8:53 -u</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="title">stop</span></span>() &#123;</div><div class="line">	<span class="comment">#service_stop /usr/bin/ss-local</span></div><div class="line">	service_stop /usr/bin/ss-redir</div><div class="line">	<span class="comment">#service_stop /usr/bin/ss-tunnel</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>之后启动ShadowSocks并设置开机自启：</p>
+<pre><code>/etc/init.d/shadowsocks start
+/etc/init.d/shadowsocks enable
+</code></pre><h1 id="配置dnsmasq"><a href="#配置dnsmasq" class="headerlink" title="配置dnsmasq"></a>配置dnsmasq</h1><p>新建目录<code>/etc/dnsmasq.d</code>，并在其中放入<code>dnsmasq_list.conf</code>文件，这个文件就是根据GFWlist生成的走代理的域名列表，生成方法已经有大神放在了<a href="https://github.com/cokebar/gfwlist2dnsmasq" target="_blank" rel="external">GitHub</a>上，可根据自己的情况进行修改。若是懒得生成，我在服务器上也会每日更新<a href="http://info.shintaku.cc/dnsmasq_list.conf" target="_blank" rel="external">dnsmasq_list.conf</a>，里面用的DNS是在这台服务器上搭的dnsmasq，ipset表叫做<code>gfwlist</code>。</p>
+<p>建议使用自己VPS上的DNS，具体就是在服务器装上dnsmasq，编辑<code>/etc/dnsmasq.conf</code>加入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">port=5353</div><div class="line">server=8.8.8.8</div><div class="line">server=8.8.4.4</div></pre></td></tr></table></figure>
+<p>保存后运行dnsmasq并设置开机启动就可以间接使用Google Public DNS了。</p>
+<p>然后编辑路由器上的<code>/etc/dnsmasq.conf</code>，在全篇注释后面加一句：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">conf-dir=/etc/dnsmasq.d</div></pre></td></tr></table></figure>
+<p>最后自定义防火墙规则（可在LuCI里直接添加）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ipset -N gfwlist iphash</div><div class="line">iptables -t nat -A PREROUTING -p tcp -m <span class="built_in">set</span> --match-set gfwlist dst -j REDIRECT --to-port 1080</div></pre></td></tr></table></figure>
+<p>重启路由器就算完成了。</p>
+
+        
+      
+    </div>
+
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/08/26/denyhosts/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          DenyHosts防止ssh暴力登录
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/07/adb/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用adb工具刷机</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+          
+            <div id="ukagaka_panel"></div>
+
+<aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/课程/">课程</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/课程/VLSI/">VLSI</a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a class="text" href="/2016/09/01/ngrok/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            搭建Ngrok内网穿透服务</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/08/26/denyhosts/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            DenyHosts防止ssh暴力登录</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/08/06/gfwlist/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            GFWlist+ShadowSocks实现路由器透明代理</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/07/07/adb/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            使用adb工具刷机</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/07/01/baidu-interview/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            百度PHP实习生面试实录</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/06/18/dropbear/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            OpenWrt上的ssh免密登录</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/06/01/chinadns/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            ChinaDNS+ShadowSocks实现路由器透明代理</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/05/20/app/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            将jar程序打包成app</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/04/11/verilog/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Mac上进行Verilog仿真</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/03/21/centos-lemp/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            CentOS 7配置LEMP环境</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ChinaDNS/" style="font-size: 10px;">ChinaDNS</a> <a href="/tags/GFWlist/" style="font-size: 10px;">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 10px;">GoAgent</a> <a href="/tags/LEMP/" style="font-size: 10px;">LEMP</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Minecraft/" style="font-size: 11.25px;">Minecraft</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 11.25px;">Nginx</a> <a href="/tags/OpenWrt/" style="font-size: 16.25px;">OpenWrt</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/ShadowSocks/" style="font-size: 13.75px;">ShadowSocks</a> <a href="/tags/SoftEther/" style="font-size: 10px;">SoftEther</a> <a href="/tags/Unix/" style="font-size: 11.25px;">Unix</a> <a href="/tags/VPN/" style="font-size: 10px;">VPN</a> <a href="/tags/VPS/" style="font-size: 17.5px;">VPS</a> <a href="/tags/Verilog/" style="font-size: 10px;">Verilog</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/macOS/" style="font-size: 12.5px;">macOS</a> <a href="/tags/ssh/" style="font-size: 15px;">ssh</a> <a href="/tags/下载/" style="font-size: 10px;">下载</a> <a href="/tags/代理/" style="font-size: 13.75px;">代理</a> <a href="/tags/刷机/" style="font-size: 10px;">刷机</a> <a href="/tags/服务器/" style="font-size: 18.75px;">服务器</a> <a href="/tags/游戏/" style="font-size: 11.25px;">游戏</a> <a href="/tags/科学上网/" style="font-size: 16.25px;">科学上网</a> <a href="/tags/舰队Collection/" style="font-size: 10px;">舰队Collection</a> <a href="/tags/路由器/" style="font-size: 16.25px;">路由器</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget widget-background1">   
+      	<ul>
+	      <li><a href="https://github.com/" target="_blank" title="GitHub"><i class="fa-github"></i> GitHub </a></li>
+	      <li><a href="https://developers.google.com/" target="_blank" title="Google Developers"><i class="fa-google"></i> Google Developers </a></li>
+	      <li><a href="https://liangzhenduo0608.github.io/" target="_blank" title="github.io"><i class="fa-github-alt"></i> Recursion </a></li>
+          <li><a href="http://wiki.shintaku.cc/" target="_blank" title="Wiki"><i class="fa-wikipedia-w"></i> My Wiki </a></li>
+	      <li><a href="http://xzjqx.cn/" target="_blank" title="笑卒渐清晰"><i class="fa-wordpress"></i> 笑卒渐清晰 </a></li>
+	      <li><a href="http://muyus.cc/" target="_blank" title="暮雨今夕"><i class="fa-wordpress"></i> 暮雨今夕 </a></li>
+    	</ul>
+    </div>
+</div>
+
+
+</script>
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Statistics
+</h3>
+    <div class="widget widget-background1">   
+      	<a href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3f3f3f/txt_FFFFFF/border_3f3f3f/columns_2/maxflags_32/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="www.shintaku.cc" border="0"></a>
+    </div>
+</div>
+
+
+</script>
+  
+    
+<script src="/js/jquery-ui.js"></script>
+<script src="/js/jquery.morris.ukagaka.resource.js"></script>
+<script src="/js/typed.js"></script>
+<script type="text/javascript">
+  $('#ukagaka_panel').ukagaka();
+</script>
+  
+</aside>
+
+          
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer" align="center">    
+    <div class="social-group">
+      
+      <a href="https://github.com/liangzhenduo0608" target="_blank" title="GitHub"><i class="fa-github"></i></a>
+      
+      
+      <a href="https://plus.google.com/114761524022260759157" target="_blank" title="Google+"><i class="fa-google-plus"></i></a>
+      
+      
+      <a href="https://www.facebook.com/100005630052910" target="_blank" title="Facebook"><i class="fa-facebook-square"></i></a>
+      
+      
+      <a href="https://twitter.com/liangzhenduo" target="_blank" title="Twitter" ><i class="fa-twitter"></i></a>
+      
+      
+      <a href="http://weibo.com/378950608" target="_blank" title="Weibo" ><i class="fa-weibo"></i></a>
+      
+      
+      <a href="http://www.renren.com/357959793" target="_blank" title="Renren" ><i class="fa-renren"></i></a>
+      
+      
+      <a href="http://user.qzone.qq.com/825875484" target="_blank" title="Qzone" ><i class="fa-qq"></i></a>
+      
+      
+      <a href="mailto:liangzhenduo0608@hotmail.com" target="_blank" title="Email" ><i class="fa-send-o"></i></a>
+      
+    </div>
+    <div id="footer-info" class="inner" align="center">
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2016 Shintaku 
+    </div>  
+
+  </div>
+</footer>
+
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/gallery" class="mobile-nav-link">Gallery</a>
+  
+    <a href="/works" class="mobile-nav-link">Works</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'shintaku';
+  
+  var disqus_url = 'https://www.shintaku.cc/2016/08/06/gfwlist/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/jquery.lazyload.js"></script>
+<script src="/js/jquery.als-1.6.js"></script>
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

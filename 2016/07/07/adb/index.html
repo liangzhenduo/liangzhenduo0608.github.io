@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="shortcut icon" href="/images/icon.png">
+  
+  <title>使用adb工具刷机 | Shintaku&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="今天刷机小王子一加3终于给送来了，趁此机会总结一下之前用过的adb命令备查。
+之前曾经用过Odin线刷、卡刷等方式，直到接触了Android Debug Bridge才发现命令行的强大。
+首先通过Homebrew安装adb工具：
+brew install android-platform-tools
+OEM解锁拿到一部新机一般OEM是上锁的。为了刷机我们需要对Bootloader进行解锁。这个过程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用adb工具刷机">
+<meta property="og:url" content="https://www.shintaku.cc/2016/07/07/adb/index.html">
+<meta property="og:site_name" content="Shintaku's Blog">
+<meta property="og:description" content="今天刷机小王子一加3终于给送来了，趁此机会总结一下之前用过的adb命令备查。
+之前曾经用过Odin线刷、卡刷等方式，直到接触了Android Debug Bridge才发现命令行的强大。
+首先通过Homebrew安装adb工具：
+brew install android-platform-tools
+OEM解锁拿到一部新机一般OEM是上锁的。为了刷机我们需要对Bootloader进行解锁。这个过程">
+<meta property="og:image" content="https://www.shintaku.cc/img/adbbanner.png">
+<meta property="og:updated_time" content="2016-11-06T14:40:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用adb工具刷机">
+<meta name="twitter:description" content="今天刷机小王子一加3终于给送来了，趁此机会总结一下之前用过的adb命令备查。
+之前曾经用过Odin线刷、卡刷等方式，直到接触了Android Debug Bridge才发现命令行的强大。
+首先通过Homebrew安装adb工具：
+brew install android-platform-tools
+OEM解锁拿到一部新机一般OEM是上锁的。为了刷机我们需要对Bootloader进行解锁。这个过程">
+<meta name="twitter:image" content="https://www.shintaku.cc/img/adbbanner.png">
+<link rel="publisher" href="114761524022260760000">
+  
+    <link rel="alternative" href="/atom.xml" title="Shintaku&#39;s Blog" type="application/atom+xml">
+  
+  
+    <meta name="google-site-verification" content="5mRgj8NanEMpGZuNfHNJNmH90RgNlrnJXsFlTaKD6Gs" />
+  
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <script src="/js/jquery-2.1.0.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"><div id="banner-right"></div></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Shintaku&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">希パワーたーっぷり注入！はーいプシュッ</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          
+            <a class="main-nav-link" href="/"><i class=fa-home title='Home'></i> Home</a>
+          
+        
+          
+            <a class="main-nav-link" href="/about"><i class=fa-user title='About'></i> About</a>
+          
+        
+          
+            <a class="main-nav-link" href="/archives"><i class=fa-archive title='Archives'></i> Archives</a>
+          
+        
+          
+            <a class="main-nav-link" href="/tags"><i class=fa-tags title='Tags'></i> Tags</a>
+          
+        
+          
+            <a class="main-nav-link" href="/gallery"><i class=fa-camera title='Gallery'></i> Gallery</a>
+          
+        
+          
+            <a class="main-nav-link" href="/works"><i class=fa-trophy title='Works'></i> Works</a>
+          
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.shintaku.cc"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        
+          <section id="main" class='pjax'><article id="post-adb" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/2016/07/07/adb/" class="article-date">
+  <time datetime="2016-07-07T13:11:11.000Z" itemprop="datePublished">2016-07-07</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/奇技淫巧/">奇技淫巧</a>►<a class="article-category-link" href="/categories/奇技淫巧/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner ">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/adbbanner.png" rel="gallery_civ6rqs5s0009eeprl5brtebg">
+        <img src="/img/adbbanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用adb工具刷机
+    </h1>
+  
+
+      </header>
+        
+    <footer class="article-footer">
+      <a data-url="https://www.shintaku.cc/2016/07/07/adb/" data-id="civ6rqs5s0009eeprl5brtebg" class="article-share-link">Share</a>
+      
+        <a href="https://www.shintaku.cc/2016/07/07/adb/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/刷机/">刷机</a></li></ul>
+
+    </footer>
+    <div class="article-entry " itemprop="articleBody">
+      
+          
+              <div id="toc" class="toc-article">
+              <h2 class="toc-title"><span>contents</span></h2>
+              
+                  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#OEM解锁"><span class="toc-number">1.</span> <span class="toc-text">OEM解锁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#刷入Recovery"><span class="toc-number">2.</span> <span class="toc-text">刷入Recovery</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#刷入ROM"><span class="toc-number">3.</span> <span class="toc-text">刷入ROM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#刷入GAPPS（可选）"><span class="toc-number">4.</span> <span class="toc-text">刷入GAPPS（可选）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Root（可选）"><span class="toc-number">5.</span> <span class="toc-text">Root（可选）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装apk（可选）"><span class="toc-number">6.</span> <span class="toc-text">安装apk（可选）</span></a></li></ol>
+              
+              </div>
+          
+        
+          <p>今天刷机小王子<strong>一加3</strong>终于给送来了，趁此机会总结一下之前用过的<code>adb</code>命令备查。</p>
+<p>之前曾经用过Odin线刷、卡刷等方式，直到接触了<strong>Android Debug Bridge</strong>才发现命令行的强大。</p>
+<p>首先通过Homebrew安装adb工具：</p>
+<pre><code>brew install android-platform-tools
+</code></pre><h1 id="OEM解锁"><a href="#OEM解锁" class="headerlink" title="OEM解锁"></a>OEM解锁</h1><p>拿到一部新机一般OEM是上锁的。为了刷机我们需要对Bootloader进行解锁。这个过程会清除设备中的数据，所以需要提前进行备份。</p>
+<p>首先进入<strong>关于手机</strong>连击<strong>版本号</strong>打开<strong>开发者模式</strong>，然后进入<strong>开发者模式</strong>打开<strong>OEM解锁</strong>，顺便将<strong>USB调试</strong>也打开。</p>
+<p>这时用数据线将手机与电脑相连进行USB调试，在命令行里输入：</p>
+<pre><code>adb devices
+</code></pre><p>如果设备列表中出现Android设备则说明连接成功，接着输入：</p>
+<pre><code>adb reboot bootloader
+</code></pre><p>设备会重启到bootloader，此时使用命令：</p>
+<pre><code>fastboot oem unlock
+</code></pre><p>在手机上进行确认后就解锁了bootloader。</p>
+<h1 id="刷入Recovery"><a href="#刷入Recovery" class="headerlink" title="刷入Recovery"></a>刷入Recovery</h1><p>设备自带的Recovery一般可能不如第三方的功能强大，这里推荐一个叫<strong>TWRP</strong>的Recovery，因为如果要刷Gapps的话可能需要用到它。首先到<a href="https://twrp.me/" target="_blank" rel="external">TeamWin</a>下载对应设备的recovery包。</p>
+<p>接着通过<code>adb reboot bootloader</code>进入bootloader，再输入：</p>
+<pre><code>fastboot flash recovery Recovery.img
+</code></pre><p>就刷入新的recovery了，再通过<code>fastboot reboot</code>重启就可以了。</p>
+<h1 id="刷入ROM"><a href="#刷入ROM" class="headerlink" title="刷入ROM"></a>刷入ROM</h1><p>先通过命令使设备重启为recovery模式：</p>
+<pre><code>adb reboot recovery
+</code></pre><p>如果是刷入新系统建议先<em>四清</em>（System、Data、Cache、Dalvik Cache），如果是升级系统建议先<em>三清</em>（Data、Cache、Dalvik Cache），如果希望保留数据，<em>双清</em>（Cache、Dalvik Cache）就可以了。无论怎样最好都先备份数据。</p>
+<p>首先将对应的ROM下载到电脑上。然后到手机上进入TWRP的<code>Advanced</code>，选择<code>ADB Sideload</code>。在电脑终端输入：</p>
+<pre><code>adb sideload ROM.zip
+</code></pre><p>等待刷完就可以了。刷完后建议双清一下再重启。</p>
+<h1 id="刷入GAPPS（可选）"><a href="#刷入GAPPS（可选）" class="headerlink" title="刷入GAPPS（可选）"></a>刷入GAPPS（可选）</h1><p>如果想要装上Google全家桶，在刷完ROM后先不要急于重启。先到<a href="http://opengapps.org/" target="_blank" rel="external">OpenGAPPS</a>下载对应版本的GAPPS到电脑上（注意Platform和Android版本），不同Variant区别在于：</p>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>aroma</td>
+<td>图形化界面的super版，可以选择安装GAPPS</td>
+</tr>
+<tr>
+<td>super</td>
+<td>包含Google设备的所有Google Apps</td>
+</tr>
+<tr>
+<td>stock</td>
+<td>包含最新Nexus机型上预装的应用，并以GAPPS替换AOSP的同类应用</td>
+</tr>
+<tr>
+<td>full</td>
+<td>与stock版的内容相似，但不会替换AOSP应用</td>
+</tr>
+<tr>
+<td>mini</td>
+<td>包含完整的Google Play服务框架和主流应用</td>
+</tr>
+<tr>
+<td>micro</td>
+<td>包含完整的Google Play服务框架和少数应用（Gmail、Calender、Google Now）</td>
+</tr>
+<tr>
+<td>nano</td>
+<td>仅包含完整的Google Play服务框架</td>
+</tr>
+<tr>
+<td>pico</td>
+<td>仅包含最基础的Google Play服务框架</td>
+</tr>
+</tbody>
+</table>
+<p>可以根据自己的需要进行下载。</p>
+<p>最好在刷完ROM后立刻刷入GAPPS。依然进入<code>ADB Sideload</code>，并输入命令：</p>
+<pre><code>adb sideload open_gapps.zip
+</code></pre><p>等待刷完后最好先双清一下再重启，否则可能会出现无限重启或停止工作的问题。</p>
+<h1 id="Root（可选）"><a href="#Root（可选）" class="headerlink" title="Root（可选）"></a>Root（可选）</h1><p>root权限可以通过安装SuperSU的方式获取（CM13之类的系统可以在开发者选项里直接获取）。</p>
+<p>先到<a href="https://chainfire.eu/" target="_blank" rel="external">chainfire</a>下载最新版本的SuperSU，然后进入TWRP的<code>ADB Sideload</code>模式下直接通过<code>adb sideload SuperSU.zip</code>命令刷入即可。</p>
+<h1 id="安装apk（可选）"><a href="#安装apk（可选）" class="headerlink" title="安装apk（可选）"></a>安装apk（可选）</h1><p>如果apk下载到了电脑上，无需拷贝到手机通过以下命令便可直接安装：</p>
+<pre><code>adb install APP.apk
+</code></pre>
+        
+      
+    </div>
+
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/08/06/gfwlist/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          GFWlist+ShadowSocks实现路由器透明代理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/01/baidu-interview/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">百度PHP实习生面试实录</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+          
+            <div id="ukagaka_panel"></div>
+
+<aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/课程/">课程</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/课程/VLSI/">VLSI</a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a class="text" href="/2016/09/01/ngrok/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            搭建Ngrok内网穿透服务</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/08/26/denyhosts/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            DenyHosts防止ssh暴力登录</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/08/06/gfwlist/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            GFWlist+ShadowSocks实现路由器透明代理</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/07/07/adb/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            使用adb工具刷机</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/07/01/baidu-interview/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            百度PHP实习生面试实录</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/06/18/dropbear/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            OpenWrt上的ssh免密登录</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/06/01/chinadns/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            ChinaDNS+ShadowSocks实现路由器透明代理</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/05/20/app/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            将jar程序打包成app</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/04/11/verilog/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Mac上进行Verilog仿真</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/03/21/centos-lemp/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            CentOS 7配置LEMP环境</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ChinaDNS/" style="font-size: 10px;">ChinaDNS</a> <a href="/tags/GFWlist/" style="font-size: 10px;">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 10px;">GoAgent</a> <a href="/tags/LEMP/" style="font-size: 10px;">LEMP</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Minecraft/" style="font-size: 11.25px;">Minecraft</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 11.25px;">Nginx</a> <a href="/tags/OpenWrt/" style="font-size: 16.25px;">OpenWrt</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/ShadowSocks/" style="font-size: 13.75px;">ShadowSocks</a> <a href="/tags/SoftEther/" style="font-size: 10px;">SoftEther</a> <a href="/tags/Unix/" style="font-size: 11.25px;">Unix</a> <a href="/tags/VPN/" style="font-size: 10px;">VPN</a> <a href="/tags/VPS/" style="font-size: 17.5px;">VPS</a> <a href="/tags/Verilog/" style="font-size: 10px;">Verilog</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/macOS/" style="font-size: 12.5px;">macOS</a> <a href="/tags/ssh/" style="font-size: 15px;">ssh</a> <a href="/tags/下载/" style="font-size: 10px;">下载</a> <a href="/tags/代理/" style="font-size: 13.75px;">代理</a> <a href="/tags/刷机/" style="font-size: 10px;">刷机</a> <a href="/tags/服务器/" style="font-size: 18.75px;">服务器</a> <a href="/tags/游戏/" style="font-size: 11.25px;">游戏</a> <a href="/tags/科学上网/" style="font-size: 16.25px;">科学上网</a> <a href="/tags/舰队Collection/" style="font-size: 10px;">舰队Collection</a> <a href="/tags/路由器/" style="font-size: 16.25px;">路由器</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget widget-background1">   
+      	<ul>
+	      <li><a href="https://github.com/" target="_blank" title="GitHub"><i class="fa-github"></i> GitHub </a></li>
+	      <li><a href="https://developers.google.com/" target="_blank" title="Google Developers"><i class="fa-google"></i> Google Developers </a></li>
+	      <li><a href="https://liangzhenduo0608.github.io/" target="_blank" title="github.io"><i class="fa-github-alt"></i> Recursion </a></li>
+          <li><a href="http://wiki.shintaku.cc/" target="_blank" title="Wiki"><i class="fa-wikipedia-w"></i> My Wiki </a></li>
+	      <li><a href="http://xzjqx.cn/" target="_blank" title="笑卒渐清晰"><i class="fa-wordpress"></i> 笑卒渐清晰 </a></li>
+	      <li><a href="http://muyus.cc/" target="_blank" title="暮雨今夕"><i class="fa-wordpress"></i> 暮雨今夕 </a></li>
+    	</ul>
+    </div>
+</div>
+
+
+</script>
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Statistics
+</h3>
+    <div class="widget widget-background1">   
+      	<a href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3f3f3f/txt_FFFFFF/border_3f3f3f/columns_2/maxflags_32/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="www.shintaku.cc" border="0"></a>
+    </div>
+</div>
+
+
+</script>
+  
+    
+<script src="/js/jquery-ui.js"></script>
+<script src="/js/jquery.morris.ukagaka.resource.js"></script>
+<script src="/js/typed.js"></script>
+<script type="text/javascript">
+  $('#ukagaka_panel').ukagaka();
+</script>
+  
+</aside>
+
+          
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer" align="center">    
+    <div class="social-group">
+      
+      <a href="https://github.com/liangzhenduo0608" target="_blank" title="GitHub"><i class="fa-github"></i></a>
+      
+      
+      <a href="https://plus.google.com/114761524022260759157" target="_blank" title="Google+"><i class="fa-google-plus"></i></a>
+      
+      
+      <a href="https://www.facebook.com/100005630052910" target="_blank" title="Facebook"><i class="fa-facebook-square"></i></a>
+      
+      
+      <a href="https://twitter.com/liangzhenduo" target="_blank" title="Twitter" ><i class="fa-twitter"></i></a>
+      
+      
+      <a href="http://weibo.com/378950608" target="_blank" title="Weibo" ><i class="fa-weibo"></i></a>
+      
+      
+      <a href="http://www.renren.com/357959793" target="_blank" title="Renren" ><i class="fa-renren"></i></a>
+      
+      
+      <a href="http://user.qzone.qq.com/825875484" target="_blank" title="Qzone" ><i class="fa-qq"></i></a>
+      
+      
+      <a href="mailto:liangzhenduo0608@hotmail.com" target="_blank" title="Email" ><i class="fa-send-o"></i></a>
+      
+    </div>
+    <div id="footer-info" class="inner" align="center">
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2016 Shintaku 
+    </div>  
+
+  </div>
+</footer>
+
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/gallery" class="mobile-nav-link">Gallery</a>
+  
+    <a href="/works" class="mobile-nav-link">Works</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'shintaku';
+  
+  var disqus_url = 'https://www.shintaku.cc/2016/07/07/adb/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/jquery.lazyload.js"></script>
+<script src="/js/jquery.als-1.6.js"></script>
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -4,14 +4,35 @@
   <meta charset="utf-8">
   <link rel="shortcut icon" href="/images/icon.png">
   
-  <title>Category: 实习 | Shintaku&#39;s Blog</title>
+  <title>macOS配置PHP开发环境 | Shintaku&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Shintaku's Blog">
-<meta property="og:url" content="https://www.shintaku.cc/categories/手帐/实习/index.html">
+  <meta name="description" content="上（shí）班（xí）的时候写PHP都是在开发机上，所以公司配的电脑上一直就没有搭PHP环境。最近我预料到要写一个Web的项目，所以提前搭一下环境备用。
+安装MySQL可以直接通过homebrew安装：
+brew install mysql
+安装完成后第一次启动MySQL：
+brew services start mysql
+然后就可以用mysql_secure_installation初始化设置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="macOS配置PHP开发环境">
+<meta property="og:url" content="https://www.shintaku.cc/2016/10/31/mac-php/index.html">
 <meta property="og:site_name" content="Shintaku's Blog">
+<meta property="og:description" content="上（shí）班（xí）的时候写PHP都是在开发机上，所以公司配的电脑上一直就没有搭PHP环境。最近我预料到要写一个Web的项目，所以提前搭一下环境备用。
+安装MySQL可以直接通过homebrew安装：
+brew install mysql
+安装完成后第一次启动MySQL：
+brew services start mysql
+然后就可以用mysql_secure_installation初始化设置">
+<meta property="og:image" content="https://www.shintaku.cc/img/mpbanner.png">
+<meta property="og:updated_time" content="2016-11-07T12:17:11.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Shintaku's Blog">
+<meta name="twitter:title" content="macOS配置PHP开发环境">
+<meta name="twitter:description" content="上（shí）班（xí）的时候写PHP都是在开发机上，所以公司配的电脑上一直就没有搭PHP环境。最近我预料到要写一个Web的项目，所以提前搭一下环境备用。
+安装MySQL可以直接通过homebrew安装：
+brew install mysql
+安装完成后第一次启动MySQL：
+brew services start mysql
+然后就可以用mysql_secure_installation初始化设置">
+<meta name="twitter:image" content="https://www.shintaku.cc/img/mpbanner.png">
 <link rel="publisher" href="114761524022260760000">
   
     <link rel="alternative" href="/atom.xml" title="Shintaku&#39;s Blog" type="application/atom+xml">
@@ -115,63 +136,114 @@
 </header>
       <div class="outer">
         
-          <section id="main" class='pjax'>
-  
-  
+          <section id="main" class='pjax'><article id="post-mac-php" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-<a href="/2016/10/31/mac-php/" class="archive-article-date">
-  <time datetime="2016-10-31T13:11:11.000Z" itemprop="datePublished">Oct 31</time>
+<a href="/2016/10/31/mac-php/" class="article-date">
+  <time datetime="2016-10-31T13:11:11.000Z" itemprop="datePublished">2016-10-31</time>
 </a>
 
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/手帐/">手帐</a>►<a class="article-category-link" href="/categories/手帐/实习/">实习</a>
+  </div>
+
+  </div>
+  <div class="article-inner ">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/mpbanner.png" rel="gallery_civ81ywzv000uojprbiw9ya28">
+        <img src="/img/mpbanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/31/mac-php/">macOS配置PHP开发环境</a>
+    <h1 class="article-title" itemprop="name">
+      macOS配置PHP开发环境
     </h1>
   
 
-    </header>
+      </header>
+        
+    <footer class="article-footer">
+      <a data-url="https://www.shintaku.cc/2016/10/31/mac-php/" data-id="civ81ywzv000uojprbiw9ya28" class="article-share-link">Share</a>
+      
+        <a href="https://www.shintaku.cc/2016/10/31/mac-php/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LEMP/">LEMP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
+
+    </footer>
+    <div class="article-entry " itemprop="articleBody">
+      
+          
+              <div id="toc" class="toc-article">
+              <h2 class="toc-title"><span>contents</span></h2>
+              
+                  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安装MySQL"><span class="toc-number">1.</span> <span class="toc-text">安装MySQL</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Nginx"><span class="toc-number">2.</span> <span class="toc-text">安装Nginx</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置PHP"><span class="toc-number">3.</span> <span class="toc-text">配置PHP</span></a></li></ol>
+              
+              </div>
+          
+        
+          <p>上（shí）班（xí）的时候写PHP都是在开发机上，所以公司配的电脑上一直就没有搭PHP环境。最近我预料到要写一个Web的项目，所以提前搭一下环境备用。</p>
+<h1 id="安装MySQL"><a href="#安装MySQL" class="headerlink" title="安装MySQL"></a>安装MySQL</h1><p>可以直接通过homebrew安装：</p>
+<pre><code>brew install mysql
+</code></pre><p>安装完成后第一次启动MySQL：</p>
+<pre><code>brew services start mysql
+</code></pre><p>然后就可以用<code>mysql_secure_installation</code>初始化设置一下MySQL，包括root密码等等。</p>
+<p>开机启动<code>homebrew.mxcl.mysql.plist</code>已经默认添加到<code>~/Library/LaunchAgents</code>里了，所以不用再设置了。</p>
+<h1 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h1><p>同样Nginx也可以通过homebrew安装：</p>
+<pre><code>brew install nginx
+</code></pre><p>安装完成后直接用<code>nginx</code>命令就可以启动。</p>
+<p>但是Nginx的开机启动项并没有默认添加，我们可以手动将它添加进去：</p>
+<pre><code>cp /usr/local/opt/nginx/homebrew.mxcl.nginx.plist ~/Library/LaunchAgents/
+</code></pre><h1 id="配置PHP"><a href="#配置PHP" class="headerlink" title="配置PHP"></a>配置PHP</h1><p>macOS默认是安装好PHP的，所以就不想再安装其他版本了。</p>
+<p>先编辑<code>/private/etc/php.ini</code>，如果没有就复制一份<code>php.ini.default</code>，然后配置一下时区和数据库socket：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">date.timezone = "Asia/Shanghai"</div><div class="line">pdo_mysql.default_socket = /tmp/mysql.sock</div></pre></td></tr></table></figure>
+<p>因为我要用yii框架，所以改了这一项，如果用到了MySQL的其他函数需要修改相应的<code>mysql.default_socket</code>或<code>mysqli.default_socket</code>。</p>
+<p>然后编辑<code>/private/etc/php-fpm.conf</code>，在里面指定一下<code>error_log</code>的路径：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">error_log = /usr/<span class="built_in">local</span>/var/<span class="built_in">log</span>/php-fpm/error.log</div></pre></td></tr></table></figure>
+<p>然后直接用<code>php-fpm</code>命令启动即可。</p>
+<p>接着去配置一下<code>/usr/local/etc/nginx/nginx.conf</code>，将php的一段去掉注释，并修改<code>fastcgi_param</code>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">location ~ \.php$ &#123;</div><div class="line">    root           html;</div><div class="line">    fastcgi_pass   127.0.0.1:9000;</div><div class="line">    fastcgi_index  index.php;</div><div class="line">    fastcgi_param  SCRIPT_FILENAME  <span class="variable">$document_root</span><span class="variable">$fastcgi_script_name</span>;</div><div class="line">    include        fastcgi_params;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后执行<code>nginx -s reload</code>重新加载配置。</p>
+<p>然后也可以配置一下php-fpm的开机启动，直接新建<code>~/Library/LaunchAgents/net.php.php-fpm.plist</code>文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="meta">&lt;!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dict</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>net.php.php-fpm<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Program<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/sbin/php-fpm<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>保存后将其权限设为<strong>600</strong>即可。</p>
+
+        
+      
+    </div>
+
   </div>
-</article>
   
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-<a href="/2016/07/01/baidu-interview/" class="archive-article-date">
-  <time datetime="2016-07-01T13:11:11.000Z" itemprop="datePublished">Jul 1</time>
-</a>
-
-      
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/07/01/baidu-interview/">百度PHP实习生面试实录</a>
-    </h1>
   
+    <a href="/2016/09/01/ngrok/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">搭建Ngrok内网穿透服务</div>
+    </a>
+  
+</nav>
 
-    </header>
-  </div>
+  
 </article>
-  
-  
-    </div></section>
-  
 
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
 </section>
           
             <div id="ukagaka_panel"></div>
@@ -399,11 +471,13 @@
 <script>
   var disqus_shortname = 'shintaku';
   
+  var disqus_url = 'https://www.shintaku.cc/2016/10/31/mac-php/';
+  
   (function(){
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//go.disqus.com/count.js';
+    dsq.src = '//go.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>

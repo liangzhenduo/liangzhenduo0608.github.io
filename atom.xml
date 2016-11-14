@@ -1,0 +1,1567 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Shintaku&#39;s Blog</title>
+  <subtitle>希パワーたーっぷり注入！はーいプシュッ</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://www.shintaku.cc/"/>
+  <updated>2016-11-08T14:42:51.000Z</updated>
+  <id>https://www.shintaku.cc/</id>
+  
+  <author>
+    <name>Shintaku</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>macOS配置PHP开发环境</title>
+    <link href="https://www.shintaku.cc/2016/10/31/mac-php/"/>
+    <id>https://www.shintaku.cc/2016/10/31/mac-php/</id>
+    <published>2016-10-31T13:11:11.000Z</published>
+    <updated>2016-11-08T14:42:51.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>上（shí）班（xí）的时候写PHP都是在开发机上，所以公司配的电脑上一直就没有搭PHP环境。最近我预料到要写一个Web的项目，所以提前搭一下环境备用。</p>
+<h1 id="安装MySQL"><a href="#安装MySQL" class="headerlink" title="安装MySQL"></a>安装MySQL</h1><p>可以直接通过homebrew安装：</p>
+<pre><code>brew install mysql
+</code></pre><p>安装完成后第一次启动MySQL：</p>
+<pre><code>brew services start mysql
+</code></pre><p>然后就可以用<code>mysql_secure_installation</code>初始化设置一下MySQL，包括root密码等等。</p>
+<p>开机启动<code>homebrew.mxcl.mysql.plist</code>已经默认添加到<code>~/Library/LaunchAgents</code>里了，所以不用再设置了。</p>
+<h1 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h1><p>同样Nginx也可以通过homebrew安装：</p>
+<pre><code>brew install nginx
+</code></pre><p>安装完成后直接用<code>nginx</code>命令就可以启动。</p>
+<p>但是Nginx的开机启动项并没有默认添加，我们可以手动将它添加进去：</p>
+<pre><code>cp /usr/local/opt/nginx/homebrew.mxcl.nginx.plist ~/Library/LaunchAgents/
+</code></pre><h1 id="配置PHP"><a href="#配置PHP" class="headerlink" title="配置PHP"></a>配置PHP</h1><p>macOS默认是安装好PHP的，所以就不想再安装其他版本了。</p>
+<p>先编辑<code>/private/etc/php.ini</code>，如果没有就复制一份<code>php.ini.default</code>，然后配置一下时区和数据库socket：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">date.timezone = "Asia/Shanghai"</div><div class="line">pdo_mysql.default_socket = /tmp/mysql.sock</div></pre></td></tr></table></figure>
+<p>因为我要用<del>噫</del><strong>yii</strong>框架，所以改了这一项，如果用到了MySQL的其他函数需要修改相应的<code>mysql.default_socket</code>或<code>mysqli.default_socket</code>。</p>
+<p>然后编辑<code>/private/etc/php-fpm.conf</code>，在里面指定一下<code>error_log</code>的路径：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">error_log = /usr/<span class="built_in">local</span>/var/<span class="built_in">log</span>/php-fpm/error.log</div></pre></td></tr></table></figure>
+<p>然后直接用<code>php-fpm</code>命令启动即可。</p>
+<p>接着去配置一下<code>/usr/local/etc/nginx/nginx.conf</code>，将php的一段去掉注释，并修改<code>fastcgi_param</code>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">location ~ \.php$ &#123;</div><div class="line">    root           html;</div><div class="line">    fastcgi_pass   127.0.0.1:9000;</div><div class="line">    fastcgi_index  index.php;</div><div class="line">    fastcgi_param  SCRIPT_FILENAME  <span class="variable">$document_root</span><span class="variable">$fastcgi_script_name</span>;</div><div class="line">    include        fastcgi_params;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后执行<code>nginx -s reload</code>重新加载配置。</p>
+<p>然后也可以配置一下php-fpm的开机启动，直接新建<code>~/Library/LaunchAgents/net.php.php-fpm.plist</code>文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="meta">&lt;!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dict</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>net.php.php-fpm<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Program<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/sbin/php-fpm<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>保存后将其权限设为<strong>600</strong>即可。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;上（shí）班（xí）的时候写PHP都是在开发机上，所以公司配的电脑上一直就没有搭PHP环境。最近我预料到要写一个Web的项目，所以提前搭一下环境备用。&lt;/p&gt;
+&lt;h1 id=&quot;安装MySQL&quot;&gt;&lt;a href=&quot;#安装MySQL&quot; class=&quot;headerlink&quot; t
+    
+    </summary>
+    
+      <category term="手帐" scheme="https://www.shintaku.cc/categories/%E6%89%8B%E5%B8%90/"/>
+    
+      <category term="实习" scheme="https://www.shintaku.cc/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/"/>
+    
+    
+      <category term="macOS" scheme="https://www.shintaku.cc/tags/macOS/"/>
+    
+      <category term="LEMP" scheme="https://www.shintaku.cc/tags/LEMP/"/>
+    
+      <category term="Nginx" scheme="https://www.shintaku.cc/tags/Nginx/"/>
+    
+      <category term="MySQL" scheme="https://www.shintaku.cc/tags/MySQL/"/>
+    
+      <category term="PHP" scheme="https://www.shintaku.cc/tags/PHP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>shell脚本内的并发执行</title>
+    <link href="https://www.shintaku.cc/2016/10/10/shell-parallel/"/>
+    <id>https://www.shintaku.cc/2016/10/10/shell-parallel/</id>
+    <published>2016-10-10T14:22:22.000Z</published>
+    <updated>2016-11-14T12:21:22.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>之前有一个每周数据统计的工作，需要每周的某一天定时从多台服务器上拉取日志进行汇总生成报表。</p>
+<h1 id="顺序执行"><a href="#顺序执行" class="headerlink" title="顺序执行"></a>顺序执行</h1><p>最初的思路是先做一个循环，遍历每台机器并在上面执行相应的数据处理脚本，然后将处理好的数据拉取到汇总的机器上，这样逐台进行，最后进行汇总处理，写出来的脚本是类似这样的：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">array=( \</div><div class="line">	<span class="string">"10.144.1.1"</span> \</div><div class="line">	<span class="string">"10.144.1.2"</span> \</div><div class="line">	<span class="string">"10.144.1.3"</span> \</div><div class="line">	<span class="string">"10.144.1.4"</span> \</div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;array[@]&#125;</span></div><div class="line"><span class="keyword">do</span>  </div><div class="line">	ssh <span class="variable">$i</span> <span class="string">"sh <span class="variable">$log_dir</span>/run.sh"</span></div><div class="line">	scp <span class="variable">$i</span>:<span class="variable">$log_dir</span>/<span class="built_in">log</span> <span class="variable">$work_dir</span>/<span class="variable">$i</span>/</div><div class="line"><span class="keyword">done</span></div><div class="line"></div><div class="line">cat <span class="variable">$work_dir</span>/*/<span class="built_in">log</span> | sort | uniq &gt; <span class="variable">$work_dir</span>/<span class="built_in">log</span></div></pre></td></tr></table></figure>
+<p>这样写的执行时间大约是<strong>每台机器时间*台数+汇总时间</strong>，虽然不算快，但是凌晨一般也能执行完成。</p>
+<h1 id="并发执行"><a href="#并发执行" class="headerlink" title="并发执行"></a>并发执行</h1><p>后来到了国庆假期期间，服务流量骤增，再加上业务改版等一系列原因，导致数据量突然增大，执行时间翻了几倍，任务大概要到下午才能完成，这样一来就会耽误白天的工作。</p>
+<p>因为机器数量不少，分机器统计也是主要的时间消耗，因此想到既然几台机器各自的统计互不影响，可以让它们同时进行汇总工作。于是上网找了一下改进方法，改完了大概是这样的：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">array=( \</div><div class="line">	<span class="string">"10.144.1.1"</span> \</div><div class="line">	<span class="string">"10.144.1.2"</span> \</div><div class="line">	<span class="string">"10.144.1.3"</span> \</div><div class="line">	<span class="string">"10.144.1.4"</span> \</div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;array[@]&#125;</span></div><div class="line"><span class="keyword">do</span> &#123;</div><div class="line">	ssh <span class="variable">$i</span> <span class="string">"sh <span class="variable">$log_dir</span>/run.sh"</span></div><div class="line">	scp <span class="variable">$i</span>:<span class="variable">$log_dir</span>/<span class="built_in">log</span> <span class="variable">$work_dir</span>/<span class="variable">$i</span>/</div><div class="line">&#125;&amp;</div><div class="line"><span class="keyword">done</span></div><div class="line"><span class="built_in">wait</span></div><div class="line"></div><div class="line">cat <span class="variable">$work_dir</span>/*/<span class="built_in">log</span> | sort | uniq &gt; <span class="variable">$work_dir</span>/<span class="built_in">log</span></div></pre></td></tr></table></figure>
+<p>可以发现主要的改动就在for循环的内容用<code>{}</code>括起来并在末尾加个<code>&amp;</code>，这样就可以实现多次循环一起执行了；另外在<code>done</code>后面加个<code>wait</code>是为了等待所有的循环都执行完成后再做后面的汇总工作，否则一旦有一个循环执行完成就会往下执行了。</p>
+<p>这样的执行时间大约是<strong>每台机器时间+汇总时间</strong>，可以看出快了很多，而且比最初的时候还要快。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;之前有一个每周数据统计的工作，需要每周的某一天定时从多台服务器上拉取日志进行汇总生成报表。&lt;/p&gt;
+&lt;h1 id=&quot;顺序执行&quot;&gt;&lt;a href=&quot;#顺序执行&quot; class=&quot;headerlink&quot; title=&quot;顺序执行&quot;&gt;&lt;/a&gt;顺序执行&lt;/h1&gt;&lt;p&gt;最初的思路是先做一
+    
+    </summary>
+    
+      <category term="手帐" scheme="https://www.shintaku.cc/categories/%E6%89%8B%E5%B8%90/"/>
+    
+      <category term="实习" scheme="https://www.shintaku.cc/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/"/>
+    
+    
+      <category term="Linux" scheme="https://www.shintaku.cc/tags/Linux/"/>
+    
+      <category term="shell" scheme="https://www.shintaku.cc/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>搭建Ngrok内网穿透服务</title>
+    <link href="https://www.shintaku.cc/2016/09/01/ngrok/"/>
+    <id>https://www.shintaku.cc/2016/09/01/ngrok/</id>
+    <published>2016-09-01T13:11:11.000Z</published>
+    <updated>2016-11-06T14:59:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>之前上开源课的时候听说可以通过外网访问局域网电脑获取文件，但由于自己家中的宽带一直不给分配公网地址，所以无法直接访问。</p>
+<p>后来又听说可以用<a href="http://www.oray.com/" target="_blank" rel="external">花生壳</a>之类的<strong>DDNS</strong>动态解析，即使家中IP总变化也可以通过域名访问。但苦于这样的服务一般是收费的，而且又是使用第三方的服务器容易受制于人，用起来有些不爽，才一直寻找更好的方法。</p>
+<p>近日又发现<strong>Ngrok</strong>这样的神器，可以自己搭建内网穿透服务，只用<strong>一台VPS</strong>和<strong>一个域名</strong>就完美地解决了问题。其主要是在客户端与服务端之间建立端到端的隧道进行通信，用固定的域名进行访问以规避了IP变更的不便。</p>
+<h1 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h1><p>目前<a href="https://ngrok.com/" target="_blank" rel="external">Ngrok官网</a>上放出的2.0以上版本是付费的服务，若要自己搭建需要自行编译1.7的源码。首先将源码从<a href="https://github.com/inconshreveable/ngrok" target="_blank" rel="external">GitHub</a>上clone下来：</p>
+<pre><code>git clone https://github.com/inconshreveable/ngrok.git
+</code></pre><h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>由于该服务是<em>Go语言</em>编写的，所以先要安装golang开发环境：</p>
+<pre><code>yum install golang
+</code></pre><p>然后将<code>NGROK_DOMAIN</code>这个变量赋成要使用的域名后面要用到，例如使用如下域名，相应的也要在域名解析里将<code>shintaku.cc</code>和<code>*.shintaku.cc</code>解析到这台VPS的IP上：</p>
+<pre><code>NGROK_DOMAIN=&quot;shintaku.cc&quot;
+</code></pre><p>使用Ngrok官方服务时，下载的客户端使用的是官方证书。我们自己编译服务端和客户端，使用自己的域名也要生成<strong>自签名证书</strong>：</p>
+<pre><code>cd ngrok
+openssl genrsa -out ngrokroot.key 2048
+openssl req -x509 -new -nodes -key ngrokroot.key -subj &quot;/CN=$NGROK_DOMAIN&quot; -days 36500 -out ngrokroot.crt
+openssl genrsa -out snakeoil.key 2048
+openssl req -new -key snakeoil.key -subj &quot;/CN=$NGROK_DOMAIN&quot; -out snakeoil.csr
+openssl x509 -req -in snakeoil.csr -days 36500 -CA ngrokroot.crt -CAkey ngrokroot.key -CAcreateserial -out snakeoil.crt 
+</code></pre><p>这样就在当前目录下生成了<code>ngrokroot.crt</code>、<code>ngrokroot.key</code>、<code>ngrokroot.srl</code>、<code>snakeoil.crt</code>、<code>snakeoil.csr</code>、<code>snakeoil.key</code>六个文件，将它们复制到相应的目录中：</p>
+<pre><code>cp ngrokroot.crt assets/client/tls/
+cp snakeoil.crt assets/server/tls/
+cp snakeoil.key assets/server/tls/
+</code></pre><p>然后就可以开始编译服务端了：</p>
+<pre><code>make release-server
+</code></pre><p>编译好的二进制文件<code>ngrokd</code>生成在bin目录下。</p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>ngrokd可以在其目录下直接启动，若要想全局使用这个命令可以将其移动到设了环境变量的目录下：</p>
+<pre><code>cp ./bin/ngrokd /usr/sbin/
+</code></pre><p>可以先<code>ngrokd -h</code>看一下使用说明，然后就可以通过如下命令启动服务端了：</p>
+<pre><code>ngrokd -domain=&quot;shintaku.cc&quot; -httpAddr=&quot;:80&quot; -httpsAddr=&quot;:443&quot;
+</code></pre><p>启动要像上面一样加参数指定域名和端口。由于这台VPS我没有搭建Web服务，所以80和443端口没有占用，当然默认也是使用这两个端口的，这样在浏览器访问地址时也省得指定非80端口的麻烦了。出现如下信息就说明启动成功了：</p>
+<pre><code>[16:58:26 CST 2016/09/01] [INFO] (ngrok/log.(*PrefixLogger).Info:83) [registry] [tun] No affinity cache specified
+[16:58:26 CST 2016/09/01] [INFO] (ngrok/log.Info:112) Listening for public http connections on [::]:80
+[16:58:26 CST 2016/09/01] [INFO] (ngrok/log.Info:112) Listening for public https connections on [::]:443
+[16:58:26 CST 2016/09/01] [INFO] (ngrok/log.Info:112) Listening for control and proxy connections on [::]:4443
+[16:58:26 CST 2016/09/01] [INFO] (ngrok/log.(*PrefixLogger).Info:83) [metrics] Reporting every 30 seconds
+</code></pre><p>另外4443端口用于监听客户端，如有必要也可修改。</p>
+<h1 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h1><h2 id="编译-1"><a href="#编译-1" class="headerlink" title="编译"></a>编译</h2><p>客户端的编译和服务端类似，但要使用与服务端相同的文件。可以先在本机安装golang环境，再将VPS上的源码拷贝到本机直接用<code>make release-client</code>编译；也可以在VPS上加参数编译其他环境的客户端：</p>
+<h3 id="macOS"><a href="#macOS" class="headerlink" title="macOS"></a>macOS</h3><pre><code>GOOS=darwin GOARCH=amd64 make release-client
+</code></pre><h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><pre><code>GOOS=windows GOARCH=amd64 make release-client
+</code></pre><h3 id="OpenWrt"><a href="#OpenWrt" class="headerlink" title="OpenWrt"></a>OpenWrt</h3><p>由于OpenWrt上没有对应的Go环境，所以没法用ngrok源码直接编译OpenWrt的客户端。但是<a href="https://www.v2ex.com/t/176838" target="_blank" rel="external">dosgo</a>大神写了一个<em>C语言</em>版本的<a href="https://github.com/dosgo/ngrok-c" target="_blank" rel="external">ngrok-c</a>，文档中也附带了<a href="http://www.jianshu.com/p/8428949d946c" target="_blank" rel="external">编译方法</a>。但是编译过程比较复杂，而且自己编译出来的二进制文件体积也不小，比较占空间，所以就在恩山上搜了一个民间高手编译好的装上了，顺带着LuCI界面放到服务器上：</p>
+<pre><code>wget https://www.shintaku.cc/files/ngrokc_ba56781152-1_ar71xx.ipk
+wget https://www.shintaku.cc/files/luci-app-ngrokc_git-15.290.16504-8c2fd44-1_all.ipk
+</code></pre><p>如果安装时遇到问题请确定路由器上是否已经安装了必要的库：</p>
+<pre><code>opkg install libstdcpp
+opkg install libopenssl
+</code></pre><h2 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h2><h3 id="PC"><a href="#PC" class="headerlink" title="PC"></a>PC</h3><p>先创建配置文件<code>~/.ngrok</code>并编辑，写入自己的域名和监听端口：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">server_addr: <span class="string">"shintaku.cc:4443"</span></div><div class="line">trust_host_root_certs: <span class="literal">false</span></div></pre></td></tr></table></figure>
+<p>可以先用<code>ngrok -h</code>查看使用说明，然后指定二级域名和要映射的端口启动客户端：</p>
+<pre><code>ngrok -subdomain test 4000
+</code></pre><p>就会出现Ngrok的连接状态：</p>
+<pre><code>ngrok                                                           (Ctrl+C to quit)
+
+Tunnel Status                 online
+Version                       1.7/1.7
+Forwarding                    http://test.shintaku.cc -&gt; 127.0.0.1:4000
+Forwarding                    https://test.shintaku.cc -&gt; 127.0.0.1:4000
+Web Interface                 127.0.0.1:4040
+# Conn                        0
+Avg Conn Time                 0.00ms
+</code></pre><p>然后再访问<code>test.shintaku.cc</code>就会发现和<code>localhost:4000</code>的内容是一样的，就说明Ngrok连接成功了：</p>
+<p><img src="/img/ngcompare.png" alt=""></p>
+<p>也可以通过<code>localhost:4040</code>的Web页面查看连接状态：</p>
+<p><img src="/img/ngrequests.png" alt="Inbound Requests"></p>
+<h3 id="OpenWrt-1"><a href="#OpenWrt-1" class="headerlink" title="OpenWrt"></a>OpenWrt</h3><p>路由器上装好了以后可以在<code>服务</code>-<code>Ngrok Settings</code>下设置：</p>
+<p><img src="/img/ngluci.png" alt="OpenWrt"></p>
+<p>除了HTTP协议以外，也可映射TCP其他端口，例如ssh的22端口映射到远程的8022端口：</p>
+<p><img src="/img/ngssh.png" alt="OpenWrt"></p>
+<p>这时<code>ssh root@shintaku.cc -p 8022</code>和<code>ssh root@192.168.1.1</code>的效果是一样的，意味着即使在外面也可以访问没有公网地址的路由器了。更进一步，如果给路由器下连接的设备都分配了固定的局域网IP地址，将它们的端口映射到Ngrok服务器的端口，外网同样可以访问，这样就可以做很多事情了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;之前上开源课的时候听说可以通过外网访问局域网电脑获取文件，但由于自己家中的宽带一直不给分配公网地址，所以无法直接访问。&lt;/p&gt;
+&lt;p&gt;后来又听说可以用&lt;a href=&quot;http://www.oray.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;
+    
+    </summary>
+    
+      <category term="网络" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="网站部署" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/"/>
+    
+    
+      <category term="OpenWrt" scheme="https://www.shintaku.cc/tags/OpenWrt/"/>
+    
+      <category term="路由器" scheme="https://www.shintaku.cc/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    
+      <category term="VPS" scheme="https://www.shintaku.cc/tags/VPS/"/>
+    
+      <category term="服务器" scheme="https://www.shintaku.cc/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DenyHosts防止ssh暴力登录</title>
+    <link href="https://www.shintaku.cc/2016/08/26/denyhosts/"/>
+    <id>https://www.shintaku.cc/2016/08/26/denyhosts/</id>
+    <published>2016-08-26T10:18:18.000Z</published>
+    <updated>2016-11-06T14:42:41.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>每次登录服务器都会提示：</p>
+<blockquote>
+<p>There were xxxx failed login attempts since the last successful login.</p>
+</blockquote>
+<p>就知道总有闲人在扫IP试密码。再看一下<code>/var/log/secure</code>就能知道这些失败登录的详情：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Aug 26 05:45:58 sgp1 sshd[4999]: Failed password <span class="keyword">for</span> invalid user <span class="built_in">test</span> from 128.199.92.158 port 38416 ssh2</div></pre></td></tr></table></figure>
+<p>所以我决定用<strong>DenyHosts</strong>屏蔽这些地址。<a href="http://denyhosts.sourceforge.net/" target="_blank" rel="external">DenyHosts</a>是一个可以帮助阻止ssh攻击的脚本，它会分析<code>/var/log/secure</code>并记录多次失败登录的IP到<code>/etc/hosts.deny</code>中。</p>
+<h1 id="添加信任IP"><a href="#添加信任IP" class="headerlink" title="添加信任IP"></a>添加信任IP</h1><p>编辑<code>/etc/hosts.allow</code>，将自己常用的IP加进去：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sshd: 202.113.*.*: allow</div></pre></td></tr></table></figure>
+<p>比如学校用的天津南开教育网，就把上面的IP段加进去，防止哪天自己手残输错几次密码IP被禁登不进去了。</p>
+<h1 id="安装配置DenyHosts"><a href="#安装配置DenyHosts" class="headerlink" title="安装配置DenyHosts"></a>安装配置DenyHosts</h1><pre><code>yum install denyhosts
+</code></pre><p>安装完成后编辑<code>/etc/denyhosts.conf</code>文件：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="attr">SECURE_LOG</span> = /var/log/secure</div><div class="line"><span class="attr">HOSTS_DENY</span> = /etc/hosts.deny</div><div class="line"><span class="attr">PURGE_DENY</span> = <span class="number">10</span>w #禁止列表清理周期，不填就是永不清理</div><div class="line"><span class="attr">BLOCK_SERVICE</span>  = sshd</div><div class="line"><span class="attr">DENY_THRESHOLD_INVALID</span> = <span class="number">5</span> #非法用户失败登录次数</div><div class="line"><span class="attr">DENY_THRESHOLD_VALID</span> = <span class="number">5</span> #合法用户失败登录次数（不含root）</div><div class="line"><span class="attr">DENY_THRESHOLD_ROOT</span> = <span class="number">3</span> #root用户失败登录次数</div><div class="line"><span class="attr">DENY_THRESHOLD_RESTRICTED</span> = <span class="number">3</span> #限制用户失败登录次数</div><div class="line"><span class="attr">WORK_DIR</span> = /var/lib/denyhosts</div><div class="line"><span class="attr">ETC_DIR</span> = /etc</div><div class="line"><span class="attr">SUSPICIOUS_LOGIN_REPORT_ALLOWED_HOSTS</span> = <span class="literal">NO</span> #是否报告来自允许列表的可疑登录</div><div class="line"><span class="attr">HOSTNAME_LOOKUP</span> = <span class="literal">NO</span> #是否屏蔽被禁止IP对应的域名</div><div class="line"><span class="attr">LOCK_FILE</span> = /var/lock/subsys/denyhosts</div></pre></td></tr></table></figure>
+<p>其中几个数字可以根据自己的需求修改，文件路径一般都不需要修改。另外还可以设置管理员邮箱<code>ADMIN_EMAIL</code>，默认是<code>root@localhost</code>，会把通知邮件发到<code>/var/spool/mail</code>下；也可以加上自己的其他邮箱。</p>
+<h1 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h1><p>保存好配置文件后可以启动DenyHosts并加入到开机启动了：</p>
+<pre><code>systemctl start denyhosts
+systemctl enable denyhosts
+</code></pre><p>然后<code>tail -f /etc/hosts.deny</code>看一下禁用列表的动态，如果有：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># DenyHosts: Fri Aug 26 05:41:17 2016 | sshd: 87.106.142.246</span></div><div class="line">sshd: 87.106.142.246</div><div class="line"><span class="comment"># DenyHosts: Fri Aug 26 05:41:17 2016 | sshd: 123.49.62.231</span></div><div class="line">sshd: 123.49.62.231</div><div class="line"><span class="comment"># DenyHosts: Fri Aug 26 05:41:17 2016 | sshd: 45.32.20.165</span></div><div class="line">sshd: 45.32.20.165</div><div class="line"><span class="comment"># DenyHosts: Fri Aug 26 05:41:17 2016 | sshd: 58.221.60.2</span></div><div class="line">sshd: 58.221.60.2</div><div class="line"><span class="comment"># DenyHosts: Fri Aug 26 05:41:17 2016 | sshd: 118.71.224.139</span></div><div class="line">sshd: 118.71.224.139</div></pre></td></tr></table></figure>
+<p>这样的内容出现就说明DenyHosts已经把之前记录里的可疑IP写进来了。我也把自己服务器上的<a href="http://info.shintaku.cc/hosts.deny" target="_blank" rel="external">hosts.deny</a>放出来供大家（lā）考（hēi）。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;每次登录服务器都会提示：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;There were xxxx failed login attempts since the last successful login.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;就知道总有闲人在扫IP试
+    
+    </summary>
+    
+      <category term="网络" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="网站部署" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/"/>
+    
+    
+      <category term="Linux" scheme="https://www.shintaku.cc/tags/Linux/"/>
+    
+      <category term="ssh" scheme="https://www.shintaku.cc/tags/ssh/"/>
+    
+      <category term="VPS" scheme="https://www.shintaku.cc/tags/VPS/"/>
+    
+      <category term="服务器" scheme="https://www.shintaku.cc/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GFWlist+ShadowSocks实现路由器透明代理</title>
+    <link href="https://www.shintaku.cc/2016/08/06/gfwlist/"/>
+    <id>https://www.shintaku.cc/2016/08/06/gfwlist/</id>
+    <published>2016-08-06T10:18:18.000Z</published>
+    <updated>2016-11-09T04:10:19.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>前两个月OpenWrt一直使用<a href="https://www.shintaku.cc/2016/06/01/chinadns/">ChinaDNS+ShadowSocks</a>的方式按IP切换代理，但是由于长城宽带非常蛋疼代理时常上不去，导致平时可以正常访问的一些网站也无法访问，得不偿失。于是趁这周换了移动光纤，为了避免发生之前的情况，也把代理方式换成了按<a href="https://github.com/gfwlist/gfwlist" target="_blank" rel="external">GFWlist</a>得域名切换。</p>
+<h1 id="必要软件"><a href="#必要软件" class="headerlink" title="必要软件"></a>必要软件</h1><p>首先是在OpenWrt下装上一堆必要软件：</p>
+<ul>
+<li>ipset</li>
+<li>iptables-mod-nat-extra</li>
+<li>libopenssl</li>
+<li>dnsmasq-full</li>
+<li>shadowsocks-libev</li>
+</ul>
+<p>其中前三个正常安装即可，<code>dnsmasq-full</code>需要先卸载预装的<code>dnsmasq</code>再安装。</p>
+<p><code>shadowsocks-libev</code>可以在<a href="https://sourceforge.net/projects/openwrt-dist/files/shadowsocks-libev/" target="_blank" rel="external">sourceforge</a>里找到。如果无法访问也可以下载我备份在服务器上的较老版本（注意软件所适配的架构）：</p>
+<pre><code>wget https://www.shintaku.cc/files/shadowsocks-libev_2.4.8-3_ar71xx.ipk
+</code></pre><p>下载完成后使用<code>opkg install</code>命令直接安装即可。</p>
+<h1 id="配置ShadowSocks"><a href="#配置ShadowSocks" class="headerlink" title="配置ShadowSocks"></a>配置ShadowSocks</h1><p>编辑<code>/etc/shadowsocks.json</code>文件：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"server"</span>: <span class="string">""</span>,</div><div class="line">    <span class="attr">"server_port"</span>: <span class="number">8388</span>,</div><div class="line">    <span class="attr">"local_port"</span>: <span class="number">1080</span>,</div><div class="line">    <span class="attr">"password"</span>: <span class="string">""</span>,</div><div class="line">    <span class="attr">"timeout"</span>: <span class="number">300</span>,</div><div class="line">    <span class="attr">"method"</span>: <span class="string">"rc4-md5"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>修改<code>/etc/init.d/shadowsocks</code>成如下（就是把关于<code>ss-local</code>的注释掉再把<code>ss-redir</code>的解注释）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/bin/sh /etc/rc.common</span></div><div class="line"></div><div class="line">START=95</div><div class="line"></div><div class="line">SERVICE_USE_PID=1</div><div class="line">SERVICE_WRITE_PID=1</div><div class="line">SERVICE_DAEMONIZE=1</div><div class="line"></div><div class="line">CONFIG=/etc/shadowsocks.json</div><div class="line"></div><div class="line"><span class="function"><span class="title">start</span></span>() &#123;</div><div class="line">	<span class="comment">#service_start /usr/bin/ss-local -c $CONFIG -b 0.0.0.0</span></div><div class="line">	service_start /usr/bin/ss-redir -c <span class="variable">$CONFIG</span> -b 0.0.0.0</div><div class="line">	<span class="comment">#service_start /usr/bin/ss-tunnel -c $CONFIG -b 0.0.0.0 -l 5353 -L 8.8.8.8:53 -u</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="title">stop</span></span>() &#123;</div><div class="line">	<span class="comment">#service_stop /usr/bin/ss-local</span></div><div class="line">	service_stop /usr/bin/ss-redir</div><div class="line">	<span class="comment">#service_stop /usr/bin/ss-tunnel</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>之后启动ShadowSocks并设置开机自启：</p>
+<pre><code>/etc/init.d/shadowsocks start
+/etc/init.d/shadowsocks enable
+</code></pre><h1 id="配置dnsmasq"><a href="#配置dnsmasq" class="headerlink" title="配置dnsmasq"></a>配置dnsmasq</h1><p>新建目录<code>/etc/dnsmasq.d</code>，并在其中放入<code>dnsmasq_list.conf</code>文件，这个文件就是根据GFWlist生成的走代理的域名列表，生成方法已经有大神放在了<a href="https://github.com/cokebar/gfwlist2dnsmasq" target="_blank" rel="external">GitHub</a>上，可根据自己的情况进行修改。若是懒得生成，我在服务器上也会每日更新<a href="http://info.shintaku.cc/dnsmasq_list.conf" target="_blank" rel="external">dnsmasq_list.conf</a>，里面用的DNS是在这台服务器上搭的dnsmasq，ipset表叫做<code>gfwlist</code>。</p>
+<p>建议使用自己VPS上的DNS，具体就是在服务器装上dnsmasq，编辑<code>/etc/dnsmasq.conf</code>加入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">port=5353</div><div class="line">server=8.8.8.8</div><div class="line">server=8.8.4.4</div></pre></td></tr></table></figure>
+<p>保存后运行dnsmasq并设置开机启动就可以间接使用<em>Google Public DNS</em>了。</p>
+<p>然后编辑路由器上的<code>/etc/dnsmasq.conf</code>，在全篇注释后面加一句：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">conf-dir=/etc/dnsmasq.d</div></pre></td></tr></table></figure>
+<p>最后自定义防火墙规则（可在LuCI里直接添加）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ipset -N gfwlist iphash</div><div class="line">iptables -t nat -A PREROUTING -p tcp -m <span class="built_in">set</span> --match-set gfwlist dst -j REDIRECT --to-port 1080</div></pre></td></tr></table></figure>
+<p>重启dnsmasq就算完成了：</p>
+<pre><code>/etc/init.d/dnsmasq restart
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;前两个月OpenWrt一直使用&lt;a href=&quot;https://www.shintaku.cc/2016/06/01/chinadns/&quot;&gt;ChinaDNS+ShadowSocks&lt;/a&gt;的方式按IP切换代理，但是由于长城宽带非常蛋疼代理时常上不去，导致平时可以正常访问的一
+    
+    </summary>
+    
+      <category term="网络" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="科学上网" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    
+    
+      <category term="ShadowSocks" scheme="https://www.shintaku.cc/tags/ShadowSocks/"/>
+    
+      <category term="OpenWrt" scheme="https://www.shintaku.cc/tags/OpenWrt/"/>
+    
+      <category term="科学上网" scheme="https://www.shintaku.cc/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    
+      <category term="路由器" scheme="https://www.shintaku.cc/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    
+      <category term="Linux" scheme="https://www.shintaku.cc/tags/Linux/"/>
+    
+      <category term="GFWlist" scheme="https://www.shintaku.cc/tags/GFWlist/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用adb工具刷机</title>
+    <link href="https://www.shintaku.cc/2016/07/07/adb/"/>
+    <id>https://www.shintaku.cc/2016/07/07/adb/</id>
+    <published>2016-07-07T13:11:11.000Z</published>
+    <updated>2016-11-06T14:40:59.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天刷机小王子<strong>一加3</strong>终于给送来了，趁此机会总结一下之前用过的<code>adb</code>命令备查。</p>
+<p>之前曾经用过Odin线刷、卡刷等方式，直到接触了<strong>Android Debug Bridge</strong>才发现命令行的强大。</p>
+<p>首先通过Homebrew安装adb工具：</p>
+<pre><code>brew install android-platform-tools
+</code></pre><h1 id="OEM解锁"><a href="#OEM解锁" class="headerlink" title="OEM解锁"></a>OEM解锁</h1><p>拿到一部新机一般OEM是上锁的。为了刷机我们需要对Bootloader进行解锁。这个过程会清除设备中的数据，所以需要提前进行备份。</p>
+<p>首先进入<strong>关于手机</strong>连击<strong>版本号</strong>打开<strong>开发者模式</strong>，然后进入<strong>开发者模式</strong>打开<strong>OEM解锁</strong>，顺便将<strong>USB调试</strong>也打开。</p>
+<p>这时用数据线将手机与电脑相连进行USB调试，在命令行里输入：</p>
+<pre><code>adb devices
+</code></pre><p>如果设备列表中出现Android设备则说明连接成功，接着输入：</p>
+<pre><code>adb reboot bootloader
+</code></pre><p>设备会重启到bootloader，此时使用命令：</p>
+<pre><code>fastboot oem unlock
+</code></pre><p>在手机上进行确认后就解锁了bootloader。</p>
+<h1 id="刷入Recovery"><a href="#刷入Recovery" class="headerlink" title="刷入Recovery"></a>刷入Recovery</h1><p>设备自带的Recovery一般可能不如第三方的功能强大，这里推荐一个叫<strong>TWRP</strong>的Recovery，因为如果要刷Gapps的话可能需要用到它。首先到<a href="https://twrp.me/" target="_blank" rel="external">TeamWin</a>下载对应设备的recovery包。</p>
+<p>接着通过<code>adb reboot bootloader</code>进入bootloader，再输入：</p>
+<pre><code>fastboot flash recovery Recovery.img
+</code></pre><p>就刷入新的recovery了，再通过<code>fastboot reboot</code>重启就可以了。</p>
+<h1 id="刷入ROM"><a href="#刷入ROM" class="headerlink" title="刷入ROM"></a>刷入ROM</h1><p>先通过命令使设备重启为recovery模式：</p>
+<pre><code>adb reboot recovery
+</code></pre><p>如果是刷入新系统建议先<em>四清</em>（System、Data、Cache、Dalvik Cache），如果是升级系统建议先<em>三清</em>（Data、Cache、Dalvik Cache），如果希望保留数据，<em>双清</em>（Cache、Dalvik Cache）就可以了。无论怎样最好都先备份数据。</p>
+<p>首先将对应的ROM下载到电脑上。然后到手机上进入TWRP的<code>Advanced</code>，选择<code>ADB Sideload</code>。在电脑终端输入：</p>
+<pre><code>adb sideload ROM.zip
+</code></pre><p>等待刷完就可以了。刷完后建议双清一下再重启。</p>
+<h1 id="刷入GAPPS（可选）"><a href="#刷入GAPPS（可选）" class="headerlink" title="刷入GAPPS（可选）"></a>刷入GAPPS（可选）</h1><p>如果想要装上Google全家桶，在刷完ROM后先不要急于重启。先到<a href="http://opengapps.org/" target="_blank" rel="external">OpenGAPPS</a>下载对应版本的GAPPS到电脑上（注意Platform和Android版本），不同Variant区别在于：</p>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>aroma</td>
+<td>图形化界面的super版，可以选择安装GAPPS</td>
+</tr>
+<tr>
+<td>super</td>
+<td>包含Google设备的所有Google Apps</td>
+</tr>
+<tr>
+<td>stock</td>
+<td>包含最新Nexus机型上预装的应用，并以GAPPS替换AOSP的同类应用</td>
+</tr>
+<tr>
+<td>full</td>
+<td>与stock版的内容相似，但不会替换AOSP应用</td>
+</tr>
+<tr>
+<td>mini</td>
+<td>包含完整的Google Play服务框架和主流应用</td>
+</tr>
+<tr>
+<td>micro</td>
+<td>包含完整的Google Play服务框架和少数应用（Gmail、Calender、Google Now）</td>
+</tr>
+<tr>
+<td>nano</td>
+<td>仅包含完整的Google Play服务框架</td>
+</tr>
+<tr>
+<td>pico</td>
+<td>仅包含最基础的Google Play服务框架</td>
+</tr>
+</tbody>
+</table>
+<p>可以根据自己的需要进行下载。</p>
+<p>最好在刷完ROM后立刻刷入GAPPS。依然进入<code>ADB Sideload</code>，并输入命令：</p>
+<pre><code>adb sideload open_gapps.zip
+</code></pre><p>等待刷完后最好先双清一下再重启，否则可能会出现无限重启或停止工作的问题。</p>
+<h1 id="Root（可选）"><a href="#Root（可选）" class="headerlink" title="Root（可选）"></a>Root（可选）</h1><p>root权限可以通过安装SuperSU的方式获取（CM13之类的系统可以在开发者选项里直接获取）。</p>
+<p>先到<a href="https://chainfire.eu/" target="_blank" rel="external">chainfire</a>下载最新版本的SuperSU，然后进入TWRP的<code>ADB Sideload</code>模式下直接通过<code>adb sideload SuperSU.zip</code>命令刷入即可。</p>
+<h1 id="安装apk（可选）"><a href="#安装apk（可选）" class="headerlink" title="安装apk（可选）"></a>安装apk（可选）</h1><p>如果apk下载到了电脑上，无需拷贝到手机通过以下命令便可直接安装：</p>
+<pre><code>adb install APP.apk
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;今天刷机小王子&lt;strong&gt;一加3&lt;/strong&gt;终于给送来了，趁此机会总结一下之前用过的&lt;code&gt;adb&lt;/code&gt;命令备查。&lt;/p&gt;
+&lt;p&gt;之前曾经用过Odin线刷、卡刷等方式，直到接触了&lt;strong&gt;Android Debug Bridge&lt;/strong&gt;
+    
+    </summary>
+    
+      <category term="奇技淫巧" scheme="https://www.shintaku.cc/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    
+      <category term="Android" scheme="https://www.shintaku.cc/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Android/"/>
+    
+    
+      <category term="Android" scheme="https://www.shintaku.cc/tags/Android/"/>
+    
+      <category term="刷机" scheme="https://www.shintaku.cc/tags/%E5%88%B7%E6%9C%BA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>百度PHP实习生面试实录</title>
+    <link href="https://www.shintaku.cc/2016/07/01/baidu-interview/"/>
+    <id>https://www.shintaku.cc/2016/07/01/baidu-interview/</id>
+    <published>2016-07-01T13:11:11.000Z</published>
+    <updated>2016-11-06T14:41:29.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>人呐就都不知道，自己不可以预料，一个人的命运啊，当然要靠自我奋斗，但是也要考虑到历史的行程。我绝对不知道，我作为一个蒟蒻本科生怎么把我选到百度去了。所以HR同我讲话，说“人力资源部都决定了，你来当实习生。”我说另请高明吧，我实在也不是谦虚，我一个天津学生怎么到北京来了呢？但是，HR讲“大家已经研究决定了”。后来我念了两首诗，叫<strong>“苟利实习生死以，岂因远近避趋之”</strong>。所以我就作文以记之。</p>
+</blockquote>
+<h1 id="1番目"><a href="#1番目" class="headerlink" title="1番目"></a>1番目</h1><p>第一次是在6月17日（周五）下午，因为周六要考六级，所以正在复习<del>周日要考的数理方程</del>。两点钟左右面试官发来短信说三点开始电话面试，所以我花了一个小时的时间突击了一下我感觉会问到的<em>算法、数据结构、操作系统、网络</em>的知识。<del>然而事实证明并没有什么卵用</del>。</p>
+<p>3点过一点打来电话，听对面环境非常嘈杂，所以听起来非常吃力：</p>
+<ul>
+<li><p>首先先做一下自我介绍吧（大概是在翻简历）</p>
+<blockquote>
+<p>私は……</p>
+</blockquote>
+</li>
+<li><p>有什么项目经历吗？</p>
+<blockquote>
+<p>（简要列举了一下做过的项目）</p>
+</blockquote>
+</li>
+<li><p>我看了你的GitHub发现有不少项目，简要介绍几个吧~</p>
+<blockquote>
+<p>（随便挑几个说了）</p>
+</blockquote>
+</li>
+<li><p>熟悉C++吧，说一说继承和多态吧~</p>
+<blockquote>
+<p>（因为面向对象用的不多，就随便说了说自己的理解）继承应该就是使用现有类的所有功能，在无需重新编写原来的类的情况下对这些功能进行扩展；多态就是允许将子类类型的指针赋值给父类类型的指针</p>
+</blockquote>
+</li>
+<li><p>C++最新的标准是多少？</p>
+<blockquote>
+<p>莫非是C++11？（后来查了一下发现都有C++17了）</p>
+</blockquote>
+</li>
+<li><p>那你知道C++中的<em>??</em>（这两个字因为他那边太嘈杂了到现在都不知道说的是什么）吗？</p>
+<blockquote>
+<p>呃……（然后又问了几遍还是没听清，接下来就是蜜汁沉默）</p>
+</blockquote>
+</li>
+<li><p>（他察觉出这方面我不是很熟悉）不知道没关系，咱们再聊点别的。Java和C++的区别在哪？</p>
+<blockquote>
+<p>（随便扯一扯，大概是Java没指针、不支持多继承、对象只能由引用传递，C++没有包、接口、不能多个相同线程并发运行等等吧）</p>
+</blockquote>
+</li>
+<li><p>那么来说一说重载和覆盖吧~</p>
+<blockquote>
+<p>（虽然不大清楚还是扯了一扯）重载一般是用于在一个类内实现若干重载的方法，这些方法的名称相同而参数形式不同；覆盖一般是用于子类在继承父类时，重写父类中的方法</p>
+</blockquote>
+</li>
+<li><p>PHP方面做过什么项目呢？</p>
+<blockquote>
+<p>（就把之前做过的PHP的东西详细说了说）</p>
+</blockquote>
+</li>
+<li><p>有什么特别的功能吗？</p>
+<blockquote>
+<p>（就想了想项目里的亮点说了说）</p>
+</blockquote>
+</li>
+<li><p>具体是怎么实现的？</p>
+<blockquote>
+<p>（一时没想起来就翻了一下GitHub跟他讲了讲）</p>
+</blockquote>
+</li>
+<li><p>你在实验室中做些什么？</p>
+<blockquote>
+<p>（简要介绍了一下自己在实验室的工作）</p>
+</blockquote>
+</li>
+<li><p>我这边问得差不多了，我先来介绍一下我们这边的情况吧（blabla一堆）……然后你有什么想问的吗？</p>
+<blockquote>
+<p>（就随便问了几个无关紧要的问题就结束了）</p>
+</blockquote>
+</li>
+</ul>
+<p>第一次电话面试大概用了一个小时的时间，由于时间太久远了肯定遗漏了很多问题没写出来，不过在最后比较有用的信息大概就是实习生面试大概有<strong>两到三轮技术面</strong>，一般没有HR面，面试题目基本看面试官个人喜好，基本觉得差不多就给通过了，差不多一周左右就会进入下一轮面试，不会要求太高。话虽如此，不过还是感觉自己面炸了，就没有往下准备~</p>
+<h1 id="2番目"><a href="#2番目" class="headerlink" title="2番目"></a>2番目</h1><p>第二次是在6月28日（周二）下午，因为第二天要检查FPGA大作业但那时还没有人做出来，所以在研究那个。大概差一刻6点的时候面试官打来电话问我什么时候方便电面，我说就现在吧<del>早面试完早搞FPGA</del>，于是他准备了5分钟再次打来电话开始面试：</p>
+<ul>
+<li><p>首先先做一下自我介绍吧（老套路）</p>
+<blockquote>
+<p>私は……</p>
+</blockquote>
+</li>
+<li><p>我看你简历上写熟悉Linux，列举几条你常用的Linux命令吧~</p>
+<blockquote>
+<p><code>wc</code>、<code>diff</code>、<code>grep</code>、<code>find</code>等等吧</p>
+</blockquote>
+</li>
+<li><p>看起来都是些查找统计的命令，要是对比两个目录下的文件名用什么命令？</p>
+<blockquote>
+<p>应该也是用<code>diff</code>吧，再加个参数，具体什么参数不清楚~</p>
+</blockquote>
+</li>
+<li><p>那你回来再查查吧；如果让你杀死某个进程要怎么做？</p>
+<blockquote>
+<p>先用ps找到进程号然后<code>kill</code>掉吧~</p>
+</blockquote>
+</li>
+<li><p>要是只用一条命令怎么写呢？（这时对面响起了敲键盘的声音）</p>
+<blockquote>
+<p>要用到管道吧，先把PID<code>cut</code>出来（当时口误说成<code>cat</code>了），具体怎么写没想出来（对方还提示了半天）</p>
+</blockquote>
+</li>
+<li><p><code>awk</code>你了解吗？</p>
+<blockquote>
+<p>用的不是很多，不太熟悉~</p>
+</blockquote>
+</li>
+<li><p>问点PHP吧，你知道<code>include()</code>和<code>require()</code>的区别在哪吗？</p>
+<blockquote>
+<p>(这个之前看过，但是一时想不起来，就扯了扯<code>require()</code>和<code>require_once()</code>的区别，答案应该是遇到错误时<code>include()</code>会产生一个警告，而<code>require()</code>导致一个致命错误）</p>
+</blockquote>
+</li>
+<li><p>PHP怎么获取用户ip地址？</p>
+<blockquote>
+<p>应该是<code>$_SERVER[]</code>吧~</p>
+</blockquote>
+</li>
+<li><p>那么怎么获取网页内容？</p>
+<blockquote>
+<p>这个没用过，真不知道（其实应该是<code>file_get_contents($url)</code>）</p>
+</blockquote>
+</li>
+<li><p>介绍一下简历上的<em>XX</em>项目吧，都有什么功能？</p>
+<blockquote>
+<p>（介绍一下功能）</p>
+</blockquote>
+</li>
+<li><p>用户登录是怎么实现的？</p>
+<blockquote>
+<p>用了个全局变量表示登录状态（当时写的比较SB，怎么会用这种方法呢）~</p>
+</blockquote>
+</li>
+<li><p>那样的话关闭浏览器再打开状态就丢了吧~一般要用<code>SESSION</code>吧，SESSION你知道吗？</p>
+<blockquote>
+<p>（这时我才恍然大悟刚才直接说这个不就好了吗）用过用过，在YY项目里登录我是用SESSION实现的。</p>
+</blockquote>
+</li>
+<li><p>那你再介绍一下<em>YY</em>项目的工程吧~</p>
+<blockquote>
+<p>（blabla一大堆）</p>
+</blockquote>
+</li>
+<li><p>那么数据库中<em>ZZ</em>的数据是怎么存的呢？</p>
+<blockquote>
+<p>（balbla介绍了一下数据库的结构）</p>
+</blockquote>
+</li>
+<li><p>怎么按条件查询呢？</p>
+<blockquote>
+<p>（blabla介绍了一下查询方法）</p>
+</blockquote>
+</li>
+<li><p>我看你还写过Java，做过Java的什么项目吗？</p>
+<blockquote>
+<p>并没有，只是写了点Application，Android的算吗？</p>
+</blockquote>
+</li>
+<li><p>算吧，说说看~</p>
+<blockquote>
+<p>（blabbla介绍了一下功能）</p>
+</blockquote>
+</li>
+<li><p>具体是怎么实现的呢？</p>
+<blockquote>
+<p>调用了为了<em>CC</em>而使用的<em>GG</em>接口~</p>
+</blockquote>
+</li>
+<li><p>哦，那和Windows下的<em>JJ</em>挺像的。你还了解一点Python是吧？</p>
+<blockquote>
+<p>一般当脚本用的，处理数据用。</p>
+</blockquote>
+</li>
+<li><p>我们这边还会用到go来开发平台，go你知道吗？</p>
+<blockquote>
+<p>golang啊，听说过。</p>
+</blockquote>
+</li>
+<li><p>对，要是来我们这边也会用到。你那边还有一些其他问题要问吗？</p>
+<blockquote>
+<p>暂时想不到了，第一轮时基本问过了（因为我赶着做大作业啊）~</p>
+</blockquote>
+</li>
+</ul>
+<p>然后寒暄了一阵就挂掉了电话，总共用时大约半小时。虽然没有抱太大希望，但是感觉百度的面试官还是非常Nice的，但是这样的面试真心无从准备，但是一定要<strong>熟悉自己简历上的内容</strong>（面试问题基本围绕简历展开）和<strong>投递职位的工作内容</strong>，其他的就完全靠姿势水平啊~</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;人呐就都不知道，自己不可以预料，一个人的命运啊，当然要靠自我奋斗，但是也要考虑到历史的行程。我绝对不知道，我作为一个蒟蒻本科生怎么把我选到百度去了。所以HR同我讲话，说“人力资源部都决定了，你来当实习生。”我说另请高明吧，我实在也不是谦虚，我一个天
+    
+    </summary>
+    
+      <category term="手帐" scheme="https://www.shintaku.cc/categories/%E6%89%8B%E5%B8%90/"/>
+    
+      <category term="实习" scheme="https://www.shintaku.cc/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>OpenWrt上的ssh免密登录</title>
+    <link href="https://www.shintaku.cc/2016/06/18/dropbear/"/>
+    <id>https://www.shintaku.cc/2016/06/18/dropbear/</id>
+    <published>2016-06-18T10:18:18.000Z</published>
+    <updated>2016-11-06T14:43:11.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>一般在用OpenSSH服务器的系统上进行ssh登录时，我们只需要在本地生成密钥（yuè）对，将私钥（yuè）留在本地，将公钥（yuè）上传到目标服务器上就可以了，具体如下：</p>
+<pre><code>ssh-keygen
+cat ~/.ssh/id_rsa.pub | ssh remote_username@remote_host &apos;cat &gt;&gt; .ssh/authorized_keys&apos;
+</code></pre><p>然而OpenWrt上的ssh服务器却用的<a href="https://matt.ucc.asn.au/dropbear/dropbear.html" target="_blank" rel="external">Dropbear</a>，它是一种在较低内存和处理器资源的嵌入式系统中替代OpenSSH的软件，因此使用起来用诸多的不同。</p>
+<h1 id="免密登录到OpenWrt"><a href="#免密登录到OpenWrt" class="headerlink" title="免密登录到OpenWrt"></a>免密登录到OpenWrt</h1><p>如果本地是用<code>ssh-keygen</code>生成的密钥对，那么只需要将公钥上传到路由器的<code>/etc/dropbear/authorized_keys</code>中就行了：</p>
+<pre><code>cat ~/.ssh/id_rsa.pub | ssh root@192.168.1.1 &apos;cat &gt;&gt; /etc/dropbear/authorized_keys&apos;
+</code></pre><h1 id="从OpenWrt登录到其他机器"><a href="#从OpenWrt登录到其他机器" class="headerlink" title="从OpenWrt登录到其他机器"></a>从OpenWrt登录到其他机器</h1><p>首先登入到OpenWrt。但想从OpenWrt免密登录其他机器，也要先生成密钥对并将公钥上传。由于无法使用<code>ssh-keygen</code>，我们可以直接用<code>dropbearkey</code>生成：</p>
+<pre><code>dropbearkey -t rsa -f ~/.ssh/id_rsa
+Generating key, this may take a while...
+Public key portion is:
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCn02fMyD2T1ECmDZso8EG1m/4eo5LJtNlbqCMu0SkABsOUvmTHozrPzoJ10SlcAhjnc84S//VGEAbNJxUTaYn0M7f7M8Q4NBSyPF9DMcNAWKM01OSll8BWLQafZeZneW+UOwO6h1LOd6UEaLS8lhKQUD05+dSzKhPHimZudlhkV2bO7KOkiFh3P4K1GakHBuXitB1V9QH144BKKlSqNXy7TZcJf5/oRkB76ZmdSDDMQtvfCHF1BZwggStgBsu9K6nAl8lz9MOVHCYs9AkEIurldrHLUKvoGJ4QA5yc3bEMQaMH7vu3G5YMysIY4w5+aVuZh5Wg4THoh6yXPfGUc7Mh root@OpenWrt
+Fingerprint: md5 2d:8f:e9:e7:31:75:f0:f4:ba:b8:54:4c:2f:43:9b:33
+</code></pre><p>这样就将私钥生成到<code>~/.ssh/id_rsa</code>了，并将公钥打印到了屏幕上。建议将公钥也保存下来，以便以后使用：</p>
+<pre><code>echo &quot;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCn02fMyD2T1ECmDZso8EG1m/4eo5LJtNlbqCMu0SkABsOUvmTHozrPzoJ10SlcAhjnc84S//VGEAbNJxUTaYn0M7f7M8Q4NBSyPF9DMcNAWKM01OSll8BWLQafZeZneW+UOwO6h1LOd6UEaLS8lhKQUD05+dSzKhPHimZudlhkV2bO7KOkiFh3P4K1GakHBuXitB1V9QH144BKKlSqNXy7TZcJf5/oRkB76ZmdSDDMQtvfCHF1BZwggStgBsu9K6nAl8lz9MOVHCYs9AkEIurldrHLUKvoGJ4QA5yc3bEMQaMH7vu3G5YMysIY4w5+aVuZh5Wg4THoh6yXPfGUc7Mh root@OpenWrt&quot; &gt; ~/.ssh/id_rsa.pub
+</code></pre><p>然后就和原来一样，将公钥上传到目标服务器就可以了：</p>
+<pre><code>cat ~/.ssh/id_rsa.pub | ssh remote_username@remote_host &apos;cat &gt;&gt; .ssh/authorized_keys&apos;
+</code></pre><p>但是在登录的时候要注意，使用<code>ssh</code>命令需要加<code>-i</code>参数指定所用的私钥：</p>
+<pre><code>ssh -i ~/.ssh/id_rsa remote_username@remote_host
+</code></pre><p>记得使用<code>scp</code>等类似命令也要这样。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;一般在用OpenSSH服务器的系统上进行ssh登录时，我们只需要在本地生成密钥（yuè）对，将私钥（yuè）留在本地，将公钥（yuè）上传到目标服务器上就可以了，具体如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ssh-keygen
+cat ~/.ssh/id_rsa.pub | 
+    
+    </summary>
+    
+      <category term="奇技淫巧" scheme="https://www.shintaku.cc/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    
+      <category term="＊nix" scheme="https://www.shintaku.cc/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/"/>
+    
+    
+      <category term="OpenWrt" scheme="https://www.shintaku.cc/tags/OpenWrt/"/>
+    
+      <category term="路由器" scheme="https://www.shintaku.cc/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    
+      <category term="Linux" scheme="https://www.shintaku.cc/tags/Linux/"/>
+    
+      <category term="ssh" scheme="https://www.shintaku.cc/tags/ssh/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ChinaDNS+ShadowSocks实现路由器透明代理</title>
+    <link href="https://www.shintaku.cc/2016/06/01/chinadns/"/>
+    <id>https://www.shintaku.cc/2016/06/01/chinadns/</id>
+    <published>2016-06-01T10:18:18.000Z</published>
+    <updated>2016-11-06T14:42:19.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>之前给一个路由器刷了<strong>OpenWrt</strong>在学校上网用，这个月开始学校改计费方式了，索性就拿回家来做透明代理了。之前想使用<strong>GFWlist</strong>来分流结果没成功，所以才折腾一下<strong>ChinaDNS</strong>感觉还是比较简单的，但唯一的弊病是无论境外IP是否被屏蔽都会走代理，这样有些无关痛痒的国外网站访问起来可能会变慢。无论如何，终端设备不再使用代理软件已经方便很多了。</p>
+<p>在搞透明代理之前请确保路由器已经安刷好了OpenWrt。具体怎么刷OpenWrt请参见我之前的一篇博文<a href="https://www.shintaku.cc/2015/12/12/openwrt/">路由器刷入OpenWrt固件</a>。</p>
+<h1 id="必要软件"><a href="#必要软件" class="headerlink" title="必要软件"></a>必要软件</h1><p>首先是在OpenWrt下装上一堆必要软件：</p>
+<ul>
+<li>shadowsocks-libev-spec</li>
+<li>luci-app-shadowsocks-spec</li>
+<li>ChinaDNS</li>
+<li>luci-app-chinadns</li>
+</ul>
+<p>这些都可以在<a href="https://sourceforge.net/projects/openwrt-dist/files/" target="_blank" rel="external">sourceforge</a>里找到。如果无法访问也可以下载我备份在服务器上的较老版本：</p>
+<pre><code>wget https://www.shintaku.cc/files/shadowsocks-libev-spec_2.4.6-1_ar71xx.ipk
+wget https://www.shintaku.cc/files/luci-app-shadowsocks-spec_1.4.0-1_all.ipk
+wget https://www.shintaku.cc/files/ChinaDNS_1.3.2-3_ar71xx.ipk
+wget https://www.shintaku.cc/files/luci-app-chinadns_1.4.0-1_all.ipk
+</code></pre><p>下载完成后使用<code>opkg</code>命令安装，如果当前目录下没有其他文件就直接<code>opkg install *</code>就好了。这时刷新一下LuCI界面就会多出<code>服务</code>一项了。</p>
+<p><img src="/img/dnsservice.png" alt="服务"></p>
+<h1 id="配置ChinaDNS"><a href="#配置ChinaDNS" class="headerlink" title="配置ChinaDNS"></a>配置ChinaDNS</h1><p>默认配置是这样的：</p>
+<p><img src="/img/dnschinadns.png" alt="ChinaDNS"></p>
+<p>其中的设置基本不用动，国内路由表在<code>/etc/chinadns_chnroute.txt</code>，最好设置成定期更新，可以在计划任务中添加<code>crontab</code>任务：</p>
+<pre><code>0 4 * * * wget -O- &apos;http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest&apos; | grep ipv4 | grep CN | awk -F\| &apos;{ printf(&quot;%s/%d\n&quot;, $4, 32-log($5)/log(2)) }&apos; &gt; /etc/chinadns_chnroute.txt
+</code></pre><p>这样每天凌晨4点就可以将新的路由表文件写入了。</p>
+<p>还有<code>上游服务器</code>一项，前面的是对于国内线路的DNS服务器，默认是114基本没什么问题；但是后一个DNS服务器则要求没有污染，默认用的Google的，感觉直接作为DNS不会太理想，所以需要自己在VPS上搭建一个简易的DNS服务器。</p>
+<p>简单来说，使用<code>dnsmasq</code>比较方便，所以登入VPS服务器，安装dnsmasq并加入开机启动：</p>
+<pre><code>yum install dnsmasq
+systemctl enable dnsmasq
+</code></pre><p>然后编辑配置文件<code>/etc/dnsmasq.conf</code>（因为所有内容都注释掉了，所以直接加入下面几行就可以了）：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">port</span> = <span class="number">5353</span></div><div class="line"><span class="attr">server</span> = <span class="number">8.8</span>.<span class="number">8.8</span></div><div class="line"><span class="attr">server</span> = <span class="number">8.8</span>.<span class="number">4.4</span></div></pre></td></tr></table></figure>
+<p>保存后运行<code>dnsmasq</code>就监听到5353端口了，这样就可以间接地使用Google的DNS了。</p>
+<p>回到路由器方面，将<code>上游服务器</code>的后一项改为<code>VPS_ip:5353</code>保存就可以了。</p>
+<p>然后进入<code>网络</code>-<code>DHCP/DNS</code>，将<code>基本设置</code>里的<code>本地服务器</code>改为<code>127.0.0.1#5353</code>：</p>
+<p><img src="/img/dnsdhcpdns.png" alt="DHCP/DNS"></p>
+<p>再到<code>HOSTS和解析文件</code>中<code>忽略解析文件</code>和<code>忽略/etc/hosts</code>保存即可。</p>
+<h1 id="配置ShadowSocks"><a href="#配置ShadowSocks" class="headerlink" title="配置ShadowSocks"></a>配置ShadowSocks</h1><p><code>服务器配置</code>按实际情况填写即可，主要要注意<code>访问控制</code>里的<code>被忽略IP列表</code>，因为装了ChinaDNS，所以选里面的<code>ChinaDNS路由表</code>就行了。如果怕自己的VPS也被代理了，在<code>额外被忽略IP</code>里填上自己的VPS地址就好了：</p>
+<p><img src="/img/dnsshadowsocks.png" alt="ShadowSocks"></p>
+<p>启动ShadowSocks以后可以用Baidu和Google分别测一下自己的IP地址，如果分别是ISP和VPS的IP应该就没问题了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;之前给一个路由器刷了&lt;strong&gt;OpenWrt&lt;/strong&gt;在学校上网用，这个月开始学校改计费方式了，索性就拿回家来做透明代理了。之前想使用&lt;strong&gt;GFWlist&lt;/strong&gt;来分流结果没成功，所以才折腾一下&lt;strong&gt;ChinaDNS&lt;/stron
+    
+    </summary>
+    
+      <category term="网络" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="科学上网" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    
+    
+      <category term="ShadowSocks" scheme="https://www.shintaku.cc/tags/ShadowSocks/"/>
+    
+      <category term="OpenWrt" scheme="https://www.shintaku.cc/tags/OpenWrt/"/>
+    
+      <category term="科学上网" scheme="https://www.shintaku.cc/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    
+      <category term="路由器" scheme="https://www.shintaku.cc/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    
+      <category term="Linux" scheme="https://www.shintaku.cc/tags/Linux/"/>
+    
+      <category term="ChinaDNS" scheme="https://www.shintaku.cc/tags/ChinaDNS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>将jar程序打包成app</title>
+    <link href="https://www.shintaku.cc/2016/05/20/app/"/>
+    <id>https://www.shintaku.cc/2016/05/20/app/</id>
+    <published>2016-05-20T12:00:00.000Z</published>
+    <updated>2016-11-06T14:41:11.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Mac下的Minecraft启动器是jar文件，每次需要启动的时候都要进入到它所在的目录下双击用<strong>Jar Launcher</strong>运行，或者使用<code>jawa -jar</code>命令启动，非常麻烦。所以想了一个办法，用<strong>Automator</strong>将它打包成app文件放到<code>Application</code>目录下就会出现在<strong>Launchpad</strong>里了。</p>
+<h1 id="新建app"><a href="#新建app" class="headerlink" title="新建app"></a>新建app</h1><p>首先打开Automator创建一个Application：</p>
+<p><img src="/img/appnew.png" alt="Application"></p>
+<p>选择<code>Run Shell Script</code>并将jar的运行命令填进去：</p>
+<pre><code>java -jar /Applications/Minecraft.app/Contents/Jar/Minecraft\ Launcher.jar
+</code></pre><p><img src="/img/appshell.png" alt="Run Shell Script"></p>
+<p>然后改个名字保存到Application下。</p>
+<h1 id="打包jar"><a href="#打包jar" class="headerlink" title="打包jar"></a>打包jar</h1><p>打开新建好的app的Contents，在里面新建一个Jar目录，并将启动器的jar文件移进去（只要跟上面命令的路径自洽即可）：</p>
+<p><img src="/img/appjar.png" alt="Jar"></p>
+<p>然后可以用Automator右上角的Run测试一下是否可以正常执行：</p>
+<p><img src="/img/apprun.png" alt="Run"></p>
+<h1 id="更改图标"><a href="#更改图标" class="headerlink" title="更改图标"></a>更改图标</h1><p>打开app的Info，点击图标后会出现一个蓝圈：</p>
+<p><img src="/img/appicon.png" alt="Info"></p>
+<p>这时将复制好的图片粘贴到这里就可以更改图标了。</p>
+<p>现在就可以到Launchpad里启动Minecraft的启动器了：</p>
+<p><img src="/img/applaunch.png" alt="Launchpad"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Mac下的Minecraft启动器是jar文件，每次需要启动的时候都要进入到它所在的目录下双击用&lt;strong&gt;Jar Launcher&lt;/strong&gt;运行，或者使用&lt;code&gt;jawa -jar&lt;/code&gt;命令启动，非常麻烦。所以想了一个办法，用&lt;strong&gt;Aut
+    
+    </summary>
+    
+      <category term="奇技淫巧" scheme="https://www.shintaku.cc/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    
+      <category term="macOS" scheme="https://www.shintaku.cc/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/"/>
+    
+    
+      <category term="macOS" scheme="https://www.shintaku.cc/tags/macOS/"/>
+    
+      <category term="Minecraft" scheme="https://www.shintaku.cc/tags/Minecraft/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mac上进行Verilog仿真</title>
+    <link href="https://www.shintaku.cc/2016/04/11/verilog/"/>
+    <id>https://www.shintaku.cc/2016/04/11/verilog/</id>
+    <published>2016-04-11T13:11:11.000Z</published>
+    <updated>2016-11-14T12:26:35.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>这学期上VLSI系统设计这门课，同时顺带着把计算机设计与调试的课程设计做了。往FPGA上烧写之前要用Verilog进行仿真，在实验室直接用机房的ModelSim仿真了，但是课下在虚拟机上做有诸多的不便，于是就研究了一下在Mac下写Verilog的方法。</p>
+<h1 id="配置Sublime代码高亮"><a href="#配置Sublime代码高亮" class="headerlink" title="配置Sublime代码高亮"></a>配置Sublime代码高亮</h1><p>Sublime Text默认是不支持Verilog代码高亮的，可以通过安装插件增加对其的支持。首先要安装Sublime包管理工具，按<code>control+` </code>打开控制台，并运行以下代码（以Sublime Text 2为例）：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> urllib2,os,hashlib; h = <span class="string">'2915d1851351e5ee549c20394736b442'</span> + <span class="string">'8bc59f460fa1548d1514676163dafc88'</span>; pf = <span class="string">'Package Control.sublime-package'</span>; ipp = sublime.installed_packages_path(); os.makedirs( ipp ) <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(ipp) <span class="keyword">else</span> <span class="keyword">None</span>; urllib2.install_opener( urllib2.build_opener( urllib2.ProxyHandler()) ); by = urllib2.urlopen( <span class="string">'http://packagecontrol.io/'</span> + pf.replace(<span class="string">' '</span>, <span class="string">'%20'</span>)).read(); dh = hashlib.sha256(by).hexdigest(); open( os.path.join( ipp, pf), <span class="string">'wb'</span> ).write(by) <span class="keyword">if</span> dh == h <span class="keyword">else</span> <span class="keyword">None</span>; print(<span class="string">'Error validating download (got %s instead of %s), please try manual install'</span> % (dh, h) <span class="keyword">if</span> dh != h <span class="keyword">else</span> <span class="string">'Please restart Sublime Text to finish installation'</span>)</div></pre></td></tr></table></figure>
+<p>安装完后重启，按<code>command+shift+P</code>唤出命令面板，打开<code>Install Package</code>包管理工具：</p>
+<p><img src="/img/vlinstall.png" alt="Install Package"></p>
+<p>然后查找<code>Verilog</code>，将搜到的自动补全和代码高亮插件装上重启就可以了：</p>
+<p><img src="/img/vlverilog.png" alt="Verilog"></p>
+<h1 id="安装Icarus-Verilog"><a href="#安装Icarus-Verilog" class="headerlink" title="安装Icarus Verilog"></a>安装Icarus Verilog</h1><p>Icarus Verilog是Verilog硬件描述语言的实现工具之一。该软件以GNU通用公共许可协议发布，是一个自由软件。它支持Verilog对应的的IEEE 1995、IEEE 2001和IEEE 2005三个不同的版本，并对SystemVerilog的部分内容提供支持。</p>
+<p>首先保证已经安装了Homebrew，然后通过brew安装：</p>
+<pre><code>brew install icarus-verilog
+</code></pre><h1 id="安装Scansion"><a href="#安装Scansion" class="headerlink" title="安装Scansion"></a>安装Scansion</h1><p>Scansion是Mac平台下的一个VCD文件查看工具，可以去<a href="http://www.logicpoet.com/downloads/" target="_blank" rel="external">http://www.logicpoet.com/downloads/</a>下载其最新版本并安装。</p>
+<h1 id="编译仿真"><a href="#编译仿真" class="headerlink" title="编译仿真"></a>编译仿真</h1><p>随便新建一个测试文件叫test.v：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">module</span> vaddsws( vra, vrb, vrt, sat );</div><div class="line"></div><div class="line"><span class="keyword">input</span>  [<span class="number">31</span> : <span class="number">0</span>] vra;</div><div class="line"><span class="keyword">input</span>  [<span class="number">31</span> : <span class="number">0</span>] vrb;</div><div class="line"><span class="keyword">output</span> [<span class="number">31</span> : <span class="number">0</span>] vrt;</div><div class="line"><span class="keyword">output</span>          sat;</div><div class="line"></div><div class="line"><span class="keyword">wire</span>   [<span class="number">31</span> : <span class="number">0</span>] sum;</div><div class="line"><span class="keyword">wire</span>   [<span class="number">31</span> : <span class="number">0</span>] vrt;</div><div class="line"><span class="keyword">wire</span>            sat;</div><div class="line"></div><div class="line"><span class="keyword">assign</span> &#123;sat, sum&#125;	= vra + vrb;</div><div class="line"><span class="keyword">assign</span> vrt = (vra[<span class="number">31</span>]^vrb[<span class="number">31</span>]) ? sum : (vra[<span class="number">31</span>]&amp;&amp;vrb[<span class="number">31</span>] ? (sum[<span class="number">31</span>] ? sum : <span class="number">32'h80000000</span>) : (sum[<span class="number">31</span>] ? <span class="number">32'h7fffffff</span> : sum));</div><div class="line"></div><div class="line"><span class="keyword">endmodule</span></div></pre></td></tr></table></figure>
+<p>再对其新建testbench文件test_tb.v：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="meta">`<span class="meta-keyword">timescale</span> 1ns/100ps</span></div><div class="line"><span class="meta">`<span class="meta-keyword">include</span> "test.v"</span></div><div class="line"></div><div class="line"><span class="keyword">module</span> vaddsws_tb;</div><div class="line"></div><div class="line"><span class="keyword">reg</span>	[<span class="number">31</span>: <span class="number">0</span>]	vra;</div><div class="line"><span class="keyword">reg</span>	[<span class="number">31</span>: <span class="number">0</span>]	vrb;</div><div class="line"><span class="keyword">wire</span>	[<span class="number">31</span>: <span class="number">0</span>]	vrt;</div><div class="line"><span class="keyword">wire</span>	sat;</div><div class="line"></div><div class="line"><span class="keyword">initial</span></div><div class="line"><span class="keyword">begin</span></div><div class="line">	<span class="built_in">$dumpfile</span>(<span class="string">"test.vcd"</span>);</div><div class="line">	<span class="built_in">$dumpvars</span>(<span class="number">0</span>, vaddsws_tb);</div><div class="line">	<span class="keyword">assign</span> vra=<span class="number">32'hffffffff</span>;</div><div class="line">	<span class="keyword">assign</span> vrb=<span class="number">32'hffffffff</span>;</div><div class="line">	#<span class="number">100</span></div><div class="line">	<span class="keyword">assign</span> vra=<span class="number">32'h01234567</span>;</div><div class="line">	<span class="keyword">assign</span> vrb=<span class="number">32'h76543210</span>;</div><div class="line">	#<span class="number">100</span></div><div class="line">	<span class="built_in">$finish</span>;</div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line">vaddsws add( <span class="variable">.vra</span>(vra), <span class="variable">.vrb</span>(vrb), <span class="variable">.vrt</span>(vrt), <span class="variable">.sat</span>(sat) );</div><div class="line"></div><div class="line"><span class="keyword">endmodule</span></div></pre></td></tr></table></figure>
+<p>注意testbench文件的第二行中<code>include</code>宏是为了引用前一个文件的模块定义，如果在Windows下用ModelSim时把它注释掉就可以了。第13行是为了生成波形文件以便在Scansion里查看。</p>
+<p>源码编辑好后执行以下命令编译执行：</p>
+<pre><code>iverilog -o test.vvp test_tb.v
+./test.vvp
+</code></pre><p>生成vcd格式的波形文件用Scansion打开即可（也可以使用命令<code>open -a Scansion test.vcd</code>）：</p>
+<p><img src="/img/vltest.png" alt="输出波形"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这学期上VLSI系统设计这门课，同时顺带着把计算机设计与调试的课程设计做了。往FPGA上烧写之前要用Verilog进行仿真，在实验室直接用机房的ModelSim仿真了，但是课下在虚拟机上做有诸多的不便，于是就研究了一下在Mac下写Verilog的方法。&lt;/p&gt;
+&lt;h1 id
+    
+    </summary>
+    
+      <category term="手帐" scheme="https://www.shintaku.cc/categories/%E6%89%8B%E5%B8%90/"/>
+    
+      <category term="课程" scheme="https://www.shintaku.cc/categories/%E6%89%8B%E5%B8%90/%E8%AF%BE%E7%A8%8B/"/>
+    
+    
+      <category term="macOS" scheme="https://www.shintaku.cc/tags/macOS/"/>
+    
+      <category term="Verilog" scheme="https://www.shintaku.cc/tags/Verilog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CentOS 7配置LEMP环境</title>
+    <link href="https://www.shintaku.cc/2016/03/21/centos-lemp/"/>
+    <id>https://www.shintaku.cc/2016/03/21/centos-lemp/</id>
+    <published>2016-03-21T13:11:11.000Z</published>
+    <updated>2016-11-06T14:41:49.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>由于最近许多服务都需要依赖LEMP（Linux、Nginx、MySQL、PHP）环境，之前旧金山机房的VPS使用CentOS 6的系统总是安装不成功，最近换了新加坡机房装了CentOS 7，所以重新完完整整的配置一遍，以便后面使用。</p>
+<h1 id="安装MySQL"><a href="#安装MySQL" class="headerlink" title="安装MySQL"></a>安装MySQL</h1><p>MySQL直接从yum安装总是不能成功，后来索性就直接下载rpm包安装了。首先下载MySQL社区版的rpm包并执行安装：</p>
+<pre><code>rpm -ivh http://repo.mysql.com/mysql-community-release-el7-7.noarch.rpm
+yum update
+</code></pre><p>之后安装mysql-server：</p>
+<pre><code>yum install mysql-server
+</code></pre><p>通过<code>mysql -V</code>命令查看版本来检查MySQL是否安装成功。</p>
+<p>启动服务并设置开机启动：</p>
+<pre><code>systemctl start mysqld
+systemctl enable mysqld
+</code></pre><p>然后配置安全脚本：</p>
+<pre><code>mysql_secure_installation
+</code></pre><p>这时会要求输入数据库的root密码，由于是新安装的并没有密码，所以直接回车即可。接下来会提示设置新的root密码，然后会有一些其它选项：</p>
+<pre><code>Remove anonymous users? [Y/n]
+Disallow root login remotely? [Y/n]
+Remove test database and access to it? [Y/n]
+Reload privilege tables now? [Y/n]
+</code></pre><p>按需求选择即可，推荐都选Y。</p>
+<p>结束后使用<code>mysql -u root -p</code>命令以root身份登录，后面输入密码就登进去了。</p>
+<h1 id="安装PHP"><a href="#安装PHP" class="headerlink" title="安装PHP"></a>安装PHP</h1><p>yum默认安装的PHP还是5.4版本，对于需要新版本特性的用户还是通过Remi源安装好了。所以首先下载安装Remi源：</p>
+<pre><code>rpm -ivh http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+rpm -ivh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+yum update
+</code></pre><p>然后编辑<code>/etc/yum.repos.d/remi.repo</code>文件：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="section">[remi]</span></div><div class="line"><span class="attr">name</span>=Remi<span class="string">'s RPM repository for Enterprise Linux 7 - $basearch</span></div><div class="line">#baseurl=http://rpms.remirepo.net/enterprise/7/remi/$basearch/</div><div class="line">mirrorlist=http://rpms.remirepo.net/enterprise/7/remi/mirror</div><div class="line">enabled=1</div><div class="line">gpgcheck=1</div><div class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi</div></pre></td></tr></table></figure>
+<p>请确保<code>[remi]</code>中的<code>enabled</code>的值是<code>1</code>。然后向下查看，在想要安装的php的版本（<code>[remi-php55]</code>或<code>[remi-php56]</code>）一段将对应的<code>enabled</code>的值改为<code>1</code>，例如：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="section">[remi-php55]</span></div><div class="line"><span class="attr">name</span>=Remi<span class="string">'s PHP 5.5 RPM repository for Enterprise Linux 7 - $basearch</span></div><div class="line">#baseurl=http://rpms.remirepo.net/enterprise/7/php55/$basearch/</div><div class="line">mirrorlist=http://rpms.remirepo.net/enterprise/7/php55/mirror</div><div class="line"># NOTICE: common dependencies are in "remi-safe"</div><div class="line">enabled=0</div><div class="line">gpgcheck=1</div><div class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi</div><div class="line"></div><div class="line">[remi-php56]</div><div class="line">name=Remi's PHP <span class="number">5.6</span> RPM repository for Enterprise Linux <span class="number">7</span> - <span class="variable">$basearch</span></div><div class="line"><span class="comment">#baseurl=http://rpms.remirepo.net/enterprise/7/php56/$basearch/</span></div><div class="line"><span class="attr">mirrorlist</span>=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/php56/mirror</div><div class="line"><span class="comment"># NOTICE: common dependencies are in "remi-safe"</span></div><div class="line"><span class="attr">enabled</span>=<span class="number">1</span></div><div class="line"><span class="attr">gpgcheck</span>=<span class="number">1</span></div><div class="line"><span class="attr">gpgkey</span>=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi</div></pre></td></tr></table></figure>
+<p>保存之后就可以用yum命令安装较新的PHP了：</p>
+<pre><code>yum install php php-fpm php-mysql
+</code></pre><p>当然以后如果发现缺了什么php的组件也可以通过这种方式安装，例如：</p>
+<pre><code>yum install php-gd php-mcrypt php-pear
+</code></pre><p>通过<code>php -v</code>命令查看版本来检查PHP是否安装成功。</p>
+<p>启动PHP并设置开机启动：</p>
+<pre><code>systemctl start php-fpm
+systemctl enable php-fpm
+</code></pre><h1 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h1><p>再使用yum安装Nginx：</p>
+<pre><code>yum install nginx
+</code></pre><p>通过<code>nginx -v</code>命令查看版本来检查Nginx是否安装成功。</p>
+<p>启动Nginx并设置开机启动：</p>
+<pre><code>systemctl start nginx
+systemctl enable nginx
+</code></pre><p>然后在<code>/etc/nginx/nginx.conf</code>的<code>http</code>段中加入一句：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">include /etc/nginx/conf.d/*.conf;</div></pre></td></tr></table></figure>
+<p>编辑<code>/etc/nginx/conf.d/default.conf</code>文件（若不存在请新建，以后就可以在这里修改配置了）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen       80;</div><div class="line">    server_name  your_domain;</div><div class="line">    <span class="built_in">return</span> 301 https://<span class="variable">$server_name</span><span class="variable">$request_uri</span>;</div><div class="line">    <span class="comment">#charset koi8-r;</span></div><div class="line"></div><div class="line">    <span class="comment">#access_log  logs/host.access.log  main;</span></div><div class="line"></div><div class="line">    <span class="comment"># Load configuration files for the default server block.</span></div><div class="line">    </div><div class="line">    include /etc/nginx/default.d/*.conf;</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">        root   /usr/share/nginx/html;</div><div class="line">        index  index.html index.htm index.php;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    error_page  404              /404.html;</div><div class="line">    location = /404.html &#123;</div><div class="line">        root   /usr/share/nginx/html;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment"># redirect server error pages to the static page /50x.html</span></div><div class="line">    <span class="comment">#</span></div><div class="line">    error_page   500 502 503 504  /50x.html;</div><div class="line">    location = /50x.html &#123;</div><div class="line">        root   /usr/share/nginx/html;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment"># proxy the PHP scripts to Apache listening on 127.0.0.1:80</span></div><div class="line">    <span class="comment">#</span></div><div class="line">    <span class="comment">#location ~ \.php$ &#123;</span></div><div class="line">    <span class="comment">#    proxy_pass   http://127.0.0.1;</span></div><div class="line">    <span class="comment">#&#125;</span></div><div class="line"></div><div class="line">    <span class="comment"># pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span></div><div class="line">    <span class="comment">#</span></div><div class="line">    <span class="comment">#location ~ \.php$ &#123;</span></div><div class="line">    <span class="comment">#    root           html;</span></div><div class="line">    <span class="comment">#    fastcgi_pass   127.0.0.1:9000;</span></div><div class="line">    <span class="comment">#    fastcgi_index  index.php;</span></div><div class="line">    <span class="comment">#    fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</span></div><div class="line">    <span class="comment">#    include        fastcgi_params;</span></div><div class="line">    <span class="comment">#&#125;</span></div><div class="line"></div><div class="line">    <span class="comment"># deny access to .htaccess files, if Apache's document root</span></div><div class="line">    <span class="comment"># concurs with nginx's one</span></div><div class="line">    <span class="comment">#</span></div><div class="line">    <span class="comment">#location ~ /\.ht &#123;</span></div><div class="line">    <span class="comment">#    deny  all;</span></div><div class="line">    <span class="comment">#&#125;</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>保存后通过<code>systemctl restart nginx</code>命令重启Nginx。然后在根目录下新建一个html文件并从浏览器访问它看看是不是正常显示。</p>
+<h1 id="配置Nginx和PHP"><a href="#配置Nginx和PHP" class="headerlink" title="配置Nginx和PHP"></a>配置Nginx和PHP</h1><p>继续编辑<code>/etc/nginx/conf.d/default.conf</code>文件，将<code>location ~ \.php$</code>一段解注释，并改成如下样子：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">location ~ \.php$ &#123;</div><div class="line">    root   /usr/share/nginx/html;</div><div class="line">    fastcgi_pass   127.0.0.1:9000;</div><div class="line">    fastcgi_index  index.php;</div><div class="line">    fastcgi_param  SCRIPT_FILENAME  <span class="variable">$document_root</span><span class="variable">$fastcgi_script_name</span>;</div><div class="line">    include        fastcgi_params;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中要注意<code>root</code>改成网页的根目录，此外还要确保<code>location /</code>的<code>index</code>中有<code>index.php</code>。然后通过<code>systemctl restart nginx</code>命令重启Nginx。</p>
+<p>再编辑<code>/etc/php-php.d/www.conf</code>将<code>user</code>和<code>group</code>的值改为<code>nginx</code>（默认应该是<code>apache</code>）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">user = nginx</div><div class="line">group = nginx</div></pre></td></tr></table></figure>
+<p>保存后使用<code>systemctl restart php-fpm</code>命令重启PHP。</p>
+<p>下面新建<code>/usr/share/nginx/html/index.php</code>文件测试PHP环境是否配置成功：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	phpinfo();</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>从浏览器打开该页面，如果出现PHP信息则说明配置完成。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;由于最近许多服务都需要依赖LEMP（Linux、Nginx、MySQL、PHP）环境，之前旧金山机房的VPS使用CentOS 6的系统总是安装不成功，最近换了新加坡机房装了CentOS 7，所以重新完完整整的配置一遍，以便后面使用。&lt;/p&gt;
+&lt;h1 id=&quot;安装MySQL&quot;
+    
+    </summary>
+    
+      <category term="网络" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="网站部署" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/"/>
+    
+    
+      <category term="Linux" scheme="https://www.shintaku.cc/tags/Linux/"/>
+    
+      <category term="LEMP" scheme="https://www.shintaku.cc/tags/LEMP/"/>
+    
+      <category term="VPS" scheme="https://www.shintaku.cc/tags/VPS/"/>
+    
+      <category term="Nginx" scheme="https://www.shintaku.cc/tags/Nginx/"/>
+    
+      <category term="MySQL" scheme="https://www.shintaku.cc/tags/MySQL/"/>
+    
+      <category term="PHP" scheme="https://www.shintaku.cc/tags/PHP/"/>
+    
+      <category term="服务器" scheme="https://www.shintaku.cc/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>舰娘更改Cookie直接连接</title>
+    <link href="https://www.shintaku.cc/2016/02/29/kancolle-cookie/"/>
+    <id>https://www.shintaku.cc/2016/02/29/kancolle-cookie/</id>
+    <published>2016-02-29T14:22:22.000Z</published>
+    <updated>2016-11-06T15:02:29.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>DMM的游戏限制境外玩家登录，因此玩游戏必须要<strong>让DMM认为你是从日本访问的</strong>，境外玩家使用日本的匿名代理是一种常见的手段。而DMM仅仅是在登陆的时候会验证访客的IP地址，因此多了所谓直连的这一种途径。另外，DMM并不会经常改变游戏Token，因此采用任何方法登陆后，都可以通过浏览器的开发者工具将Flash的链接提取出来并保存为书签便可直接登陆游戏。<div style="text-align:right"><strong><em>———— 萌娘百科</em></strong></div></p>
+</blockquote>
+<p><img src="/img/kcen.png" alt="地区错误"></p>
+<p>之前玩舰娘不是使用ShadowSocks就是使用VPN，后来也曾一度使用改hosts搭配国内VPN的方式（因为只改hosts在有的网络环境下会出现白屏）。觉得这些方式都太繁琐并且过于依赖网络代理，后来就找到一种注入Cookie的方法。</p>
+<p>直连方法是利用DMM在大部分时间都不检查用户IP这个特性，通过技术手段绕过IP验证的环节来达到直接连接的目的，更改浏览器或者舰娘辅助工具（比如Poi）的Cookie来使服务器不去验证用户的地域信息。</p>
+<h1 id="清空Cookie"><a href="#清空Cookie" class="headerlink" title="清空Cookie"></a>清空Cookie</h1><p>首先打开<a href="http://www.dmm.com/" target="_blank" rel="external">DMM</a>主页并选择语言为<strong>日本语</strong>：</p>
+<p><img src="/img/kcjp.png" alt="选择语言"></p>
+<p>然后清一下Cookie：</p>
+<p><img src="/img/kccookie.png" alt="删除Cookie"></p>
+<h1 id="注入Cookie"><a href="#注入Cookie" class="headerlink" title="注入Cookie"></a>注入Cookie</h1><p>打开浏览器<strong>开发者工具</strong>中的<strong>控制台</strong>（在Poi中是<strong>显示</strong>菜单中的<strong>Webview开发者工具</strong>），将以下代码粘贴进去并回车：</p>
+<pre><code>document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=osapi.dmm.com;path=/&quot;;
+document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=203.104.209.7;path=/&quot;;
+document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=www.dmm.com;path=/netgame/&quot;;
+document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-netgame.dmm.com;path=/&quot;;
+</code></pre><p><img src="/img/kccode.png" alt="运行代码"></p>
+<p>如果出现</p>
+<pre><code>&quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-netgame.dmm.com;path=/&quot;
+</code></pre><p>则说明注入成功。这时再次进入舰娘的页面<a href="http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/" target="_blank" rel="external">-艦これ-</a>则会正常打开：</p>
+<p><img src="/img/kchome.png" alt="舰娘主页"></p>
+<p>登陆后就会顺利进入游戏了：</p>
+<p><img src="/img/kcgame.png" alt="进入游戏"></p>
+<p>楽しもっ！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;DMM的游戏限制境外玩家登录，因此玩游戏必须要&lt;strong&gt;让DMM认为你是从日本访问的&lt;/strong&gt;，境外玩家使用日本的匿名代理是一种常见的手段。而DMM仅仅是在登陆的时候会验证访客的IP地址，因此多了所谓直连的这一种途径。另外，DMM并不
+    
+    </summary>
+    
+      <category term="ACG" scheme="https://www.shintaku.cc/categories/ACG/"/>
+    
+      <category term="艦隊これくしょん" scheme="https://www.shintaku.cc/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/"/>
+    
+    
+      <category term="舰队Collection" scheme="https://www.shintaku.cc/tags/%E8%88%B0%E9%98%9FCollection/"/>
+    
+      <category term="游戏" scheme="https://www.shintaku.cc/tags/%E6%B8%B8%E6%88%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux上搭建Minecraft服务器</title>
+    <link href="https://www.shintaku.cc/2016/02/14/minecraft/"/>
+    <id>https://www.shintaku.cc/2016/02/14/minecraft/</id>
+    <published>2016-02-14T13:11:11.000Z</published>
+    <updated>2016-11-06T14:58:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>之前想在树莓派上搭建一个Minecraft服务器，但是只限于局域网内玩有点不爽，所以才想在VPS上开服。这个服务器的地址是<strong>mc.shintaku.cc</strong>，欢迎大家过来乱搞。</p>
+<h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><p>Minecraft是基于Java运行的，所以首先要安装Java环境：</p>
+<pre><code>yum install java
+</code></pre><p>好像比其他平台的安装简单得多。然后为了让Minecraft在后台运行而不受终端操作的干扰，要装一个screen：</p>
+<pre><code>yum install screen
+</code></pre><h1 id="启动游戏"><a href="#启动游戏" class="headerlink" title="启动游戏"></a>启动游戏</h1><p>因为最开始要安装到树莓派上，硬件资源有限，所以这里介绍一个叫<a href="https://www.spigotmc.org/" target="_blank" rel="external">SpigotMC</a>的轻量级MC服务器端，是Bukkit的优化版，但是可能游戏中有些材质无法使用。由于某些原因论坛上不提供编译好的jar包下载，所以我找了一个1.7和1.8通用版本的放到服务器上：</p>
+<pre><code>wget https://www.shintaku.cc/files/spigot.jar
+</code></pre><p>新建一个目录将spigot.jar放进去，然后用以下命令启动：</p>
+<pre><code>java -Xms256M -Xmx512M -jar spigot.jar nogui
+</code></pre><p>后来发现<a href="https://minecraft.net/en/download/server" target="_blank" rel="external">微软官网</a>有了服务器版的下载，所以服务器配置足够好的话运行这个也是没有问题的，同样是先下载对应的版本：</p>
+<pre><code>wget https://s3.amazonaws.com/Minecraft.Download/versions/1.8.9/minecraft_server.1.8.9.jar
+</code></pre><p>地址里改成需要下载的版本号就可以了，启动命令相同：</p>
+<pre><code>java -Xms256M -Xmx512M -jar minecraft_server.1.8.9.jar nogui
+</code></pre><p>其中前两个参数是指定MC运行的内存范围，然后会出现一系列启动信息，最后就是<code>Stopping server</code>。    </p>
+<h1 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h1><p>启动之后MC的目录下会生成一些其他的文件，先编辑<code>eula.txt</code>，将<code>eula</code>的值改为<code>true</code>：</p>
+<pre><code>eula=true
+</code></pre><p>然后编辑<code>server.properties</code>，开始里面应除了一些注释没有其他内容，将以下内容加进去：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="attr">generator-settings</span>=                 #用于设置超平坦世界的函数，留空即可</div><div class="line"><span class="attr">op-permission-level</span>=<span class="number">4</span>               #设置OP的许可权等级</div><div class="line"><span class="attr">allow-nether</span>=<span class="literal">true</span>                   #是否允许生成/进入下界</div><div class="line"><span class="attr">level-name</span>=world                    #世界名称及其文件夹名</div><div class="line"><span class="attr">enable-query</span>=<span class="literal">false</span>                  #允许使用GameSpy4协议的服务器监听器</div><div class="line"><span class="attr">allow-flight</span>=<span class="literal">false</span>                  #是否允许玩家在生存模式透过MOD飞行</div><div class="line"><span class="attr">announce-player-achievements</span>=<span class="literal">true</span>   #是否公开显示玩家成就</div><div class="line"><span class="attr">server-port</span>=<span class="number">25565</span>                   #服务器端口（默认为<span class="number">25565</span>）</div><div class="line"><span class="attr">level-type</span>=DEFAULT                  #世界类型</div><div class="line"><span class="attr">enable-rcon</span>=<span class="literal">false</span>                   #是否允许远程访问服务器仪表盘</div><div class="line"><span class="attr">level-seed</span>=                         #世界种子</div><div class="line"><span class="attr">force-gamemode</span>=<span class="literal">false</span>                #玩家是否总是以默认游戏模式进入服务器</div><div class="line"><span class="attr">server-ip</span>=                          #服务器IP，一般来说留空即可</div><div class="line"><span class="attr">max-build-height</span>=<span class="number">256</span>                #最高建筑高度（最高<span class="number">256</span>）</div><div class="line"><span class="attr">spawn-npcs</span>=<span class="literal">true</span>                     #是否生成村民NPC</div><div class="line"><span class="attr">white-list</span>=<span class="literal">false</span>                    #是否开启白名单认证</div><div class="line"><span class="attr">spawn-animals</span>=<span class="literal">true</span>                  #是否生成动物</div><div class="line"><span class="attr">hardcore</span>=<span class="literal">false</span>                      #是否开启极限模式</div><div class="line"><span class="attr">snooper-enabled</span>=<span class="literal">true</span>                #是否允许服务器定期发送统计数据</div><div class="line"><span class="attr">online-mode</span>=<span class="literal">false</span>                   #是否开启正版认证（开启后只有正版玩家可进入）</div><div class="line"><span class="attr">resource-pack</span>=                      #资源包URL（可让玩家选择是否使用服务器提供的资源包）</div><div class="line"><span class="attr">pvp</span>=<span class="literal">true</span>                            #可否PVP</div><div class="line"><span class="attr">difficulty</span>=<span class="number">1</span>                        #难度</div><div class="line"><span class="attr">enable-command-block</span>=<span class="literal">false</span>          #是否可以使用命令方块</div><div class="line"><span class="attr">gamemode</span>=<span class="number">0</span>                          #默认游戏模式</div><div class="line"><span class="attr">player-idle-timeout</span>=<span class="number">0</span>               #如果该玩家无反应超过这个分钟数将会被踢出</div><div class="line"><span class="attr">max-players</span>=<span class="number">20</span>                      #最大玩家数量</div><div class="line"><span class="attr">spawn-monsters</span>=<span class="literal">true</span>                 #是否生成怪物</div><div class="line"><span class="attr">generate-structures</span>=<span class="literal">true</span>            #是否生成建筑物</div><div class="line"><span class="attr">view-distance</span>=<span class="number">10</span>                    #客户端视野距离的上限</div><div class="line"><span class="attr">motd</span>=A Minecraft Server             #服务器在服务器列表页所显示的信息</div></pre></td></tr></table></figure>
+<p>可以按照注释自己进行修改，注意如果没有购买正版需要将<code>online-mode</code>一项改为<code>false</code>。</p>
+<p>一切完成后新开一个screen来启动MC：</p>
+<pre><code>screen -S mc
+</code></pre><p>这时相当于进入一个新终端，<code>mc</code>是这个screen的名字。在里面继续执行之前的java启动命令就可以正常启动游戏了。在screen中只要按下<code>Ctrl+A</code>再按下<code>Ctrl+D</code>就可以回到原来的终端了。再想进入这个screen的话运行<code>screen -r mc</code>就可以了。想要停止游戏的话输入<code>stop</code>就可以了。</p>
+<p>然后在本地启动游戏，选多人游戏并输入服务器地址就能连接了。</p>
+<p>另外附上基本的OP命令，就可以方便地管(zhuō)理(nòng)其他玩家了：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line">/achievement &lt;give|take&gt; &lt;stat_name|*&gt; [player]</div><div class="line">/ban &lt;name&gt; [reason ...]</div><div class="line">/ban-ip &lt;address|name&gt; [reason ...]</div><div class="line">/banlist [ips|players]</div><div class="line">/blockdata &lt;x&gt; &lt;y&gt; &lt;z&gt; &lt;dataTag&gt;</div><div class="line">/clear [player] [item] [data] [maxCount] [dataTag]</div><div class="line">/clone &lt;x1&gt; &lt;y1&gt; &lt;z1&gt; &lt;x2&gt; &lt;y2&gt; &lt;z2&gt; &lt;x&gt; &lt;y&gt; &lt;z&gt; [maskMode] [cloneMode]</div><div class="line">/debug &lt;start|stop&gt;</div><div class="line">/defaultgamemode &lt;mode&gt;</div><div class="line">/deop &lt;player&gt;</div><div class="line">/difficulty &lt;new difficulty&gt;</div><div class="line">/effect &lt;player&gt; &lt;effect&gt; [seconds] [amplifier] [hideParticles] OR /effect &lt;player&gt; clear</div><div class="line">/enchant &lt;player&gt; &lt;enchantment ID&gt; [level]</div><div class="line">/entitydata &lt;entity&gt; &lt;dataTag&gt;</div><div class="line">/execute &lt;entity&gt; &lt;x&gt; &lt;y&gt; &lt;z&gt; &lt;command&gt; OR /execute &lt;entity&gt; &lt;x&gt; &lt;y&gt; &lt;z&gt; detect &lt;x&gt; &lt;y&gt; &lt;z&gt; &lt;block&gt; &lt;data&gt; &lt;command&gt;</div><div class="line">/fill &lt;x1&gt; &lt;y1&gt; &lt;z1&gt; &lt;x2&gt; &lt;y2&gt; &lt;z2&gt; &lt;TileName&gt; [dataValue] [oldBlockHandling] [dataTag]</div><div class="line">/gamemode &lt;mode&gt; [player]</div><div class="line">/gamerule &lt;rule name&gt; [value]</div><div class="line">/give &lt;player&gt; &lt;item&gt; [amount] [data] [dataTag]</div><div class="line">/help [page|command name]</div><div class="line">/kick &lt;player&gt; [reason ...]</div><div class="line">/kill [player|entity]</div><div class="line">/list</div><div class="line">/me &lt;action ...&gt;</div><div class="line">/op &lt;player&gt;</div><div class="line">/pardon &lt;name&gt;</div><div class="line">/pardon-ip &lt;address&gt;</div><div class="line">/particle &lt;name&gt; &lt;x&gt; &lt;y&gt; &lt;z&gt; &lt;xd&gt; &lt;yd&gt; &lt;zd&gt; &lt;speed&gt; [count] [mode]</div><div class="line">/playsound &lt;sound&gt; &lt;player&gt; [x] [y] [z] [volume] [pitch] [minimumVolume]</div><div class="line">/replaceitem &lt;entity|block&gt; ...</div><div class="line">/save-all</div><div class="line">/save-off</div><div class="line">/save-on</div><div class="line">/say &lt;message ...&gt;</div><div class="line">/scoreboard &lt;objectives|players|teams&gt; ...</div><div class="line">/seed</div><div class="line">/setblock &lt;x&gt; &lt;y&gt; &lt;z&gt; &lt;TileName&gt; [dataValue] [oldBlockHandling] [dataTag]</div><div class="line">/setidletimeout &lt;Minutes until kick&gt;</div><div class="line">/setworldspawn [&lt;x&gt; &lt;y&gt; &lt;z&gt;]</div><div class="line">/spawnpoint [player] [&lt;x&gt; &lt;y&gt; &lt;z&gt;]</div><div class="line">/spreadplayers &lt;x&gt; &lt;z&gt; &lt;spreadDistance&gt; &lt;maxRange&gt; &lt;respectTeams true|false&gt; &lt;player ...&gt;</div><div class="line">/stats &lt;entity|block&gt; ...</div><div class="line">/stop</div><div class="line">/summon &lt;EntityName&gt; [x] [y] [z] [dataTag]</div><div class="line">/tell &lt;player&gt; &lt;private message ...&gt;</div><div class="line">/tellraw &lt;player&gt; &lt;raw json message&gt;</div><div class="line">/testfor &lt;player&gt; [dataTag]</div><div class="line">/testforblock &lt;x&gt; &lt;y&gt; &lt;z&gt; &lt;TileName&gt; [dataValue] [dataTag]</div><div class="line">/testforblocks &lt;x1&gt; &lt;y1&gt; &lt;z1&gt; &lt;x2&gt; &lt;y2&gt; &lt;z2&gt; &lt;x&gt; &lt;y&gt; &lt;z&gt; [mode]</div><div class="line">/time &lt;set|add|query&gt; &lt;value&gt;</div><div class="line">/title &lt;player&gt; &lt;title|subtitle|clear|reset|times&gt; ...</div><div class="line">/toggledownfall</div><div class="line">/tp [target player] &lt;destination player&gt; OR /tp [target player] &lt;x&gt; &lt;y&gt; &lt;z&gt; [&lt;y-rot&gt; &lt;x-rot&gt;]</div><div class="line">/trigger &lt;objective&gt; &lt;add|set&gt; &lt;value&gt;</div><div class="line">/weather &lt;clear|rain|thunder&gt; [duration in seconds]</div><div class="line">/whitelist &lt;on|off|list|add|remove|reload&gt;</div><div class="line">/worldborder &lt;set|center|damage|warning|get|add&gt; ...</div><div class="line">/xp &lt;amount&gt; [player] OR /xp &lt;amount&gt;L [player]</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;之前想在树莓派上搭建一个Minecraft服务器，但是只限于局域网内玩有点不爽，所以才想在VPS上开服。这个服务器的地址是&lt;strong&gt;mc.shintaku.cc&lt;/strong&gt;，欢迎大家过来乱搞。&lt;/p&gt;
+&lt;h1 id=&quot;环境配置&quot;&gt;&lt;a href=&quot;#环境配置&quot; 
+    
+    </summary>
+    
+      <category term="ACG" scheme="https://www.shintaku.cc/categories/ACG/"/>
+    
+      <category term="Minecraft" scheme="https://www.shintaku.cc/categories/ACG/Minecraft/"/>
+    
+    
+      <category term="Linux" scheme="https://www.shintaku.cc/tags/Linux/"/>
+    
+      <category term="Minecraft" scheme="https://www.shintaku.cc/tags/Minecraft/"/>
+    
+      <category term="服务器" scheme="https://www.shintaku.cc/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+      <category term="游戏" scheme="https://www.shintaku.cc/tags/%E6%B8%B8%E6%88%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SoftEther VPN的搭建与连接</title>
+    <link href="https://www.shintaku.cc/2016/01/24/softether/"/>
+    <id>https://www.shintaku.cc/2016/01/24/softether/</id>
+    <published>2016-01-24T15:33:33.000Z</published>
+    <updated>2016-11-06T15:01:30.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>虚拟专用网（<strong>VPN</strong>），是一种常用于连接中、大型企业或团体与团体间的私人网络的通讯方法。虚拟私人网络的讯息透过公用的网络架构来传送内联网的网络讯息。它利用已加密的通道协议来达到保密、发送端认证、消息准确性等私人消息安全效果。这种技术可以用不安全的网络来发送可靠、安全的消息。可以用通俗的例子来解释这件事情：</p>
+<blockquote>
+<p>FFF国的小张和小王是<em>异地双性恋</em>，他们之间经常互通情书。但是FFF国有一个规定，就是异性青少年不能互通信件，否则就要被双双烧死。于是这对情侣就拜托他们的父亲老张和<del>隔壁</del>老王代为收发信件：小张和小王写完信后各自放在信封中封好，信封上分别写上<code>小王亲启</code>和<code>小张亲启</code>，然后分别交给他们的父亲，老张和老王把信封又装进一个大信封中，上面分别写上<code>老王收</code>和<code>老张收</code>再寄出。自然之后老张和老王会收到信件，拆开大信封后发现不是给自己的就转交给自己的孩子，这对情侣就这样达到了通信目的。</p>
+</blockquote>
+<p>看了VPN的原理，我们很容易想到可以用这种方式来科学上网。我们虽然不能直接和被墙的网站通讯，但我们可以通过VPN的方式躲过GFW的追杀。</p>
+<p><a href="https://www.softether.org/" target="_blank" rel="external">SoftEther VPN</a>是由日本筑波大学的<a href="http://dnobori.cs.tsukuba.ac.jp/en/" target="_blank" rel="external">登 大遊</a>在硕士论文中提出的开源、跨平台、多重协议的虚拟专用网方案，是专门为穿过防火墙而设计的。我们可以用它在自己的VPS上搭建一个简单的VPN来使用。</p>
+<h1 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h1><h2 id="下载解压"><a href="#下载解压" class="headerlink" title="下载解压"></a>下载解压</h2><p>首先要在服务器上下载并解压安装文件，一定注意是32位还是64位（可通过<code>uname -a</code>命令查看）。<br>32位系统：</p>
+<pre><code>wget http://jp.softether-download.com/files/softether/v4.20-9608-rtm-2016.04.17-tree/Linux/SoftEther_VPN_Server/32bit_-_Intel_x86/softether-vpnserver-v4.20-9608-rtm-2016.04.17-linux-x86-32bit.tar.gz
+</code></pre><p>64位系统：</p>
+<pre><code>wget http://jp.softether-download.com/files/softether/v4.20-9608-rtm-2016.04.17-tree/Linux/SoftEther_VPN_Server/64bit_-_Intel_x64_or_AMD64/softether-vpnserver-v4.20-9608-rtm-2016.04.17-linux-x64-64bit.tar.gz
+</code></pre><p>以上为截止发布本文时的最新版本，建议从<a href="http://www.softether-download.com/en.aspx?product=softether" target="_blank" rel="external">SoftEther官方网站</a>获取最新版本。</p>
+<h2 id="安装启动"><a href="#安装启动" class="headerlink" title="安装启动"></a>安装启动</h2><p>先解压（建议装到<code>/usr/local</code>下）：</p>
+<pre><code>tar -zxvf softether-vpnserver-*.tar.gz
+</code></pre><p><code>cd vpnserver</code>进入到解压目录下并启动安装脚本<code>./.install.sh</code>：</p>
+<pre><code>--------------------------------------------------------------------
+
+SoftEther VPN Server (Ver 4.20, Build 9608, Intel x64 / AMD64) for Linux Install Utility
+Copyright (c) SoftEther Project at University of Tsukuba, Japan. All Rights Reserved.
+
+--------------------------------------------------------------------
+
+
+Do you want to read the License Agreement for this software ?
+
+ 1. Yes
+ 2. No
+
+Please choose one of above number:
+</code></pre><p>认识不认识字至少读一读，之后会出现一堆License，然后问你看懂了没：</p>
+<pre><code>Did you read and understand the License Agreement ?
+(If you couldn&apos;t read above text, Please read &apos;ReadMeFirst_License.txt&apos; file with any text editor.)
+
+ 1. Yes
+ 2. No
+
+Please choose one of above number:
+</code></pre><p>当然没看懂也要说看懂了，然后又问你同不同意：</p>
+<pre><code>Did you agree the License Agreement ?
+
+1. Agree
+2. Do Not Agree
+
+Please choose one of above number:
+</code></pre><p>不同意就不要用了。如果提示不识别某些命令比如<code>gcc</code>，另行安装即可。如果没有异常则说明安装成功，执行<code>./vpnserver start</code>启动服务。同理<code>./vpnserver stop</code>停止服务。</p>
+<p>在CentOS7以后可以用systemd启动vpnserver，先新建启动脚本<code>/etc/systemd/system/vpnserver.service</code>：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="section">[Unit]</span></div><div class="line"><span class="attr">Description</span>=SoftEther VPN Server</div><div class="line"><span class="attr">After</span>=network.target</div><div class="line"><span class="section"></span></div><div class="line">[Service]</div><div class="line"><span class="attr">Type</span>=forking</div><div class="line"><span class="attr">ExecStart</span>=/usr/local/vpnserver/vpnserver start</div><div class="line"><span class="attr">ExecStop</span>=/usr/local/vpnserver/vpnserver stop</div><div class="line"><span class="section"></span></div><div class="line">[Install]</div><div class="line"><span class="attr">WantedBy</span>=multi-user.target</div></pre></td></tr></table></figure>
+<p>然后就可以通过<code>systemctl start vpnserver</code>启动了，并通过<code>systemctl enable vpnserver</code>设置开机自启。</p>
+<h2 id="设置密码"><a href="#设置密码" class="headerlink" title="设置密码"></a>设置密码</h2><p>启动成功后我们需要设置远程登录密码以便本地管理服务。运行<code>./vpncmd</code>进入VPN的命令行：</p>
+<pre><code>vpncmd command - SoftEther VPN Command Line Management Utility
+SoftEther VPN Command Line Management Utility (vpncmd command)
+Version 4.20 Build 9608   (English)
+Compiled 2016/04/17 21:59:35 by yagi at pc30
+Copyright (c) SoftEther VPN Project. All Rights Reserved.
+
+By using vpncmd program, the following can be achieved.
+
+1. Management of VPN Server or VPN Bridge
+2. Management of VPN Client
+3. Use of VPN Tools (certificate creation and Network Traffic Speed Test Tool)
+
+Select 1, 2 or 3:
+</code></pre><p>这里我们选择1，然后出现：</p>
+<pre><code>Specify the host name or IP address of the computer that the destination VPN Server or VPN Bridge is operating on.
+By specifying according to the format &apos;host name:port number&apos;, you can also specify the port number.
+(When the port number is unspecified, 443 is used.)
+If nothing is input and the Enter key is pressed, the connection will be made to the port number 8888 of localhost (this computer).
+Hostname of IP Address of Destination:
+</code></pre><p>这里需要选择地址和端口。由于这台VPS我搭了一个网站，用了SSL占用了443端口，所以默认的443端口是用不了了，所以一定要改。我改用了5555端口，所以在这里输入<code>localhost:5555</code>，然后出现：</p>
+<pre><code>If connecting to the server by Virtual Hub Admin Mode, please input the Virtual Hub name.
+If connecting by server admin mode, please press Enter without inputting anything.
+Specify Virtual Hub Name:
+</code></pre><p>这里就是指定一个虚拟HUB名字，用默认的直接回车就行。</p>
+<pre><code>Connection has been established with VPN Server &quot;localhost&quot; (port 5555).
+
+You have administrator privileges for the entire VPN Server.
+
+VPN Server&gt;
+</code></pre><p>这时我们需要输入<code>ServerPasswordSet</code>命令设置远程管理密码，确认密码后就可以通过Windows版的<code>SoftEther VPN Server Manager</code>远程管理了。</p>
+<h1 id="VPN管理"><a href="#VPN管理" class="headerlink" title="VPN管理"></a>VPN管理</h1><p>首先下载并安装<a href="http://softether-download.com/en.aspx" target="_blank" rel="external">SoftEther VPN Server Manager</a>（居然最近移植了Mac版），其实只用到了管理工具：</p>
+<p><img src="/img/vpnsetup.png" alt="Setup Wizard"></p>
+<p>安装之后运行它：</p>
+<p><img src="/img/vpnnew.png" alt="Server Manager"></p>
+<p>在这里点<code>新建</code>：</p>
+<p><img src="/img/vpnset.png" alt="New Connection Setting"></p>
+<p><code>Host Name</code>填服务器的地址或域名，端口如果之前改过了在这也记得改过来，右下角的密码填之前设置过的密码。新建完成后<code>Connect</code>就会弹出<code>Easy Setup</code>窗口（如果提示连不上请检查一下服务器的防火墙设置）：</p>
+<p><img src="/img/vpneasy.png" alt="Easy Setup"></p>
+<p>这里在第一个<code>远程连接</code>挑钩然后下一步即可，虚拟HUB名像之前一样默认就好。</p>
+<p>然后会弹出一个<code>动态DNS功能</code>的窗口，由于不能确定它给的域名是不是被墙了，我们就不去用它，把这个窗口关了就行了。</p>
+<p>之后会有一个协议设置的窗口：</p>
+<p><img src="/img/vpnl2tp.png" alt="IPsec/L2TP/EtherIP/L2TPv3 Server Settings"></p>
+<p>这里把<code>启用L2TP</code>挑上钩，下面设置一个<code>IPsec预共享密钥</code>就行了。</p>
+<p>之后又会弹出一个<code>VPN Azure Cloud</code>服务的窗口，感觉没什么用，禁用了就行了。即使有用以后也可以再启用。</p>
+<p>接下来要新建用户：</p>
+<p><img src="/img/vpnuser.png" alt="Create New User"></p>
+<p>其中用户名是必填的，验证类型选密码验证就行，然后在右侧设置用户密码。</p>
+<p><img src="/img/vpnmanager.png" alt="Server Manager"></p>
+<p>之后回到管理界面，点<code>管理虚拟HUB</code>：</p>
+<p><img src="/img/vpnhub.png" alt="Virtual Hub"></p>
+<p>这里也可以继续添加新用户。点<code>虚拟NAT和虚拟DHCP服务器</code>，弹出窗口：</p>
+<p><img src="/img/vpnvirtual.png" alt="Virtual NAT &amp; Virtual DHCP"></p>
+<p>在里面<code>启用SecureNAT</code>并点<code>SecureNAT配置</code>：</p>
+<p><img src="/img/vpnnat.png" alt="SecureNAT Configration"></p>
+<p>注意DNS要改为<code>8.8.8.8</code>和<code>8.8.4.4</code>。这里就算配置完毕。然后顺便生成一下<strong>OpenVPN</strong>的配置文件，点<code>OpenVPN / MS-SSTP Setting</code>：</p>
+<p><img src="/img/vpnopen.png" alt="Server Manager"></p>
+<p>然后点击新窗口中部的按钮生成配置文件：</p>
+<p><img src="/img/vpnovpn.png" alt="OpenVPN / MS-SSTP Setting"></p>
+<p>打开导出的压缩包会看到里面有两个<code>.ovpn</code>文件，一般我们要用到<code>*_openvpn_remote_access_l3.ovpn</code>这个文件，因为我们是通过IPv4地址管理的VPN，所以这个配置文件里的<code>remote</code>一项会是IPv4地址，如果需要使用IPv6的VPN就将其替换为相应的IPv6地址即可。</p>
+<h1 id="本地连接"><a href="#本地连接" class="headerlink" title="本地连接"></a>本地连接</h1><h2 id="IPv4"><a href="#IPv4" class="headerlink" title="IPv4"></a>IPv4</h2><p>这里只说电脑设备，移动的设备的话配置方法类似。</p>
+<h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><p>首先到<code>网络和共享中心</code>里新建一个网络连接：</p>
+<p><img src="/img/vpnwin1.png" alt="Set Up a Connection or Network"></p>
+<p>选择<code>连接到工作区</code>    。</p>
+<p><img src="/img/vpnwin2.png" alt="Connect to a Workplace"></p>
+<p>这里当然要选VPN咯。</p>
+<p><img src="/img/vpnwin3.png" alt="Connect to a Workplace"></p>
+<p>然后在地址栏里填上服务器地址或域名。配置完成后打开<code>更改适配器设置</code>：</p>
+<p><img src="/img/vpnwin4.png" alt="Network Connections"></p>
+<p>打开VPN连接的属性：</p>
+<p><img src="/img/vpnwin5.png" alt="Properties"></p>
+<p>在<code>安全</code>选项卡里将<code>VPN类型</code>改为<code>L2TP</code>，然后点高级设置：</p>
+<p><img src="/img/vpnwin6.png" alt="Advanced Properties"></p>
+<p>在里面选上使用预共享密钥并把之前设置的密钥填进去。</p>
+<p><img src="/img/vpnwin7.png" alt="Sign in"></p>
+<p>之后在VPN连接里把用户名和密码填进去就可以连上了。</p>
+<h3 id="Mac-OS-X"><a href="#Mac-OS-X" class="headerlink" title="Mac OS X"></a>Mac OS X</h3><p>在网络配置里新建网络连接：</p>
+<p><img src="/img/vpnmac1.png" alt="Network Preferences"></p>
+<p>接口选<code>VPN</code>，VPN类型选<code>L2TP over IPSec</code>，创建即可。</p>
+<p><img src="/img/vpnmac2.png" alt="Network Preferences"></p>
+<p>然后在地址栏填服务器地址或域名，下面的账户名称填之前新建的用户名，然后点下面的<code>认证设置</code>：</p>
+<p><img src="/img/vpnmac3.png" alt="Network Preferences"></p>
+<p>密码中填上面用户的密码，共享密钥填之前设置的预共享密钥，保存并连接即可。</p>
+<h2 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h2><p>因为有使用教育网通过IPv6的需求，这里也说一下IPv6的连接方法。</p>
+<h3 id="移动设备"><a href="#移动设备" class="headerlink" title="移动设备"></a>移动设备</h3><p>iOS的应用商店里有OpenVPN的客户端，但由于软件的特殊性，中国应用商店里已经下架了，所以通过什么渠道安装请自己想办法。</p>
+<p>如果你的Android设备支持IPv6网络的话，Play Store里也有OpenVPN的客户端下载，也可以搜一个apk自己装。</p>
+<p><img src="/img/vpnopenvpn.png" alt="OpenVPN"></p>
+<p>上述设备安装好客户端以后，将之前生成的<code>.ovpn</code>文件传到设备中，用OpenVPN打开即可，之后还会需要输入之前设置的用户名密码之类的，这里不再赘述。</p>
+<h3 id="macOS"><a href="#macOS" class="headerlink" title="macOS"></a>macOS</h3><p>因为没有找到Mac上的OpenVPN客户端，所以使用了一个叫做<strong>Tunnelblick</strong>的App，功能类似。</p>
+<p><img src="/img/vpntunnel.png" alt="Tunnelblick"></p>
+<p>到<a href="https://tunnelblick.net/downloads.html" target="_blank" rel="external">Tunnelblick官网</a>下载后，同样将<code>.ovpn</code>文件用它打开就可以了，输入用户名密码后就连上了。</p>
+<h3 id="Windows-1"><a href="#Windows-1" class="headerlink" title="Windows"></a>Windows</h3><p>从理论上讲IPv6的VPN用Windows自带的VPN连接就可以（同IPv4），把地址变一下就可以了。如果遇到不能连接的情况也可以试一下OpenVPN的Windows版，去<a href="https://openvpn.net/index.php/open-source/downloads.html" target="_blank" rel="external">OpenVPN官网</a>下载即可。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;虚拟专用网（&lt;strong&gt;VPN&lt;/strong&gt;），是一种常用于连接中、大型企业或团体与团体间的私人网络的通讯方法。虚拟私人网络的讯息透过公用的网络架构来传送内联网的网络讯息。它利用已加密的通道协议来达到保密、发送端认证、消息准确性等私人消息安全效果。这种技术可以用不安
+    
+    </summary>
+    
+      <category term="网络" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="科学上网" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    
+    
+      <category term="科学上网" scheme="https://www.shintaku.cc/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    
+      <category term="Linux" scheme="https://www.shintaku.cc/tags/Linux/"/>
+    
+      <category term="VPS" scheme="https://www.shintaku.cc/tags/VPS/"/>
+    
+      <category term="服务器" scheme="https://www.shintaku.cc/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+      <category term="代理" scheme="https://www.shintaku.cc/tags/%E4%BB%A3%E7%90%86/"/>
+    
+      <category term="SoftEther" scheme="https://www.shintaku.cc/tags/SoftEther/"/>
+    
+      <category term="VPN" scheme="https://www.shintaku.cc/tags/VPN/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SSL证书的申请与配置</title>
+    <link href="https://www.shintaku.cc/2015/12/30/ssl/"/>
+    <id>https://www.shintaku.cc/2015/12/30/ssl/</id>
+    <published>2015-12-30T15:33:33.000Z</published>
+    <updated>2016-11-06T15:01:57.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>超文本传输安全协议（HTTPS）是一种网络安全传输协议。在计算机网络上，HTTPS经由超文本传输协议进行通讯，但利用SSL/TLS来对数据包进行加密。HTTPS开发的主要目的，是提供对网络服务器的身份认证，保护交换数据的隐私与完整性。</p>
+<p>如今越来越多的个人网站使用HTTPS协议，所以感觉自己的网站不装这么一个逼就落伍了。看着自己的主页地址栏前面有一个绿色的<code>https</code>也感觉安全了许多<del>虽然并没有什么卵用</del>。</p>
+<h1 id="申请证书"><a href="#申请证书" class="headerlink" title="申请证书"></a>申请证书</h1><p>要使用HTTPS协议首先要有一个值得信任的证书颁发机构给你的网站颁发的证书。目前免费的SSL证书颁发机构有很多，本文以从<strong>沃通</strong>上申请证书为例。</p>
+<h2 id="填写信息"><a href="#填写信息" class="headerlink" title="填写信息"></a>填写信息</h2><p>首先到<a href="https://buy.wosign.com/free/" target="_blank" rel="external">沃通官网</a>注册账号并登录。</p>
+<p>然后会出现以下界面：</p>
+<p><img src="/img/ssl1.png" alt="填写信息"></p>
+<p>单次申请支持1个证书5个域名2年期限，证书可选中英文，提交就好了。</p>
+<h2 id="验证域名"><a href="#验证域名" class="headerlink" title="验证域名"></a>验证域名</h2><p>签发机构需要验证域名的所有者，可以通过域名邮箱验证，也可以将指定信息放到网站上让其扫描以验证：</p>
+<p><img src="/img/ssl2.png" alt="验证域名"></p>
+<p>如果没有域名邮箱，将指定的html文件下载下来上传到服务器上网站的根目录下然后点下面的验证就可以了。</p>
+<h2 id="生成签名"><a href="#生成签名" class="headerlink" title="生成签名"></a>生成签名</h2><p>到订单里选择签名生成方式，可以选择第一种方式系统自动生成，设置密码：</p>
+<p><img src="/img/ssl3.png" alt="生成签名"></p>
+<p>这个密码是最后解压证书用的，所以要记好。</p>
+<h2 id="下载证书"><a href="#下载证书" class="headerlink" title="下载证书"></a>下载证书</h2><p>之后会弹出证书的下载链接，如果没有可以稍等片刻去订单里Get Cert，或者等待邮箱收到链接，输入刚才设置的密码就可下载压缩包了：</p>
+<p><img src="/img/ssl4.png" alt="下载证书"></p>
+<h1 id="部署证书"><a href="#部署证书" class="headerlink" title="部署证书"></a>部署证书</h1><p>通过之前设置的密码解压压缩包，里面有各种服务器的证书，解压自己所用的服务器对应的证书即可。本文以<code>Nginx</code>服务器为例。</p>
+<h2 id="上传证书"><a href="#上传证书" class="headerlink" title="上传证书"></a>上传证书</h2><p>解压后里面有一个<code>.crt</code>文件和一个<code>.key</code>文件，将它们上传到服务器上：</p>
+<pre><code>scp 1_your_domain_bundle.crt remote_username@remote_host:/usr/share/nginx/
+scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
+</code></pre><h2 id="监听端口"><a href="#监听端口" class="headerlink" title="监听端口"></a>监听端口</h2><p>一般HTTPS使用443端口，因此要编辑<code>/etc/nginx/conf.d</code>下的<code>ssl.conf</code>文件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen       443;</div><div class="line">    server_name  your_domain;</div><div class="line"></div><div class="line">    ssl                  on;</div><div class="line">    ssl_certificate      /usr/share/nginx/1_your_domain_bundle.crt;</div><div class="line">    ssl_certificate_key  /usr/share/nginx/2_your_domain.key;</div><div class="line"></div><div class="line">    ssl_session_timeout  5m;</div><div class="line"></div><div class="line">    ssl_protocols  SSLv2 SSLv3 TLSv1;</div><div class="line">    ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;</div><div class="line">    ssl_prefer_server_ciphers   on;</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">        root   /usr/share/nginx/www;</div><div class="line">        index  index.html index.htm;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>解开注释并将证书文件路径写进去保存，然后运行<code>nginx -s reload</code>重新加载配置文件即可。</p>
+<h2 id="强制跳转"><a href="#强制跳转" class="headerlink" title="强制跳转"></a>强制跳转</h2><p>经过之前的配置必须在地址里写上<code>https</code>才会跳转到HTTPS域名，不然还是会跳转到HTTP的。</p>
+<p>所以还要编辑<code>/etc/nginx/conf.d</code>下的<code>default.conf</code>文件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen       80 default_server;</div><div class="line">    server_name  your_domain;</div><div class="line">    <span class="built_in">return</span> 301 https://<span class="variable">$server_name</span><span class="variable">$request_uri</span>;        </div><div class="line"></div><div class="line">    include /etc/nginx/default.d/*.conf;</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">        root   /usr/share/nginx/www;</div><div class="line">        index  index.html index.htm;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在<code>server_name</code>下面加一个301跳转就能强制跳转到<code>https</code>了。</p>
+<p>保存后运行<code>nginx -s reload</code>重新加载配置文件就搞定了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;超文本传输安全协议（HTTPS）是一种网络安全传输协议。在计算机网络上，HTTPS经由超文本传输协议进行通讯，但利用SSL/TLS来对数据包进行加密。HTTPS开发的主要目的，是提供对网络服务器的身份认证，保护交换数据的隐私与完整性。&lt;/p&gt;
+&lt;p&gt;如今越来越多的个人网站使
+    
+    </summary>
+    
+      <category term="网络" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="网站部署" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/"/>
+    
+    
+      <category term="VPS" scheme="https://www.shintaku.cc/tags/VPS/"/>
+    
+      <category term="Nginx" scheme="https://www.shintaku.cc/tags/Nginx/"/>
+    
+      <category term="服务器" scheme="https://www.shintaku.cc/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+      <category term="SSL" scheme="https://www.shintaku.cc/tags/SSL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用dd命令制作启动盘</title>
+    <link href="https://www.shintaku.cc/2015/12/21/dd/"/>
+    <id>https://www.shintaku.cc/2015/12/21/dd/</id>
+    <published>2015-12-21T13:11:11.000Z</published>
+    <updated>2016-11-06T14:42:29.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>双十二期间因为有十几块钱的代金券用不出去剁手了一个<strong>树莓派2代</strong><del>为了二两醋买一斤螃蟹</del>。货到了以后就要往micro SD卡里装一个系统。之前用Windows的时候一直用软碟通往U盘之类的介质中写入镜像文件，换了rMBP之后还没干过这类事，所以一时摸不着头脑。后来发现有<code>dd</code>这样一个命令可以用来制作启动盘。</p>
+<p>在Unix上，硬件的设备驱动器和特殊设备文件就像普通文件一样，出现在文件系统中；只要在各自的驱动程序中实现了对应的功能，dd也可以读取或写入到这些文件。这样，dd也可以用在备份硬件的引导扇区、获取一定数量的随机数据等任务中。dd程序也可以在复制时处理数据，例如转换字节序、或在ASCII与EBCDIC编码间互换。</p>
+<h1 id="查询驱动器名"><a href="#查询驱动器名" class="headerlink" title="查询驱动器名"></a>查询驱动器名</h1><p>插入U盘或读卡器后首先需要知道其在当前系统下的驱动器名，可以使用<code>diskutil list</code>命令：</p>
+<pre><code>/dev/disk0 (internal, physical):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      GUID_partition_scheme                        *251.0 GB   disk0
+   1:                        EFI EFI                     209.7 MB   disk0s1
+   2:          Apple_CoreStorage Macintosh HD            250.1 GB   disk0s2
+   3:                 Apple_Boot Recovery HD             650.0 MB   disk0s3
+/dev/disk1 (internal, virtual):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:                  Apple_HFS Macintosh HD           +249.8 GB   disk1
+                             Logical Volume on disk0s2
+                             6507AD0A-D7FF-4641-AC5C-012CCD75AA23
+                             Unlocked Encrypted
+/dev/disk2 (external, physical):
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:     FDisk_partition_scheme                        *4.0 GB     disk2
+   1:                 DOS_FAT_32 UNTITLED                4.0 GB     disk2s1
+</code></pre><p>可以看到<code>disk0</code>当然是电脑的内置物理磁盘，<code>disk1</code>是内置虚拟磁盘，<code>disk2</code>才是要写入的U盘。然后通过<code>diskutil unmountDisk /dev/disk2</code>命令卸载刚才插入的驱动器，出现：</p>
+<pre><code>Unmount of all volumes on disk2 was successful
+</code></pre><p>说明卸载成功。</p>
+<h1 id="写入镜像文件"><a href="#写入镜像文件" class="headerlink" title="写入镜像文件"></a>写入镜像文件</h1><p>使用命令：</p>
+<pre><code>sudo dd if=disk_image_file of=/dev/rdisk2 bs=1m
+</code></pre><p>注意使用<code>sudo</code>，中间<code>of</code>参数中的盘符中记得改成<code>rdisk</code>（据我测试这里如果没加<code>r</code>写入过程会非常缓慢）。还有<code>bs</code>参数代表的是块大小<del>学过体系结构的都知道</del>，单位可以使用b、k、m、g等，默认是512字节，但不知道在这里不同大小会影响什么。</p>
+<p>写入成功后会返回一个报告：</p>
+<pre><code>501+1 records in
+501+1 records out
+526260224 bytes transferred in 82.961110 secs (6343457 bytes/sec)
+</code></pre><p>这里看到写入到一个2.0的U盘速度大概6兆/秒，如果上面<code>of</code>中没加<code>r</code>的话速度则不到1兆/秒：</p>
+<pre><code>526260224 bytes transferred in 552.306611 secs (952841 bytes/sec)
+</code></pre><p>到这里写入完成，使用<code>diskutil eject /dev/disk2</code>弹出驱动器即可，出现：</p>
+<pre><code>Disk /dev/disk2 ejected
+</code></pre><p>说明弹出成功，全部完成。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;双十二期间因为有十几块钱的代金券用不出去剁手了一个&lt;strong&gt;树莓派2代&lt;/strong&gt;&lt;del&gt;为了二两醋买一斤螃蟹&lt;/del&gt;。货到了以后就要往micro SD卡里装一个系统。之前用Windows的时候一直用软碟通往U盘之类的介质中写入镜像文件，换了rMBP之后还
+    
+    </summary>
+    
+      <category term="奇技淫巧" scheme="https://www.shintaku.cc/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    
+      <category term="＊nix" scheme="https://www.shintaku.cc/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/"/>
+    
+    
+      <category term="Linux" scheme="https://www.shintaku.cc/tags/Linux/"/>
+    
+      <category term="macOS" scheme="https://www.shintaku.cc/tags/macOS/"/>
+    
+      <category term="Unix" scheme="https://www.shintaku.cc/tags/Unix/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OpenWrt路由器的IPv6代理</title>
+    <link href="https://www.shintaku.cc/2015/12/15/6relayd/"/>
+    <id>https://www.shintaku.cc/2015/12/15/6relayd/</id>
+    <published>2015-12-15T07:15:15.000Z</published>
+    <updated>2016-11-06T14:40:41.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>之前本来是想用路由器获取IPv6地址并使用双栈连接的代理服务器访问互联网。虽然之前网件自己的固件是有<strong>穿透模式</strong>并可以获取v6地址，但是无法安装ShadowSocks，所以才刷成了OpenWrt。但是这个固件默认是没有<strong>穿透模式</strong>的，所以需要自己配一发。</p>
+<p>现在我们需要用到以下软件：</p>
+<ul>
+<li>shadowsocks-libev-spec</li>
+<li>luci-app-shadowsocks-spec</li>
+<li>6relayd</li>
+</ul>
+<h1 id="安装ShadowSocks"><a href="#安装ShadowSocks" class="headerlink" title="安装ShadowSocks"></a>安装ShadowSocks</h1><p>在OpenWrt上我们可以安装<code>shdowsocks-libev</code>版本，顺便搭配LuCI界面的<code>luci-app</code>使用，这个项目在<a href="https://sourceforge.net/projects/openwrt-dist/files/shadowsocks-libev/" target="_blank" rel="external">sourceforge</a>有发布，可以从这里下载最新的。如果被墙了也可以从我备份在服务器上的较老版本（注意软件所适配的架构是ar71xx）：</p>
+<pre><code>wget https://www.shintaku.cc/files/shadowsocks-libev-spec_2.4.6-1_ar71xx.ipk
+wget https://www.shintaku.cc/files/luci-app-shadowsocks-spec_1.4.0-1_all.ipk
+</code></pre><p>下载完成后使用<code>opkg</code>命令安装：</p>
+<pre><code>opkg install shadowsocks-libev-spec_2.4.6-1_ar71xx.ipk
+opkg install luci-app-shadowsocks-spec_1.4.0-1_all.ipk
+</code></pre><p>安装完成后<code>reboot</code>命令重启路由器，再次进入LuCI界面可以看到多了一个<code>Services</code>-<code>ShadowSocks</code>：</p>
+<p><img src="/img/opss.png" alt="ShadowSocks"></p>
+<p>就说明安装正确，在里面输入ShadowSocks服务器信息就可以自动代理了，凡是连上这台路由器的设备获取到的都是代理后的网络了。</p>
+<h1 id="安装6relayd"><a href="#安装6relayd" class="headerlink" title="安装6relayd"></a>安装6relayd</h1><p>由于现在即使通过代理上网也是消耗校内流量的，为了不走流量，我们只能借助IPv6网络。但是普通的路由器很少可以正常获取IPv6地址，即使路由器能获取到连接设备也很难获取，除了NETGEAR的部分路由器（包括WNR2200）的新版固件是有IPv6连接的，并且本人亲测使用<code>穿透模式</code>可以正常使用IPv6网络。所以我希望在OpenWrt上也能使用<code>穿透模式</code>，再通过ShadowSocks代理IPv6网络就可以免流量访问外网了。</p>
+<p>要使用<code>穿透模式</code>就少不了<a href="https://wiki.openwrt.org/doc/uci/6relayd" target="_blank" rel="external">6relayd</a>这个软件。可是官方源如今没提供这个包，于是可以获取我的备份并安装：</p>
+<pre><code>wget https://www.shintaku.cc/files/6relayd_2013-10-21_ar71xx.ipk
+opkg install 6relayd_2013-10-21_ar71xx.ipk
+</code></pre><p>安装完成之后编辑<code>/etc/config/6relayd</code>文件在默认配置后面加一组：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">config relay</div><div class="line">	option master   <span class="string">'wan'</span></div><div class="line">	option network  <span class="string">'lan'</span></div><div class="line">	option rd       <span class="string">'relay'</span></div><div class="line">	option dhcpv6   <span class="string">'relay'</span></div><div class="line">	option ndp      <span class="string">'relay'</span></div></pre></td></tr></table></figure>
+<p>保存后使用下面的命令开启服务并设置为开机启动即可：</p>
+<pre><code>/etc/init.d/6relayd start
+/etc/init.d/6relayd enable
+</code></pre><h1 id="配置路由器"><a href="#配置路由器" class="headerlink" title="配置路由器"></a>配置路由器</h1><p>现在要到LuCI界面下找到<code>Network</code>-<code>Interfaces</code>并添加一个新的接口：</p>
+<p><img src="/img/opnew.png" alt="Add new interface"></p>
+<p>接口名叫<code>wan6</code>，协议选择<code>DHCPv6 client</code>，接口自定义为<code>@wan</code>：</p>
+<p><img src="/img/opwan6.png" alt="wan6"></p>
+<p>保存应用后重启路由器，就会发现多了一个WAN6接口，并且WAN口获取到IPv6地址了：</p>
+<p><img src="/img/opipv6.png" alt="IPv6地址"></p>
+<p>这时回到ShadowSocks的配置界面，将服务器地址改为VPS的IPv6地址就可以了：</p>
+<p><img src="/img/opsss.png" alt="ShadowSocks设置"></p>
+<p>记得要开全局代理，因为毕竟PPPoE拨着号呢，<del>在校园网11月30日改革后有线网拨号后不用登录就能上网让我很慌啊，路由器一直连着网终归是有偷跑流量的风险，所以打开IPv6全局代理最为保险，使得能通过代理的IPv6网络可以使用而IPv4网络因为通不过代理无法使用。</del>2016年春季学期开学后发现即使拨号路由器也无法获取IPv6地址了。</p>
+<p>于是现在得到的效果就是任何连接到这台路由器的设备无需任何登录即可<strong>访问外网</strong>，而且<strong>不消耗校内网流量</strong>，网络还<strong>自带科学上网Buff</strong>，从此妈妈再也不用担心我流量不够用了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;之前本来是想用路由器获取IPv6地址并使用双栈连接的代理服务器访问互联网。虽然之前网件自己的固件是有&lt;strong&gt;穿透模式&lt;/strong&gt;并可以获取v6地址，但是无法安装ShadowSocks，所以才刷成了OpenWrt。但是这个固件默认是没有&lt;strong&gt;穿透模式&lt;
+    
+    </summary>
+    
+      <category term="网络" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="科学上网" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    
+    
+      <category term="ShadowSocks" scheme="https://www.shintaku.cc/tags/ShadowSocks/"/>
+    
+      <category term="OpenWrt" scheme="https://www.shintaku.cc/tags/OpenWrt/"/>
+    
+      <category term="科学上网" scheme="https://www.shintaku.cc/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    
+      <category term="路由器" scheme="https://www.shintaku.cc/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    
+      <category term="Linux" scheme="https://www.shintaku.cc/tags/Linux/"/>
+    
+      <category term="ssh" scheme="https://www.shintaku.cc/tags/ssh/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>路由器刷入OpenWrt固件</title>
+    <link href="https://www.shintaku.cc/2015/12/12/openwrt/"/>
+    <id>https://www.shintaku.cc/2015/12/12/openwrt/</id>
+    <published>2015-12-12T04:12:12.000Z</published>
+    <updated>2016-11-06T14:59:42.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>暑假剁手了一台rMBP但没有以太网接口，为了省钱就需要一个无线路由器，之前曾了解到路由器可以刷<strong>OpenWrt</strong>后装上<strong>ShadowSocks</strong>实现自动科学上网，于是就在集训的时候从马云家买了一个二手的<a href="http://www.tp-link.com.cn/product_225.html" target="_blank" rel="external">TP-Link TL-WR703N</a>刷上OpenWrt在机房给笔记本供网。</p>
+<p><img src="/img/op703n.png" alt="TL-WR703N"></p>
+<p>由于这货只有一个网口，当路由器自动获取IP地址后，就进不去<a href="192.168.1.1">192.168.1.1</a>的管理界面了，虽然能上网，但每次换网线接头的时候都要捅菊花抹掉原来的设置。因此只有使用静态IP时才能正常使用这种路由器。这学期开学后发现家里有一个<a href="http://www.netgear.com/home/products/networking/wifi-routers/wnr2200.aspx" target="_blank" rel="external">Netgear WNR2200</a>在吃灰，于是就把它拿到学校刷上了OpenWrt放宿舍给各种无线设备供网。</p>
+<p><img src="/img/op2200.png" alt="WNR2200"></p>
+<h1 id="刷入固件"><a href="#刷入固件" class="headerlink" title="刷入固件"></a>刷入固件</h1><p><strong>OpenWrt</strong>是一个适合于嵌入式设备的Linux发行版。它提供了一个可添加软件包的可写的文件系统，使用者可以自由的选择应用程序和配置，并且可以使用一些适合某方面的应用的软件包来定制设备。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h3><p>首先你要拥有一台可以刷入OpenWrt的路由器，至于OpenWrt支持那些设备，请到<a href="https://wiki.openwrt.org/toh/start" target="_blank" rel="external">Supported Devices</a>页面查看。本文以WNR2200为例。</p>
+<h3 id="固件"><a href="#固件" class="headerlink" title="固件"></a>固件</h3><p>前往<a href="https://downloads.openwrt.org/latest/" target="_blank" rel="external">Download</a>下载最新的对应设备的固件。注意固件列表里一半会有两种后缀：<code>squashfs-factory.img</code>和<code>squashfs-sysupgrade.img</code>，如果是从原厂固件刷到OpenWrt请用前者，如果是从OpenWrt升级请用后者。还有一种可能文件名以<code>NA</code>结尾<del>，可能是代表<code>North America</code></del>，基本上与不带<code>NA</code>的没什么区别。</p>
+<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>还需要一台有以太网接口的电脑和一根网线，电脑操作系统不限，但是<em>Windows</em>需要提前开启<code>TFTP</code>（因为这个功能系统默认是关闭的），具体操作就是进入<code>控制面板</code>-<code>程序</code>-<code>程序和功能</code>，</p>
+<p><img src="/img/optftp.png" alt="开启TFTP"></p>
+<p>打开<code>打开或关闭Windows功能</code>窗口，在里面把<code>TFTP</code>挑上钩，之后就可以开始了。</p>
+<h2 id="刷入固件-1"><a href="#刷入固件-1" class="headerlink" title="刷入固件"></a>刷入固件</h2><p><strong>刷机有风险，操作需谨慎！</strong><br><strong>刷机有风险，操作需谨慎！</strong><br><strong>刷机有风险，操作需谨慎！</strong><br><del>重要的事说三遍</del></p>
+<p>首先要将路由器与电脑用网线相连（在后面的设置中网线是必要的），然后进入到路由器管理界面。</p>
+<p>有的原厂固件是可以直接升级成OpenWrt的，因此首先进入路由器管理界面，找到固件升级的选项，选择下好的OpenWrt固件上传就可以了，我之前刷TL-WR703N时是可以直接上传的，上传完成重启后就算是刷完了。但我后来刷WNR2200时遇到了不认固件的情况（可能是因为原厂固件的版本问题），于是只好用<strong>TFTP</strong>的方式上传固件，这就是之前为什么要打开Windows中<code>TFTP</code>功能的原因。</p>
+<p>如果从原厂管理界面中直接上传固件成功，请直接进入下一节；若不认固件，请执行以下步骤：</p>
+<ul>
+<li><p>关闭路由器电源，用笔尖捅住“Restore Factory Settings”<del>菊花</del>键不放。</p>
+</li>
+<li><p>打开路由器电源，这时电源黄灯开始闪烁，这时依然<strong>不要松开</strong>RESET键，直到电源灯变为绿色长亮（或闪烁？）才可松手（可能有的路由器的表现不一样，达到类似效果即可），这时路由器已经进入了tftp模式。</p>
+</li>
+<li><p>将电脑的IP设为<code>192.168.1.2</code>，子网掩码设为<code>255.255.255.0</code>，将电脑与路由器的<strong>1号LAN口</strong>用网线相连。</p>
+</li>
+<li><p>从终端进入到要刷的固件所在目录中，假设固件名叫<code>openwrt.img</code>，如果在<em>Windows</em>下则使用命令：</p>
+<pre><code>tftp -i 192.168.1.1 PUT &quot;openwrt.img&quot;
+</code></pre><p>如果在<em>OS X</em>或<em>Linux</em>下则在终端里键入<code>tftp</code>，之后使用以下命令：</p>
+<pre><code>connect 192.168.1.1
+binary
+rexmt 1
+timeout 60
+put &quot;openwrt.img&quot;
+</code></pre><p>稍等片刻，路由器的灯会出现各种变化，直到电源灯又恢复长绿状态（不同路由器或许不同），说明上传完成了。</p>
+</li>
+<li><p>重启路由器，不出意外之后应该可以通过网页访问<a href="192.168.1.1">192.168.1.1</a>的<code>LuCI</code>管理界面了。</p>
+</li>
+</ul>
+<h2 id="开启无线"><a href="#开启无线" class="headerlink" title="开启无线"></a>开启无线</h2><p>较新的OpenWrt应该已经自带<code>LuCI</code>图形化界面了，因此直接浏览器打开<a href="192.168.1.1">192.168.1.1</a>就可以看到类似如下界面：</p>
+<p><img src="/img/opfirst.png" alt="LuCI"></p>
+<p>当然咯，第一次登入肯定是要先设密码的，毕竟也算是一个Linux系统：</p>
+<p><img src="/img/oppasswd.png" alt="更改密码"></p>
+<p>OpenWrt默认是关闭无线网络的，所以到<code>Network</code>-<code>Wifi</code>下面启用即可：</p>
+<p><img src="/img/opwifi.png" alt="启用Wifi"></p>
+<p>之后设置SSID和密码就可以通过无线方式连接了。</p>
+<h1 id="基本设置"><a href="#基本设置" class="headerlink" title="基本设置"></a>基本设置</h1><p>既然要装上软件，自然要从互联网获取，那么路由器当然要联网咯。先到<code>Network</code>-<code>Interfaces</code>设置WAN口的上网方式，这点和普通路由器没有什么差别，这里不再赘述。</p>
+<p>如果觉得英文LuCI使用不便，也可以到<code>System</code>-<code>Software</code>下找到一个叫<code>luci-i18n-base-zh-cn</code>的包装上就行了，当然首先要<code>Update lists</code>一下，之后到<code>System</code>-<code>System</code>下切换成<code>普通话</code>再刷新一下就变成中文界面了。</p>
+<p><img src="/img/oplucicn.png" alt="设置中文"></p>
+<p>当然，以后要装的部分软件也可以通过上面这种方式安装，但由于有的包官方源里没有，我们在下面使用一种更通用的方法——从命令行安装。</p>
+<p>OpenWrt归根结底还是一个<strong>Linux发行版</strong>，所以Linux命令在这里依然适用。</p>
+<p>我们还是通过SSH登录：</p>
+<pre><code>ssh root@192.168.1.1
+</code></pre><p>输入之前设置的密码后，就会看到OpenWrt特有的终端界面：</p>
+<pre><code>BusyBox v1.23.2 (2015-07-25 15:09:46 CEST) built-in shell (ash)
+
+  _______                     ________        __
+ |       |.-----.-----.-----.|  |  |  |.----.|  |_
+ |   -   ||  _  |  -__|     ||  |  |  ||   _||   _|
+ |_______||   __|_____|__|__||________||__|  |____|
+          |__| W I R E L E S S   F R E E D O M
+ -----------------------------------------------------
+ CHAOS CALMER (15.05, r46767)
+ -----------------------------------------------------
+  * 1 1/2 oz Gin            Shake with a glassful
+  * 1/4 oz Triple Sec       of broken ice and pour
+  * 3/4 oz Lime Juice       unstrained into a goblet.
+  * 1 1/2 oz Orange Juice
+  * 1 tsp. Grenadine Syrup
+ -----------------------------------------------------
+root@OpenWrt:~# 
+</code></pre><p>先更新一下软件源（和LuCI中的软件包刷新列表是一样的）：</p>
+<pre><code>opkg update
+opkg list-installed
+opkg list
+</code></pre><p>然后就可以按照自己的需求安装要用的软件了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;暑假剁手了一台rMBP但没有以太网接口，为了省钱就需要一个无线路由器，之前曾了解到路由器可以刷&lt;strong&gt;OpenWrt&lt;/strong&gt;后装上&lt;strong&gt;ShadowSocks&lt;/strong&gt;实现自动科学上网，于是就在集训的时候从马云家买了一个二手的&lt;a hre
+    
+    </summary>
+    
+      <category term="网络" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="科学上网" scheme="https://www.shintaku.cc/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    
+    
+      <category term="OpenWrt" scheme="https://www.shintaku.cc/tags/OpenWrt/"/>
+    
+      <category term="路由器" scheme="https://www.shintaku.cc/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    
+      <category term="Linux" scheme="https://www.shintaku.cc/tags/Linux/"/>
+    
+      <category term="ssh" scheme="https://www.shintaku.cc/tags/ssh/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用aria2多线程下载</title>
+    <link href="https://www.shintaku.cc/2015/12/03/aria2/"/>
+    <id>https://www.shintaku.cc/2015/12/03/aria2/</id>
+    <published>2015-12-03T15:33:33.000Z</published>
+    <updated>2016-11-06T14:14:13.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>aria2</strong>是一款轻量级多线程的命令行下载工具，支持<strong>HTTP/HTTPS</strong>、<strong>FTP</strong>、<strong>SFTP</strong>、<strong>BitTorrent</strong>和<strong>Metalink</strong>等多种下载方式。程序支持Mac OS X、Linux、Windows等多平台。</p>
+<p>这个下载器最大的优点就是多线程。最开始接触它的时候是因为在Mac下下载百度云的资源非常不方便，不借助其他工具只能通过浏览器下载，而且一个线程速度超慢，一不小心就会下载失败。后来从知乎上看到这个神器，<del>用了<em>金坷垃</em>，</del>速度<strong>一千八</strong>。</p>
+<h1 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h1><p>首先到<a href="https://github.com/tatsuhiro-t/aria2/releases" target="_blank" rel="external">GitHub</a>下载对应系统的安装文件进行安装；如果在macOS下也可以通过<code>homebrew</code>安装：</p>
+<pre><code>brew install aria2
+</code></pre><h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><p>先新建一个配置文件叫<code>aria2.conf</code>：</p>
+<pre><code>mkdir ~/.aria2
+vi ~/.aria2/aria2.conf
+</code></pre><p>放在这个目录下的主要原因是可以在启动时不再指定其配置文件的位置。然后编辑它：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Basic Options</span></div><div class="line"><span class="attr">dir</span>=/Users/<span class="variable">$USER</span>/Downloads</div><div class="line"><span class="attr">input-file</span>=/Users/<span class="variable">$USER</span>/.aria2/session.dat</div><div class="line"><span class="attr">log</span>=/Users/<span class="variable">$USER</span>/.aria2/aria2.log</div><div class="line"><span class="attr">max-concurrent-downloads</span>=<span class="number">15</span></div><div class="line"><span class="attr">max-connection-per-server</span>=<span class="number">15</span></div><div class="line"><span class="attr">check-integrity</span>=<span class="literal">true</span></div><div class="line"><span class="attr">continue</span>=<span class="literal">true</span></div><div class="line"></div><div class="line"><span class="comment"># BitTorrent/Metalink Options</span></div><div class="line"><span class="attr">bt-enable-lpd</span>=<span class="literal">true</span></div><div class="line"><span class="attr">bt-max-open-files</span>=<span class="number">16</span></div><div class="line"><span class="attr">bt-max-peers</span>=<span class="number">8</span></div><div class="line"><span class="attr">dht-file-path</span>=/opt/var/aria2/dht.dat</div><div class="line"><span class="attr">dht-file-path6</span>=/opt/var/aria2/dht6.dat</div><div class="line"><span class="attr">dht-listen-port</span>=<span class="number">6801</span></div><div class="line"><span class="comment">#enable-dht6=true</span></div><div class="line"><span class="attr">listen-port</span>=<span class="number">6801</span></div><div class="line"><span class="attr">max-overall-upload-limit</span>=<span class="number">0</span>K</div><div class="line"><span class="attr">seed-ratio</span>=<span class="number">0</span></div><div class="line"></div><div class="line"><span class="comment"># RPC Options</span></div><div class="line"><span class="attr">enable-rpc</span>=<span class="literal">true</span></div><div class="line"><span class="attr">rpc-allow-origin-all</span>=<span class="literal">true</span></div><div class="line"><span class="attr">rpc-listen-all</span>=<span class="literal">true</span></div><div class="line"><span class="attr">rpc-listen-port</span>=<span class="number">6800</span></div><div class="line"><span class="comment">#rpc-secret=123456</span></div><div class="line"><span class="comment">#rpc-secure=true</span></div><div class="line"></div><div class="line"><span class="comment"># Advanced Options</span></div><div class="line"><span class="attr">daemon</span>=<span class="literal">true</span></div><div class="line"><span class="attr">disable-ipv6</span>=<span class="literal">true</span></div><div class="line"><span class="comment">#enable-mmap=true</span></div><div class="line"><span class="attr">force-save</span>=<span class="literal">true</span></div><div class="line"><span class="attr">file-allocation</span>=none</div><div class="line"><span class="attr">log-level</span>=warn</div><div class="line"><span class="attr">max-overall-download-limit</span>=<span class="number">0</span>K</div><div class="line"><span class="attr">save-session</span>=/Users/<span class="variable">$USER</span>/.aria2/session.dat</div><div class="line"><span class="attr">always-resume</span>=<span class="literal">true</span></div><div class="line"><span class="attr">split</span>=<span class="number">10</span></div><div class="line"><span class="attr">min-split-size</span>=<span class="number">10</span>M</div><div class="line"></div><div class="line"><span class="comment"># Pan.baidu.com</span></div><div class="line"><span class="attr">user-agent</span>=netdisk;<span class="number">5.2</span>.<span class="number">6</span>;PC;PC-Windows;<span class="number">6.2</span>.<span class="number">9200</span>;WindowsBaiduYunGuanJia</div><div class="line"><span class="attr">referer</span>=http://pan.baidu.com/disk/home</div></pre></td></tr></table></figure>
+<p>配置文件中所有<code>$USER</code>要改成自己的用户名，<code>dir</code>参数设置的是下载路径，也可以按自己的习惯更改；<code>input-file</code>、<code>save-session</code>参数是指定session（保存下载进度）的存储位置，如果没有那个文件可以手动创建：</p>
+<pre><code>touch session.dat
+</code></pre><p><code>log</code>参数指定log路径，会自动生成。这时可以通过<code>aria2c</code>命令启动服务了。可以通过<code>ps aux | grep aria2c</code>命令检查是否启动成功。</p>
+<h1 id="开机启动"><a href="#开机启动" class="headerlink" title="开机启动"></a>开机启动</h1><p>若要配置macOS开机启动，可以在<code>~/Library/LaunchAgents</code>下创建一个plist文件<code>homebrew.mxcl.aria2.plist</code>，内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="meta">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dict</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>homebrew.mxcl.aria2<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>KeepAlive<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Program<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/local/opt/aria2/bin/aria2c<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>编辑完后将将其权限设为<code>-rw-------</code>：</p>
+<pre><code>chmod 600 ~/Library/LaunchAgents/homebrew.mxcl.aria2.plist
+</code></pre><h1 id="配置GUI"><a href="#配置GUI" class="headerlink" title="配置GUI"></a>配置GUI</h1><p>由于aria2是一个命令行工具，所以在没有其他辅助的情况下需要通过命令行来操作。具体使用方法请参阅<a href="https://aria2.github.io/" target="_blank" rel="external">aria2.github.io</a>。</p>
+<p>为了更加便于使用，GitHub上的<a href="https://github.com/ziahamza" target="_blank" rel="external">ziahamza</a>开发了一个WebUI，可以通过网页界面来操作aria2：</p>
+<p><img src="/img/arui.png" alt="WebUI">    </p>
+<p>简单来说就是打开<a href="http://ziahamza.github.io/webui-aria2/" target="_blank" rel="external">http://ziahamza.github.io/webui-aria2/</a>就能使用了。也可以将<a href="https://github.com/ziahamza/webui-aria2/archive/master.zip" target="_blank" rel="external">项目源码</a>下载下来放到本地或者放到自己的服务器上来用，比如<a href="http://aria.shintaku.cc/" target="_blank" rel="external">http://aria.shintaku.cc/</a>。</p>
+<p>打开以后如果右上角出现：</p>
+<p><img src="/img/arsuccess.png" alt="连接成功">    </p>
+<p>就说明连接成功了，这时就可以直接输入下载链接下载了。</p>
+<p>如果连接不成功请到<code>Setting</code>-<code>Connection Setting</code>检查端口是不是6800，并且确保6800端口没被别的服务占用：</p>
+<p><img src="/img/arsetting.png" alt="连接设置">    </p>
+<h1 id="百度网盘插件"><a href="#百度网盘插件" class="headerlink" title="百度网盘插件"></a>百度网盘插件</h1><p>百度网盘如果使用普通下载的话<del>可能得到的是一个临时的链接？</del>不能断点续传，所以需要一个叫<a href="https://chrome.google.com/webstore/detail/baiduexporter/mjaenbjdjmgolhoafkohbhhbaiedbkno" target="_blank" rel="external">BaiduExporter</a>的Chrome插件像百度云的客户端一样获取地址。如果Chrome商店被墙了也可以到<a href="https://github.com/acgotaku/BaiduExporter/releases" target="_blank" rel="external">GitHub</a>上直接下载<code>crx</code>文件手动添加。</p>
+<p>添加成功后再打开百度云会发现多了一个<code>导出下载</code>按钮：</p>
+<p><img src="/img/arbaiduyun.png" alt="导出下载">    </p>
+<p>打开<code>设置</code>，按照如下设置：</p>
+<p><img src="/img/aryunsetting.png" alt="导出设置"></p>
+<p>其中<code>User-agent</code>需要设置为<code>netdisk;5.2.7;PC;PC-Windows;6.2.9200;WindowsBaiduYunGuanJia</code>，<code>referer</code>设置为<code>http://pan.baidu.com/disk/home</code>，将aria2伪装成百度云管家来解除限速。</p>
+<p>应用后选择百度云上的文件，通过<code>导出下载</code>-<code>ARIA2 RPC</code>：</p>
+<p><img src="/img/ardownload.png" alt="下载成功"></p>
+<p>这时再通过WebUI查看应当已经有新添加的任务以一千八的速度在下载了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;aria2&lt;/strong&gt;是一款轻量级多线程的命令行下载工具，支持&lt;strong&gt;HTTP/HTTPS&lt;/strong&gt;、&lt;strong&gt;FTP&lt;/strong&gt;、&lt;strong&gt;SFTP&lt;/strong&gt;、&lt;strong&gt;BitTorrent&lt;/stro
+    
+    </summary>
+    
+      <category term="奇技淫巧" scheme="https://www.shintaku.cc/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    
+      <category term="＊nix" scheme="https://www.shintaku.cc/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/"/>
+    
+    
+      <category term="Linux" scheme="https://www.shintaku.cc/tags/Linux/"/>
+    
+      <category term="下载" scheme="https://www.shintaku.cc/tags/%E4%B8%8B%E8%BD%BD/"/>
+    
+      <category term="Unix" scheme="https://www.shintaku.cc/tags/Unix/"/>
+    
+  </entry>
+  
+</feed>

@@ -23,7 +23,7 @@ brew install mysql
 brew services start mysql
 然后就可以用mysql_secure_installation初始化设置">
 <meta property="og:image" content="https://www.shintaku.cc/img/mpbanner.png">
-<meta property="og:updated_time" content="2016-11-07T12:17:11.000Z">
+<meta property="og:updated_time" content="2016-11-08T14:42:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="macOS配置PHP开发环境">
 <meta name="twitter:description" content="上（shí）班（xí）的时候写PHP都是在开发机上，所以公司配的电脑上一直就没有搭PHP环境。最近我预料到要写一个Web的项目，所以提前搭一下环境备用。
@@ -154,7 +154,7 @@ brew services start mysql
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/mpbanner.png" rel="gallery_civ81ywzv000uojprbiw9ya28">
+      <a class="article-gallery-img fancybox" href="/img/mpbanner.png" rel="gallery_civi1rlw2000ujzprhapeh3qt">
         <img src="/img/mpbanner.png" itemprop="image">
       </a>
     
@@ -173,7 +173,7 @@ brew services start mysql
       </header>
         
     <footer class="article-footer">
-      <a data-url="https://www.shintaku.cc/2016/10/31/mac-php/" data-id="civ81ywzv000uojprbiw9ya28" class="article-share-link">Share</a>
+      <a data-url="https://www.shintaku.cc/2016/10/31/mac-php/" data-id="civi1rlw2000ujzprhapeh3qt" class="article-share-link">Share</a>
       
         <a href="https://www.shintaku.cc/2016/10/31/mac-php/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -207,7 +207,7 @@ brew services start mysql
 </code></pre><h1 id="配置PHP"><a href="#配置PHP" class="headerlink" title="配置PHP"></a>配置PHP</h1><p>macOS默认是安装好PHP的，所以就不想再安装其他版本了。</p>
 <p>先编辑<code>/private/etc/php.ini</code>，如果没有就复制一份<code>php.ini.default</code>，然后配置一下时区和数据库socket：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">date.timezone = "Asia/Shanghai"</div><div class="line">pdo_mysql.default_socket = /tmp/mysql.sock</div></pre></td></tr></table></figure>
-<p>因为我要用yii框架，所以改了这一项，如果用到了MySQL的其他函数需要修改相应的<code>mysql.default_socket</code>或<code>mysqli.default_socket</code>。</p>
+<p>因为我要用<del>噫</del><strong>yii</strong>框架，所以改了这一项，如果用到了MySQL的其他函数需要修改相应的<code>mysql.default_socket</code>或<code>mysqli.default_socket</code>。</p>
 <p>然后编辑<code>/private/etc/php-fpm.conf</code>，在里面指定一下<code>error_log</code>的路径：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">error_log = /usr/<span class="built_in">local</span>/var/<span class="built_in">log</span>/php-fpm/error.log</div></pre></td></tr></table></figure>
 <p>然后直接用<code>php-fpm</code>命令启动即可。</p>
@@ -228,9 +228,9 @@ brew services start mysql
 <nav id="article-nav">
   
   
-    <a href="/2016/09/01/ngrok/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/10/10/shell-parallel/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">搭建Ngrok内网穿透服务</div>
+      <div class="article-nav-title">shell脚本内的并发执行</div>
     </a>
   
 </nav>
@@ -254,7 +254,7 @@ brew services start mysql
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/课程/">课程</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/课程/VLSI/">VLSI</a><span class="category-list-count">1</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">5</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -271,6 +271,14 @@ brew services start mysql
                 <i class="fa-paperclip"></i> 
               
             macOS配置PHP开发环境</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/2016/10/10/shell-parallel/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            shell脚本内的并发执行</a>
           </li>
         
           <li>
@@ -337,14 +345,6 @@ brew services start mysql
             将jar程序打包成app</a>
           </li>
         
-          <li>
-            <a class="text" href="/2016/04/11/verilog/">
-              
-                <i class="fa-paperclip"></i> 
-              
-            Mac上进行Verilog仿真</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -354,7 +354,7 @@ brew services start mysql
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ChinaDNS/" style="font-size: 10px;">ChinaDNS</a> <a href="/tags/GFWlist/" style="font-size: 10px;">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 10px;">GoAgent</a> <a href="/tags/LEMP/" style="font-size: 11.25px;">LEMP</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Minecraft/" style="font-size: 11.25px;">Minecraft</a> <a href="/tags/MySQL/" style="font-size: 11.25px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 12.5px;">Nginx</a> <a href="/tags/OpenWrt/" style="font-size: 16.25px;">OpenWrt</a> <a href="/tags/PHP/" style="font-size: 11.25px;">PHP</a> <a href="/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/ShadowSocks/" style="font-size: 13.75px;">ShadowSocks</a> <a href="/tags/SoftEther/" style="font-size: 10px;">SoftEther</a> <a href="/tags/Unix/" style="font-size: 11.25px;">Unix</a> <a href="/tags/VPN/" style="font-size: 10px;">VPN</a> <a href="/tags/VPS/" style="font-size: 17.5px;">VPS</a> <a href="/tags/Verilog/" style="font-size: 10px;">Verilog</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/macOS/" style="font-size: 13.75px;">macOS</a> <a href="/tags/ssh/" style="font-size: 15px;">ssh</a> <a href="/tags/下载/" style="font-size: 10px;">下载</a> <a href="/tags/代理/" style="font-size: 13.75px;">代理</a> <a href="/tags/刷机/" style="font-size: 10px;">刷机</a> <a href="/tags/服务器/" style="font-size: 18.75px;">服务器</a> <a href="/tags/游戏/" style="font-size: 11.25px;">游戏</a> <a href="/tags/科学上网/" style="font-size: 16.25px;">科学上网</a> <a href="/tags/舰队Collection/" style="font-size: 10px;">舰队Collection</a> <a href="/tags/路由器/" style="font-size: 16.25px;">路由器</a>
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ChinaDNS/" style="font-size: 10px;">ChinaDNS</a> <a href="/tags/GFWlist/" style="font-size: 10px;">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 10px;">GoAgent</a> <a href="/tags/LEMP/" style="font-size: 11.25px;">LEMP</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Minecraft/" style="font-size: 11.25px;">Minecraft</a> <a href="/tags/MySQL/" style="font-size: 11.25px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 12.5px;">Nginx</a> <a href="/tags/OpenWrt/" style="font-size: 16.25px;">OpenWrt</a> <a href="/tags/PHP/" style="font-size: 11.25px;">PHP</a> <a href="/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/ShadowSocks/" style="font-size: 13.75px;">ShadowSocks</a> <a href="/tags/SoftEther/" style="font-size: 10px;">SoftEther</a> <a href="/tags/Unix/" style="font-size: 11.25px;">Unix</a> <a href="/tags/VPN/" style="font-size: 10px;">VPN</a> <a href="/tags/VPS/" style="font-size: 17.5px;">VPS</a> <a href="/tags/Verilog/" style="font-size: 10px;">Verilog</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/macOS/" style="font-size: 13.75px;">macOS</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/ssh/" style="font-size: 15px;">ssh</a> <a href="/tags/下载/" style="font-size: 10px;">下载</a> <a href="/tags/代理/" style="font-size: 13.75px;">代理</a> <a href="/tags/刷机/" style="font-size: 10px;">刷机</a> <a href="/tags/服务器/" style="font-size: 18.75px;">服务器</a> <a href="/tags/游戏/" style="font-size: 11.25px;">游戏</a> <a href="/tags/科学上网/" style="font-size: 16.25px;">科学上网</a> <a href="/tags/舰队Collection/" style="font-size: 10px;">舰队Collection</a> <a href="/tags/路由器/" style="font-size: 16.25px;">路由器</a>
     </div>
   </div>
 
@@ -426,9 +426,6 @@ brew services start mysql
       
       
       <a href="https://www.facebook.com/100005630052910" target="_blank" title="Facebook"><i class="fa-facebook-official"></i></a>
-      
-      
-      <a href="https://www.instagram.com/liangzhenduo" target="_blank" title="Instagram"><i class=" fa-instagram"></i></a>
       
       
       <a href="https://twitter.com/liangzhenduo" target="_blank" title="Twitter" ><i class="fa-twitter"></i></a>

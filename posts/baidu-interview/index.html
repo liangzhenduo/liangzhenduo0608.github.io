@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="shortcut icon" href="/images/icon.png">
+  
+  <title>百度PHP实习生面试实录 | Shintaku&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="人呐就都不知道，自己不可以预料，一个人的命运啊，当然要靠自我奋斗，但是也要考虑到历史的行程。我绝对不知道，我作为一个蒟蒻本科生怎么把我选到百度去了。所以HR同我讲话，说“人力资源部都决定了，你来当实习生。”我说另请高明吧，我实在也不是谦虚，我一个天津学生怎么到北京来了呢？但是，HR讲“大家已经研究决定了”。后来我念了两首诗，叫“苟利实习生死以，岂因远近避趋之”。所以我就作文以记之。
+
+1番目第一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="百度PHP实习生面试实录">
+<meta property="og:url" content="https://www.shintaku.cc/posts/baidu-interview/index.html">
+<meta property="og:site_name" content="Shintaku's Blog">
+<meta property="og:description" content="人呐就都不知道，自己不可以预料，一个人的命运啊，当然要靠自我奋斗，但是也要考虑到历史的行程。我绝对不知道，我作为一个蒟蒻本科生怎么把我选到百度去了。所以HR同我讲话，说“人力资源部都决定了，你来当实习生。”我说另请高明吧，我实在也不是谦虚，我一个天津学生怎么到北京来了呢？但是，HR讲“大家已经研究决定了”。后来我念了两首诗，叫“苟利实习生死以，岂因远近避趋之”。所以我就作文以记之。
+
+1番目第一">
+<meta property="og:image" content="https://www.shintaku.cc/img/dubanner.png">
+<meta property="og:updated_time" content="2016-11-06T14:41:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="百度PHP实习生面试实录">
+<meta name="twitter:description" content="人呐就都不知道，自己不可以预料，一个人的命运啊，当然要靠自我奋斗，但是也要考虑到历史的行程。我绝对不知道，我作为一个蒟蒻本科生怎么把我选到百度去了。所以HR同我讲话，说“人力资源部都决定了，你来当实习生。”我说另请高明吧，我实在也不是谦虚，我一个天津学生怎么到北京来了呢？但是，HR讲“大家已经研究决定了”。后来我念了两首诗，叫“苟利实习生死以，岂因远近避趋之”。所以我就作文以记之。
+
+1番目第一">
+<meta name="twitter:image" content="https://www.shintaku.cc/img/dubanner.png">
+<link rel="publisher" href="114761524022260760000">
+  
+    <link rel="alternative" href="/atom.xml" title="Shintaku&#39;s Blog" type="application/atom+xml">
+  
+  
+    <meta name="google-site-verification" content="5mRgj8NanEMpGZuNfHNJNmH90RgNlrnJXsFlTaKD6Gs" />
+  
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <script src="/js/jquery-2.1.0.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"><div id="banner-right"></div></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Shintaku&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">希パワーたーっぷり注入！はーいプシュッ</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          
+            <a class="main-nav-link" href="/"><i class=fa-home title='Home'></i> Home</a>
+          
+        
+          
+            <a class="main-nav-link" href="/about"><i class=fa-user title='About'></i> About</a>
+          
+        
+          
+            <a class="main-nav-link" href="/archives"><i class=fa-archive title='Archives'></i> Archives</a>
+          
+        
+          
+            <a class="main-nav-link" href="/tags"><i class=fa-tags title='Tags'></i> Tags</a>
+          
+        
+          
+            <a class="main-nav-link" href="/gallery"><i class=fa-camera title='Gallery'></i> Gallery</a>
+          
+        
+          
+            <a class="main-nav-link" href="/works"><i class=fa-trophy title='Works'></i> Works</a>
+          
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.shintaku.cc"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        
+          <section id="main" class='pjax'><article id="post-baidu-interview" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/posts/baidu-interview/" class="article-date">
+  <time datetime="2016-07-01T13:11:11.000Z" itemprop="datePublished">2016-07-01</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/手帐/">手帐</a>►<a class="article-category-link" href="/categories/手帐/实习/">实习</a>
+  </div>
+
+  </div>
+  <div class="article-inner ">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/dubanner.png" rel="gallery_civonripw000aq2pro2fzx6b2">
+        <img src="/img/dubanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      百度PHP实习生面试实录
+    </h1>
+  
+
+      </header>
+        
+    <footer class="article-footer">
+      <a data-url="https://www.shintaku.cc/posts/baidu-interview/" data-id="civonripw000aq2pro2fzx6b2" class="article-share-link">Share</a>
+      
+        <a href="https://www.shintaku.cc/posts/baidu-interview/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+    </footer>
+    <div class="article-entry " itemprop="articleBody">
+      
+          
+              <div id="toc" class="toc-article">
+              <h2 class="toc-title"><span>contents</span></h2>
+              
+                  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1番目"><span class="toc-number">1.</span> <span class="toc-text">1番目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2番目"><span class="toc-number">2.</span> <span class="toc-text">2番目</span></a></li></ol>
+              
+              </div>
+          
+        
+          <blockquote>
+<p>人呐就都不知道，自己不可以预料，一个人的命运啊，当然要靠自我奋斗，但是也要考虑到历史的行程。我绝对不知道，我作为一个蒟蒻本科生怎么把我选到百度去了。所以HR同我讲话，说“人力资源部都决定了，你来当实习生。”我说另请高明吧，我实在也不是谦虚，我一个天津学生怎么到北京来了呢？但是，HR讲“大家已经研究决定了”。后来我念了两首诗，叫<strong>“苟利实习生死以，岂因远近避趋之”</strong>。所以我就作文以记之。</p>
+</blockquote>
+<h1 id="1番目"><a href="#1番目" class="headerlink" title="1番目"></a>1番目</h1><p>第一次是在6月17日（周五）下午，因为周六要考六级，所以正在复习<del>周日要考的数理方程</del>。两点钟左右面试官发来短信说三点开始电话面试，所以我花了一个小时的时间突击了一下我感觉会问到的<em>算法、数据结构、操作系统、网络</em>的知识。<del>然而事实证明并没有什么卵用</del>。</p>
+<p>3点过一点打来电话，听对面环境非常嘈杂，所以听起来非常吃力：</p>
+<ul>
+<li><p>首先先做一下自我介绍吧（大概是在翻简历）</p>
+<blockquote>
+<p>私は……</p>
+</blockquote>
+</li>
+<li><p>有什么项目经历吗？</p>
+<blockquote>
+<p>（简要列举了一下做过的项目）</p>
+</blockquote>
+</li>
+<li><p>我看了你的GitHub发现有不少项目，简要介绍几个吧~</p>
+<blockquote>
+<p>（随便挑几个说了）</p>
+</blockquote>
+</li>
+<li><p>熟悉C++吧，说一说继承和多态吧~</p>
+<blockquote>
+<p>（因为面向对象用的不多，就随便说了说自己的理解）继承应该就是使用现有类的所有功能，在无需重新编写原来的类的情况下对这些功能进行扩展；多态就是允许将子类类型的指针赋值给父类类型的指针</p>
+</blockquote>
+</li>
+<li><p>C++最新的标准是多少？</p>
+<blockquote>
+<p>莫非是C++11？（后来查了一下发现都有C++17了）</p>
+</blockquote>
+</li>
+<li><p>那你知道C++中的<em>??</em>（这两个字因为他那边太嘈杂了到现在都不知道说的是什么）吗？</p>
+<blockquote>
+<p>呃……（然后又问了几遍还是没听清，接下来就是蜜汁沉默）</p>
+</blockquote>
+</li>
+<li><p>（他察觉出这方面我不是很熟悉）不知道没关系，咱们再聊点别的。Java和C++的区别在哪？</p>
+<blockquote>
+<p>（随便扯一扯，大概是Java没指针、不支持多继承、对象只能由引用传递，C++没有包、接口、不能多个相同线程并发运行等等吧）</p>
+</blockquote>
+</li>
+<li><p>那么来说一说重载和覆盖吧~</p>
+<blockquote>
+<p>（虽然不大清楚还是扯了一扯）重载一般是用于在一个类内实现若干重载的方法，这些方法的名称相同而参数形式不同；覆盖一般是用于子类在继承父类时，重写父类中的方法</p>
+</blockquote>
+</li>
+<li><p>PHP方面做过什么项目呢？</p>
+<blockquote>
+<p>（就把之前做过的PHP的东西详细说了说）</p>
+</blockquote>
+</li>
+<li><p>有什么特别的功能吗？</p>
+<blockquote>
+<p>（就想了想项目里的亮点说了说）</p>
+</blockquote>
+</li>
+<li><p>具体是怎么实现的？</p>
+<blockquote>
+<p>（一时没想起来就翻了一下GitHub跟他讲了讲）</p>
+</blockquote>
+</li>
+<li><p>你在实验室中做些什么？</p>
+<blockquote>
+<p>（简要介绍了一下自己在实验室的工作）</p>
+</blockquote>
+</li>
+<li><p>我这边问得差不多了，我先来介绍一下我们这边的情况吧（blabla一堆）……然后你有什么想问的吗？</p>
+<blockquote>
+<p>（就随便问了几个无关紧要的问题就结束了）</p>
+</blockquote>
+</li>
+</ul>
+<p>第一次电话面试大概用了一个小时的时间，由于时间太久远了肯定遗漏了很多问题没写出来，不过在最后比较有用的信息大概就是实习生面试大概有<strong>两到三轮技术面</strong>，一般没有HR面，面试题目基本看面试官个人喜好，基本觉得差不多就给通过了，差不多一周左右就会进入下一轮面试，不会要求太高。话虽如此，不过还是感觉自己面炸了，就没有往下准备~</p>
+<h1 id="2番目"><a href="#2番目" class="headerlink" title="2番目"></a>2番目</h1><p>第二次是在6月28日（周二）下午，因为第二天要检查FPGA大作业但那时还没有人做出来，所以在研究那个。大概差一刻6点的时候面试官打来电话问我什么时候方便电面，我说就现在吧<del>早面试完早搞FPGA</del>，于是他准备了5分钟再次打来电话开始面试：</p>
+<ul>
+<li><p>首先先做一下自我介绍吧（老套路）</p>
+<blockquote>
+<p>私は……</p>
+</blockquote>
+</li>
+<li><p>我看你简历上写熟悉Linux，列举几条你常用的Linux命令吧~</p>
+<blockquote>
+<p><code>wc</code>、<code>diff</code>、<code>grep</code>、<code>find</code>等等吧</p>
+</blockquote>
+</li>
+<li><p>看起来都是些查找统计的命令，要是对比两个目录下的文件名用什么命令？</p>
+<blockquote>
+<p>应该也是用<code>diff</code>吧，再加个参数，具体什么参数不清楚~</p>
+</blockquote>
+</li>
+<li><p>那你回来再查查吧；如果让你杀死某个进程要怎么做？</p>
+<blockquote>
+<p>先用ps找到进程号然后<code>kill</code>掉吧~</p>
+</blockquote>
+</li>
+<li><p>要是只用一条命令怎么写呢？（这时对面响起了敲键盘的声音）</p>
+<blockquote>
+<p>要用到管道吧，先把PID<code>cut</code>出来（当时口误说成<code>cat</code>了），具体怎么写没想出来（对方还提示了半天）</p>
+</blockquote>
+</li>
+<li><p><code>awk</code>你了解吗？</p>
+<blockquote>
+<p>用的不是很多，不太熟悉~</p>
+</blockquote>
+</li>
+<li><p>问点PHP吧，你知道<code>include()</code>和<code>require()</code>的区别在哪吗？</p>
+<blockquote>
+<p>(这个之前看过，但是一时想不起来，就扯了扯<code>require()</code>和<code>require_once()</code>的区别，答案应该是遇到错误时<code>include()</code>会产生一个警告，而<code>require()</code>导致一个致命错误）</p>
+</blockquote>
+</li>
+<li><p>PHP怎么获取用户ip地址？</p>
+<blockquote>
+<p>应该是<code>$_SERVER[]</code>吧~</p>
+</blockquote>
+</li>
+<li><p>那么怎么获取网页内容？</p>
+<blockquote>
+<p>这个没用过，真不知道（其实应该是<code>file_get_contents($url)</code>）</p>
+</blockquote>
+</li>
+<li><p>介绍一下简历上的<em>XX</em>项目吧，都有什么功能？</p>
+<blockquote>
+<p>（介绍一下功能）</p>
+</blockquote>
+</li>
+<li><p>用户登录是怎么实现的？</p>
+<blockquote>
+<p>用了个全局变量表示登录状态（当时写的比较SB，怎么会用这种方法呢）~</p>
+</blockquote>
+</li>
+<li><p>那样的话关闭浏览器再打开状态就丢了吧~一般要用<code>SESSION</code>吧，SESSION你知道吗？</p>
+<blockquote>
+<p>（这时我才恍然大悟刚才直接说这个不就好了吗）用过用过，在YY项目里登录我是用SESSION实现的。</p>
+</blockquote>
+</li>
+<li><p>那你再介绍一下<em>YY</em>项目的工程吧~</p>
+<blockquote>
+<p>（blabla一大堆）</p>
+</blockquote>
+</li>
+<li><p>那么数据库中<em>ZZ</em>的数据是怎么存的呢？</p>
+<blockquote>
+<p>（balbla介绍了一下数据库的结构）</p>
+</blockquote>
+</li>
+<li><p>怎么按条件查询呢？</p>
+<blockquote>
+<p>（blabla介绍了一下查询方法）</p>
+</blockquote>
+</li>
+<li><p>我看你还写过Java，做过Java的什么项目吗？</p>
+<blockquote>
+<p>并没有，只是写了点Application，Android的算吗？</p>
+</blockquote>
+</li>
+<li><p>算吧，说说看~</p>
+<blockquote>
+<p>（blabbla介绍了一下功能）</p>
+</blockquote>
+</li>
+<li><p>具体是怎么实现的呢？</p>
+<blockquote>
+<p>调用了为了<em>CC</em>而使用的<em>GG</em>接口~</p>
+</blockquote>
+</li>
+<li><p>哦，那和Windows下的<em>JJ</em>挺像的。你还了解一点Python是吧？</p>
+<blockquote>
+<p>一般当脚本用的，处理数据用。</p>
+</blockquote>
+</li>
+<li><p>我们这边还会用到go来开发平台，go你知道吗？</p>
+<blockquote>
+<p>golang啊，听说过。</p>
+</blockquote>
+</li>
+<li><p>对，要是来我们这边也会用到。你那边还有一些其他问题要问吗？</p>
+<blockquote>
+<p>暂时想不到了，第一轮时基本问过了（因为我赶着做大作业啊）~</p>
+</blockquote>
+</li>
+</ul>
+<p>然后寒暄了一阵就挂掉了电话，总共用时大约半小时。虽然没有抱太大希望，但是感觉百度的面试官还是非常Nice的，但是这样的面试真心无从准备，但是一定要<strong>熟悉自己简历上的内容</strong>（面试问题基本围绕简历展开）和<strong>投递职位的工作内容</strong>，其他的就完全靠姿势水平啊~</p>
+
+        
+      
+    </div>
+
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/adb/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          使用adb工具刷机
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/dropbear/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">OpenWrt上的ssh免密登录</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+          
+            <div id="ukagaka_panel"></div>
+
+<aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">5</span></li></ul></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a class="text" href="/posts/mac-php/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            macOS配置PHP开发环境</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/shell-parallel/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            shell脚本内的并发执行</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/ngrok/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            搭建Ngrok内网穿透服务</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/denyhosts/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            DenyHosts防止ssh暴力登录</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/gfwlist/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            GFWlist+ShadowSocks实现路由器透明代理</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/adb/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            使用adb工具刷机</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/baidu-interview/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            百度PHP实习生面试实录</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/dropbear/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            OpenWrt上的ssh免密登录</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/chinadns/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            ChinaDNS+ShadowSocks实现路由器透明代理</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/app/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            将jar程序打包成app</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ChinaDNS/" style="font-size: 10px;">ChinaDNS</a> <a href="/tags/GFWlist/" style="font-size: 10px;">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 10px;">GoAgent</a> <a href="/tags/LEMP/" style="font-size: 11.25px;">LEMP</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Minecraft/" style="font-size: 11.25px;">Minecraft</a> <a href="/tags/MySQL/" style="font-size: 11.25px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 12.5px;">Nginx</a> <a href="/tags/OpenWrt/" style="font-size: 16.25px;">OpenWrt</a> <a href="/tags/PHP/" style="font-size: 11.25px;">PHP</a> <a href="/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/ShadowSocks/" style="font-size: 13.75px;">ShadowSocks</a> <a href="/tags/SoftEther/" style="font-size: 10px;">SoftEther</a> <a href="/tags/Unix/" style="font-size: 11.25px;">Unix</a> <a href="/tags/VPN/" style="font-size: 10px;">VPN</a> <a href="/tags/VPS/" style="font-size: 17.5px;">VPS</a> <a href="/tags/Verilog/" style="font-size: 10px;">Verilog</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/macOS/" style="font-size: 13.75px;">macOS</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/ssh/" style="font-size: 15px;">ssh</a> <a href="/tags/下载/" style="font-size: 10px;">下载</a> <a href="/tags/代理/" style="font-size: 13.75px;">代理</a> <a href="/tags/刷机/" style="font-size: 10px;">刷机</a> <a href="/tags/服务器/" style="font-size: 18.75px;">服务器</a> <a href="/tags/游戏/" style="font-size: 11.25px;">游戏</a> <a href="/tags/科学上网/" style="font-size: 16.25px;">科学上网</a> <a href="/tags/舰队Collection/" style="font-size: 10px;">舰队Collection</a> <a href="/tags/路由器/" style="font-size: 16.25px;">路由器</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget widget-background1">   
+      	<ul>
+	      <li><a href="https://github.com/" target="_blank" title="GitHub">
+        <i class="fa-github"></i> GitHub </a></li>
+	      
+        <li><a href="https://developers.google.com/" target="_blank" title="Google Developers">
+        <i class="fa-google"></i> Google Developers </a></li>
+	      
+        <li><a href="https://github.com/liangzhenduo0608/liangzhenduo0608.github.io" target="_blank" title="github.io">
+        <i class="fa-github-square"></i> Recursion </a></li>
+          
+	    <li><a href="http://xzjqx.me/" target="_blank" title="笑卒见清晰">
+        <i class="fa-h-square"></i> 笑卒见清晰 </a></li>
+
+        <li><a href="http://muyus.cc/" target="_blank" title="暮雨今夕">
+        <i class="fa-wordpress"></i> 暮雨今夕 </a></li>
+
+        <li><a href="http://zhenlee.cn/" target="_blank" title="Fantasia">
+        <i class="fa-wordpress"></i> Fantasia </a></li>
+
+        <li><a href="https://zhengdongjian.xyz/" target="_blank" title="Qyetfu">
+        <i class="fa-reorder"></i> Qyetfu </a></li>
+    	</ul>
+    </div>
+</div>
+
+
+</script>
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Statistics
+</h3>
+    <div class="widget widget-background1">   
+      	<a href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3f3f3f/txt_FFFFFF/border_3f3f3f/columns_2/maxflags_32/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="www.shintaku.cc" border="0"></a>
+    </div>
+</div>
+
+
+</script>
+  
+    
+<script src="/js/jquery-ui.js"></script>
+<script src="/js/jquery.morris.ukagaka.resource.js"></script>
+<script src="/js/typed.js"></script>
+<script type="text/javascript">
+  $('#ukagaka_panel').ukagaka();
+</script>
+  
+</aside>
+
+          
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer" align="center">    
+    <div class="social-group">
+      
+      <a href="https://github.com/liangzhenduo0608" target="_blank" title="GitHub"><i class="fa-github"></i></a>
+      
+      
+      <a href="https://plus.google.com/114761524022260759157" target="_blank" title="Google+"><i class="fa-google-plus-official"></i></a>
+      
+      
+      <a href="https://www.facebook.com/100005630052910" target="_blank" title="Facebook"><i class="fa-facebook-official"></i></a>
+      
+      
+      <a href="https://twitter.com/liangzhenduo" target="_blank" title="Twitter" ><i class="fa-twitter"></i></a>
+      
+      
+      <a href="http://www.linkedin.com/in/zhenduo-liang-795110131" target="_blank" title="LinkedIn" ><i class="fa-linkedin"></i></a>
+      
+      
+      <a href="http://weibo.com/378950608" target="_blank" title="Weibo" ><i class="fa-weibo"></i></a>
+      
+      
+      <a href="mailto:liangzhenduo0608@hotmail.com" target="_blank" title="Email" ><i class="fa-envelope-o"></i></a>
+      
+    </div>
+    <div id="footer-info" class="inner" align="center">
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2016 Shintaku 
+    </div>  
+
+  </div>
+</footer>
+
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/gallery" class="mobile-nav-link">Gallery</a>
+  
+    <a href="/works" class="mobile-nav-link">Works</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'shintaku';
+  
+  var disqus_url = 'https://www.shintaku.cc/posts/baidu-interview/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/jquery.lazyload.js"></script>
+<script src="/js/jquery.als-1.6.js"></script>
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

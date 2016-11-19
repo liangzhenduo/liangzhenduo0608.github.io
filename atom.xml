@@ -17,8 +17,8 @@
   
   <entry>
     <title>macOS配置PHP开发环境</title>
-    <link href="https://www.shintaku.cc/2016/10/31/mac-php/"/>
-    <id>https://www.shintaku.cc/2016/10/31/mac-php/</id>
+    <link href="https://www.shintaku.cc/posts/mac-php/"/>
+    <id>https://www.shintaku.cc/posts/mac-php/</id>
     <published>2016-10-31T13:11:11.000Z</published>
     <updated>2016-11-08T14:42:51.000Z</updated>
     
@@ -75,8 +75,8 @@
   
   <entry>
     <title>shell脚本内的并发执行</title>
-    <link href="https://www.shintaku.cc/2016/10/10/shell-parallel/"/>
-    <id>https://www.shintaku.cc/2016/10/10/shell-parallel/</id>
+    <link href="https://www.shintaku.cc/posts/shell-parallel/"/>
+    <id>https://www.shintaku.cc/posts/shell-parallel/</id>
     <published>2016-10-10T14:22:22.000Z</published>
     <updated>2016-11-14T12:21:22.000Z</updated>
     
@@ -111,8 +111,8 @@
   
   <entry>
     <title>搭建Ngrok内网穿透服务</title>
-    <link href="https://www.shintaku.cc/2016/09/01/ngrok/"/>
-    <id>https://www.shintaku.cc/2016/09/01/ngrok/</id>
+    <link href="https://www.shintaku.cc/posts/ngrok/"/>
+    <id>https://www.shintaku.cc/posts/ngrok/</id>
     <published>2016-09-01T13:11:11.000Z</published>
     <updated>2016-11-06T14:59:12.000Z</updated>
     
@@ -208,8 +208,8 @@ Avg Conn Time                 0.00ms
   
   <entry>
     <title>DenyHosts防止ssh暴力登录</title>
-    <link href="https://www.shintaku.cc/2016/08/26/denyhosts/"/>
-    <id>https://www.shintaku.cc/2016/08/26/denyhosts/</id>
+    <link href="https://www.shintaku.cc/posts/denyhosts/"/>
+    <id>https://www.shintaku.cc/posts/denyhosts/</id>
     <published>2016-08-26T10:18:18.000Z</published>
     <updated>2016-11-06T14:42:41.000Z</updated>
     
@@ -262,12 +262,12 @@ systemctl enable denyhosts
   
   <entry>
     <title>GFWlist+ShadowSocks实现路由器透明代理</title>
-    <link href="https://www.shintaku.cc/2016/08/06/gfwlist/"/>
-    <id>https://www.shintaku.cc/2016/08/06/gfwlist/</id>
+    <link href="https://www.shintaku.cc/posts/gfwlist/"/>
+    <id>https://www.shintaku.cc/posts/gfwlist/</id>
     <published>2016-08-06T10:18:18.000Z</published>
-    <updated>2016-11-09T04:10:19.000Z</updated>
+    <updated>2016-11-16T13:24:16.000Z</updated>
     
-    <content type="html"><![CDATA[<p>前两个月OpenWrt一直使用<a href="https://www.shintaku.cc/2016/06/01/chinadns/">ChinaDNS+ShadowSocks</a>的方式按IP切换代理，但是由于长城宽带非常蛋疼代理时常上不去，导致平时可以正常访问的一些网站也无法访问，得不偿失。于是趁这周换了移动光纤，为了避免发生之前的情况，也把代理方式换成了按<a href="https://github.com/gfwlist/gfwlist" target="_blank" rel="external">GFWlist</a>得域名切换。</p>
+    <content type="html"><![CDATA[<p>前两个月OpenWrt一直使用<a href="/posts/chinadns/">ChinaDNS+ShadowSocks</a>的方式按IP切换代理，但是由于长城宽带非常蛋疼代理时常上不去，导致平时可以正常访问的一些网站也无法访问，得不偿失。于是趁这周换了移动光纤，为了避免发生之前的情况，也把代理方式换成了按<a href="https://github.com/gfwlist/gfwlist" target="_blank" rel="external">GFWlist</a>得域名切换。</p>
 <h1 id="必要软件"><a href="#必要软件" class="headerlink" title="必要软件"></a>必要软件</h1><p>首先是在OpenWrt下装上一堆必要软件：</p>
 <ul>
 <li>ipset</li>
@@ -301,7 +301,7 @@ systemctl enable denyhosts
     
     <summary type="html">
     
-      &lt;p&gt;前两个月OpenWrt一直使用&lt;a href=&quot;https://www.shintaku.cc/2016/06/01/chinadns/&quot;&gt;ChinaDNS+ShadowSocks&lt;/a&gt;的方式按IP切换代理，但是由于长城宽带非常蛋疼代理时常上不去，导致平时可以正常访问的一
+      &lt;p&gt;前两个月OpenWrt一直使用&lt;a href=&quot;/posts/chinadns/&quot;&gt;ChinaDNS+ShadowSocks&lt;/a&gt;的方式按IP切换代理，但是由于长城宽带非常蛋疼代理时常上不去，导致平时可以正常访问的一些网站也无法访问，得不偿失。于是趁这周换了移动光纤，为了
     
     </summary>
     
@@ -326,8 +326,8 @@ systemctl enable denyhosts
   
   <entry>
     <title>使用adb工具刷机</title>
-    <link href="https://www.shintaku.cc/2016/07/07/adb/"/>
-    <id>https://www.shintaku.cc/2016/07/07/adb/</id>
+    <link href="https://www.shintaku.cc/posts/adb/"/>
+    <id>https://www.shintaku.cc/posts/adb/</id>
     <published>2016-07-07T13:11:11.000Z</published>
     <updated>2016-11-06T14:40:59.000Z</updated>
     
@@ -427,8 +427,8 @@ systemctl enable denyhosts
   
   <entry>
     <title>百度PHP实习生面试实录</title>
-    <link href="https://www.shintaku.cc/2016/07/01/baidu-interview/"/>
-    <id>https://www.shintaku.cc/2016/07/01/baidu-interview/</id>
+    <link href="https://www.shintaku.cc/posts/baidu-interview/"/>
+    <id>https://www.shintaku.cc/posts/baidu-interview/</id>
     <published>2016-07-01T13:11:11.000Z</published>
     <updated>2016-11-06T14:41:29.000Z</updated>
     
@@ -632,8 +632,8 @@ systemctl enable denyhosts
   
   <entry>
     <title>OpenWrt上的ssh免密登录</title>
-    <link href="https://www.shintaku.cc/2016/06/18/dropbear/"/>
-    <id>https://www.shintaku.cc/2016/06/18/dropbear/</id>
+    <link href="https://www.shintaku.cc/posts/dropbear/"/>
+    <id>https://www.shintaku.cc/posts/dropbear/</id>
     <published>2016-06-18T10:18:18.000Z</published>
     <updated>2016-11-06T14:43:11.000Z</updated>
     
@@ -683,13 +683,13 @@ cat ~/.ssh/id_rsa.pub |
   
   <entry>
     <title>ChinaDNS+ShadowSocks实现路由器透明代理</title>
-    <link href="https://www.shintaku.cc/2016/06/01/chinadns/"/>
-    <id>https://www.shintaku.cc/2016/06/01/chinadns/</id>
+    <link href="https://www.shintaku.cc/posts/chinadns/"/>
+    <id>https://www.shintaku.cc/posts/chinadns/</id>
     <published>2016-06-01T10:18:18.000Z</published>
-    <updated>2016-11-06T14:42:19.000Z</updated>
+    <updated>2016-11-16T13:24:47.000Z</updated>
     
     <content type="html"><![CDATA[<p>之前给一个路由器刷了<strong>OpenWrt</strong>在学校上网用，这个月开始学校改计费方式了，索性就拿回家来做透明代理了。之前想使用<strong>GFWlist</strong>来分流结果没成功，所以才折腾一下<strong>ChinaDNS</strong>感觉还是比较简单的，但唯一的弊病是无论境外IP是否被屏蔽都会走代理，这样有些无关痛痒的国外网站访问起来可能会变慢。无论如何，终端设备不再使用代理软件已经方便很多了。</p>
-<p>在搞透明代理之前请确保路由器已经安刷好了OpenWrt。具体怎么刷OpenWrt请参见我之前的一篇博文<a href="https://www.shintaku.cc/2015/12/12/openwrt/">路由器刷入OpenWrt固件</a>。</p>
+<p>在搞透明代理之前请确保路由器已经安刷好了OpenWrt。具体怎么刷OpenWrt请参见我之前的一篇博文<a href="/posts/openwrt/">路由器刷入OpenWrt固件</a>。</p>
 <h1 id="必要软件"><a href="#必要软件" class="headerlink" title="必要软件"></a>必要软件</h1><p>首先是在OpenWrt下装上一堆必要软件：</p>
 <ul>
 <li>shadowsocks-libev-spec</li>
@@ -752,8 +752,8 @@ systemctl enable dnsmasq
   
   <entry>
     <title>将jar程序打包成app</title>
-    <link href="https://www.shintaku.cc/2016/05/20/app/"/>
-    <id>https://www.shintaku.cc/2016/05/20/app/</id>
+    <link href="https://www.shintaku.cc/posts/app/"/>
+    <id>https://www.shintaku.cc/posts/app/</id>
     <published>2016-05-20T12:00:00.000Z</published>
     <updated>2016-11-06T14:41:11.000Z</updated>
     
@@ -794,8 +794,8 @@ systemctl enable dnsmasq
   
   <entry>
     <title>Mac上进行Verilog仿真</title>
-    <link href="https://www.shintaku.cc/2016/04/11/verilog/"/>
-    <id>https://www.shintaku.cc/2016/04/11/verilog/</id>
+    <link href="https://www.shintaku.cc/posts/verilog/"/>
+    <id>https://www.shintaku.cc/posts/verilog/</id>
     <published>2016-04-11T13:11:11.000Z</published>
     <updated>2016-11-14T12:26:35.000Z</updated>
     
@@ -842,8 +842,8 @@ systemctl enable dnsmasq
   
   <entry>
     <title>CentOS 7配置LEMP环境</title>
-    <link href="https://www.shintaku.cc/2016/03/21/centos-lemp/"/>
-    <id>https://www.shintaku.cc/2016/03/21/centos-lemp/</id>
+    <link href="https://www.shintaku.cc/posts/centos-lemp/"/>
+    <id>https://www.shintaku.cc/posts/centos-lemp/</id>
     <published>2016-03-21T13:11:11.000Z</published>
     <updated>2016-11-06T14:41:49.000Z</updated>
     
@@ -934,8 +934,8 @@ systemctl enable nginx
   
   <entry>
     <title>舰娘更改Cookie直接连接</title>
-    <link href="https://www.shintaku.cc/2016/02/29/kancolle-cookie/"/>
-    <id>https://www.shintaku.cc/2016/02/29/kancolle-cookie/</id>
+    <link href="https://www.shintaku.cc/posts/kancolle-cookie/"/>
+    <id>https://www.shintaku.cc/posts/kancolle-cookie/</id>
     <published>2016-02-29T14:22:22.000Z</published>
     <updated>2016-11-06T15:02:29.000Z</updated>
     
@@ -984,8 +984,8 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
   
   <entry>
     <title>Linux上搭建Minecraft服务器</title>
-    <link href="https://www.shintaku.cc/2016/02/14/minecraft/"/>
-    <id>https://www.shintaku.cc/2016/02/14/minecraft/</id>
+    <link href="https://www.shintaku.cc/posts/minecraft/"/>
+    <id>https://www.shintaku.cc/posts/minecraft/</id>
     <published>2016-02-14T13:11:11.000Z</published>
     <updated>2016-11-06T14:58:46.000Z</updated>
     
@@ -1039,8 +1039,8 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
   
   <entry>
     <title>SoftEther VPN的搭建与连接</title>
-    <link href="https://www.shintaku.cc/2016/01/24/softether/"/>
-    <id>https://www.shintaku.cc/2016/01/24/softether/</id>
+    <link href="https://www.shintaku.cc/posts/softether/"/>
+    <id>https://www.shintaku.cc/posts/softether/</id>
     <published>2016-01-24T15:33:33.000Z</published>
     <updated>2016-11-06T15:01:30.000Z</updated>
     
@@ -1214,8 +1214,8 @@ VPN Server&gt;
   
   <entry>
     <title>SSL证书的申请与配置</title>
-    <link href="https://www.shintaku.cc/2015/12/30/ssl/"/>
-    <id>https://www.shintaku.cc/2015/12/30/ssl/</id>
+    <link href="https://www.shintaku.cc/posts/ssl/"/>
+    <id>https://www.shintaku.cc/posts/ssl/</id>
     <published>2015-12-30T15:33:33.000Z</published>
     <updated>2016-11-06T15:01:57.000Z</updated>
     
@@ -1272,8 +1272,8 @@ scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
   
   <entry>
     <title>使用dd命令制作启动盘</title>
-    <link href="https://www.shintaku.cc/2015/12/21/dd/"/>
-    <id>https://www.shintaku.cc/2015/12/21/dd/</id>
+    <link href="https://www.shintaku.cc/posts/dd/"/>
+    <id>https://www.shintaku.cc/posts/dd/</id>
     <published>2015-12-21T13:11:11.000Z</published>
     <updated>2016-11-06T14:42:29.000Z</updated>
     
@@ -1334,8 +1334,8 @@ scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
   
   <entry>
     <title>OpenWrt路由器的IPv6代理</title>
-    <link href="https://www.shintaku.cc/2015/12/15/6relayd/"/>
-    <id>https://www.shintaku.cc/2015/12/15/6relayd/</id>
+    <link href="https://www.shintaku.cc/posts/6relayd/"/>
+    <id>https://www.shintaku.cc/posts/6relayd/</id>
     <published>2015-12-15T07:15:15.000Z</published>
     <updated>2016-11-06T14:40:41.000Z</updated>
     
@@ -1403,8 +1403,8 @@ opkg install 6relayd_2013-10-21_ar71xx.ipk
   
   <entry>
     <title>路由器刷入OpenWrt固件</title>
-    <link href="https://www.shintaku.cc/2015/12/12/openwrt/"/>
-    <id>https://www.shintaku.cc/2015/12/12/openwrt/</id>
+    <link href="https://www.shintaku.cc/posts/openwrt/"/>
+    <id>https://www.shintaku.cc/posts/openwrt/</id>
     <published>2015-12-12T04:12:12.000Z</published>
     <updated>2016-11-06T14:59:42.000Z</updated>
     
@@ -1504,8 +1504,8 @@ opkg list
   
   <entry>
     <title>使用aria2多线程下载</title>
-    <link href="https://www.shintaku.cc/2015/12/03/aria2/"/>
-    <id>https://www.shintaku.cc/2015/12/03/aria2/</id>
+    <link href="https://www.shintaku.cc/posts/aria2/"/>
+    <id>https://www.shintaku.cc/posts/aria2/</id>
     <published>2015-12-03T15:33:33.000Z</published>
     <updated>2016-11-06T14:14:13.000Z</updated>
     

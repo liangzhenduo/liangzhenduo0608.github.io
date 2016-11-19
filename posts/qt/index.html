@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="shortcut icon" href="/images/icon.png">
+  
+  <title>Qt5.5程序的打包与发布 | Shintaku&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="因为要做C＋＋软件实习的大作业，所以选择了易于上手的Qt作为图形化界面程序开发框架，IDE自然就是Qt Creator了。但是Qt程序的打包发布却是不接地气，因为依赖实在是太多了。有的时候加好依赖后在自己的开发环境上可以运行，但脱离开发环境却依旧报
+
+This application failed to start because it could not find or load the Qt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qt5.5程序的打包与发布">
+<meta property="og:url" content="https://www.shintaku.cc/posts/qt/index.html">
+<meta property="og:site_name" content="Shintaku's Blog">
+<meta property="og:description" content="因为要做C＋＋软件实习的大作业，所以选择了易于上手的Qt作为图形化界面程序开发框架，IDE自然就是Qt Creator了。但是Qt程序的打包发布却是不接地气，因为依赖实在是太多了。有的时候加好依赖后在自己的开发环境上可以运行，但脱离开发环境却依旧报
+
+This application failed to start because it could not find or load the Qt">
+<meta property="og:image" content="https://www.shintaku.cc/img/qtbanner.png">
+<meta property="og:updated_time" content="2016-11-06T15:00:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Qt5.5程序的打包与发布">
+<meta name="twitter:description" content="因为要做C＋＋软件实习的大作业，所以选择了易于上手的Qt作为图形化界面程序开发框架，IDE自然就是Qt Creator了。但是Qt程序的打包发布却是不接地气，因为依赖实在是太多了。有的时候加好依赖后在自己的开发环境上可以运行，但脱离开发环境却依旧报
+
+This application failed to start because it could not find or load the Qt">
+<meta name="twitter:image" content="https://www.shintaku.cc/img/qtbanner.png">
+<link rel="publisher" href="114761524022260760000">
+  
+    <link rel="alternative" href="/atom.xml" title="Shintaku&#39;s Blog" type="application/atom+xml">
+  
+  
+    <meta name="google-site-verification" content="5mRgj8NanEMpGZuNfHNJNmH90RgNlrnJXsFlTaKD6Gs" />
+  
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <script src="/js/jquery-2.1.0.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"><div id="banner-right"></div></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Shintaku&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">希パワーたーっぷり注入！はーいプシュッ</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          
+            <a class="main-nav-link" href="/"><i class=fa-home title='Home'></i> Home</a>
+          
+        
+          
+            <a class="main-nav-link" href="/about"><i class=fa-user title='About'></i> About</a>
+          
+        
+          
+            <a class="main-nav-link" href="/archives"><i class=fa-archive title='Archives'></i> Archives</a>
+          
+        
+          
+            <a class="main-nav-link" href="/tags"><i class=fa-tags title='Tags'></i> Tags</a>
+          
+        
+          
+            <a class="main-nav-link" href="/gallery"><i class=fa-camera title='Gallery'></i> Gallery</a>
+          
+        
+          
+            <a class="main-nav-link" href="/works"><i class=fa-trophy title='Works'></i> Works</a>
+          
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.shintaku.cc"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        
+          <section id="main" class='pjax'><article id="post-qt" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/posts/qt/" class="article-date">
+  <time datetime="2015-10-18T13:11:11.000Z" itemprop="datePublished">2015-10-18</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/奇技淫巧/">奇技淫巧</a>►<a class="article-category-link" href="/categories/奇技淫巧/Windows/">Windows</a>
+  </div>
+
+  </div>
+  <div class="article-inner ">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/qtbanner.png" rel="gallery_civonriqx0018q2pr9e97xl0e">
+        <img src="/img/qtbanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Qt5.5程序的打包与发布
+    </h1>
+  
+
+      </header>
+        
+    <footer class="article-footer">
+      <a data-url="https://www.shintaku.cc/posts/qt/" data-id="civonriqx0018q2pr9e97xl0e" class="article-share-link">Share</a>
+      
+        <a href="https://www.shintaku.cc/posts/qt/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Qt/">Qt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Windows/">Windows</a></li></ul>
+
+    </footer>
+    <div class="article-entry " itemprop="articleBody">
+      
+          
+              <div id="toc" class="toc-article">
+              <h2 class="toc-title"><span>contents</span></h2>
+              
+                  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#查找依赖工具"><span class="toc-number">1.</span> <span class="toc-text">查找依赖工具</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#提取依赖文件"><span class="toc-number">2.</span> <span class="toc-text">提取依赖文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改引用路径"><span class="toc-number">3.</span> <span class="toc-text">修改引用路径</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#打包程序发布"><span class="toc-number">4.</span> <span class="toc-text">打包程序发布</span></a></li></ol>
+              
+              </div>
+          
+        
+          <p>因为要做C＋＋软件实习的大作业，所以选择了易于上手的Qt作为图形化界面程序开发框架，IDE自然就是Qt Creator了。但是Qt程序的打包发布却是不接地气，因为依赖实在是太多了。有的时候加好依赖后在自己的开发环境上可以运行，但脱离开发环境却依旧报</p>
+<blockquote>
+<p>This application failed to start because it could not find or load the Qt platform plugin “windows”.</p>
+</blockquote>
+<p><img src="/img/qtwindows.png" alt="无法加载qwindows"></p>
+<p>甚至</p>
+<p><img src="/img/qtruntime.png" alt="Runtime"><br>于是现在亟待解决的问题就是如何能够找到所有所需依赖并能够将其打包引用。</p>
+<h1 id="查找依赖工具"><a href="#查找依赖工具" class="headerlink" title="查找依赖工具"></a>查找依赖工具</h1><p>通过阅读<a href="http://doc.qt.io/qt-5/windows-deployment.html#application-dependencies" target="_blank" rel="external">官方文档</a>发现，Qt里面内置了一个dll依赖性检查工具——<code>windeploy.exe</code>。这个程序应当在<code>~/Qt/Qt5.5.0/5.5/mingw492_32/bin/</code>下，通过命令提示符执行它可以得到使用方法：</p>
+<pre><code>C:\Users\Shintaku&gt;C:\Qt\Qt5.5.0\5.5\mingw492_32\bin\windeployqt.exe
+Please specify the binary or folder.
+
+Usage: C:\Qt\Qt5.5.0\5.5\mingw492_32\bin\windeployqt.exe [options] [files]
+Qt Deploy Tool 5.5.0
+
+The simplest way to use windeployqt is to add the bin directory of your Qt installation 
+(e.g. &lt;QT_DIR\bin&gt;) to the PATH variable and then run:
+  windeployqt &lt;path-to-app-binary&gt;
+If ICU, ANGLE, etc. are not in the bin directory, they need to be in the PATH variable. 
+If your application uses Qt Quick, run:
+  windeployqt --qmldir &lt;path-to-app-qml-files&gt; &lt;path-to-app-binary&gt;
+
+Options:
+  -?, -h, --help             Displays this help.
+  -v, --version              Displays version information.
+  --dir &lt;directory&gt;          Use directory instead of binary directory.
+  --libdir &lt;path&gt;            Copy libraries to path.
+  --debug                    Assume debug binaries.
+  --release                  Assume release binaries.
+  --release-with-debug-info  Assume release binaries with debug information.
+  --force                    Force updating files.
+  --dry-run                  Simulation mode. Behave normally, but do not
+                             copy/update any files.
+  --no-plugins               Skip plugin deployment.
+  --no-libraries             Skip library deployment.
+  --qmldir &lt;directory&gt;       Scan for QML-imports starting from directory.
+  --no-quick-import          Skip deployment of Qt Quick imports.
+  --no-translations          Skip deployment of translations.
+  --no-system-d3d-compiler   Skip deployment of the system D3D compiler.
+  --compiler-runtime         Deploy compiler runtime (Desktop only).
+  --no-compiler-runtime      Do not deploy compiler runtime (Desktop only).
+  --webkit2                  Deployment of WebKit2 (web process).
+  --no-webkit2               Skip deployment of WebKit2.
+  --json                     Print to stdout in JSON format.
+  --angle                    Force deployment of ANGLE.
+  --no-angle                 Disable deployment of ANGLE.
+  --list &lt;option&gt;            Print only the names of the files copied.
+                             Available options:
+                              source:   absolute path of the source files
+                              target:   absolute path of the target files
+                              relative: paths of the target files, relative
+                                        to the target directory
+                              mapping:  outputs the source and the relative
+                                        target, suitable for use within an
+                                        Appx mapping file
+  --verbose &lt;level&gt;          Verbose level.
+
+Qt libraries can be added by passing their name (-xml) or removed 
+by passing the name prepended by --no- (--no-xml). Available libraries:
+bluetooth clucene concurrent core declarative designer designercomponents
+enginio gui qthelp multimedia multimediawidgets multimediaquick network nfc
+opengl positioning printsupport qml qmltooling quick quickparticles quickwidgets
+
+script scripttools sensors serialport sql svg test webkit webkitwidgets
+websockets widgets winextras xml xmlpatterns webenginecore webengine
+webenginewidgets 3dcore 3drenderer 3dquick 3dquickrenderer 3dinput geoservices
+
+Arguments:
+  [files]                    Binaries or directory containing the binary.
+</code></pre><p>发现当<code>windeploy</code>有一个参数为<code>二进制文件</code>时，会在其所在目录下生成该文件所依赖的所有文件。</p>
+<h1 id="提取依赖文件"><a href="#提取依赖文件" class="headerlink" title="提取依赖文件"></a>提取依赖文件</h1><p>于是我们可以在任意目录下新建一个文件夹，然后将Qt编译生成的<code>可执行文件</code>复制到新文件夹下。<br>接下来在命令提示符里执行<code>windeploy yourProgram.exe</code>便可以将其所需依赖加入到新文件夹中了。</p>
+<pre><code>&gt; C:\Qt\Qt5.5.0\5.5\mingw492_32\bin\windeployqt.exe Library.exe
+Library.exe 32 bit, release executable
+Adding Qt5Svg for qsvgicon.dll
+Direct dependencies: Qt5Core Qt5Gui Qt5Sql Qt5Widgets
+All dependencies   : Qt5Core Qt5Gui Qt5Sql Qt5Widgets
+To be deployed     : Qt5Core Qt5Gui Qt5Sql Qt5Svg Qt5Widgets
+Updating Qt5Core.dll.
+Updating Qt5Gui.dll.
+Updating Qt5Sql.dll.
+Updating Qt5Svg.dll.
+Updating Qt5Widgets.dll.
+Updating libGLESV2.dll.
+Updating libEGL.dll.
+Updating D3Dcompiler_47.dll.
+Creating directory iconengines.
+Updating qsvgicon.dll.
+Creating directory imageformats.
+Updating qdds.dll.
+Updating qgif.dll.
+Updating qicns.dll.
+Updating qico.dll.
+Updating qjp2.dll.
+Updating qjpeg.dll.
+Updating qmng.dll.
+Updating qsvg.dll.
+Updating qtga.dll.
+Updating qtiff.dll.
+Updating qwbmp.dll.
+Updating qwebp.dll.
+Creating directory platforms.
+Updating qwindows.dll.
+Creating directory sqldrivers.
+Updating qsqlite.dll.
+Updating qsqlmysql.dll.
+Updating qsqlodbc.dll.
+Updating qsqlpsql.dll.
+Creating C:\Users\Shintaku\Desktop\release\translations...
+Creating qt_ca.qm...
+Creating qt_cs.qm...
+Creating qt_de.qm...
+Creating qt_fi.qm...
+Creating qt_fr.qm...
+Creating qt_hu.qm...
+Creating qt_it.qm...
+Creating qt_ja.qm...
+Creating qt_ko.qm...
+Creating qt_lv.qm...
+Creating qt_ru.qm...
+Creating qt_sk.qm...
+Creating qt_uk.qm...
+</code></pre><p>强烈建议在此文件夹下运行一下程序试试，因为这个工具并不一定能将所有必需的依赖加进来，这时运行极有可能还会报<br><img src="/img/qterror.png" alt="系统错误"><br>如果这样，请移步<code>~/Qt/Qt5.5.0/5.5/mingw492_32/bin</code>下找到缺少的<code>.dll</code>文件将它们移到新文件夹下。经过这步检查，在开发环境下应该可以正常运行可执行文件了。</p>
+<h1 id="修改引用路径"><a href="#修改引用路径" class="headerlink" title="修改引用路径"></a>修改引用路径</h1><p>这时请把这个文件夹拷贝到其他运行环境上测试程序是否能成功运行：如果可以成功运行，那么请跳过这一步；如果不能成功运行，而且依旧报</p>
+<blockquote>
+<p>This application failed to start because it could not find or load the Qt platform plugin “windows”.</p>
+</blockquote>
+<p>则说明程序没有成功引用到动态链接库，这时应当修改源代码。<br>找到工程中的<code>main.cpp</code>文件，在主函数开头中加入一句<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QApplication::addLibraryPath(<span class="string">"."</span>);</div></pre></td></tr></table></figure></p>
+<p>重新编译并替换新文件夹中的.exe文件，再放到其他运行环境上就应该可以成功引用到链接库了。</p>
+<h1 id="打包程序发布"><a href="#打包程序发布" class="headerlink" title="打包程序发布"></a>打包程序发布</h1><p>这时我们就可以打包程序了。我使用的是一款叫做<a href="http://enigmaprotector.com/en/aboutvb.html" target="_blank" rel="external">Enigma Virtual Box</a>的封装工具，这个软件的名字和当年图灵破译的英格玛机一样。<br>软件装好后运行，从主界面选择输入目标文件和输出文件的路径，然后在下面<code>Files</code>里添加所有需要的链接库<br><img src="/img/qt3.png" alt="添加文件"><br>然后有一个<code>Files Options</code>里可选是否压缩文件，压缩后会比较小，然后点<code>Process</code>就行了<br><img src="/img/qt4.png" alt="压缩文件"><br>不久后会在选择的输出路径中生成最终打包好的程序，大功告成。</p>
+
+        
+      
+    </div>
+
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/digitalocean/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Digital Ocean开通VPS
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/goagent/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">GoAgent科学上网攻略</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+          
+            <div id="ukagaka_panel"></div>
+
+<aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">5</span></li></ul></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a class="text" href="/posts/mac-php/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            macOS配置PHP开发环境</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/shell-parallel/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            shell脚本内的并发执行</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/ngrok/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            搭建Ngrok内网穿透服务</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/denyhosts/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            DenyHosts防止ssh暴力登录</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/gfwlist/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            GFWlist+ShadowSocks实现路由器透明代理</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/adb/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            使用adb工具刷机</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/baidu-interview/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            百度PHP实习生面试实录</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/dropbear/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            OpenWrt上的ssh免密登录</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/chinadns/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            ChinaDNS+ShadowSocks实现路由器透明代理</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/app/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            将jar程序打包成app</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ChinaDNS/" style="font-size: 10px;">ChinaDNS</a> <a href="/tags/GFWlist/" style="font-size: 10px;">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 10px;">GoAgent</a> <a href="/tags/LEMP/" style="font-size: 11.25px;">LEMP</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Minecraft/" style="font-size: 11.25px;">Minecraft</a> <a href="/tags/MySQL/" style="font-size: 11.25px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 12.5px;">Nginx</a> <a href="/tags/OpenWrt/" style="font-size: 16.25px;">OpenWrt</a> <a href="/tags/PHP/" style="font-size: 11.25px;">PHP</a> <a href="/tags/Qt/" style="font-size: 10px;">Qt</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/ShadowSocks/" style="font-size: 13.75px;">ShadowSocks</a> <a href="/tags/SoftEther/" style="font-size: 10px;">SoftEther</a> <a href="/tags/Unix/" style="font-size: 11.25px;">Unix</a> <a href="/tags/VPN/" style="font-size: 10px;">VPN</a> <a href="/tags/VPS/" style="font-size: 17.5px;">VPS</a> <a href="/tags/Verilog/" style="font-size: 10px;">Verilog</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/macOS/" style="font-size: 13.75px;">macOS</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/ssh/" style="font-size: 15px;">ssh</a> <a href="/tags/下载/" style="font-size: 10px;">下载</a> <a href="/tags/代理/" style="font-size: 13.75px;">代理</a> <a href="/tags/刷机/" style="font-size: 10px;">刷机</a> <a href="/tags/服务器/" style="font-size: 18.75px;">服务器</a> <a href="/tags/游戏/" style="font-size: 11.25px;">游戏</a> <a href="/tags/科学上网/" style="font-size: 16.25px;">科学上网</a> <a href="/tags/舰队Collection/" style="font-size: 10px;">舰队Collection</a> <a href="/tags/路由器/" style="font-size: 16.25px;">路由器</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget widget-background1">   
+      	<ul>
+	      <li><a href="https://github.com/" target="_blank" title="GitHub">
+        <i class="fa-github"></i> GitHub </a></li>
+	      
+        <li><a href="https://developers.google.com/" target="_blank" title="Google Developers">
+        <i class="fa-google"></i> Google Developers </a></li>
+	      
+        <li><a href="https://github.com/liangzhenduo0608/liangzhenduo0608.github.io" target="_blank" title="github.io">
+        <i class="fa-github-square"></i> Recursion </a></li>
+          
+	    <li><a href="http://xzjqx.me/" target="_blank" title="笑卒见清晰">
+        <i class="fa-h-square"></i> 笑卒见清晰 </a></li>
+
+        <li><a href="http://muyus.cc/" target="_blank" title="暮雨今夕">
+        <i class="fa-wordpress"></i> 暮雨今夕 </a></li>
+
+        <li><a href="http://zhenlee.cn/" target="_blank" title="Fantasia">
+        <i class="fa-wordpress"></i> Fantasia </a></li>
+
+        <li><a href="https://zhengdongjian.xyz/" target="_blank" title="Qyetfu">
+        <i class="fa-reorder"></i> Qyetfu </a></li>
+    	</ul>
+    </div>
+</div>
+
+
+</script>
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Statistics
+</h3>
+    <div class="widget widget-background1">   
+      	<a href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3f3f3f/txt_FFFFFF/border_3f3f3f/columns_2/maxflags_32/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="www.shintaku.cc" border="0"></a>
+    </div>
+</div>
+
+
+</script>
+  
+    
+<script src="/js/jquery-ui.js"></script>
+<script src="/js/jquery.morris.ukagaka.resource.js"></script>
+<script src="/js/typed.js"></script>
+<script type="text/javascript">
+  $('#ukagaka_panel').ukagaka();
+</script>
+  
+</aside>
+
+          
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer" align="center">    
+    <div class="social-group">
+      
+      <a href="https://github.com/liangzhenduo0608" target="_blank" title="GitHub"><i class="fa-github"></i></a>
+      
+      
+      <a href="https://plus.google.com/114761524022260759157" target="_blank" title="Google+"><i class="fa-google-plus-official"></i></a>
+      
+      
+      <a href="https://www.facebook.com/100005630052910" target="_blank" title="Facebook"><i class="fa-facebook-official"></i></a>
+      
+      
+      <a href="https://twitter.com/liangzhenduo" target="_blank" title="Twitter" ><i class="fa-twitter"></i></a>
+      
+      
+      <a href="http://www.linkedin.com/in/zhenduo-liang-795110131" target="_blank" title="LinkedIn" ><i class="fa-linkedin"></i></a>
+      
+      
+      <a href="http://weibo.com/378950608" target="_blank" title="Weibo" ><i class="fa-weibo"></i></a>
+      
+      
+      <a href="mailto:liangzhenduo0608@hotmail.com" target="_blank" title="Email" ><i class="fa-envelope-o"></i></a>
+      
+    </div>
+    <div id="footer-info" class="inner" align="center">
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https://github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2016 Shintaku 
+    </div>  
+
+  </div>
+</footer>
+
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/gallery" class="mobile-nav-link">Gallery</a>
+  
+    <a href="/works" class="mobile-nav-link">Works</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'shintaku';
+  
+  var disqus_url = 'https://www.shintaku.cc/posts/qt/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/jquery.lazyload.js"></script>
+<script src="/js/jquery.als-1.6.js"></script>
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

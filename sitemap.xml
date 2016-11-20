@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.shintaku.cc/posts/hello-world/</loc>
+    
+    <lastmod>2016-11-20T12:14:07.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.shintaku.cc/posts/digitalocean/</loc>
+    
+    <lastmod>2016-11-19T06:29:16.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.shintaku.cc/posts/chinadns/</loc>
     
     <lastmod>2016-11-16T13:24:47.000Z</lastmod>
@@ -12,13 +26,6 @@
     <loc>https://www.shintaku.cc/posts/gfwlist/</loc>
     
     <lastmod>2016-11-16T13:24:16.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.shintaku.cc/posts/digitalocean/</loc>
-    
-    <lastmod>2016-11-14T14:35:19.000Z</lastmod>
     
   </url>
   

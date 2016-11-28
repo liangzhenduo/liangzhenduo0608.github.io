@@ -134,10 +134,6 @@
 
     $container.removeClass('mobile-nav-on');
   });
-
-  if ($.support.pjax) {
-    $(document).pjax('a', '#main', { fragment: ('#main'), timeout: 10000 });
-  }
   
   $(".toggle-input a").on('click', function() {
     var content = $(this).parent().prev(".toggle-content");
@@ -184,4 +180,13 @@
         });
       }, 2000);
   });
+
+  NProgress.configure({ ease: 'ease', speed: 1000 });
+  NProgress.configure({ trickleSpeed: 10 });
+  NProgress.configure({ showSpinner: false });
+  NProgress.start();
+  window.onload = function () {
+    NProgress.done();
+  };
+
 })(jQuery);

@@ -14,7 +14,7 @@
 </script>
 <% } %>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="<%- config.root %>js/jquery-2.2.4.min.js"></script>
 
 <% if (theme.fancybox){ %>
   <%- css('fancybox/jquery.fancybox') %>
@@ -23,5 +23,4 @@
 
 <%- js('js/jquery.lazyload') %>
 <%- js('js/jquery.als-1.6') %>
-
 <%- js('js/script') %>

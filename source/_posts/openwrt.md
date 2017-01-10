@@ -10,7 +10,7 @@ photos:
 
 ![TL-WR703N](/img/op703n.png)
 
-由于这货只有一个网口，当路由器自动获取IP地址后，就进不去[192.168.1.1](192.168.1.1)的管理界面了，虽然能上网，但每次换网线接头的时候都要捅菊花抹掉原来的设置。因此只有使用静态IP时才能正常使用这种路由器。这学期开学后发现家里有一个[Netgear WNR2200](http://www.netgear.com/home/products/networking/wifi-routers/wnr2200.aspx)在吃灰，于是就把它拿到学校刷上了OpenWrt放宿舍给各种无线设备供网。
+由于这货只有一个网口，当路由器自动获取IP地址后，就进不去[192.168.1.1](http://192.168.1.1/)的管理界面了，虽然能上网，但每次换网线接头的时候都要捅菊花抹掉原来的设置。因此只有使用静态IP时才能正常使用这种路由器。这学期开学后发现家里有一个[Netgear WNR2200](http://www.netgear.com/home/products/networking/wifi-routers/wnr2200.aspx)在吃灰，于是就把它拿到学校刷上了OpenWrt放宿舍给各种无线设备供网。
 
 ![WNR2200](/img/op2200.png)
 

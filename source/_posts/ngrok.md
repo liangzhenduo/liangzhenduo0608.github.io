@@ -58,11 +58,11 @@ ngrokd可以在其目录下直接启动，若要想全局使用这个命令可�
 	
 启动要像上面一样加参数指定域名和端口。由于这台VPS我没有搭建Web服务，所以80和443端口没有占用，当然默认也是使用这两个端口的，这样在浏览器访问地址时也省得指定非80端口的麻烦了。出现如下信息就说明启动成功了：
 
-	[16:58:26 CST 2016/09/01] [INFO] (ngrok/log.(*PrefixLogger).Info:83) [registry] [tun] No affinity cache specified
-	[16:58:26 CST 2016/09/01] [INFO] (ngrok/log.Info:112) Listening for public http connections on [::]:80
-	[16:58:26 CST 2016/09/01] [INFO] (ngrok/log.Info:112) Listening for public https connections on [::]:443
-	[16:58:26 CST 2016/09/01] [INFO] (ngrok/log.Info:112) Listening for control and proxy connections on [::]:4443
-	[16:58:26 CST 2016/09/01] [INFO] (ngrok/log.(*PrefixLogger).Info:83) [metrics] Reporting every 30 seconds
+> [16:58:26 CST 2016/09/01] [INFO] (ngrok/log.(\*PrefixLogger).Info:83) [registry] [tun] No affinity cache specified
+> [16:58:26 CST 2016/09/01] [INFO] (ngrok/log.Info:112) Listening for public http connections on [::]:80
+> [16:58:26 CST 2016/09/01] [INFO] (ngrok/log.Info:112) Listening for public https connections on [::]:443
+> [16:58:26 CST 2016/09/01] [INFO] (ngrok/log.Info:112) Listening for control and proxy connections on [::]:4443
+> [16:58:26 CST 2016/09/01] [INFO] (ngrok/log.(\*PrefixLogger).Info:83) [metrics] Reporting every 30 seconds
 	
 另外4443端口用于监听客户端，如有必要也可修改。
 
@@ -104,15 +104,15 @@ trust_host_root_certs: false
 	
 就会出现Ngrok的连接状态：
 	
-	ngrok                                                           (Ctrl+C to quit)
+> ngrok                                                           (Ctrl+C to quit)
 
-	Tunnel Status                 online
-	Version                       1.7/1.7
-	Forwarding                    http://test.shintaku.cc -> 127.0.0.1:4000
-	Forwarding                    https://test.shintaku.cc -> 127.0.0.1:4000
-	Web Interface                 127.0.0.1:4040
-	# Conn                        0
-	Avg Conn Time                 0.00ms
+> Tunnel Status                 online
+> Version                       1.7/1.7
+> Forwarding                    http://test.shintaku.cc -> 127.0.0.1:4000
+> Forwarding                    https://test.shintaku.cc -> 127.0.0.1:4000
+> Web Interface                 127.0.0.1:4040
+> \# Conn                        0
+> Avg Conn Time                 0.00ms
 	
 然后再访问`test.shintaku.cc`就会发现和`localhost:4000`的内容是一样的，就说明Ngrok连接成功了：
 

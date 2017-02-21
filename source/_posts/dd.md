@@ -31,7 +31,7 @@ photos:
 	   
 可以看到`disk0`当然是电脑的内置物理磁盘，`disk1`是内置虚拟磁盘，`disk2`才是要写入的U盘。然后通过`diskutil unmountDisk /dev/disk2`命令卸载刚才插入的驱动器，出现：
 
-	Unmount of all volumes on disk2 was successful
+> Unmount of all volumes on disk2 was successful
 	
 说明卸载成功。
 
@@ -44,16 +44,16 @@ photos:
 
 写入成功后会返回一个报告：
 
-	501+1 records in
-	501+1 records out
-	526260224 bytes transferred in 82.961110 secs (6343457 bytes/sec)
+> 501+1 records in
+> 501+1 records out
+> 526260224 bytes transferred in 82.961110 secs (6343457 bytes/sec)
 	
 这里看到写入到一个2.0的U盘速度大概6兆/秒，如果上面`of`中没加`r`的话速度则不到1兆/秒：
 
-	526260224 bytes transferred in 552.306611 secs (952841 bytes/sec)
+> 526260224 bytes transferred in 552.306611 secs (952841 bytes/sec)
 	
 到这里写入完成，使用`diskutil eject /dev/disk2`弹出驱动器即可，出现：
 
-	Disk /dev/disk2 ejected
+> Disk /dev/disk2 ejected
 
 说明弹出成功，全部完成。

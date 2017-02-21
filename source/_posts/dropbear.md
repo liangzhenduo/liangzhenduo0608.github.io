@@ -21,11 +21,11 @@ photos:
 # 从OpenWrt登录到其他机器
 首先登入到OpenWrt。但想从OpenWrt免密登录其他机器，也要先生成密钥对并将公钥上传。由于无法使用`ssh-keygen`，我们可以直接用`dropbearkey`生成：
 
-	dropbearkey -t rsa -f ~/.ssh/id_rsa
-	Generating key, this may take a while...
-	Public key portion is:
-	ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCn02fMyD2T1ECmDZso8EG1m/4eo5LJtNlbqCMu0SkABsOUvmTHozrPzoJ10SlcAhjnc84S//VGEAbNJxUTaYn0M7f7M8Q4NBSyPF9DMcNAWKM01OSll8BWLQafZeZneW+UOwO6h1LOd6UEaLS8lhKQUD05+dSzKhPHimZudlhkV2bO7KOkiFh3P4K1GakHBuXitB1V9QH144BKKlSqNXy7TZcJf5/oRkB76ZmdSDDMQtvfCHF1BZwggStgBsu9K6nAl8lz9MOVHCYs9AkEIurldrHLUKvoGJ4QA5yc3bEMQaMH7vu3G5YMysIY4w5+aVuZh5Wg4THoh6yXPfGUc7Mh root@OpenWrt
-	Fingerprint: md5 2d:8f:e9:e7:31:75:f0:f4:ba:b8:54:4c:2f:43:9b:33
+> dropbearkey -t rsa -f ~/.ssh/id_rsa
+> Generating key, this may take a while...
+> Public key portion is:
+> ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCn02fMyD2T1ECmDZso8EG1m/4eo5LJtNlbqCMu0SkABsOUvmTHozrPzoJ10SlcAhjnc84S//VGEAbNJxUTaYn0M7f7M8Q4NBSyPF9DMcNAWKM01OSll8BWLQafZeZneW+UOwO6h1LOd6UEaLS8lhKQUD05+dSzKhPHimZudlhkV2bO7KOkiFh3P4K1GakHBuXitB1V9QH144BKKlSqNXy7TZcJf5/oRkB76ZmdSDDMQtvfCHF1BZwggStgBsu9K6nAl8lz9MOVHCYs9AkEIurldrHLUKvoGJ4QA5yc3bEMQaMH7vu3G5YMysIY4w5+aVuZh5Wg4THoh6yXPfGUc7Mh root@OpenWrt
+> Fingerprint: md5 2d:8f:e9:e7:31:75:f0:f4:ba:b8:54:4c:2f:43:9b:33
 	
 这样就将私钥生成到`~/.ssh/id_rsa`了，并将公钥打印到了屏幕上。建议将公钥也保存下来，以便以后使用：
 

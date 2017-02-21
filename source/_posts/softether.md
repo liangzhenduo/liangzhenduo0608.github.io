@@ -33,39 +33,39 @@ photos:
 
 `cd vpnserver`进入到解压目录下并启动安装脚本`./.install.sh`：
 
-	--------------------------------------------------------------------
+> --------------------------------------------------------------------
 
-	SoftEther VPN Server (Ver 4.20, Build 9608, Intel x64 / AMD64) for Linux Install Utility
-	Copyright (c) SoftEther Project at University of Tsukuba, Japan. All Rights Reserved.
+> SoftEther VPN Server (Ver 4.20, Build 9608, Intel x64 / AMD64) for Linux Install Utility
+> Copyright (c) SoftEther Project at University of Tsukuba, Japan. All Rights Reserved.
 
-	--------------------------------------------------------------------
+> --------------------------------------------------------------------
 
 
-	Do you want to read the License Agreement for this software ?
+> Do you want to read the License Agreement for this software ?
 
-	 1. Yes
-	 2. No
+>  1. Yes
+>  2. No
 
-	Please choose one of above number:
+> Please choose one of above number:
 	
 认识不认识字至少读一读，之后会出现一堆License，然后问你看懂了没：
 
-	Did you read and understand the License Agreement ?
-	(If you couldn't read above text, Please read 'ReadMeFirst_License.txt' file with any text editor.)
+> Did you read and understand the License Agreement ?
+> (If you couldn't read above text, Please read 'ReadMeFirst_License.txt' file with any text editor.)
 
-	 1. Yes
-	 2. No
+>  1. Yes
+>  2. No
 
-	Please choose one of above number:
+> Please choose one of above number:
 
 当然没看懂也要说看懂了，然后又问你同不同意：
 
-	Did you agree the License Agreement ?
+> Did you agree the License Agreement ?
 
-	1. Agree
-	2. Do Not Agree
+>  1. Agree
+>  2. Do Not Agree
 
-	Please choose one of above number:
+> Please choose one of above number:
 
 不同意就不要用了。如果提示不识别某些命令比如`gcc`，另行安装即可。如果没有异常则说明安装成功，执行`./vpnserver start`启动服务。同理`./vpnserver stop`停止服务。
 
@@ -90,41 +90,41 @@ WantedBy=multi-user.target
 ## 设置密码
 启动成功后我们需要设置远程登录密码以便本地管理服务。运行`./vpncmd`进入VPN的命令行：
 	
-	vpncmd command - SoftEther VPN Command Line Management Utility
-	SoftEther VPN Command Line Management Utility (vpncmd command)
-	Version 4.20 Build 9608   (English)
-	Compiled 2016/04/17 21:59:35 by yagi at pc30
-	Copyright (c) SoftEther VPN Project. All Rights Reserved.
+> vpncmd command - SoftEther VPN Command Line Management Utility
+> SoftEther VPN Command Line Management Utility (vpncmd command)
+> Version 4.20 Build 9608   (English)
+> Compiled 2016/04/17 21:59:35 by yagi at pc30
+> Copyright (c) SoftEther VPN Project. All Rights Reserved.
 
-	By using vpncmd program, the following can be achieved.
+> By using vpncmd program, the following can be achieved.
 
-	1. Management of VPN Server or VPN Bridge
-	2. Management of VPN Client
-	3. Use of VPN Tools (certificate creation and Network Traffic Speed Test Tool)
+> 1. Management of VPN Server or VPN Bridge
+> 2. Management of VPN Client
+> 3. Use of VPN Tools (certificate creation and Network Traffic Speed Test Tool)
 
-	Select 1, 2 or 3:
+> Select 1, 2 or 3:
 
 这里我们选择1，然后出现：
 
-	Specify the host name or IP address of the computer that the destination VPN Server or VPN Bridge is operating on.
-	By specifying according to the format 'host name:port number', you can also specify the port number.
-	(When the port number is unspecified, 443 is used.)
-	If nothing is input and the Enter key is pressed, the connection will be made to the port number 8888 of localhost (this computer).
-	Hostname of IP Address of Destination:
+> Specify the host name or IP address of the computer that the destination VPN Server or VPN Bridge is operating on.
+> By specifying according to the format 'host name:port number', you can also specify the port number.
+> (When the port number is unspecified, 443 is used.)
+> If nothing is input and the Enter key is pressed, the connection will be made to the port number 8888 of localhost (this computer).
+> Hostname of IP Address of Destination:
 	
 这里需要选择地址和端口。由于这台VPS我搭了一个网站，用了SSL占用了443端口，所以默认的443端口是用不了了，所以一定要改。我改用了5555端口，所以在这里输入`localhost:5555`，然后出现：
 
-	If connecting to the server by Virtual Hub Admin Mode, please input the Virtual Hub name.
-	If connecting by server admin mode, please press Enter without inputting anything.
-	Specify Virtual Hub Name:
+> If connecting to the server by Virtual Hub Admin Mode, please input the Virtual Hub name.
+> If connecting by server admin mode, please press Enter without inputting anything.
+> Specify Virtual Hub Name:
 	
 这里就是指定一个虚拟HUB名字，用默认的直接回车就行。
 
-	Connection has been established with VPN Server "localhost" (port 5555).
+> Connection has been established with VPN Server "localhost" (port 5555).
 
-	You have administrator privileges for the entire VPN Server.
+> You have administrator privileges for the entire VPN Server.
 
-	VPN Server>
+> VPN Server>
 	
 这时我们需要输入`ServerPasswordSet`命令设置远程管理密码，确认密码后就可以通过Windows版的`SoftEther VPN Server Manager`远程管理了。
 

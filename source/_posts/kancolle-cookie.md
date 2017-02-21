@@ -34,7 +34,7 @@ photos:
 
 如果出现
 
-	"ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-netgame.dmm.com;path=/"
+> "ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-netgame.dmm.com;path=/"
 	
 则说明注入成功。这时再次进入舰娘的页面[-艦これ-](http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/)则会正常打开：
 

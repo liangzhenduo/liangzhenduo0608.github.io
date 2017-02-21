@@ -41,7 +41,7 @@ date.timezone = "Asia/Shanghai"
 pdo_mysql.default_socket = /tmp/mysql.sock
 ```
 
-因为我要用~~噫~~**yii**框架，所以改了这一项，如果用到了MySQL的其他函数需要修改相应的`mysql.default_socket`或`mysqli.default_socket`。
+因为我要用**~~噫~~yii**框架，所以改了这一项，如果用到了MySQL的其他函数需要修改相应的`mysql.default_socket`或`mysqli.default_socket`。
 
 然后编辑`/private/etc/php-fpm.conf`，在里面指定一下`error_log`的路径：
 
@@ -53,7 +53,7 @@ error_log = /usr/local/var/log/php-fpm/error.log
 
 接着去配置一下`/usr/local/etc/nginx/nginx.conf`，将php的一段去掉注释，并修改`fastcgi_param`：
 
-```sh
+```nginx
 location ~ \.php$ {
     root           html;
     fastcgi_pass   127.0.0.1:9000;
@@ -82,4 +82,8 @@ location ~ \.php$ {
 </plist>
 ```
 
-保存后将其权限设为**600**即可。
+保存后将其权限设为**600**即可，然后执行启动：
+
+	launchctl load ~/Library/LaunchAgents/net.php.php-fpm.plist
+	
+如果提示`Service is disabled`，上面的命令加上`-w`参数再执行就行了。

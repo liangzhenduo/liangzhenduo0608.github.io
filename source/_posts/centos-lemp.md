@@ -30,10 +30,10 @@ MySQL直接从yum安装总是不能成功，后来索性就直接下载rpm包安
 	
 这时会要求输入数据库的root密码，由于是新安装的并没有密码，所以直接回车即可。接下来会提示设置新的root密码，然后会有一些其它选项：
 
-	Remove anonymous users? [Y/n]
-	Disallow root login remotely? [Y/n]
-	Remove test database and access to it? [Y/n]
-	Reload privilege tables now? [Y/n]
+> Remove anonymous users? [Y/n]
+> Disallow root login remotely? [Y/n]
+> Remove test database and access to it? [Y/n]
+> Reload privilege tables now? [Y/n]
 
 按需求选择即可，推荐都选Y。
 
@@ -48,7 +48,7 @@ yum默认安装的PHP还是5.4版本，对于需要新版本特性的用户还�
 	
 然后编辑`/etc/yum.repos.d/remi.repo`文件：
 
-```ini
+```accesslog
 [remi]
 name=Remi's RPM repository for Enterprise Linux 7 - $basearch
 #baseurl=http://rpms.remirepo.net/enterprise/7/remi/$basearch/
@@ -60,7 +60,7 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
 
 请确保`[remi]`中的`enabled`的值是`1`。然后向下查看，在想要安装的php的版本（`[remi-php55]`或`[remi-php56]`）一段将对应的`enabled`的值改为`1`，例如：
 
-```ini
+```accesslog
 [remi-php55]
 name=Remi's PHP 5.5 RPM repository for Enterprise Linux 7 - $basearch
 #baseurl=http://rpms.remirepo.net/enterprise/7/php55/$basearch/
@@ -115,7 +115,7 @@ include /etc/nginx/conf.d/*.conf;
 
 编辑`/etc/nginx/conf.d/default.conf`文件（若不存在请新建，以后就可以在这里修改配置了）：
 
-```sh
+```nginx
 server {
     listen       80;
     server_name  your_domain;
@@ -175,9 +175,9 @@ server {
 # 配置Nginx和PHP
 继续编辑`/etc/nginx/conf.d/default.conf`文件，将`location ~ \.php$`一段解注释，并改成如下样子：
 
-```sh
+```nginx
     location ~ \.php$ {
-        root   /usr/share/nginx/html;
+        root	   /usr/share/nginx/html;
         fastcgi_pass   127.0.0.1:9000;
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;

@@ -1,7 +1,7 @@
 title: 路由器刷入OpenWrt固件
 date: 2015-12-12 12:12:12
 tags: [OpenWrt, 路由器, Linux, ssh]
-categories: [网络, 科学上网]
+categories: [奇技淫巧, 路由器]
 photos:
 	- https://wiki.openwrt.org/lib/tpl/openwrt/images/logo.png
 ---

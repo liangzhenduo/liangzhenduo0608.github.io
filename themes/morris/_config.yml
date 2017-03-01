@@ -16,12 +16,13 @@ fancybox: true
 # Sidebar
 sidebar: top
 widgets:
+- timeanddate
 - qrcode
 - category
 - recent_posts
 - tagcloud
 - links
-- statistics
+- flagcounter
 - ukagaka
 
 # Miscellaneous

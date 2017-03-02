@@ -10,11 +10,11 @@ toc: false
 
 所以听从公司同（xué）事（zhǎng）的建议，配置了一下`~/.ssh/config`：
 
-```sh
+```nginx
 Host *
-ControlMaster auto
-ControlPath ~/.ssh/%h-%p-%r
-ControlPersist yes
+    ControlMaster auto
+    ControlPath ~/.ssh/%h-%p-%r
+    ControlPersist yes
 ```
 
 如果没有这个文件可以新建。其中`Host`项是指目标地址；`ControlMaster`一项会使一旦有一个连接以后，再次从其他终端连接同一个host也不必再输密码；`ControlPersist`一项可以一段时间不再输密码也可以登录。这样配置以后就能实现输一次密码后对于同一host不再输密码即可连接了。

@@ -3,8 +3,8 @@ menu:
   - {name: Home, path: /, class: fa-home, layout: 2}
   - {name: About, path: /about, class: fa-user, layout: 2}
   - {name: Archives, path: /archives, class: fa-archive, layout: 2}
-  - {name: Tags, path: /tags, class: fa-tags, layout: 2}
-  - {name: Gallery, path: /gallery, class: fa-camera, layout: 2}
+#  - {name: Tags, path: /tags, class: fa-tags, layout: 2}
+#  - {name: Gallery, path: /gallery, class: fa-camera, layout: 2}
 #  - {name: Works, path: /works, class: fa-trophy, layout: 2}
 
 rss: /atom.xml

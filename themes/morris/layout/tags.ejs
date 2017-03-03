@@ -7,7 +7,15 @@
     </header>   
     <footer class="article-footer"></footer>
 	    <div class="widget tagcloud">
-	      <%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1', min_font: 14, max_font: 48}) %>
+	      <%- tagcloud({
+	        min_font: 24,
+	        max_font: 64,
+	        amount: 1024,
+	        orderby: 'count',
+	        color: true,
+	        start_color: '#007FFF',
+	        end_color: '#FFFFFF'
+	      }) %>
 	    </div>
 	</div>
 </article>

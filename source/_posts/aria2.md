@@ -73,7 +73,7 @@ referer=http://pan.baidu.com/disk/home
 
 	touch session.dat
 
-`log`参数指定log路径，会自动生成。这时可以通过`aria2c`命令启动服务了。可以通过`ps aux | grep aria2c`命令检查是否启动成功。
+`log`参数指定log路径，会自动生成。这时可以通过`aria2c`命令启动服务了。可以通过`ps aux | grep aria2c`命令检查是否启动成功。如果没有正常启动可以检查一下log。
 
 # 开机启动
 若要配置macOS开机启动，可以在`~/Library/LaunchAgents`下创建一个plist文件`homebrew.mxcl.aria2.plist`，内容如下：
@@ -94,10 +94,6 @@ referer=http://pan.baidu.com/disk/home
   </dict>
 </plist>
 ```
-
-编辑完后将将其权限设为`-rw-------`：
-
-	chmod 600 ~/Library/LaunchAgents/homebrew.mxcl.aria2.plist
 
 # 配置GUI
 由于aria2是一个命令行工具，所以在没有其他辅助的情况下需要通过命令行来操作。具体使用方法请参阅[aria2.github.io](https://aria2.github.io/)。

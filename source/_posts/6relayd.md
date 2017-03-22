@@ -1,7 +1,7 @@
 title: OpenWrt路由器的IPv6代理
 date: 2015-12-15 15:15:15
-tags: [ShadowSocks, OpenWrt, 科学上网, 路由器, Linux, ssh]
-categories: [网络, 科学上网]
+tags: [ShadowSocks, OpenWrt, 科学上网, 路由器, IPv6]
+categories: [奇技淫巧, 路由器]
 photos:
 	- /img/6rbanner.png
 ---

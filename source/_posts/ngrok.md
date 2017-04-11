@@ -93,7 +93,7 @@ ngrokd可以在其目录下直接启动，若要想全局使用这个命令可�
 ### PC
 先创建配置文件`~/.ngrok`并编辑，写入自己的域名和监听端口：
 
-```sh
+```py
 server_addr: "shintaku.cc:4443"
 trust_host_root_certs: false
 ```
@@ -121,6 +121,25 @@ trust_host_root_certs: false
 也可以通过`localhost:4040`的Web页面查看连接状态：
 
 ![Inbound Requests](/img/ngrequests.png)
+
+如果要同时穿透多个端口也可以将它们都写在配置文件里：
+
+```py
+server_addr: "shintaku.cc:4443"
+trust_host_root_certs: false
+
+tunnels:
+    test:
+        proto:
+            http: 4000
+    ssh:
+        proto:
+            tcp: 22
+```
+
+然后启动时加上要启动的tunnel名就可以了：
+
+	ngrok start test ssh
 
 ### OpenWrt
 路由器上装好了以后可以在`服务`-`Ngrok Settings`下设置：

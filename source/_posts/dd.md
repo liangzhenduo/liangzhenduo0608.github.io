@@ -29,12 +29,14 @@ photos:
 	   0:     FDisk_partition_scheme                        *4.0 GB     disk2
 	   1:                 DOS_FAT_32 UNTITLED                4.0 GB     disk2s1
 	   
-可以看到`disk0`当然是电脑的内置物理磁盘，`disk1`是内置虚拟磁盘，`disk2`才是要写入的U盘。然后通过`diskutil unmountDisk /dev/disk2`命令卸载刚才插入的驱动器，出现：
+可以看到`disk0`当然是电脑的内置物理磁盘，`disk1`是内置虚拟磁盘，`disk2`才是要写入的U盘。然后卸载刚才插入的驱动器：
+
+	diskutil unmountDisk /dev/disk2
+
+出现以下内容说明卸载成功：
 
 > Unmount of all volumes on disk2 was successful
 	
-说明卸载成功。
-
 # 写入镜像文件
 使用命令：
 

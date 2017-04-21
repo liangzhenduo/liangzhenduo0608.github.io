@@ -28,7 +28,7 @@
       <% } else { %>
           <% if( (post.toc !== false) && theme.toc.article && !index){ %>
               <div id="toc" class="toc-article">
-              <h2 class="toc-title"><span><%= __('contents') %></span></h2>
+              <h2 class="toc-title" align="center"><span><%= __('目录') %></span></h2>
               <% if(post.list_number == false) {%>
                   <%- toc(post.content,{list_number:false}) %>
               <% }else{ %>

@@ -1,15 +1,30 @@
 <div class="widget-wrap">
     <h3 class="widget-title">QR code</h3>
-    <div class="widget widget-background1">   
-      	<div id="qrcode" align="center"></div>
+    <div class="widget widget-background1">
+      	<div align="center">
+      		<img id="qrcode">
+      	</div>
     </div>
 </div>
 
-<script type="text/javascript" src="<%- config.root %>js/jquery.qrcode.min.js"></script>
+<script type="text/javascript" src="<%- config.root %>js/awesome-qr.min.js"></script>
 <script type="text/javascript">
-$("#qrcode").qrcode({
-   text: window.location.href,
-   width: 160,
-   height: 160
+var img = new Image;
+img.src = "/images/icon.png";
+$(function() {
+    new AwesomeQRCode({
+        text: window.location.href,
+        width: 160,
+        height: 160,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: AwesomeQRCode.CorrectLevel.H,
+        backgroundImage: img,
+        autoColor: true,
+        /*callback: function(dataUri) {
+            console.log(dataUri);
+        },*/
+        bindElement: 'qrcode'
+    });
 });
 </script>

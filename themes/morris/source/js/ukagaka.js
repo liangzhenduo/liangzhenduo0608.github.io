@@ -202,7 +202,7 @@
                 $(".ukagaka_box").hide();
                 $(".ukagaka_img").hide();
             } else {
-                $(window).load(function() {
+                $(window).on('load',function() {
                     var talk_timer = setInterval(talkingbox, o.talkTime);
 
                     function talkingbox() {

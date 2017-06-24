@@ -225,7 +225,7 @@ while True:
 # 开机启动
 先新建一个Unit配置文件：
 
-	sudo vim /lib/systemd/system/oled.service
+	sudo vim /etc/systemd/system/oled.service
 	
 内容如下：
 
@@ -236,6 +236,7 @@ Description=oled autostart
 [Service]
 Type=idle
 ExecStart=/usr/bin/python /home/pi/oled.py
+Restart=always
 
 [Install]
 WantedBy=multi-user.target

@@ -1,0 +1,21 @@
+<article class="article article-type-post" itemscope="" itemprop="blogPost">
+	<div class="article-inner"> 	
+	<header class="article-header">
+    <h1 itemprop="name">
+      <a class="article-title" href="">Tag Cloud</a>
+    </h1>
+    </header>   
+    <footer class="article-footer"></footer>
+	    <div class="widget tagcloud">
+	      <%- tagcloud({
+	        min_font: 24,
+	        max_font: 64,
+	        amount: 1024,
+	        orderby: 'count',
+	        color: true,
+	        start_color: '#007FFF',
+	        end_color: '#FFFFFF'
+	      }) %>
+	    </div>
+	</div>
+</article>

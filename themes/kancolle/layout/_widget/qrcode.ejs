@@ -1,0 +1,37 @@
+<div class="widget-wrap">
+    <h3 class="widget-title">QR code</h3>
+    <div class="widget widget-background1">
+      	<div align="center">
+      		<img id="qrcode">
+      	</div>
+    </div>
+</div>
+
+<script type="text/javascript" src="<%- config.root %>js/awesome-qr.js"></script>
+<script type="text/javascript">
+//var img = document.getElementById("qrcode");
+var img = new Image;
+img.src = "/images/icon.png";
+setTimeout(function() {
+    new AwesomeQRCode().create({
+        text: window.location.href,
+        size: 160,
+        margin: 4,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        backgroundImage: img,
+        backgroundDimming: 'rgba(0,0,0,0)',
+        logoImage: undefined,
+        logoScale: 0.2,
+        logoMargin: 6,
+        logoCornerRadius: 8,
+        whiteMargin: true,
+        dotScale: 0.4,
+        autoColor: true,
+        binarize: false,
+        binarizeThreshold: 128,
+        callback: function(dataURI){},
+        bindElement: 'qrcode'
+    });
+}, 1000);
+</script>

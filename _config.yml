@@ -5,8 +5,8 @@
 # Site
 title: Shintaku's Blog
 #subtitle: お前ら知ってる！？30過ぎても童貞なら魔法使いになれるんだぜ～
-#subtitle: いいこと？暁の水平線に勝利を刻みなさい！
-subtitle: 希パワーたーっぷり注入！はーいプシュッ
+subtitle: いいこと？暁の水平線に勝利を刻みなさい！
+#subtitle: 希パワーたーっぷり注入！はーいプシュッ
 description:
 author: Shintaku
 language: 
@@ -77,7 +77,7 @@ sitemap:
   path: sitemap.xml
 
 ## Themes: https://hexo.io/themes/ß
-theme: morris
+theme: kancolle
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html

@@ -1,10 +1,15 @@
-title: 大型属性网络的语义社团识别
-date: 2017-04-28 15:15:15
-tags: [机器学习]
-categories: [机器学习, 论文]
-photos:
-	- /img/scibanner.png
 ---
+title: 大型属性网络的语义社团识别
+tags:
+  - 机器学习
+categories:
+  - 机器学习
+  - 论文
+photos:
+  - /img/scibanner.png
+date: 2017-04-28 15:15:15
+---
+
 > 原文：[Semantic community identification in large attribute networks](http://www.cse.wustl.edu/~zhang/publications/aaai16-attributenetworks.pdf)
 
 # 摘要

@@ -1,10 +1,15 @@
-title: 向量空间中词表征的有效估计
-date: 2017-05-20 20:20:20
-tags: [机器学习]
-categories: [机器学习, 论文]
-photos:
-	- /img/w2vbanner.png
 ---
+title: 向量空间中词表征的有效估计
+tags:
+  - 机器学习
+categories:
+  - 机器学习
+  - 论文
+photos:
+  - /img/w2vbanner.png
+date: 2017-05-20 20:20:20
+---
+
 > 原文：[Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/pdf/1301.3781.pdf)
 > 源码：[word2vec](https://code.google.com/archive/p/word2vec/)
 

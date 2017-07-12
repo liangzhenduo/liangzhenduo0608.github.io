@@ -1,10 +1,15 @@
-title: DeepWalk：社会表征的在线学习
-date: 2017-03-28 15:15:15
-tags: [机器学习]
-categories: [机器学习, 论文]
-photos:
-	- /img/deepwalkbanner.png
 ---
+title: DeepWalk：社会表征的在线学习
+tags:
+  - 机器学习
+categories:
+  - 机器学习
+  - 论文
+photos:
+  - /img/deepwalkbanner.png
+date: 2017-03-28 15:15:15
+---
+
 > 原文：[DeepWalk: Online Learning of Social Representations](https://arxiv.org/pdf/1403.6652.pdf)
 > 源码：[phanein/deepwalk](https://github.com/phanein/deepwalk)
 

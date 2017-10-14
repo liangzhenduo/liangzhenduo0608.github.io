@@ -86,7 +86,7 @@ deploy:
   repo: git@github.com:liangzhenduo0608/liangzhenduo0608.github.io.git
   branch: master
 - type: git
-  repo: root@128.199.191.127:/usr/share/nginx/blog.git
+  repo: root@67.216.215.155:/usr/share/nginx/blog.git
   branch: master
 
 # Disqus

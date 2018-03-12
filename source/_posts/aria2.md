@@ -115,7 +115,7 @@ referer=http://pan.baidu.com/disk/home
 ![连接设置](/img/arsetting.png)	
 
 # 百度网盘插件
-百度网盘如果使用普通下载的话~~可能得到的是一个临时的链接？~~不能断点续传，所以需要一个叫[BaiduExporter](https://chrome.google.com/webstore/detail/baiduexporter/mjaenbjdjmgolhoafkohbhhbaiedbkno)的Chrome插件像百度云的客户端一样获取地址。如果Chrome商店被墙了也可以到[GitHub](https://github.com/acgotaku/BaiduExporter/releases)上直接下载`crx`文件手动添加。
+百度网盘如果使用普通下载的话~~可能得到的是一个临时的链接？~~不能断点续传，所以需要一个叫[BaiduExporter](https://chrome.google.com/webstore/detail/baiduexporter/mjaenbjdjmgolhoafkohbhhbaiedbkno)的Chrome插件像百度云的客户端一样获取地址。如果Chrome商店被墙了也可以到[GitHub](https://github.com/acgotaku/BaiduExporter/blob/master/BaiduExporter.crx?raw=true)上直接下载`crx`文件手动添加。
 
 添加成功后再打开百度云会发现多了一个`导出下载`按钮：
 

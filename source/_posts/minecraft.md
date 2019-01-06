@@ -5,40 +5,32 @@ categories: [ACG, Minecraft]
 photos: 
 	- /img/mcbanner.png
 ---
-之前想在树莓派上搭建一个Minecraft服务器，但是只限于局域网内玩有点不爽，所以才想在VPS上开服。这个服务器的地址是**mc.shintaku.cc**，欢迎大家过来乱搞。
+之前想在树莓派上搭建一个Minecraft服务器，但是只限于局域网内玩有点不爽，所以才想在VPS上开服。这个服务器的地址是**mc.shintaku.xyz**~~，一般时候都是宕机~~，欢迎大家过来乱搞。
 
 # 环境配置
 Minecraft是基于Java运行的，所以首先要安装Java环境：
 
 	yum install java
-	
+
 好像比其他平台的安装简单得多。然后为了让Minecraft在后台运行而不受终端操作的干扰，要装一个screen：
 
 	yum install screen
-	
+
 # 启动游戏
-因为最开始要安装到树莓派上，硬件资源有限，所以这里介绍一个叫[SpigotMC](https://www.spigotmc.org/)的轻量级MC服务器端，是Bukkit的优化版，但是可能游戏中有些材质无法使用。由于某些原因论坛上不提供编译好的jar包下载，所以我找了一个1.7和1.8通用版本的放到服务器上：
+因为最开始要安装到**树莓派**上，硬件资源有限，所以这里介绍一个叫[SpigotMC](https://getbukkit.org/download/spigot)的轻量级MC服务器端，是Bukkit的优化版，但是可能游戏中有些材质无法使用。新建一个目录将下载的spigot.jar放进去，然后用以下命令启动：
 
-	wget https://www.shintaku.cc/files/spigot.jar
-
-新建一个目录将spigot.jar放进去，然后用以下命令启动：
-	
 	java -Xms256M -Xmx512M -jar spigot.jar nogui
-	
-后来发现[微软官网](https://minecraft.net/en/download/server)有了服务器版的下载，所以服务器配置足够好的话运行这个也是没有问题的，同样是先下载对应的版本：
 
-	wget https://s3.amazonaws.com/Minecraft.Download/versions/1.8.9/minecraft_server.1.8.9.jar
-	
-地址里改成需要下载的版本号就可以了，启动命令相同：
+后来发现[微软官网](https://minecraft.net/zh-hans/download/server/)有了服务器版的下载，所以服务器配置足够好的话运行这个也是没有问题的，同样是先下载对应版本的server.jar，启动命令相同：
 
-	java -Xms256M -Xmx512M -jar minecraft_server.1.8.9.jar nogui
-	
+	java -Xms512M -Xmx1024M -jar server.jar nogui
+
 其中前两个参数是指定MC运行的内存范围，然后会出现一系列启动信息，最后就是`Stopping server`。	
 # 修改配置文件
 启动之后MC的目录下会生成一些其他的文件，先编辑`eula.txt`，将`eula`的值改为`true`：
 
 	eula=true
-	
+
 然后编辑`server.properties`，开始里面应除了一些注释没有其他内容，将以下内容加进去：
 
 ```ini
@@ -79,7 +71,7 @@ motd=A Minecraft Server             #服务器在服务器列表页所显示的�
 一切完成后新开一个screen来启动MC：
 
 	screen -S mc
-	
+
 这时相当于进入一个新终端，`mc`是这个screen的名字。在里面继续执行之前的java启动命令就可以正常启动游戏了。在screen中只要按下`Ctrl+A`再按下`Ctrl+D`就可以回到原来的终端了。再想进入这个screen的话运行`screen -r mc`就可以了。想要停止游戏的话输入`stop`就可以了。
 
 然后在本地启动游戏，选多人游戏并输入服务器地址就能连接了。
@@ -146,3 +138,4 @@ motd=A Minecraft Server             #服务器在服务器列表页所显示的�
 /worldborder <set|center|damage|warning|get|add> ...
 /xp <amount> [player] OR /xp <amount>L [player]
 ```
+

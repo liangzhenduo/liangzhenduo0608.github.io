@@ -36,7 +36,7 @@ photos:
 
 其中的设置基本不用动，国内路由表在`/etc/chinadns_chnroute.txt`，最好设置成定期更新，可以在计划任务中添加`crontab`任务：
 
-	0 4 * * * wget -O- 'http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest' | grep ipv4 | grep CN | awk -F\| '{ printf("%s/%d\n", $4, 32-log($5)/log(2)) }' > /etc/chinadns_chnroute.txt
+	0 4 * * * wget -O- 'http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest' | grep ipv4 | grep CN | awk -F\| '{ printf("\%s/\%d\n", $4, 32-log($5)/log(2)) }' > /etc/chinadns_chnroute.txt
 	
 这样每天凌晨4点就可以将新的路由表文件写入了。
 

@@ -3,8 +3,8 @@ menu:
   - {name: Home, path: /, class: fa-home, layout: 2}
   - {name: About, path: /about, class: fa-user, layout: 2}
   - {name: Archives, path: /archives, class: fa-archive, layout: 2}
-#  - {name: Tags, path: /tags, class: fa-tags, layout: 2}
-#  - {name: Gallery, path: /gallery, class: fa-camera, layout: 2}
+  - {name: Tags, path: /tags, class: fa-tags, layout: 2}
+  - {name: Gallery, path: /gallery, class: fa-camera, layout: 2}
 #  - {name: Works, path: /works, class: fa-trophy, layout: 2}
 
 rss: /atom.xml
@@ -51,6 +51,5 @@ twitter_url: https://twitter.com/liangzhenduo
 linkedin_url: http://www.linkedin.com/in/zhenduo-liang-795110131
 instagram_url: https://www.instagram.com/liangzhenduo
 weibo_url: http://weibo.com/378950608
-renren_url: http://www.renren.com/357959793
 qzone_url: http://user.qzone.qq.com/825875484
 mail_url: mailto:liangzhenduo0608@hotmail.com

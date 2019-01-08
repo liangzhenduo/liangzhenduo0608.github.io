@@ -43,5 +43,6 @@ Temporary Items
 .apdisk
 
 # Master
-/public/*
-/.deploy_git/*
+public
+themes/landscape
+.deploy_git

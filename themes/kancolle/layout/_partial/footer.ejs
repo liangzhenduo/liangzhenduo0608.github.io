@@ -2,7 +2,7 @@
   <% if (theme.sidebar === 'bottom'){ %>
     <%- partial('_partial/sidebar') %>
   <% } %>
-  
+
   <div class="outer" align="center">
     <div id="wechat" style="display: none">
       <img src="/images/mmqrcode.png" width="220" height="220">
@@ -23,7 +23,7 @@
       <% if(theme.linkedin_url){ %>
       <a href="<%=theme.linkedin_url %>" target="_blank" title="LinkedIn"><i class="fa-linkedin"></i></a>
       <% } %>
-      <a href="/images/mmqrcode.png"  title="WeChat" onclick="javascript:window.open('/images/mmqrcode.png','','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=256, height=256'); return false;"><i class="fa-weixin"></i></a>
+      <a href="/images/mmqrcode.png" title="WeChat" class="fancybox"><i class="fa-weixin"></i></a>
       <% if(theme.weibo_url){ %>
       <a href="<%=theme.weibo_url %>" target="_blank" title="Weibo" ><i class="fa-weibo"></i></a>
       <% } %>
@@ -32,8 +32,7 @@
       <% } %>
     </div>
     <div id="footer-info" class="inner" align="center">
-      Powered by <a href="https:\/\/hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https:\/\/github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; <%= date(new Date(), 'YYYY') %> <%= config.author || config.title %> 
-    </div> 
+      Powered by <a href="https:\/\/hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https:\/\/github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; <%= date(new Date(), 'YYYY') %> <%= config.author || config.title %>
+    </div>
   </div>
 </footer>
-

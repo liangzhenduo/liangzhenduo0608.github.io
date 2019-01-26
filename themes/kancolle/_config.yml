@@ -21,22 +21,20 @@ widgets:
 - category
 - recent_posts
 - tagcloud
+- ad
 - links
 - counter
 - reward
 - ukagaka
 
 # Miscellaneous
-google_analytics:
-favicon:
+google_analytics: UA-132384849-1
+google_adsense: ca-pub-9920928489161252
+google_site_verification: fTlRYC4_eug8Q64ZK4Lzdv8mcunvs7S0Ec-39TBokv4
+favicon: /images/icon.png
 twitter:
-google_plus: 114761524022260759157
 fb_admins:
 fb_app_id:
-
-# Google sitemap
-google_siteVerification:
-  id: 5mRgj8NanEMpGZuNfHNJNmH90RgNlrnJXsFlTaKD6Gs
 
 # Toc
 toc:
@@ -48,8 +46,7 @@ facebook_url: https://www.facebook.com/100005630052910
 github_url: https://github.com/liangzhenduo0608
 google_plus_url: https://plus.google.com/114761524022260759157
 twitter_url: https://twitter.com/liangzhenduo
-linkedin_url: http://www.linkedin.com/in/zhenduo-liang-795110131
+linkedin_url: https://www.linkedin.com/in/zhenduo-liang-795110131
 instagram_url: https://www.instagram.com/liangzhenduo
-weibo_url: http://weibo.com/378950608
-qzone_url: http://user.qzone.qq.com/825875484
+weibo_url: https://weibo.com/378950608
 mail_url: mailto:liangzhenduo0608@hotmail.com

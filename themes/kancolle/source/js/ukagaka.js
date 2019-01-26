@@ -77,18 +77,8 @@
             innerSettingHTML += "</div>";
 
             obj.append(innerSettingHTML);
-            obj.after(footerMenuHTML);
-            obj.after("<img class='ukagaka_img' src='" + options.imgs[0] + "'></img>");
-
-            /* $.ajax({
-                    type: 'GET',
-                    url: 'http://localhost:8080',
-                    data: sendData,
-                    success: function(JData){
-                        var NumOfJData = JData.length;
-                        console.log(JData);
-                    }
-                });*/
+            obj.append("<img class='ukagaka_img' src='" + options.imgs[0] + "'></img>")
+            obj.append(footerMenuHTML);
 
             loadTalk(options);
 
@@ -214,7 +204,7 @@
                 loadTalk(options);
             }
             showText(loadingText);
-            
+
             $("#ukagaka_usertalk").keypress(function(e) {
                 code = (e.keyCode ? e.keyCode : e.which);
                 if (code == 13) {
@@ -563,7 +553,7 @@
         menuSubmitText: "$ 确认",
         menuQueryText: "提高姿势水平<br/>",
         logText: "Shintaku 修正<br/>找尋 AI 系統<br/>谈笑风生<br/>",
-        imgs: [ 
+        imgs: [
                 '/images/kancolle/NPC 任务娘 Quest 大淀.png',
                 '/images/kancolle/no.1 Nagato 長門 中破.png',
                 '/images/kancolle/no.1 Nagato 長門 立绘.png',
@@ -1004,7 +994,6 @@
     };
 
     $.ukagaka.talking = [];
-
     $.ukagaka.talkValid = true;
     $.ukagaka.nextText = '';
     $.ukagaka.nowText = '';

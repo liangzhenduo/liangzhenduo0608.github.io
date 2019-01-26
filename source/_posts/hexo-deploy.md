@@ -3,8 +3,8 @@ title: Hexo博客部署到VPS
 tags:
   - Nginx
   - 服务器
-  - Linux
   - VPS
+  - Git
 categories:
   - 网络
   - 网站部署
@@ -18,14 +18,14 @@ Hexo的博客本身之前是挂在[github.io](http://liangzhenduo0608.github.io/
 # 服务器hook配置
 首先要装好Nginx，然后在`/usr/share/nginx`下新建一个临时目录：
 
-	mkdir blog.git 
-	
+	mkdir blog.git
+
 然后在里面创建git裸库：
-	
+
 	cd blog.git
 	git init --bare
 	cd hooks
-	
+
 之后就可以在`hooks`目录里配置自动执行的脚本了，编辑`post-receive`：
 
 ```sh
@@ -40,7 +40,7 @@ rm -rf $PUBLIC_WWW/.git
 记得给这个脚本添加执行权限：
 
 	chmod +x post-receive
-	
+
 通过这个hook就可以将新生成的博客放到`/usr/share/nginx/blog`下了。
 
 # 修改部署配置

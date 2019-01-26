@@ -15,18 +15,13 @@ photos:
 + 6relayd
 
 # 安装ShadowSocks
-在OpenWrt上我们可以安装`shdowsocks-libev`版本，顺便搭配LuCI界面的`luci-app`使用，这个项目在[sourceforge](https://sourceforge.net/projects/openwrt-dist/files/shadowsocks-libev/)有发布，可以从这里下载最新的。如果被墙了也可以从我备份在服务器上的较老版本（注意软件所适配的架构是ar71xx）：
-
-	wget https://www.shintaku.cc/files/shadowsocks-libev-spec_2.4.6-1_ar71xx.ipk
-	wget https://www.shintaku.cc/files/luci-app-shadowsocks-spec_1.4.0-1_all.ipk
-	
-下载完成后使用`opkg`命令安装：
+在OpenWrt上我们可以安装`shdowsocks-libev`版本，顺便搭配LuCI界面的`luci-app`使用，这个项目在[sourceforge](https://sourceforge.net/projects/openwrt-dist/files/shadowsocks-libev/)有发布，可以从这里下载最新的。下载完成后使用`opkg`命令安装：
 
 	opkg install shadowsocks-libev-spec_2.4.6-1_ar71xx.ipk
 	opkg install luci-app-shadowsocks-spec_1.4.0-1_all.ipk
-	
+
 安装完成后`reboot`命令重启路由器，再次进入LuCI界面可以看到多了一个`Services`-`ShadowSocks`：
-	
+
 ![ShadowSocks](/img/opss.png)
 
 就说明安装正确，在里面输入ShadowSocks服务器信息就可以自动代理了，凡是连上这台路由器的设备获取到的都是代理后的网络了。
@@ -38,7 +33,7 @@ photos:
 
 	wget https://www.shintaku.cc/files/6relayd_2013-10-21_ar71xx.ipk
 	opkg install 6relayd_2013-10-21_ar71xx.ipk
-	
+
 安装完成之后编辑`/etc/config/6relayd`文件在默认配置后面加一组：
 
 ```sh

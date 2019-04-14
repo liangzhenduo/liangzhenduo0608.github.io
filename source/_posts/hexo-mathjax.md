@@ -42,4 +42,4 @@ date: 2019-01-20 14:14:14
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 ```
 
-这样是为了在网站为https协议时请求http的内容时被浏览器block。使用`hexo s`预览是否已生效。
+这样是为了避免在网站为https协议时请求http的内容时被浏览器block。使用`hexo s`预览是否已生效。

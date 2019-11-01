@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8" name="theme-color" content="#171714">
+  
+  <meta name="google-site-verification" content="fTlRYC4_eug8Q64ZK4Lzdv8mcunvs7S0Ec-39TBokv4">
+  
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-132384849-1', 'auto');
+	ga('send', 'pageview');
+  </script>
+  <!-- End Google Analytics -->
+
+  <!-- Google AdSense -->
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-9920928489161252",
+      enable_page_level_ads: true
+    });
+  </script>
+  <!-- End Google AdSense -->
+
+  
+  <link rel="alternative" href="/atom.xml" title="Shintaku&#39;s Blog" type="application/atom+xml">
+  
+  <link rel="manifest" href="manifest.json">
+  
+  <link rel="shortcut icon" href="/images/icon.png">
+  
+  
+  <title>大型属性网络的语义社团识别 | Shintaku&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="原文：Semantic community identification in large attribute networks  摘要网络的模块或社团结构的识别是理解网络语义和功能的关键。虽然已经开发了许多主要探索网络拓扑的社区检测方法，但它们只提供了少量语义信息的社团发现。尽管结构和语义密切相关，但在一起发现并分析这两个基本网络属性上只做了很少的工作。通过在节点上整合网络拓扑和语义信息，如节">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大型属性网络的语义社团识别">
+<meta property="og:url" content="https://liangzhenduo0608.github.io/posts/sci/index.html">
+<meta property="og:site_name" content="Shintaku&#39;s Blog">
+<meta property="og:description" content="原文：Semantic community identification in large attribute networks  摘要网络的模块或社团结构的识别是理解网络语义和功能的关键。虽然已经开发了许多主要探索网络拓扑的社区检测方法，但它们只提供了少量语义信息的社团发现。尽管结构和语义密切相关，但在一起发现并分析这两个基本网络属性上只做了很少的工作。通过在节点上整合网络拓扑和语义信息，如节">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://liangzhenduo0608.github.io/img/scibanner.png">
+<meta property="og:updated_time" content="2019-07-14T15:04:34.207Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大型属性网络的语义社团识别">
+<meta name="twitter:description" content="原文：Semantic community identification in large attribute networks  摘要网络的模块或社团结构的识别是理解网络语义和功能的关键。虽然已经开发了许多主要探索网络拓扑的社区检测方法，但它们只提供了少量语义信息的社团发现。尽管结构和语义密切相关，但在一起发现并分析这两个基本网络属性上只做了很少的工作。通过在节点上整合网络拓扑和语义信息，如节">
+<meta name="twitter:image" content="https://liangzhenduo0608.github.io/img/scibanner.png">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <script src="/js/jquery-3.3.1.min.js"></script>
+  <script src="/js/nprogress.js"></script>
+  <link href="/css/nprogress.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"><div id="banner-right"></div></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Shintaku&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">いいこと？暁の水平線に勝利を刻みなさい！</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          
+            <a class="main-nav-link" href="/"><i class="fa-home" title="Home"></i> Home</a>
+          
+        
+          
+            <a class="main-nav-link" href="/about"><i class="fa-user" title="About"></i> About</a>
+          
+        
+          
+            <a class="main-nav-link" href="/archives"><i class="fa-archive" title="Archives"></i> Archives</a>
+          
+        
+          
+            <a class="main-nav-link" href="/tags"><i class="fa-tags" title="Tags"></i> Tags</a>
+          
+        
+          
+            <a class="main-nav-link" href="/gallery"><i class="fa-camera" title="Gallery"></i> Gallery</a>
+          
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://liangzhenduo0608.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        
+          <section id="main" class='pjax'><article id="post-sci" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/posts/sci/" class="article-date">
+  <time datetime="2017-04-28T07:15:15.000Z" itemprop="datePublished">2017-04-28</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/机器学习/">机器学习</a>►<a class="article-category-link" href="/categories/机器学习/论文/">论文</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/scibanner.png" rel="gallery_ck2g9gglg002huvvmxnfiq9s6">
+        <img src="/img/scibanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      大型属性网络的语义社团识别
+    </h1>
+  
+
+      </header>
+     
+    <footer class="article-footer">
+      <a data-url="https://liangzhenduo0608.github.io/posts/sci/" data-id="ck2g9gglg002huvvmxnfiq9s6" class="article-share-link">Share</a>
+      
+        <a href="https://liangzhenduo0608.github.io/posts/sci/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/机器学习/">机器学习</a></li></ul>
+
+    </footer>
+    <div class="article-entry " itemprop="articleBody">
+      
+          
+              <div id="toc" class="toc-article">
+              <h2 class="toc-title" align="center"><span>目录</span></h2>
+              
+                  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#摘要"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SCI模型"><span class="toc-number">2.</span> <span class="toc-text">SCI模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#建模网络拓扑"><span class="toc-number">2.1.</span> <span class="toc-text">建模网络拓扑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建模节点属性"><span class="toc-number">2.2.</span> <span class="toc-text">建模节点属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#统一模型"><span class="toc-number">2.3.</span> <span class="toc-text">统一模型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#优化"><span class="toc-number">3.</span> <span class="toc-text">优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#U问题"><span class="toc-number">3.1.</span> <span class="toc-text">U问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C问题"><span class="toc-number">3.2.</span> <span class="toc-text">C问题</span></a></li></ol></li></ol>
+              
+              </div>
+          
+        
+          <blockquote>
+<p>原文：<a href="http://www.cse.wustl.edu/~zhang/publications/aaai16-attributenetworks.pdf" target="_blank" rel="noopener">Semantic community identification in large attribute networks</a></p>
+</blockquote>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>网络的模块或社团结构的识别是理解网络语义和功能的关键。虽然已经开发了许多主要探索网络拓扑的社区检测方法，但它们只提供了少量语义信息的社团发现。尽管结构和语义密切相关，但在一起发现并分析这两个基本网络属性上只做了很少的工作。通过在节点上整合网络拓扑和语义信息，如节点属性，研究了社团检测并同时推断其语义的问题。本文提出了一种具有两组参数，社团成员矩阵和社团属性矩阵的新型<a href="https://en.wikipedia.org/wiki/Non-negative_matrix_factorization" target="_blank" rel="noopener">非负矩阵因式分解</a>（NMF）模型，并提出了有效的更新规则保证收敛地评估参数。节点属性的使用改进了社团检测，并为所得到的网络社团提供了语义解释。在人造和真实的世界网络上的广泛实验结果不仅显示了新方法较先进方法的优越性能，而且还展示了其对社团的语义注释能力。</p>
+<h1 id="SCI模型"><a href="#SCI模型" class="headerlink" title="SCI模型"></a>SCI模型</h1><p>考虑一个有\(n\)个节点\(V\)和\(e\)条边\(E\)的无向网络\(G=(V,E)\)，用二值邻接矩阵\(\mathbf{A}\in\mathbb{R}^{n\times n}\)表示。与每个节点\(i\)相关联的是其属性\(\mathbf{S}_i\)，其可以是节点的语义特征。节点的属性是\(m\)维二值向量形式的，所有节点的属性可以由节点属性矩阵\(\mathbf{S}\in\mathbb{R}^{n\times m}\)表示。社团识别的问题是将网络\(G\)划分为\(k\)个社团，并推断每个社团的相关属性或语义。</p>
+<h2 id="建模网络拓扑"><a href="#建模网络拓扑" class="headerlink" title="建模网络拓扑"></a>建模网络拓扑</h2><p>将属于社团\(j\)的节点\(i\)的先验定义为\(U_{ij}\)。网络中所有节点的社团成员为\(\mathbf{U}=(U_{ij})\)，其中\(i=1,2,\ldots,n\)且\(j=1,2,\ldots,k\)。因此\(U_{ir}U_{pr}\)表示社团\(r\)中节点\(i\)和\(p\)之间边数的期望。对所有社团求和，\(i\)和\(p\)之间边数的期望是\(\sum_{r=1}^kU_{ir}U_{pr}\)。 这种生成边的过程意味着如果两个节点具有相似的社团关系，则它们具有更高的连接倾向。节点对之间的期望边数应尽可能与由\(\mathbf{A}\)表示的网络拓扑一致，在矩阵行列式上产生以下函数：</p>
+<script type="math/tex; mode=display">\min\limits_{\mathbf{U}\ge0}\|\mathbf{A}-\mathbf{UU}^T\|_F^2</script><h2 id="建模节点属性"><a href="#建模节点属性" class="headerlink" title="建模节点属性"></a>建模节点属性</h2><p>定义社团\(r\)具有属性\(q\)的倾向为\(C_{qr}\)。因此对于所有社团，有一个社团属性矩阵\(\mathbf{C}=(C_{qr})\)，对于\(q=1,2,\ldots,m\)和\(r=1,2,\ldots,k\)，其中第\(r\)列\(\mathbf{C}_r\)是社团\(r\)的属性成员。如果节点的属性与社团的属性高度相似，那么该节点可能更倾向于在这个社团中。 因此，在\(S_i\)中描述的具有相似属性的节点可能形成一个社团，其可由节点的一般属性来描述。特别地，节点\(i\)属于社团\(r\)的倾向可表示为\(U_{ir}=\mathbf{S}_i\mathbf{C}_r\)。注意如果节点\(i\)和社团\(r\)的属性完全不一致，则节点\(i\)一定不属于社团\(r\)，即\(U_{ir}=0\)。由于所有节点\(mathbf{U}\)的社团成员为结合节点和社团的属性提供了指导，有以下优化函数：</p>
+<script type="math/tex; mode=display">\min\limits_{\mathbf{C}\ge0}\|\mathbf{U}-\mathbf{SC}\|_F^2</script><p>为了给每个社团选择最相关的属性，为矩阵\(\mathbf{C}\)的每列添加一个\(l_1\)稀疏范数。另外为了防止\(\mathbf{C}\)的一些列的值过大（每个社团都有一些有意义的属性），对\(\mathbf{C}\)有约束\(\sum_{j=1}^k|\mathbf{C}(:,j)|_1^2\)，产生以下目标函数：</p>
+<script type="math/tex; mode=display">\min\limits_{\mathbf{C}\ge0}\|\mathbf{U}-\mathbf{SC}\|_F^2+\alpha\sum_{j=1}^k\|\mathbf{C}(:,j)\|_1^2</script><p>其中\(\alpha\)是权衡第一误差项和第二稀疏项的非负参数。</p>
+<h2 id="统一模型"><a href="#统一模型" class="headerlink" title="统一模型"></a>统一模型</h2><p>通过结合网络拓扑模型和节点属性模型的目标函数，有以下完整函数：</p>
+<script type="math/tex; mode=display">\min\limits_{\mathbf{U}\ge0,\mathbf{C}\ge0}L=\|\mathbf{U}-\mathbf{SC}\|_F^2+\alpha\sum_{j=1}^k\|\mathbf{C}(:,j)\|_1^2+\beta\|\mathbf{A}-\mathbf{UU}^T\|_F^2</script><p>其中\(\beta\)是调整网络拓扑权重的正参数。</p>
+<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1><p>由于上面的目标函数不是凸的，所以获得最优解不切实际。局部最小值可以使用<a href="https://en.wikipedia.org/wiki/MM_algorithm" target="_blank" rel="noopener">专门化-最小化</a>框架来实现。这里描述一个固定\(\mathbf{C}\)迭代更新\(\mathbf{U}\)然后固定\(\mathbf{U}\)迭代更新\(\mathbf{C}\)的算法，这保证在每次迭代之后不增加目标函数。具体公式展示为如下两个子问题。</p>
+<h2 id="U问题"><a href="#U问题" class="headerlink" title="U问题"></a><em>U</em>问题</h2><p>当固定\(\mathbf{C}\)更新\(\mathbf{U}\)时，需要解决以下问题：</p>
+<script type="math/tex; mode=display">\min\limits_{\mathbf{U}\ge0}L(\mathbf{U})=\|\mathbf{U}-\mathbf{SC}\|_F^2+\beta\|\mathbf{A}-\mathbf{UU}^T\|_F^2</script><p>为此为\(\mathbf{U}\)上的非负约束引入拉格朗日乘数矩阵\(\mathbf{\Theta}=(\Theta_{ij})\)，得到以下等价目标函数：</p>
+<script type="math/tex; mode=display">L(\mathbf{U})=tr(\mathbf{UU}^T-\mathbf{UC}^T\mathbf{S}^T-\mathbf{SCU}^T+\mathbf{SCC}^T\mathbf{S}^T)+\beta tr(\mathbf{AA}-\mathbf{AUU}^T-\mathbf{UU}^T\mathbf{A}+\mathbf{UU}^T\mathbf{UU}^T)+tr(\mathbf{\Theta U}^T)</script><p>将对\(\mathbf{U}\)的导数\(L(\mathbf{U})\)设为0，有：</p>
+<script type="math/tex; mode=display">\mathbf{\Theta}=-2\mathbf{U}+2\mathbf{SC}+4\beta\mathbf{AU}-4\beta\mathbf{UU}^T\mathbf{U}</script><p>根据对非负\(\mathbf{U}\)的<a href="https://zh.wikipedia.org/wiki/%E5%8D%A1%E7%BE%85%E9%9C%80%EF%BC%8D%E5%BA%AB%E6%81%A9%EF%BC%8D%E5%A1%94%E5%85%8B%E6%A2%9D%E4%BB%B6" target="_blank" rel="noopener">卡罗需-库恩-塔克条件</a>（KKT条件）有如下等式：</p>
+<script type="math/tex; mode=display">(-2\mathbf{U}+2\mathbf{SC}+4\beta\mathbf{AU}-4\beta\mathbf{UU}^T\mathbf{U})_{ij}U_{ij}=\Theta_{ij}U_{ij}=0</script><p>这是解收敛时必须满足的固定点方程。给定\(\mathbf{U}\)的初始值，\(\mathbf{U}\)的连续更新为：</p>
+<script type="math/tex; mode=display">U_{ij}\gets U_{ij}\big(\frac{(\mathbf{SC}+2\beta\mathbf{AU}-\mathbf{U})_{ij}}{2\beta(\mathbf{UU}^T\mathbf{U})_{ij}}\big)^\frac{1}{4}</script><p>为了保证\(\mathbf{U}\)非负的属性，将\(\mathbf{A}\)中的对角元素设置为大于\(\frac{1}{2\beta}\)。\(\mathbf{U}\)的更新规则满足以下定理以保证规则的正确性。</p>
+<ul>
+<li><p><strong>定理1</strong></p>
+<blockquote>
+<p>如果U的更新规则收敛，则最终解满足KKT最优条件。</p>
+</blockquote>
+</li>
+<li><p><strong>定义1</strong></p>
+<blockquote>
+<p>当函数\(Q(\mathbf{U},\mathbf{U}’)\ge L(\mathbf{U})\)，\(Q(\mathbf{U},\mathbf{U})=L(\mathbf{U})\)时，\(Q(\mathbf{U},\mathbf{U}’)\)是\(L(\mathbf{U})\)的辅助函数。</p>
+</blockquote>
+</li>
+<li><p><strong>引理1</strong></p>
+<blockquote>
+<p>如果\(Q\)是\(L\)的辅助函数，则\(L\)在更新规则\(\mathbf{U}^{(t+1)}=arg\min_\mathbf{U}Q(\mathbf{U},\mathbf{U}^{(t)})\)下不增加。</p>
+</blockquote>
+</li>
+<li><p><strong>引理2</strong></p>
+<blockquote>
+<p>函数</p>
+<script type="math/tex; mode=display">Q(\mathbf{U},\mathbf{U}')=tr(\mathbf{SCC}^T\mathbf{S}^T+\beta\mathbf{AA})-\beta tr(\mathbf{RU'}^T\mathbf{U'U'}^T)-tr(\mathbf{U'}^T\mathbf{A'Z})\\\\\quad\quad\quad\quad\quad-tr(\mathbf{Z}^T\mathbf{A'U'})-tr(\mathbf{U'}^T\mathbf{A'U'})-2tr(\mathbf{C}^T\mathbf{S}^T\mathbf{Z})-2tr(\mathbf{C}^T\mathbf{S}^T\mathbf{U'})</script><p>是\(L(\mathbf{U})\)的辅助函数，其中\(R_{ij}=\frac{U_{ij}^4}{U_{ij}’^3}\)，\(Z_{ij}=U’_{ij}\ln\frac{U_{ij}}{U’_{ij}}\)，\(\mathbf{A}’=2\beta\mathbf{A}-\mathbf{I}\)，且\(\mathbf{I}\)是单位矩阵。</p>
+</blockquote>
+</li>
+<li><p><strong>定理2</strong></p>
+<blockquote>
+<p>在\(\mathbf{U}\)的迭代更新下<em>U</em>问题是非增的。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="C问题"><a href="#C问题" class="headerlink" title="C问题"></a><em>C</em>问题</h2><p>当固定\(\mathbf{U}\)更新\(\mathbf{C}\)时，需要解决以下问题：</p>
+<script type="math/tex; mode=display">\min\limits_{\mathbf{C}\ge0}L(\mathbf{C})=\|\mathbf{U}-\mathbf{SC}\|_F^2+\alpha\sum_{j=1}^k\|\mathbf{C}(:,j)\|_1^2</script><p>它等价于如下优化问题：</p>
+<script type="math/tex; mode=display">\min\limits_{\mathbf{C}\ge0}L(\mathbf{C})=\|\dbinom{\mathbf{S}}{\sqrt{\alpha}\mathbf{e}_{1\times m}}\mathbf{C}-\dbinom{\mathbf{U}}{\mathbf{0}_{1\times k}}\|_F^2</script><p>其中\(\mathbf{e}_{1\times m}\)是一个所有分量为1行向量，\(\mathbf{0}_{1\times k}\)是0向量。因此对上面的问题有以下规则：</p>
+<script type="math/tex; mode=display">\mathbf{C}_{ij}\gets\mathbf{C}_{ij}\frac{(\mathbf{S'}^T\mathbf{U'})_{ij}}{(\mathbf{S'}^T\mathbf{S'C})_{ij}}</script><p>其中\(\mathbf{S’}=\dbinom{\mathbf{S}}{\sqrt{\alpha}\mathbf{e}_{1\times m}}\)且\(\mathbf{U’}=\dbinom{\mathbf{U}}{\mathbf{0}_{1\times k}}\)。</p>
+<p>在融合中，由于\(\mathbf{U}\)表达了社团成员软关系分布，可以直接使用\(\mathbf{U}\)或\(\mathbf{U}=\mathbf{SC}\)来获得最终的不相交或重叠的社团。每列\(\mathbf{C}\)表示社团与属性之间的关系，值越大表示与社团对应的属性越相关。</p>
+
+          <div id="statement" class="copyright">
+  <ul>
+    <strong>本文作者：</strong>
+    Shintaku
+    <br>
+    <strong>本文链接：</strong>
+    <a href="https://liangzhenduo0608.github.io/posts/sci/" title="大型属性网络的语义社团识别">https://liangzhenduo0608.github.io/posts/sci/</a>
+    <br>
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://liangzhenduo0608.github.io" title="" target="_blank">Shintaku's Blog</a> 。
+  </ul>
+</div>
+        
+      
+    </div>
+
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/tcp-bbr/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          VPS开启TCP-BBR拥塞控制
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/line/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">LINE：大规模信息网络嵌入</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-9920928489161252" data-ad-slot="3913131990"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+          
+            <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">QR code</h3>
+  <div class="widget widget-background1">
+    <div align="center">
+      <img id="qrcode">
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="/js/awesome-qr.js"></script>
+<script type="text/javascript">
+var img = new Image;
+
+img.src = "/images/icon.png";
+
+setTimeout(function() {
+    new AwesomeQRCode().create({
+        text: window.location.href,
+        size: 160,
+        margin: 4,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        backgroundImage: img,
+        backgroundDimming: 'rgba(0,0,0,0)',
+        logoImage: undefined,
+        logoScale: 0.2,
+        logoMargin: 6,
+        logoCornerRadius: 8,
+        whiteMargin: true,
+        dotScale: 0.4,
+        autoColor: true,
+        binarize: false,
+        binarizeThreshold: 128,
+        callback: function(dataURI){},
+        bindElement: 'qrcode'
+    });
+}, 1000);
+</script>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a class="text" href="/posts/hexo-mathjax/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Hexo博客使用MathJax公式</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/ttl/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            路由器TTL刷机救砖</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/mac-tftp/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            macOS启用TFTP服务</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/l2tp/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            搭建L2TP/IPSec VPN</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/certbot/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Let&#39;s Encrypt SSL证书配置</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/hexo-deploy/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Hexo博客部署到VPS</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/word2vec/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            向量空间中词表征的有效估计</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/tcp-bbr/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            VPS开启TCP-BBR拥塞控制</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/sci/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            大型属性网络的语义社团识别</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/line/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            LINE：大规模信息网络嵌入</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
+      <a href="/tags/VPS/" style="font-size: 21.82px; color: #d1e8ff">VPS</a> <a href="/tags/科学上网/" style="font-size: 20.73px; color: #b9dcff">科学上网</a> <a href="/tags/服务器/" style="font-size: 22.91px; color: #e8f3ff">服务器</a> <a href="/tags/代理/" style="font-size: 17.45px; color: #74b9ff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/OpenWrt/" style="font-size: 19.64px; color: #a2d0ff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20.73px; color: #b9dcff">路由器</a> <a href="/tags/Android/" style="font-size: 13.09px; color: #178bff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/ShadowSocks/" style="font-size: 16.36px; color: #5daeff">ShadowSocks</a> <a href="/tags/IPv6/" style="font-size: 13.09px; color: #178bff">IPv6</a> <a href="/tags/macOS/" style="font-size: 18.55px; color: #8bc5ff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13.09px; color: #178bff">Minecraft</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14.18px; color: #2e96ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13.09px; color: #178bff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16.36px; color: #5daeff">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13.09px; color: #178bff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13.09px; color: #178bff">PHP</a> <a href="/tags/SSL/" style="font-size: 13.09px; color: #178bff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15.27px; color: #46a2ff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18.55px; color: #8bc5ff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/舰队Collection/" style="font-size: 13.09px; color: #178bff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14.18px; color: #2e96ff">游戏</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/VPN/" style="font-size: 13.09px; color: #178bff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/shell/" style="font-size: 13.09px; color: #178bff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <!--h3 class="widget-title">Ad</h3>
+    <div class="widget widget-background1" align="center"-->
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<!-- sidebar -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9920928489161252" data-ad-slot="8654446491" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+    <!--/div-->
+</div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget widget-background1">   
+      	<ul>
+		    <li>
+		    	<a href="https://github.com/liangzhenduo0608" target="_blank" title="github.com"><i class="fa-github"></i> GitHub </a>
+		    </li>
+		      
+	        <li>
+	        	<a href="https://liangzhenduo0608.github.io" target="_blank" title="liangzhenduo0608.github.io"><i class="fa-github-square"></i> Mirror Site </a>
+	        </li>
+	          
+	        <li>
+	        	<a href="https://blog.mahoucoder.com/" target="_blank" title="blog.mahoucoder.com"><i class="fa-h-square"></i> 魔法コーダ </a>
+	        </li>
+
+			<li>
+	        	<a href="https://blog.hackroid.com/" target="_blank" title="blog.hackroid.com"><i class="fa-h-square"></i> Hackroid </a>
+	        </li>
+
+		    <li>
+		    	<a href="http://xzjqx.me/" target="_blank" title="xzjqx.me"><i class="fa-h-square"></i> 笑卒见清晰 </a>
+		    </li>
+
+	        <li>
+	        	<a href="http://muyus.cc/" target="_blank" title="muyus.cc"><i class="fa-wordpress"></i> 暮雨今夕 </a>
+	        </li>
+
+	        <li>
+	        	<a href="http://zhenlee.cn/" target="_blank" title="zhenlee.cn"><i class="fa-wordpress"></i> Fantasia </a>
+	        </li>
+
+	        <li>
+	        	<a href="https://steinslab.xyz/" target="_blank" title="steinslab.xyz"><i class="fa-wordpress"></i> SPtuan </a>
+	        </li>
+
+	        <li>
+	        	<a href="https://qyetfu.site/" target="_blank" title="qyetfu.site"><i class="fa-reorder"></i> Qyetfu </a>
+	        </li>
+    	</ul>
+    </div>
+</div>
+
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Statistics</h3>
+    <div class="widget widget-background1" align="center">
+    	<!--a href="https://clustrmaps.com/site/19kh7" title="Visit tracker"><img src="//clustrmaps.com/map_v2.png?cl=eeeeee&w=220&t=n&d=3kNIfPXlC9a4s7N8RRFV04RgWWonJP-1hQ4Drq_rVj8&co=3d3d3b&ct=eeeeee" /></a-->
+    	<script type="text/javascript" src="//rf.revolvermaps.com/0/0/2.js?i=5gpp8v00aap&amp;m=8&amp;s=178&amp;c=fff600&amp;t=1" async="async"></script>
+      	<a href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3D3D3B/txt_FFFFFF/border_3D3D3B/columns_2/maxflags_100/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="shintaku.xyz" border="0"></a>
+    </div>
+</div>
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Reward</h3>
+    <div class="widget widget-background1" align="center">
+      	<img src="/images/alipay.png" alt="支付宝支付" width="220">
+      	<img src="/images/wechat.png" alt="微信支付" width="220">
+      	<a href="https://www.paypal.me/liangzhenduo" title="PayPal支付" onclick="javascript:window.open('https://www.paypal.me/liangzhenduo','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" alt="PayPal支付" width="220"></a>
+    </div>
+</div>
+  
+    <div id="ukagaka_panel"></div>
+<script src="/js/jquery-ui.min.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/ukagaka.js"></script>
+<script type="text/javascript">$('#ukagaka_panel').ukagaka();</script>
+
+  
+</aside>
+
+
+          
+        
+      </div>
+      <footer id="footer">
+  
+
+  <div class="outer" align="center">
+    <div id="wechat" style="display: none">
+      <img src="/images/mmqrcode.png" width="220" height="220">
+    </div>
+    <div class="social-group">
+      
+      <a href="https://github.com/liangzhenduo0608" target="_blank" title="GitHub"><i class="fa-github"></i></a>
+      
+      
+      <a href="https://plus.google.com/114761524022260759157" target="_blank" title="Google+"><i class="fa-google-plus-official"></i></a>
+      
+      
+      <a href="https://www.facebook.com/100005630052910" target="_blank" title="Facebook"><i class="fa-facebook-official"></i></a>
+      
+      
+      <a href="https://twitter.com/liangzhenduo" target="_blank" title="Twitter"><i class="fa-twitter"></i></a>
+      
+      
+      <a href="https://www.linkedin.com/in/zhenduo-liang-795110131" target="_blank" title="LinkedIn"><i class="fa-linkedin"></i></a>
+      
+      <a href="/images/mmqrcode.png" title="WeChat" class="fancybox"><i class="fa-weixin"></i></a>
+      
+      <a href="https://weibo.com/378950608" target="_blank" title="Weibo"><i class="fa-weibo"></i></a>
+      
+      
+      <a href="mailto:liangzhenduo0608@hotmail.com" target="_blank" title="Email"><i class="fa-envelope-o"></i></a>
+      
+    </div>
+    <div id="footer-info" class="inner" align="center">
+      Powered by <a href="https:\/\/hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https:\/\/github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2019 Shintaku
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/gallery" class="mobile-nav-link">Gallery</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'shintaku';
+  
+  var disqus_url = 'https://liangzhenduo0608.github.io/posts/sci/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/jquery.lazyload.js"></script>
+<script src="/js/jquery.als-1.6.js"></script>
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

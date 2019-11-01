@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8" name="theme-color" content="#171714">
+  
+  <meta name="google-site-verification" content="fTlRYC4_eug8Q64ZK4Lzdv8mcunvs7S0Ec-39TBokv4">
+  
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-132384849-1', 'auto');
+	ga('send', 'pageview');
+  </script>
+  <!-- End Google Analytics -->
+
+  <!-- Google AdSense -->
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-9920928489161252",
+      enable_page_level_ads: true
+    });
+  </script>
+  <!-- End Google AdSense -->
+
+  
+  <link rel="alternative" href="/atom.xml" title="Shintaku&#39;s Blog" type="application/atom+xml">
+  
+  <link rel="manifest" href="manifest.json">
+  
+  <link rel="shortcut icon" href="/images/icon.png">
+  
+  
+  <title>使用aria2多线程下载 | Shintaku&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="aria2是一款轻量级多线程的命令行下载工具，支持HTTP/HTTPS、FTP、SFTP、BitTorrent和Metalink等多种下载方式。程序支持Mac OS X、Linux、Windows等多平台。 这个下载器最大的优点就是多线程。最开始接触它的时候是因为在Mac下下载百度云的资源非常不方便，不借助其他工具只能通过浏览器下载，而且一个线程速度超慢，一不小心就会下载失败。后来从知乎上看到这个">
+<meta name="keywords" content="Linux,下载,Unix">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用aria2多线程下载">
+<meta property="og:url" content="https://liangzhenduo0608.github.io/posts/aria2/index.html">
+<meta property="og:site_name" content="Shintaku&#39;s Blog">
+<meta property="og:description" content="aria2是一款轻量级多线程的命令行下载工具，支持HTTP/HTTPS、FTP、SFTP、BitTorrent和Metalink等多种下载方式。程序支持Mac OS X、Linux、Windows等多平台。 这个下载器最大的优点就是多线程。最开始接触它的时候是因为在Mac下下载百度云的资源非常不方便，不借助其他工具只能通过浏览器下载，而且一个线程速度超慢，一不小心就会下载失败。后来从知乎上看到这个">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://liangzhenduo0608.github.io/img/arbanner.png">
+<meta property="og:updated_time" content="2019-07-14T15:04:34.204Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用aria2多线程下载">
+<meta name="twitter:description" content="aria2是一款轻量级多线程的命令行下载工具，支持HTTP/HTTPS、FTP、SFTP、BitTorrent和Metalink等多种下载方式。程序支持Mac OS X、Linux、Windows等多平台。 这个下载器最大的优点就是多线程。最开始接触它的时候是因为在Mac下下载百度云的资源非常不方便，不借助其他工具只能通过浏览器下载，而且一个线程速度超慢，一不小心就会下载失败。后来从知乎上看到这个">
+<meta name="twitter:image" content="https://liangzhenduo0608.github.io/img/arbanner.png">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <script src="/js/jquery-3.3.1.min.js"></script>
+  <script src="/js/nprogress.js"></script>
+  <link href="/css/nprogress.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"><div id="banner-right"></div></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Shintaku&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">いいこと？暁の水平線に勝利を刻みなさい！</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          
+            <a class="main-nav-link" href="/"><i class="fa-home" title="Home"></i> Home</a>
+          
+        
+          
+            <a class="main-nav-link" href="/about"><i class="fa-user" title="About"></i> About</a>
+          
+        
+          
+            <a class="main-nav-link" href="/archives"><i class="fa-archive" title="Archives"></i> Archives</a>
+          
+        
+          
+            <a class="main-nav-link" href="/tags"><i class="fa-tags" title="Tags"></i> Tags</a>
+          
+        
+          
+            <a class="main-nav-link" href="/gallery"><i class="fa-camera" title="Gallery"></i> Gallery</a>
+          
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://liangzhenduo0608.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        
+          <section id="main" class='pjax'><article id="post-aria2" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/posts/aria2/" class="article-date">
+  <time datetime="2015-12-03T15:33:33.000Z" itemprop="datePublished">2015-12-03</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/奇技淫巧/">奇技淫巧</a>►<a class="article-category-link" href="/categories/奇技淫巧/＊nix/">＊nix</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/arbanner.png" rel="gallery_ck2g9ggkm000euvvmhw4tbm1h">
+        <img src="/img/arbanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用aria2多线程下载
+    </h1>
+  
+
+      </header>
+     
+    <footer class="article-footer">
+      <a data-url="https://liangzhenduo0608.github.io/posts/aria2/" data-id="ck2g9ggkm000euvvmhw4tbm1h" class="article-share-link">Share</a>
+      
+        <a href="https://liangzhenduo0608.github.io/posts/aria2/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unix/">Unix</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/下载/">下载</a></li></ul>
+
+    </footer>
+    <div class="article-entry " itemprop="articleBody">
+      
+          
+              <div id="toc" class="toc-article">
+              <h2 class="toc-title" align="center"><span>目录</span></h2>
+              
+                  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#下载安装"><span class="toc-number">1.</span> <span class="toc-text">下载安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置文件"><span class="toc-number">2.</span> <span class="toc-text">配置文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#开机启动"><span class="toc-number">3.</span> <span class="toc-text">开机启动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置GUI"><span class="toc-number">4.</span> <span class="toc-text">配置GUI</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#百度网盘插件"><span class="toc-number">5.</span> <span class="toc-text">百度网盘插件</span></a></li></ol>
+              
+              </div>
+          
+        
+          <p><strong>aria2</strong>是一款轻量级多线程的命令行下载工具，支持<strong>HTTP/HTTPS</strong>、<strong>FTP</strong>、<strong>SFTP</strong>、<strong>BitTorrent</strong>和<strong>Metalink</strong>等多种下载方式。程序支持Mac OS X、Linux、Windows等多平台。</p>
+<p>这个下载器最大的优点就是多线程。最开始接触它的时候是因为在Mac下下载百度云的资源非常不方便，不借助其他工具只能通过浏览器下载，而且一个线程速度超慢，一不小心就会下载失败。后来从知乎上看到这个神器，<del>用了<em>金坷垃</em>，</del>速度<strong>一千八</strong>。</p>
+<h1 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h1><p>首先到<a href="https://github.com/tatsuhiro-t/aria2/releases" target="_blank" rel="noopener">GitHub</a>下载对应系统的安装文件进行安装；如果在macOS下也可以通过<code>homebrew</code>安装：</p>
+<pre><code>brew install aria2
+</code></pre><h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><p>先新建一个配置文件叫<code>aria2.conf</code>：</p>
+<pre><code>mkdir ~/.aria2
+vi ~/.aria2/aria2.conf
+</code></pre><p>放在这个目录下的主要原因是可以在启动时不再指定其配置文件的位置。然后编辑它：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Basic Options</span></span><br><span class="line"><span class="attr">dir</span>=/Users/<span class="variable">$USER</span>/Downloads</span><br><span class="line"><span class="attr">input-file</span>=/Users/<span class="variable">$USER</span>/.aria2/session.dat</span><br><span class="line"><span class="attr">log</span>=/Users/<span class="variable">$USER</span>/.aria2/aria2.log</span><br><span class="line"><span class="attr">max-concurrent-downloads</span>=<span class="number">15</span></span><br><span class="line"><span class="attr">max-connection-per-server</span>=<span class="number">15</span></span><br><span class="line"><span class="attr">check-integrity</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">continue</span>=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># BitTorrent/Metalink Options</span></span><br><span class="line"><span class="attr">bt-enable-lpd</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">bt-max-open-files</span>=<span class="number">16</span></span><br><span class="line"><span class="attr">bt-max-peers</span>=<span class="number">8</span></span><br><span class="line"><span class="attr">dht-file-path</span>=/opt/var/aria2/dht.dat</span><br><span class="line"><span class="attr">dht-file-path6</span>=/opt/var/aria2/dht6.dat</span><br><span class="line"><span class="attr">dht-listen-port</span>=<span class="number">6801</span></span><br><span class="line"><span class="comment">#enable-dht6=true</span></span><br><span class="line"><span class="attr">listen-port</span>=<span class="number">6801</span></span><br><span class="line"><span class="attr">max-overall-upload-limit</span>=<span class="number">0</span>K</span><br><span class="line"><span class="attr">seed-ratio</span>=<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># RPC Options</span></span><br><span class="line"><span class="attr">enable-rpc</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">rpc-allow-origin-all</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">rpc-listen-all</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">rpc-listen-port</span>=<span class="number">6800</span></span><br><span class="line"><span class="comment">#rpc-secret=123456</span></span><br><span class="line"><span class="comment">#rpc-secure=true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Advanced Options</span></span><br><span class="line"><span class="attr">daemon</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">disable-ipv6</span>=<span class="literal">true</span></span><br><span class="line"><span class="comment">#enable-mmap=true</span></span><br><span class="line"><span class="attr">force-save</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">file-allocation</span>=none</span><br><span class="line"><span class="attr">log-level</span>=warn</span><br><span class="line"><span class="attr">max-overall-download-limit</span>=<span class="number">0</span>K</span><br><span class="line"><span class="attr">save-session</span>=/Users/<span class="variable">$USER</span>/.aria2/session.dat</span><br><span class="line"><span class="attr">always-resume</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">split</span>=<span class="number">10</span></span><br><span class="line"><span class="attr">min-split-size</span>=<span class="number">10</span>M</span><br><span class="line"></span><br><span class="line"><span class="comment"># Pan.baidu.com</span></span><br><span class="line"><span class="attr">user-agent</span>=netdisk;<span class="number">5.2</span>.<span class="number">6</span>;PC;PC-Windows;<span class="number">6.2</span>.<span class="number">9200</span>;WindowsBaiduYunGuanJia</span><br><span class="line"><span class="attr">referer</span>=http://pan.baidu.com/disk/home</span><br></pre></td></tr></table></figure>
+<p>配置文件中所有<code>$USER</code>要改成自己的用户名，<code>dir</code>参数设置的是下载路径，也可以按自己的习惯更改；<code>input-file</code>、<code>save-session</code>参数是指定session（保存下载进度）的存储位置，如果没有那个文件可以手动创建：</p>
+<pre><code>touch session.dat
+</code></pre><p><code>log</code>参数指定log路径，会自动生成。这时可以通过<code>aria2c</code>命令启动服务了。可以通过<code>ps aux | grep aria2c</code>命令检查是否启动成功。如果没有正常启动可以检查一下log。</p>
+<h1 id="开机启动"><a href="#开机启动" class="headerlink" title="开机启动"></a>开机启动</h1><p>若要配置macOS开机启动，可以在<code>~/Library/LaunchAgents</code>下创建一个plist文件<code>homebrew.mxcl.aria2.plist</code>，内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="meta">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>homebrew.mxcl.aria2<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>KeepAlive<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Program<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/local/opt/aria2/bin/aria2c<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="配置GUI"><a href="#配置GUI" class="headerlink" title="配置GUI"></a>配置GUI</h1><p>由于aria2是一个命令行工具，所以在没有其他辅助的情况下需要通过命令行来操作。具体使用方法请参阅<a href="https://aria2.github.io/" target="_blank" rel="noopener">aria2.github.io</a>。</p>
+<p>为了更加便于使用，GitHub上的<a href="https://github.com/ziahamza" target="_blank" rel="noopener">ziahamza</a>开发了一个WebUI，可以通过网页界面来操作aria2：</p>
+<p><img src="/img/arui.png" alt="WebUI">    </p>
+<p>简单来说就是打开<a href="http://ziahamza.github.io/webui-aria2/" target="_blank" rel="noopener">http://ziahamza.github.io/webui-aria2/</a>就能使用了。也可以将<a href="https://github.com/ziahamza/webui-aria2/archive/master.zip" target="_blank" rel="noopener">项目源码</a>下载下来放到本地或者放到自己的服务器上来用，比如<a href="http://aria.shintaku.cc/" target="_blank" rel="noopener">http://aria.shintaku.cc/</a>。</p>
+<p>打开以后如果右上角出现：</p>
+<p><img src="/img/arsuccess.png" alt="连接成功">    </p>
+<p>就说明连接成功了，这时就可以直接输入下载链接下载了。</p>
+<p>如果连接不成功请到<code>Setting</code>-<code>Connection Setting</code>检查端口是不是6800，并且确保6800端口没被别的服务占用：</p>
+<p><img src="/img/arsetting.png" alt="连接设置">    </p>
+<h1 id="百度网盘插件"><a href="#百度网盘插件" class="headerlink" title="百度网盘插件"></a>百度网盘插件</h1><p>百度网盘如果使用普通下载的话<del>可能得到的是一个临时的链接？</del>不能断点续传，所以需要一个叫<a href="https://chrome.google.com/webstore/detail/baiduexporter/mjaenbjdjmgolhoafkohbhhbaiedbkno" target="_blank" rel="noopener">BaiduExporter</a>的Chrome插件像百度云的客户端一样获取地址。如果Chrome商店被墙了也可以到<a href="https://github.com/acgotaku/BaiduExporter/blob/master/BaiduExporter.crx?raw=true" target="_blank" rel="noopener">GitHub</a>上直接下载<code>crx</code>文件手动添加。</p>
+<p>添加成功后再打开百度云会发现多了一个<code>导出下载</code>按钮：</p>
+<p><img src="/img/arbaiduyun.png" alt="导出下载">    </p>
+<p>打开<code>设置</code>，按照如下设置：</p>
+<p><img src="/img/aryunsetting.png" alt="导出设置"></p>
+<p>其中<code>User-agent</code>需要设置为<code>netdisk;5.2.7;PC;PC-Windows;6.2.9200;WindowsBaiduYunGuanJia</code>，<code>referer</code>设置为<code>http://pan.baidu.com/disk/home</code>，将aria2伪装成百度云管家来解除限速。</p>
+<p>应用后选择百度云上的文件，通过<code>导出下载</code>-<code>ARIA2 RPC</code>：</p>
+<p><img src="/img/ardownload.png" alt="下载成功"></p>
+<p>这时再通过WebUI查看应当已经有新添加的任务以一千八的速度在下载了。</p>
+
+          <div id="statement" class="copyright">
+  <ul>
+    <strong>本文作者：</strong>
+    Shintaku
+    <br>
+    <strong>本文链接：</strong>
+    <a href="https://liangzhenduo0608.github.io/posts/aria2/" title="使用aria2多线程下载">https://liangzhenduo0608.github.io/posts/aria2/</a>
+    <br>
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://liangzhenduo0608.github.io" title="" target="_blank">Shintaku's Blog</a> 。
+  </ul>
+</div>
+        
+      
+    </div>
+
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/openwrt/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          路由器刷入OpenWrt固件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/shadowsocks/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">VPS搭建ShadowSocks服务</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-9920928489161252" data-ad-slot="3913131990"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+          
+            <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">QR code</h3>
+  <div class="widget widget-background1">
+    <div align="center">
+      <img id="qrcode">
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="/js/awesome-qr.js"></script>
+<script type="text/javascript">
+var img = new Image;
+
+img.src = "/images/icon.png";
+
+setTimeout(function() {
+    new AwesomeQRCode().create({
+        text: window.location.href,
+        size: 160,
+        margin: 4,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        backgroundImage: img,
+        backgroundDimming: 'rgba(0,0,0,0)',
+        logoImage: undefined,
+        logoScale: 0.2,
+        logoMargin: 6,
+        logoCornerRadius: 8,
+        whiteMargin: true,
+        dotScale: 0.4,
+        autoColor: true,
+        binarize: false,
+        binarizeThreshold: 128,
+        callback: function(dataURI){},
+        bindElement: 'qrcode'
+    });
+}, 1000);
+</script>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a class="text" href="/posts/hexo-mathjax/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Hexo博客使用MathJax公式</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/ttl/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            路由器TTL刷机救砖</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/mac-tftp/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            macOS启用TFTP服务</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/l2tp/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            搭建L2TP/IPSec VPN</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/certbot/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Let&#39;s Encrypt SSL证书配置</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/hexo-deploy/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Hexo博客部署到VPS</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/word2vec/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            向量空间中词表征的有效估计</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/tcp-bbr/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            VPS开启TCP-BBR拥塞控制</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/sci/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            大型属性网络的语义社团识别</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/line/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            LINE：大规模信息网络嵌入</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
+      <a href="/tags/VPS/" style="font-size: 21.82px; color: #d1e8ff">VPS</a> <a href="/tags/科学上网/" style="font-size: 20.73px; color: #b9dcff">科学上网</a> <a href="/tags/服务器/" style="font-size: 22.91px; color: #e8f3ff">服务器</a> <a href="/tags/代理/" style="font-size: 17.45px; color: #74b9ff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/OpenWrt/" style="font-size: 19.64px; color: #a2d0ff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20.73px; color: #b9dcff">路由器</a> <a href="/tags/Android/" style="font-size: 13.09px; color: #178bff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/ShadowSocks/" style="font-size: 16.36px; color: #5daeff">ShadowSocks</a> <a href="/tags/IPv6/" style="font-size: 13.09px; color: #178bff">IPv6</a> <a href="/tags/macOS/" style="font-size: 18.55px; color: #8bc5ff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13.09px; color: #178bff">Minecraft</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14.18px; color: #2e96ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13.09px; color: #178bff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16.36px; color: #5daeff">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13.09px; color: #178bff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13.09px; color: #178bff">PHP</a> <a href="/tags/SSL/" style="font-size: 13.09px; color: #178bff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15.27px; color: #46a2ff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18.55px; color: #8bc5ff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/舰队Collection/" style="font-size: 13.09px; color: #178bff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14.18px; color: #2e96ff">游戏</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/VPN/" style="font-size: 13.09px; color: #178bff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/shell/" style="font-size: 13.09px; color: #178bff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <!--h3 class="widget-title">Ad</h3>
+    <div class="widget widget-background1" align="center"-->
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<!-- sidebar -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9920928489161252" data-ad-slot="8654446491" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+    <!--/div-->
+</div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget widget-background1">   
+      	<ul>
+		    <li>
+		    	<a href="https://github.com/liangzhenduo0608" target="_blank" title="github.com"><i class="fa-github"></i> GitHub </a>
+		    </li>
+		      
+	        <li>
+	        	<a href="https://liangzhenduo0608.github.io" target="_blank" title="liangzhenduo0608.github.io"><i class="fa-github-square"></i> Mirror Site </a>
+	        </li>
+	          
+	        <li>
+	        	<a href="https://blog.mahoucoder.com/" target="_blank" title="blog.mahoucoder.com"><i class="fa-h-square"></i> 魔法コーダ </a>
+	        </li>
+
+			<li>
+	        	<a href="https://blog.hackroid.com/" target="_blank" title="blog.hackroid.com"><i class="fa-h-square"></i> Hackroid </a>
+	        </li>
+
+		    <li>
+		    	<a href="http://xzjqx.me/" target="_blank" title="xzjqx.me"><i class="fa-h-square"></i> 笑卒见清晰 </a>
+		    </li>
+
+	        <li>
+	        	<a href="http://muyus.cc/" target="_blank" title="muyus.cc"><i class="fa-wordpress"></i> 暮雨今夕 </a>
+	        </li>
+
+	        <li>
+	        	<a href="http://zhenlee.cn/" target="_blank" title="zhenlee.cn"><i class="fa-wordpress"></i> Fantasia </a>
+	        </li>
+
+	        <li>
+	        	<a href="https://steinslab.xyz/" target="_blank" title="steinslab.xyz"><i class="fa-wordpress"></i> SPtuan </a>
+	        </li>
+
+	        <li>
+	        	<a href="https://qyetfu.site/" target="_blank" title="qyetfu.site"><i class="fa-reorder"></i> Qyetfu </a>
+	        </li>
+    	</ul>
+    </div>
+</div>
+
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Statistics</h3>
+    <div class="widget widget-background1" align="center">
+    	<!--a href="https://clustrmaps.com/site/19kh7" title="Visit tracker"><img src="//clustrmaps.com/map_v2.png?cl=eeeeee&w=220&t=n&d=3kNIfPXlC9a4s7N8RRFV04RgWWonJP-1hQ4Drq_rVj8&co=3d3d3b&ct=eeeeee" /></a-->
+    	<script type="text/javascript" src="//rf.revolvermaps.com/0/0/2.js?i=5gpp8v00aap&amp;m=8&amp;s=178&amp;c=fff600&amp;t=1" async="async"></script>
+      	<a href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3D3D3B/txt_FFFFFF/border_3D3D3B/columns_2/maxflags_100/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="shintaku.xyz" border="0"></a>
+    </div>
+</div>
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Reward</h3>
+    <div class="widget widget-background1" align="center">
+      	<img src="/images/alipay.png" alt="支付宝支付" width="220">
+      	<img src="/images/wechat.png" alt="微信支付" width="220">
+      	<a href="https://www.paypal.me/liangzhenduo" title="PayPal支付" onclick="javascript:window.open('https://www.paypal.me/liangzhenduo','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" alt="PayPal支付" width="220"></a>
+    </div>
+</div>
+  
+    <div id="ukagaka_panel"></div>
+<script src="/js/jquery-ui.min.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/ukagaka.js"></script>
+<script type="text/javascript">$('#ukagaka_panel').ukagaka();</script>
+
+  
+</aside>
+
+
+          
+        
+      </div>
+      <footer id="footer">
+  
+
+  <div class="outer" align="center">
+    <div id="wechat" style="display: none">
+      <img src="/images/mmqrcode.png" width="220" height="220">
+    </div>
+    <div class="social-group">
+      
+      <a href="https://github.com/liangzhenduo0608" target="_blank" title="GitHub"><i class="fa-github"></i></a>
+      
+      
+      <a href="https://plus.google.com/114761524022260759157" target="_blank" title="Google+"><i class="fa-google-plus-official"></i></a>
+      
+      
+      <a href="https://www.facebook.com/100005630052910" target="_blank" title="Facebook"><i class="fa-facebook-official"></i></a>
+      
+      
+      <a href="https://twitter.com/liangzhenduo" target="_blank" title="Twitter"><i class="fa-twitter"></i></a>
+      
+      
+      <a href="https://www.linkedin.com/in/zhenduo-liang-795110131" target="_blank" title="LinkedIn"><i class="fa-linkedin"></i></a>
+      
+      <a href="/images/mmqrcode.png" title="WeChat" class="fancybox"><i class="fa-weixin"></i></a>
+      
+      <a href="https://weibo.com/378950608" target="_blank" title="Weibo"><i class="fa-weibo"></i></a>
+      
+      
+      <a href="mailto:liangzhenduo0608@hotmail.com" target="_blank" title="Email"><i class="fa-envelope-o"></i></a>
+      
+    </div>
+    <div id="footer-info" class="inner" align="center">
+      Powered by <a href="https:\/\/hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https:\/\/github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2019 Shintaku
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/gallery" class="mobile-nav-link">Gallery</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'shintaku';
+  
+  var disqus_url = 'https://liangzhenduo0608.github.io/posts/aria2/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/jquery.lazyload.js"></script>
+<script src="/js/jquery.als-1.6.js"></script>
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

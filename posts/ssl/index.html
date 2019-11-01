@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8" name="theme-color" content="#171714">
+  
+  <meta name="google-site-verification" content="fTlRYC4_eug8Q64ZK4Lzdv8mcunvs7S0Ec-39TBokv4">
+  
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-132384849-1', 'auto');
+	ga('send', 'pageview');
+  </script>
+  <!-- End Google Analytics -->
+
+  <!-- Google AdSense -->
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-9920928489161252",
+      enable_page_level_ads: true
+    });
+  </script>
+  <!-- End Google AdSense -->
+
+  
+  <link rel="alternative" href="/atom.xml" title="Shintaku&#39;s Blog" type="application/atom+xml">
+  
+  <link rel="manifest" href="manifest.json">
+  
+  <link rel="shortcut icon" href="/images/icon.png">
+  
+  
+  <title>SSL证书的申请与配置 | Shintaku&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="超文本传输安全协议（HTTPS）是一种网络安全传输协议。在计算机网络上，HTTPS经由超文本传输协议进行通讯，但利用SSL/TLS来对数据包进行加密。HTTPS开发的主要目的，是提供对网络服务器的身份认证，保护交换数据的隐私与完整性。 如今越来越多的个人网站使用HTTPS协议，所以感觉自己的网站不装这么一个逼就落伍了。看着自己的主页地址栏前面有一个绿色的https也感觉安全了许多虽然并没有什么卵用">
+<meta name="keywords" content="VPS,服务器,Nginx,SSL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSL证书的申请与配置">
+<meta property="og:url" content="https://liangzhenduo0608.github.io/posts/ssl/index.html">
+<meta property="og:site_name" content="Shintaku&#39;s Blog">
+<meta property="og:description" content="超文本传输安全协议（HTTPS）是一种网络安全传输协议。在计算机网络上，HTTPS经由超文本传输协议进行通讯，但利用SSL/TLS来对数据包进行加密。HTTPS开发的主要目的，是提供对网络服务器的身份认证，保护交换数据的隐私与完整性。 如今越来越多的个人网站使用HTTPS协议，所以感觉自己的网站不装这么一个逼就落伍了。看着自己的主页地址栏前面有一个绿色的https也感觉安全了许多虽然并没有什么卵用">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://liangzhenduo0608.github.io/img/sslbanner.png">
+<meta property="og:updated_time" content="2019-07-14T15:04:34.207Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SSL证书的申请与配置">
+<meta name="twitter:description" content="超文本传输安全协议（HTTPS）是一种网络安全传输协议。在计算机网络上，HTTPS经由超文本传输协议进行通讯，但利用SSL/TLS来对数据包进行加密。HTTPS开发的主要目的，是提供对网络服务器的身份认证，保护交换数据的隐私与完整性。 如今越来越多的个人网站使用HTTPS协议，所以感觉自己的网站不装这么一个逼就落伍了。看着自己的主页地址栏前面有一个绿色的https也感觉安全了许多虽然并没有什么卵用">
+<meta name="twitter:image" content="https://liangzhenduo0608.github.io/img/sslbanner.png">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <script src="/js/jquery-3.3.1.min.js"></script>
+  <script src="/js/nprogress.js"></script>
+  <link href="/css/nprogress.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"><div id="banner-right"></div></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Shintaku&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">いいこと？暁の水平線に勝利を刻みなさい！</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          
+            <a class="main-nav-link" href="/"><i class="fa-home" title="Home"></i> Home</a>
+          
+        
+          
+            <a class="main-nav-link" href="/about"><i class="fa-user" title="About"></i> About</a>
+          
+        
+          
+            <a class="main-nav-link" href="/archives"><i class="fa-archive" title="Archives"></i> Archives</a>
+          
+        
+          
+            <a class="main-nav-link" href="/tags"><i class="fa-tags" title="Tags"></i> Tags</a>
+          
+        
+          
+            <a class="main-nav-link" href="/gallery"><i class="fa-camera" title="Gallery"></i> Gallery</a>
+          
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://liangzhenduo0608.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        
+          <section id="main" class='pjax'><article id="post-ssl" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/posts/ssl/" class="article-date">
+  <time datetime="2015-12-30T15:33:33.000Z" itemprop="datePublished">2015-12-30</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/网络/">网络</a>►<a class="article-category-link" href="/categories/网络/网站部署/">网站部署</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/sslbanner.png" rel="gallery_ck2g9ggls003kuvvmryoh5oat">
+        <img src="/img/sslbanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SSL证书的申请与配置
+    </h1>
+  
+
+      </header>
+     
+    <footer class="article-footer">
+      <a data-url="https://liangzhenduo0608.github.io/posts/ssl/" data-id="ck2g9ggls003kuvvmryoh5oat" class="article-share-link">Share</a>
+      
+        <a href="https://liangzhenduo0608.github.io/posts/ssl/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSL/">SSL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/服务器/">服务器</a></li></ul>
+
+    </footer>
+    <div class="article-entry " itemprop="articleBody">
+      
+          
+              <div id="toc" class="toc-article">
+              <h2 class="toc-title" align="center"><span>目录</span></h2>
+              
+                  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#申请证书"><span class="toc-number">1.</span> <span class="toc-text">申请证书</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#填写信息"><span class="toc-number">1.1.</span> <span class="toc-text">填写信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证域名"><span class="toc-number">1.2.</span> <span class="toc-text">验证域名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成签名"><span class="toc-number">1.3.</span> <span class="toc-text">生成签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载证书"><span class="toc-number">1.4.</span> <span class="toc-text">下载证书</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#部署证书"><span class="toc-number">2.</span> <span class="toc-text">部署证书</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#上传证书"><span class="toc-number">2.1.</span> <span class="toc-text">上传证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#监听端口"><span class="toc-number">2.2.</span> <span class="toc-text">监听端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#强制跳转"><span class="toc-number">2.3.</span> <span class="toc-text">强制跳转</span></a></li></ol></li></ol>
+              
+              </div>
+          
+        
+          <p>超文本传输安全协议（HTTPS）是一种网络安全传输协议。在计算机网络上，HTTPS经由超文本传输协议进行通讯，但利用SSL/TLS来对数据包进行加密。HTTPS开发的主要目的，是提供对网络服务器的身份认证，保护交换数据的隐私与完整性。</p>
+<p>如今越来越多的个人网站使用HTTPS协议，所以感觉自己的网站不装这么一个逼就落伍了。看着自己的主页地址栏前面有一个绿色的<code>https</code>也感觉安全了许多<del>虽然并没有什么卵用</del>。</p>
+<h1 id="申请证书"><a href="#申请证书" class="headerlink" title="申请证书"></a>申请证书</h1><p>要使用HTTPS协议首先要有一个值得信任的证书颁发机构给你的网站颁发的证书。目前免费的SSL证书颁发机构有很多，本文以从<strong>沃通</strong>上申请证书为例。</p>
+<h2 id="填写信息"><a href="#填写信息" class="headerlink" title="填写信息"></a>填写信息</h2><p>首先到<a href="https://buy.wosign.com/free/" target="_blank" rel="noopener">沃通官网</a>注册账号并登录。</p>
+<p>然后会出现以下界面：</p>
+<p><img src="/img/ssl1.png" alt="填写信息"></p>
+<p>单次申请支持1个证书5个域名2年期限，证书可选中英文，提交就好了。</p>
+<h2 id="验证域名"><a href="#验证域名" class="headerlink" title="验证域名"></a>验证域名</h2><p>签发机构需要验证域名的所有者，可以通过域名邮箱验证，也可以将指定信息放到网站上让其扫描以验证：</p>
+<p><img src="/img/ssl2.png" alt="验证域名"></p>
+<p>如果没有域名邮箱，将指定的html文件下载下来上传到服务器上网站的根目录下然后点下面的验证就可以了。</p>
+<h2 id="生成签名"><a href="#生成签名" class="headerlink" title="生成签名"></a>生成签名</h2><p>到订单里选择签名生成方式，可以选择第一种方式系统自动生成，设置密码：</p>
+<p><img src="/img/ssl3.png" alt="生成签名"></p>
+<p>这个密码是最后解压证书用的，所以要记好。</p>
+<h2 id="下载证书"><a href="#下载证书" class="headerlink" title="下载证书"></a>下载证书</h2><p>之后会弹出证书的下载链接，如果没有可以稍等片刻去订单里Get Cert，或者等待邮箱收到链接，输入刚才设置的密码就可下载压缩包了：</p>
+<p><img src="/img/ssl4.png" alt="下载证书"></p>
+<h1 id="部署证书"><a href="#部署证书" class="headerlink" title="部署证书"></a>部署证书</h1><p>通过之前设置的密码解压压缩包，里面有各种服务器的证书，解压自己所用的服务器对应的证书即可。本文以<code>Nginx</code>服务器为例。</p>
+<h2 id="上传证书"><a href="#上传证书" class="headerlink" title="上传证书"></a>上传证书</h2><p>解压后里面有一个<code>.crt</code>文件和一个<code>.key</code>文件，将它们上传到服务器上：</p>
+<pre><code>scp 1_your_domain_bundle.crt remote_username@remote_host:/usr/share/nginx/
+scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
+</code></pre><h2 id="监听端口"><a href="#监听端口" class="headerlink" title="监听端口"></a>监听端口</h2><p>一般HTTPS使用443端口，因此要编辑<code>/etc/nginx/conf.d</code>下的<code>ssl.conf</code>文件：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">443</span>;</span><br><span class="line">    <span class="attribute">server_name</span>  your_domain;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl</span>                  <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">ssl_certificate</span>      /usr/share/nginx/1_your_domain_bundle.crt;</span><br><span class="line">    <span class="attribute">ssl_certificate_key</span>  /usr/share/nginx/2_your_domain.key;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl_session_timeout</span>  <span class="number">5m</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl_protocols</span>  SSLv2 SSLv3 TLSv1;</span><br><span class="line">    <span class="attribute">ssl_ciphers</span>  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;</span><br><span class="line">    <span class="attribute">ssl_prefer_server_ciphers</span>   <span class="literal">on</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/www;</span><br><span class="line">        <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解开注释并将证书文件路径写进去保存，然后运行<code>nginx -s reload</code>重新加载配置文件即可。</p>
+<h2 id="强制跳转"><a href="#强制跳转" class="headerlink" title="强制跳转"></a>强制跳转</h2><p>经过之前的配置必须在地址里写上<code>https</code>才会跳转到HTTPS域名，不然还是会跳转到HTTP的。</p>
+<p>所以还要编辑<code>/etc/nginx/conf.d</code>下的<code>default.conf</code>文件：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">80</span> default_server;</span><br><span class="line">    <span class="attribute">server_name</span>  your_domain;</span><br><span class="line">    <span class="attribute">return</span> <span class="number">301</span> https://<span class="variable">$server_name</span><span class="variable">$request_uri</span>;        </span><br><span class="line"></span><br><span class="line">    <span class="attribute">include</span> /etc/nginx/default.d/<span class="regexp">*.conf</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/www;</span><br><span class="line">        <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>server_name</code>下面加一个301跳转就能强制跳转到<code>https</code>了。</p>
+<p>保存后运行<code>nginx -s reload</code>重新加载配置文件就搞定了。</p>
+
+          <div id="statement" class="copyright">
+  <ul>
+    <strong>本文作者：</strong>
+    Shintaku
+    <br>
+    <strong>本文链接：</strong>
+    <a href="https://liangzhenduo0608.github.io/posts/ssl/" title="SSL证书的申请与配置">https://liangzhenduo0608.github.io/posts/ssl/</a>
+    <br>
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://liangzhenduo0608.github.io" title="" target="_blank">Shintaku's Blog</a> 。
+  </ul>
+</div>
+        
+      
+    </div>
+
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/softether/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          SoftEther VPN的搭建与连接
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/dd/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用dd命令制作启动盘</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-9920928489161252" data-ad-slot="3913131990"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+          
+            <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">QR code</h3>
+  <div class="widget widget-background1">
+    <div align="center">
+      <img id="qrcode">
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="/js/awesome-qr.js"></script>
+<script type="text/javascript">
+var img = new Image;
+
+img.src = "/images/icon.png";
+
+setTimeout(function() {
+    new AwesomeQRCode().create({
+        text: window.location.href,
+        size: 160,
+        margin: 4,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        backgroundImage: img,
+        backgroundDimming: 'rgba(0,0,0,0)',
+        logoImage: undefined,
+        logoScale: 0.2,
+        logoMargin: 6,
+        logoCornerRadius: 8,
+        whiteMargin: true,
+        dotScale: 0.4,
+        autoColor: true,
+        binarize: false,
+        binarizeThreshold: 128,
+        callback: function(dataURI){},
+        bindElement: 'qrcode'
+    });
+}, 1000);
+</script>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a class="text" href="/posts/hexo-mathjax/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Hexo博客使用MathJax公式</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/ttl/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            路由器TTL刷机救砖</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/mac-tftp/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            macOS启用TFTP服务</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/l2tp/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            搭建L2TP/IPSec VPN</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/certbot/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Let&#39;s Encrypt SSL证书配置</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/hexo-deploy/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Hexo博客部署到VPS</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/word2vec/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            向量空间中词表征的有效估计</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/tcp-bbr/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            VPS开启TCP-BBR拥塞控制</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/sci/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            大型属性网络的语义社团识别</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/line/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            LINE：大规模信息网络嵌入</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
+      <a href="/tags/VPS/" style="font-size: 21.82px; color: #d1e8ff">VPS</a> <a href="/tags/科学上网/" style="font-size: 20.73px; color: #b9dcff">科学上网</a> <a href="/tags/服务器/" style="font-size: 22.91px; color: #e8f3ff">服务器</a> <a href="/tags/代理/" style="font-size: 17.45px; color: #74b9ff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/OpenWrt/" style="font-size: 19.64px; color: #a2d0ff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20.73px; color: #b9dcff">路由器</a> <a href="/tags/Android/" style="font-size: 13.09px; color: #178bff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/ShadowSocks/" style="font-size: 16.36px; color: #5daeff">ShadowSocks</a> <a href="/tags/IPv6/" style="font-size: 13.09px; color: #178bff">IPv6</a> <a href="/tags/macOS/" style="font-size: 18.55px; color: #8bc5ff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13.09px; color: #178bff">Minecraft</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14.18px; color: #2e96ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13.09px; color: #178bff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16.36px; color: #5daeff">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13.09px; color: #178bff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13.09px; color: #178bff">PHP</a> <a href="/tags/SSL/" style="font-size: 13.09px; color: #178bff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15.27px; color: #46a2ff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18.55px; color: #8bc5ff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/舰队Collection/" style="font-size: 13.09px; color: #178bff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14.18px; color: #2e96ff">游戏</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/VPN/" style="font-size: 13.09px; color: #178bff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/shell/" style="font-size: 13.09px; color: #178bff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <!--h3 class="widget-title">Ad</h3>
+    <div class="widget widget-background1" align="center"-->
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<!-- sidebar -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9920928489161252" data-ad-slot="8654446491" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+    <!--/div-->
+</div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget widget-background1">   
+      	<ul>
+		    <li>
+		    	<a href="https://github.com/liangzhenduo0608" target="_blank" title="github.com"><i class="fa-github"></i> GitHub </a>
+		    </li>
+		      
+	        <li>
+	        	<a href="https://liangzhenduo0608.github.io" target="_blank" title="liangzhenduo0608.github.io"><i class="fa-github-square"></i> Mirror Site </a>
+	        </li>
+	          
+	        <li>
+	        	<a href="https://blog.mahoucoder.com/" target="_blank" title="blog.mahoucoder.com"><i class="fa-h-square"></i> 魔法コーダ </a>
+	        </li>
+
+			<li>
+	        	<a href="https://blog.hackroid.com/" target="_blank" title="blog.hackroid.com"><i class="fa-h-square"></i> Hackroid </a>
+	        </li>
+
+		    <li>
+		    	<a href="http://xzjqx.me/" target="_blank" title="xzjqx.me"><i class="fa-h-square"></i> 笑卒见清晰 </a>
+		    </li>
+
+	        <li>
+	        	<a href="http://muyus.cc/" target="_blank" title="muyus.cc"><i class="fa-wordpress"></i> 暮雨今夕 </a>
+	        </li>
+
+	        <li>
+	        	<a href="http://zhenlee.cn/" target="_blank" title="zhenlee.cn"><i class="fa-wordpress"></i> Fantasia </a>
+	        </li>
+
+	        <li>
+	        	<a href="https://steinslab.xyz/" target="_blank" title="steinslab.xyz"><i class="fa-wordpress"></i> SPtuan </a>
+	        </li>
+
+	        <li>
+	        	<a href="https://qyetfu.site/" target="_blank" title="qyetfu.site"><i class="fa-reorder"></i> Qyetfu </a>
+	        </li>
+    	</ul>
+    </div>
+</div>
+
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Statistics</h3>
+    <div class="widget widget-background1" align="center">
+    	<!--a href="https://clustrmaps.com/site/19kh7" title="Visit tracker"><img src="//clustrmaps.com/map_v2.png?cl=eeeeee&w=220&t=n&d=3kNIfPXlC9a4s7N8RRFV04RgWWonJP-1hQ4Drq_rVj8&co=3d3d3b&ct=eeeeee" /></a-->
+    	<script type="text/javascript" src="//rf.revolvermaps.com/0/0/2.js?i=5gpp8v00aap&amp;m=8&amp;s=178&amp;c=fff600&amp;t=1" async="async"></script>
+      	<a href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3D3D3B/txt_FFFFFF/border_3D3D3B/columns_2/maxflags_100/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="shintaku.xyz" border="0"></a>
+    </div>
+</div>
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Reward</h3>
+    <div class="widget widget-background1" align="center">
+      	<img src="/images/alipay.png" alt="支付宝支付" width="220">
+      	<img src="/images/wechat.png" alt="微信支付" width="220">
+      	<a href="https://www.paypal.me/liangzhenduo" title="PayPal支付" onclick="javascript:window.open('https://www.paypal.me/liangzhenduo','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" alt="PayPal支付" width="220"></a>
+    </div>
+</div>
+  
+    <div id="ukagaka_panel"></div>
+<script src="/js/jquery-ui.min.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/ukagaka.js"></script>
+<script type="text/javascript">$('#ukagaka_panel').ukagaka();</script>
+
+  
+</aside>
+
+
+          
+        
+      </div>
+      <footer id="footer">
+  
+
+  <div class="outer" align="center">
+    <div id="wechat" style="display: none">
+      <img src="/images/mmqrcode.png" width="220" height="220">
+    </div>
+    <div class="social-group">
+      
+      <a href="https://github.com/liangzhenduo0608" target="_blank" title="GitHub"><i class="fa-github"></i></a>
+      
+      
+      <a href="https://plus.google.com/114761524022260759157" target="_blank" title="Google+"><i class="fa-google-plus-official"></i></a>
+      
+      
+      <a href="https://www.facebook.com/100005630052910" target="_blank" title="Facebook"><i class="fa-facebook-official"></i></a>
+      
+      
+      <a href="https://twitter.com/liangzhenduo" target="_blank" title="Twitter"><i class="fa-twitter"></i></a>
+      
+      
+      <a href="https://www.linkedin.com/in/zhenduo-liang-795110131" target="_blank" title="LinkedIn"><i class="fa-linkedin"></i></a>
+      
+      <a href="/images/mmqrcode.png" title="WeChat" class="fancybox"><i class="fa-weixin"></i></a>
+      
+      <a href="https://weibo.com/378950608" target="_blank" title="Weibo"><i class="fa-weibo"></i></a>
+      
+      
+      <a href="mailto:liangzhenduo0608@hotmail.com" target="_blank" title="Email"><i class="fa-envelope-o"></i></a>
+      
+    </div>
+    <div id="footer-info" class="inner" align="center">
+      Powered by <a href="https:\/\/hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https:\/\/github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2019 Shintaku
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/gallery" class="mobile-nav-link">Gallery</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'shintaku';
+  
+  var disqus_url = 'https://liangzhenduo0608.github.io/posts/ssl/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/jquery.lazyload.js"></script>
+<script src="/js/jquery.als-1.6.js"></script>
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8" name="theme-color" content="#171714">
+  
+  <meta name="google-site-verification" content="fTlRYC4_eug8Q64ZK4Lzdv8mcunvs7S0Ec-39TBokv4">
+  
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-132384849-1', 'auto');
+	ga('send', 'pageview');
+  </script>
+  <!-- End Google Analytics -->
+
+  <!-- Google AdSense -->
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-9920928489161252",
+      enable_page_level_ads: true
+    });
+  </script>
+  <!-- End Google AdSense -->
+
+  
+  <link rel="alternative" href="/atom.xml" title="Shintaku&#39;s Blog" type="application/atom+xml">
+  
+  <link rel="manifest" href="manifest.json">
+  
+  <link rel="shortcut icon" href="/images/icon.png">
+  
+  
+  <title>shell脚本内的并发执行 | Shintaku&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="之前有一个每周数据统计的工作，需要每周的某一天定时从多台服务器上拉取日志进行汇总生成报表。 顺序执行最初的思路是先做一个循环，遍历每台机器并在上面执行相应的数据处理脚本，然后将处理好的数据拉取到汇总的机器上，这样逐台进行，最后进行汇总处理，写出来的脚本是类似这样的： 1234567891011121314array=( \	&quot;10.144.1.1&quot; \	&quot;10.144.1.2&quot; \	&quot;10.144">
+<meta name="keywords" content="Linux,shell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell脚本内的并发执行">
+<meta property="og:url" content="https://liangzhenduo0608.github.io/posts/shell-parallel/index.html">
+<meta property="og:site_name" content="Shintaku&#39;s Blog">
+<meta property="og:description" content="之前有一个每周数据统计的工作，需要每周的某一天定时从多台服务器上拉取日志进行汇总生成报表。 顺序执行最初的思路是先做一个循环，遍历每台机器并在上面执行相应的数据处理脚本，然后将处理好的数据拉取到汇总的机器上，这样逐台进行，最后进行汇总处理，写出来的脚本是类似这样的： 1234567891011121314array=( \	&quot;10.144.1.1&quot; \	&quot;10.144.1.2&quot; \	&quot;10.144">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://liangzhenduo0608.github.io/img/shbanner.png">
+<meta property="og:updated_time" content="2019-07-14T15:04:34.207Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="shell脚本内的并发执行">
+<meta name="twitter:description" content="之前有一个每周数据统计的工作，需要每周的某一天定时从多台服务器上拉取日志进行汇总生成报表。 顺序执行最初的思路是先做一个循环，遍历每台机器并在上面执行相应的数据处理脚本，然后将处理好的数据拉取到汇总的机器上，这样逐台进行，最后进行汇总处理，写出来的脚本是类似这样的： 1234567891011121314array=( \	&quot;10.144.1.1&quot; \	&quot;10.144.1.2&quot; \	&quot;10.144">
+<meta name="twitter:image" content="https://liangzhenduo0608.github.io/img/shbanner.png">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <script src="/js/jquery-3.3.1.min.js"></script>
+  <script src="/js/nprogress.js"></script>
+  <link href="/css/nprogress.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"><div id="banner-right"></div></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Shintaku&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">いいこと？暁の水平線に勝利を刻みなさい！</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          
+            <a class="main-nav-link" href="/"><i class="fa-home" title="Home"></i> Home</a>
+          
+        
+          
+            <a class="main-nav-link" href="/about"><i class="fa-user" title="About"></i> About</a>
+          
+        
+          
+            <a class="main-nav-link" href="/archives"><i class="fa-archive" title="Archives"></i> Archives</a>
+          
+        
+          
+            <a class="main-nav-link" href="/tags"><i class="fa-tags" title="Tags"></i> Tags</a>
+          
+        
+          
+            <a class="main-nav-link" href="/gallery"><i class="fa-camera" title="Gallery"></i> Gallery</a>
+          
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://liangzhenduo0608.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        
+          <section id="main" class='pjax'><article id="post-shell-parallel" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/posts/shell-parallel/" class="article-date">
+  <time datetime="2016-10-10T14:22:22.000Z" itemprop="datePublished">2016-10-10</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/手帐/">手帐</a>►<a class="article-category-link" href="/categories/手帐/实习/">实习</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/shbanner.png" rel="gallery_ck2g9ggll002xuvvmoma6h7vl">
+        <img src="/img/shbanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      shell脚本内的并发执行
+    </h1>
+  
+
+      </header>
+     
+    <footer class="article-footer">
+      <a data-url="https://liangzhenduo0608.github.io/posts/shell-parallel/" data-id="ck2g9ggll002xuvvmoma6h7vl" class="article-share-link">Share</a>
+      
+        <a href="https://liangzhenduo0608.github.io/posts/shell-parallel/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
+
+    </footer>
+    <div class="article-entry " itemprop="articleBody">
+      
+          
+              <div id="toc" class="toc-article">
+              <h2 class="toc-title" align="center"><span>目录</span></h2>
+              
+                  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#顺序执行"><span class="toc-number">1.</span> <span class="toc-text">顺序执行</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#并发执行"><span class="toc-number">2.</span> <span class="toc-text">并发执行</span></a></li></ol>
+              
+              </div>
+          
+        
+          <p>之前有一个每周数据统计的工作，需要每周的某一天定时从多台服务器上拉取日志进行汇总生成报表。</p>
+<h1 id="顺序执行"><a href="#顺序执行" class="headerlink" title="顺序执行"></a>顺序执行</h1><p>最初的思路是先做一个循环，遍历每台机器并在上面执行相应的数据处理脚本，然后将处理好的数据拉取到汇总的机器上，这样逐台进行，最后进行汇总处理，写出来的脚本是类似这样的：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">array=( \</span><br><span class="line">	<span class="string">"10.144.1.1"</span> \</span><br><span class="line">	<span class="string">"10.144.1.2"</span> \</span><br><span class="line">	<span class="string">"10.144.1.3"</span> \</span><br><span class="line">	<span class="string">"10.144.1.4"</span> \</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;array[@]&#125;</span></span><br><span class="line"><span class="keyword">do</span>  </span><br><span class="line">	ssh <span class="variable">$i</span> <span class="string">"sh <span class="variable">$log_dir</span>/run.sh"</span></span><br><span class="line">	scp <span class="variable">$i</span>:<span class="variable">$log_dir</span>/<span class="built_in">log</span> <span class="variable">$work_dir</span>/<span class="variable">$i</span>/</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">cat <span class="variable">$work_dir</span>/*/<span class="built_in">log</span> | sort | uniq &gt; <span class="variable">$work_dir</span>/<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+<p>这样写的执行时间大约是<strong>每台机器时间*台数+汇总时间</strong>，虽然不算快，但是凌晨一般也能执行完成。</p>
+<h1 id="并发执行"><a href="#并发执行" class="headerlink" title="并发执行"></a>并发执行</h1><p>后来到了国庆假期期间，服务流量骤增，再加上业务改版等一系列原因，导致数据量突然增大，执行时间翻了几倍，任务大概要到下午才能完成，这样一来就会耽误白天的工作。</p>
+<p>因为机器数量不少，分机器统计也是主要的时间消耗，因此想到既然几台机器各自的统计互不影响，可以让它们同时进行汇总工作。于是上网找了一下改进方法，改完了大致是这样的：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">array=( \</span><br><span class="line">	<span class="string">"10.144.1.1"</span> \</span><br><span class="line">	<span class="string">"10.144.1.2"</span> \</span><br><span class="line">	<span class="string">"10.144.1.3"</span> \</span><br><span class="line">	<span class="string">"10.144.1.4"</span> \</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;array[@]&#125;</span></span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">	ssh <span class="variable">$i</span> <span class="string">"sh <span class="variable">$log_dir</span>/run.sh"</span></span><br><span class="line">	scp <span class="variable">$i</span>:<span class="variable">$log_dir</span>/<span class="built_in">log</span> <span class="variable">$work_dir</span>/<span class="variable">$i</span>/</span><br><span class="line">&#125;&amp;</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">wait</span></span><br><span class="line"></span><br><span class="line">cat <span class="variable">$work_dir</span>/*/<span class="built_in">log</span> | sort | uniq &gt; <span class="variable">$work_dir</span>/<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+<p>可以发现主要的改动就在for循环的内容用<code>{}</code>括起来并在末尾加个<code>&amp;</code>，这样就可以实现多次循环一起执行了；另外在<code>done</code>后面加个<code>wait</code>是为了等待所有的循环都执行完成后再做后面的汇总工作，否则一旦有一个循环执行完成就会往下执行了。</p>
+<p>这样的执行时间大约是<strong>每台机器时间+汇总时间</strong>，可以看出比最初快了很多。</p>
+
+          <div id="statement" class="copyright">
+  <ul>
+    <strong>本文作者：</strong>
+    Shintaku
+    <br>
+    <strong>本文链接：</strong>
+    <a href="https://liangzhenduo0608.github.io/posts/shell-parallel/" title="shell脚本内的并发执行">https://liangzhenduo0608.github.io/posts/shell-parallel/</a>
+    <br>
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://liangzhenduo0608.github.io" title="" target="_blank">Shintaku's Blog</a> 。
+  </ul>
+</div>
+        
+      
+    </div>
+
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/mac-php/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          macOS配置PHP开发环境
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/ssh-conf/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ssh保持继续连接</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-9920928489161252" data-ad-slot="3913131990"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+          
+            <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">QR code</h3>
+  <div class="widget widget-background1">
+    <div align="center">
+      <img id="qrcode">
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="/js/awesome-qr.js"></script>
+<script type="text/javascript">
+var img = new Image;
+
+img.src = "/images/icon.png";
+
+setTimeout(function() {
+    new AwesomeQRCode().create({
+        text: window.location.href,
+        size: 160,
+        margin: 4,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        backgroundImage: img,
+        backgroundDimming: 'rgba(0,0,0,0)',
+        logoImage: undefined,
+        logoScale: 0.2,
+        logoMargin: 6,
+        logoCornerRadius: 8,
+        whiteMargin: true,
+        dotScale: 0.4,
+        autoColor: true,
+        binarize: false,
+        binarizeThreshold: 128,
+        callback: function(dataURI){},
+        bindElement: 'qrcode'
+    });
+}, 1000);
+</script>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a class="text" href="/posts/hexo-mathjax/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Hexo博客使用MathJax公式</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/ttl/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            路由器TTL刷机救砖</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/mac-tftp/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            macOS启用TFTP服务</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/l2tp/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            搭建L2TP/IPSec VPN</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/certbot/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Let&#39;s Encrypt SSL证书配置</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/hexo-deploy/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Hexo博客部署到VPS</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/word2vec/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            向量空间中词表征的有效估计</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/tcp-bbr/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            VPS开启TCP-BBR拥塞控制</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/sci/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            大型属性网络的语义社团识别</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/line/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            LINE：大规模信息网络嵌入</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
+      <a href="/tags/VPS/" style="font-size: 21.82px; color: #d1e8ff">VPS</a> <a href="/tags/科学上网/" style="font-size: 20.73px; color: #b9dcff">科学上网</a> <a href="/tags/服务器/" style="font-size: 22.91px; color: #e8f3ff">服务器</a> <a href="/tags/代理/" style="font-size: 17.45px; color: #74b9ff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/OpenWrt/" style="font-size: 19.64px; color: #a2d0ff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20.73px; color: #b9dcff">路由器</a> <a href="/tags/Android/" style="font-size: 13.09px; color: #178bff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/ShadowSocks/" style="font-size: 16.36px; color: #5daeff">ShadowSocks</a> <a href="/tags/IPv6/" style="font-size: 13.09px; color: #178bff">IPv6</a> <a href="/tags/macOS/" style="font-size: 18.55px; color: #8bc5ff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13.09px; color: #178bff">Minecraft</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14.18px; color: #2e96ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13.09px; color: #178bff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16.36px; color: #5daeff">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13.09px; color: #178bff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13.09px; color: #178bff">PHP</a> <a href="/tags/SSL/" style="font-size: 13.09px; color: #178bff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15.27px; color: #46a2ff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18.55px; color: #8bc5ff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/舰队Collection/" style="font-size: 13.09px; color: #178bff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14.18px; color: #2e96ff">游戏</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/VPN/" style="font-size: 13.09px; color: #178bff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/shell/" style="font-size: 13.09px; color: #178bff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <!--h3 class="widget-title">Ad</h3>
+    <div class="widget widget-background1" align="center"-->
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<!-- sidebar -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9920928489161252" data-ad-slot="8654446491" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+    <!--/div-->
+</div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget widget-background1">   
+      	<ul>
+		    <li>
+		    	<a href="https://github.com/liangzhenduo0608" target="_blank" title="github.com"><i class="fa-github"></i> GitHub </a>
+		    </li>
+		      
+	        <li>
+	        	<a href="https://liangzhenduo0608.github.io" target="_blank" title="liangzhenduo0608.github.io"><i class="fa-github-square"></i> Mirror Site </a>
+	        </li>
+	          
+	        <li>
+	        	<a href="https://blog.mahoucoder.com/" target="_blank" title="blog.mahoucoder.com"><i class="fa-h-square"></i> 魔法コーダ </a>
+	        </li>
+
+			<li>
+	        	<a href="https://blog.hackroid.com/" target="_blank" title="blog.hackroid.com"><i class="fa-h-square"></i> Hackroid </a>
+	        </li>
+
+		    <li>
+		    	<a href="http://xzjqx.me/" target="_blank" title="xzjqx.me"><i class="fa-h-square"></i> 笑卒见清晰 </a>
+		    </li>
+
+	        <li>
+	        	<a href="http://muyus.cc/" target="_blank" title="muyus.cc"><i class="fa-wordpress"></i> 暮雨今夕 </a>
+	        </li>
+
+	        <li>
+	        	<a href="http://zhenlee.cn/" target="_blank" title="zhenlee.cn"><i class="fa-wordpress"></i> Fantasia </a>
+	        </li>
+
+	        <li>
+	        	<a href="https://steinslab.xyz/" target="_blank" title="steinslab.xyz"><i class="fa-wordpress"></i> SPtuan </a>
+	        </li>
+
+	        <li>
+	        	<a href="https://qyetfu.site/" target="_blank" title="qyetfu.site"><i class="fa-reorder"></i> Qyetfu </a>
+	        </li>
+    	</ul>
+    </div>
+</div>
+
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Statistics</h3>
+    <div class="widget widget-background1" align="center">
+    	<!--a href="https://clustrmaps.com/site/19kh7" title="Visit tracker"><img src="//clustrmaps.com/map_v2.png?cl=eeeeee&w=220&t=n&d=3kNIfPXlC9a4s7N8RRFV04RgWWonJP-1hQ4Drq_rVj8&co=3d3d3b&ct=eeeeee" /></a-->
+    	<script type="text/javascript" src="//rf.revolvermaps.com/0/0/2.js?i=5gpp8v00aap&amp;m=8&amp;s=178&amp;c=fff600&amp;t=1" async="async"></script>
+      	<a href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3D3D3B/txt_FFFFFF/border_3D3D3B/columns_2/maxflags_100/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="shintaku.xyz" border="0"></a>
+    </div>
+</div>
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Reward</h3>
+    <div class="widget widget-background1" align="center">
+      	<img src="/images/alipay.png" alt="支付宝支付" width="220">
+      	<img src="/images/wechat.png" alt="微信支付" width="220">
+      	<a href="https://www.paypal.me/liangzhenduo" title="PayPal支付" onclick="javascript:window.open('https://www.paypal.me/liangzhenduo','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" alt="PayPal支付" width="220"></a>
+    </div>
+</div>
+  
+    <div id="ukagaka_panel"></div>
+<script src="/js/jquery-ui.min.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/ukagaka.js"></script>
+<script type="text/javascript">$('#ukagaka_panel').ukagaka();</script>
+
+  
+</aside>
+
+
+          
+        
+      </div>
+      <footer id="footer">
+  
+
+  <div class="outer" align="center">
+    <div id="wechat" style="display: none">
+      <img src="/images/mmqrcode.png" width="220" height="220">
+    </div>
+    <div class="social-group">
+      
+      <a href="https://github.com/liangzhenduo0608" target="_blank" title="GitHub"><i class="fa-github"></i></a>
+      
+      
+      <a href="https://plus.google.com/114761524022260759157" target="_blank" title="Google+"><i class="fa-google-plus-official"></i></a>
+      
+      
+      <a href="https://www.facebook.com/100005630052910" target="_blank" title="Facebook"><i class="fa-facebook-official"></i></a>
+      
+      
+      <a href="https://twitter.com/liangzhenduo" target="_blank" title="Twitter"><i class="fa-twitter"></i></a>
+      
+      
+      <a href="https://www.linkedin.com/in/zhenduo-liang-795110131" target="_blank" title="LinkedIn"><i class="fa-linkedin"></i></a>
+      
+      <a href="/images/mmqrcode.png" title="WeChat" class="fancybox"><i class="fa-weixin"></i></a>
+      
+      <a href="https://weibo.com/378950608" target="_blank" title="Weibo"><i class="fa-weibo"></i></a>
+      
+      
+      <a href="mailto:liangzhenduo0608@hotmail.com" target="_blank" title="Email"><i class="fa-envelope-o"></i></a>
+      
+    </div>
+    <div id="footer-info" class="inner" align="center">
+      Powered by <a href="https:\/\/hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https:\/\/github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2019 Shintaku
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/gallery" class="mobile-nav-link">Gallery</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'shintaku';
+  
+  var disqus_url = 'https://liangzhenduo0608.github.io/posts/shell-parallel/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/jquery.lazyload.js"></script>
+<script src="/js/jquery.als-1.6.js"></script>
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

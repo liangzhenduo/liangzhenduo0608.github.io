@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8" name="theme-color" content="#171714">
   
   <meta name="google-site-verification" content="fTlRYC4_eug8Q64ZK4Lzdv8mcunvs7S0Ec-39TBokv4">
@@ -79,23 +79,23 @@
         <a id="main-nav-toggle" class="nav-icon"></a>
         
           
-            <a class="main-nav-link" href="/"><i class="fa-home" title="Home"></i> Home</a>
+            <a class="main-nav-link" href="/"><i class=fa-home title='Home'></i> Home</a>
           
         
           
-            <a class="main-nav-link" href="/about"><i class="fa-user" title="About"></i> About</a>
+            <a class="main-nav-link" href="/about"><i class=fa-user title='About'></i> About</a>
           
         
           
-            <a class="main-nav-link" href="/archives"><i class="fa-archive" title="Archives"></i> Archives</a>
+            <a class="main-nav-link" href="/archives"><i class=fa-archive title='Archives'></i> Archives</a>
           
         
           
-            <a class="main-nav-link" href="/tags"><i class="fa-tags" title="Tags"></i> Tags</a>
+            <a class="main-nav-link" href="/tags"><i class=fa-tags title='Tags'></i> Tags</a>
           
         
           
-            <a class="main-nav-link" href="/gallery"><i class="fa-camera" title="Gallery"></i> Gallery</a>
+            <a class="main-nav-link" href="/gallery"><i class=fa-camera title='Gallery'></i> Gallery</a>
           
         
       </nav>
@@ -113,7 +113,7 @@
 </header>
       <div class="outer">
         
-          <section id="main" class='pjax'><article id="post-raspi-oled" class="article article-type-post" itemscope="" itemprop="blogPost">
+          <section id="main" class='pjax'><article id="post-raspi-oled" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     
 <a href="/posts/raspi-oled/" class="article-date">
@@ -131,7 +131,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/oledbanner.png" rel="gallery_ck2g9ggle002duvvmodnloz1f">
+      <a class="article-gallery-img fancybox" href="/img/oledbanner.png" rel="gallery_ck4p7xq1d00103ph860716yat">
         <img src="/img/oledbanner.png" itemprop="image">
       </a>
     
@@ -148,9 +148,9 @@
   
 
       </header>
-     
+    
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/raspi-oled/" data-id="ck2g9ggle002duvvmodnloz1f" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/raspi-oled/" data-id="ck4p7xq1d00103ph860716yat" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/raspi-oled/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -248,7 +248,7 @@ sudo python setup.py install
 <p>如果运行它能正常显示就可以编写自己的脚本了。参考这个Demo我又撸了一个显示系统实时信息的脚本：</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python/</span></span><br><span class="line"><span class="comment"># coding: utf-8</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> fcntl</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> Adafruit_GPIO.SPI <span class="keyword">as</span> SPI</span><br><span class="line"><span class="keyword">import</span> Adafruit_SSD1306</span><br><span class="line"><span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> ImageDraw</span><br><span class="line"><span class="keyword">import</span> ImageFont</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">raminfo</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'/proc/meminfo'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        total = float(f.readline().split()[<span class="number">1</span>])</span><br><span class="line">        free = float(f.readline().split()[<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">return</span> format((total-free)/total, <span class="string">'.1%'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">diskinfo</span><span class="params">()</span>:</span></span><br><span class="line">    st = os.statvfs(<span class="string">'/'</span>)</span><br><span class="line">    total = float(st.f_blocks * st.f_frsize)</span><br><span class="line">    used = float(st.f_blocks - st.f_bfree) * st.f_frsize</span><br><span class="line">    <span class="keyword">return</span> format(used/total, <span class="string">'.1%'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cpuinfo</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'/proc/stat'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        info = f.readline().split()</span><br><span class="line">        t0 = float(info[<span class="number">1</span>]) + float(info[<span class="number">2</span>]) + float(info[<span class="number">3</span>])</span><br><span class="line">        s0 = t0 + float(info[<span class="number">4</span>]) + float(info[<span class="number">5</span>]) + float(info[<span class="number">6</span>]) + float(info[<span class="number">7</span>])</span><br><span class="line">    time.sleep(<span class="number">0.033</span>)</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'/proc/stat'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        info = f.readline().split()</span><br><span class="line">        t1 = float(info[<span class="number">1</span>]) + float(info[<span class="number">2</span>]) + float(info[<span class="number">3</span>])</span><br><span class="line">        s1 = t1 + float(info[<span class="number">4</span>]) + float(info[<span class="number">5</span>]) + float(info[<span class="number">6</span>]) + float(info[<span class="number">7</span>])</span><br><span class="line">    <span class="keyword">return</span> format((t1-t0)/(s1-s0), <span class="string">'.1%'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cputemp</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'/sys/class/thermal/thermal_zone0/temp'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        temp = float(f.readline())</span><br><span class="line">    <span class="keyword">return</span> format(temp/<span class="number">1000</span>, <span class="string">'.1f'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wifiinfo</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'/proc/net/wireless'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.readline()</span><br><span class="line">        f.readline()</span><br><span class="line">        info = f.readline().split()</span><br><span class="line">    <span class="keyword">return</span> info[<span class="number">3</span>][:<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_ip_address</span><span class="params">(ifname)</span>:</span></span><br><span class="line">    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)</span><br><span class="line">    <span class="keyword">return</span> socket.inet_ntoa(fcntl.ioctl(</span><br><span class="line">        s.fileno(),</span><br><span class="line">        <span class="number">0x8915</span>,  <span class="comment"># SIOCGIFADDR</span></span><br><span class="line">        struct.pack(<span class="string">'256s'</span>, ifname[:<span class="number">15</span>])</span><br><span class="line">    )[<span class="number">20</span>:<span class="number">24</span>])</span><br><span class="line"></span><br><span class="line">IP = requests.get(<span class="string">'http://ip.3322.net'</span>).text</span><br><span class="line"></span><br><span class="line"><span class="comment"># Raspberry Pi pin configuration:</span></span><br><span class="line">RST = <span class="number">17</span></span><br><span class="line">DC = <span class="number">27</span></span><br><span class="line">SPI_PORT = <span class="number">0</span></span><br><span class="line">SPI_DEVICE = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 128x64 display with hardware SPI:</span></span><br><span class="line">disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=<span class="number">8000000</span>))</span><br><span class="line"><span class="comment"># Initialize library.</span></span><br><span class="line">disp.begin()</span><br><span class="line"><span class="comment"># Clear display.</span></span><br><span class="line">disp.clear()</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    disp.display()</span><br><span class="line">    <span class="comment"># Create blank image for drawing.</span></span><br><span class="line">    width = disp.width</span><br><span class="line">    height = disp.height</span><br><span class="line">    image = Image.new(<span class="string">'1'</span>, (width, height))</span><br><span class="line">    <span class="comment"># Get drawing object to draw on image.</span></span><br><span class="line">    draw = ImageDraw.Draw(image)</span><br><span class="line">    <span class="comment"># Initialize background.</span></span><br><span class="line">    draw.rectangle((<span class="number">0</span>,<span class="number">0</span>,width,height), outline=<span class="number">0</span>, fill=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    padding = <span class="number">1</span></span><br><span class="line">    top = padding</span><br><span class="line">    x = padding</span><br><span class="line">    font = ImageFont.load_default()</span><br><span class="line"></span><br><span class="line">    draw.text((x, top), time.strftime(<span class="string">" %Y-%m-%d %H:%M:%S "</span>,time.localtime(time.time())), font=font, fill=<span class="number">255</span>)</span><br><span class="line">    draw.text((x, top+<span class="number">14</span>), <span class="string">'disk:'</span> + diskinfo() + <span class="string">'  RAM:'</span> + raminfo(), font=font, fill=<span class="number">255</span>)</span><br><span class="line">    draw.text((x, top+<span class="number">24</span>), <span class="string">'temp:'</span> + cputemp() + <span class="string">'C  CPU:'</span> + cpuinfo(), font=font, fill=<span class="number">255</span>)</span><br><span class="line">    draw.text((x, top+<span class="number">34</span>), <span class="string">'signal:'</span> + wifiinfo() + <span class="string">'dBm'</span>, font=font, fill=<span class="number">255</span>)</span><br><span class="line">    draw.text((x, top+<span class="number">44</span>), <span class="string">'LAN:'</span> + get_ip_address(<span class="string">'wlan0'</span>), font=font, fill=<span class="number">255</span>)</span><br><span class="line">    draw.text((x, top+<span class="number">54</span>), <span class="string">'WAN:'</span> + IP, font=font, fill=<span class="number">255</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Display image.</span></span><br><span class="line">    disp.image(image)</span><br><span class="line">    disp.display()</span><br></pre></td></tr></table></figure>
 <p>效果如下：</p>
-<p><img src="/img/oled.gif" alt=""></p>
+<p><img src="/img/oled.gif" alt></p>
 <h1 id="开机启动"><a href="#开机启动" class="headerlink" title="开机启动"></a>开机启动</h1><p>先新建一个Unit配置文件：</p>
 <pre><code>sudo vim /etc/systemd/system/oled.service
 </code></pre><p>内容如下：</p>
@@ -258,18 +258,21 @@ sudo python setup.py install
 sudo systemctl start oled
 sudo systemctl enable oled
 </code></pre>
-          <div id="statement" class="copyright">
+          
+              <div id="statement" class="copyright">
   <ul>
     <strong>本文作者：</strong>
     Shintaku
-    <br>
+    </br>
     <strong>本文链接：</strong>
     <a href="https://liangzhenduo0608.github.io/posts/raspi-oled/" title="树莓派SPI驱动OLED屏幕">https://liangzhenduo0608.github.io/posts/raspi-oled/</a>
-    <br>
+    </br>
     <strong>版权声明： </strong>
     本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://liangzhenduo0608.github.io" title="" target="_blank">Shintaku's Blog</a> 。
   </ul>
 </div>
+
+          
         
       
     </div>
@@ -300,7 +303,12 @@ sudo systemctl enable oled
 </article>
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-9920928489161252" data-ad-slot="3913131990"></ins>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-9920928489161252"
+     data-ad-slot="3913131990"></ins>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
@@ -311,6 +319,7 @@ sudo systemctl enable oled
     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
 </section>
+
 </section>
           
             <aside id="sidebar">
@@ -460,7 +469,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 21.82px; color: #d1e8ff">VPS</a> <a href="/tags/科学上网/" style="font-size: 20.73px; color: #b9dcff">科学上网</a> <a href="/tags/服务器/" style="font-size: 22.91px; color: #e8f3ff">服务器</a> <a href="/tags/代理/" style="font-size: 17.45px; color: #74b9ff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/OpenWrt/" style="font-size: 19.64px; color: #a2d0ff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20.73px; color: #b9dcff">路由器</a> <a href="/tags/Android/" style="font-size: 13.09px; color: #178bff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/ShadowSocks/" style="font-size: 16.36px; color: #5daeff">ShadowSocks</a> <a href="/tags/IPv6/" style="font-size: 13.09px; color: #178bff">IPv6</a> <a href="/tags/macOS/" style="font-size: 18.55px; color: #8bc5ff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13.09px; color: #178bff">Minecraft</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14.18px; color: #2e96ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13.09px; color: #178bff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16.36px; color: #5daeff">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13.09px; color: #178bff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13.09px; color: #178bff">PHP</a> <a href="/tags/SSL/" style="font-size: 13.09px; color: #178bff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15.27px; color: #46a2ff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18.55px; color: #8bc5ff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/舰队Collection/" style="font-size: 13.09px; color: #178bff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14.18px; color: #2e96ff">游戏</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/VPN/" style="font-size: 13.09px; color: #178bff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/shell/" style="font-size: 13.09px; color: #178bff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 21.82px; color: #d1e8ff">VPS</a> <a href="/tags/科学上网/" style="font-size: 20.73px; color: #b9dcff">科学上网</a> <a href="/tags/服务器/" style="font-size: 22.91px; color: #e8f3ff">服务器</a> <a href="/tags/代理/" style="font-size: 17.45px; color: #74b9ff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/OpenWrt/" style="font-size: 19.64px; color: #a2d0ff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20.73px; color: #b9dcff">路由器</a> <a href="/tags/ShadowSocks/" style="font-size: 16.36px; color: #5daeff">ShadowSocks</a> <a href="/tags/IPv6/" style="font-size: 13.09px; color: #178bff">IPv6</a> <a href="/tags/macOS/" style="font-size: 18.55px; color: #8bc5ff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13.09px; color: #178bff">Minecraft</a> <a href="/tags/Android/" style="font-size: 13.09px; color: #178bff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14.18px; color: #2e96ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13.09px; color: #178bff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16.36px; color: #5daeff">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13.09px; color: #178bff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13.09px; color: #178bff">PHP</a> <a href="/tags/SSL/" style="font-size: 13.09px; color: #178bff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15.27px; color: #46a2ff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18.55px; color: #8bc5ff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/舰队Collection/" style="font-size: 13.09px; color: #178bff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14.18px; color: #2e96ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13.09px; color: #178bff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/shell/" style="font-size: 13.09px; color: #178bff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 
@@ -470,7 +479,12 @@ setTimeout(function() {
     <div class="widget widget-background1" align="center"-->
 		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 		<!-- sidebar -->
-		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9920928489161252" data-ad-slot="8654446491" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<ins class="adsbygoogle"
+     		 style="display:block"
+     		 data-ad-client="ca-pub-9920928489161252"
+     		 data-ad-slot="8654446491"
+     		 data-ad-format="auto"
+     		 data-full-width-responsive="true"></ins>
 		<script>
 			(adsbygoogle = window.adsbygoogle || []).push({});
 		</script>
@@ -521,7 +535,7 @@ setTimeout(function() {
     </div>
 </div>
 
-
+</script>
   
     <div class="widget-wrap">
     <h3 class="widget-title">Statistics</h3>
@@ -537,7 +551,7 @@ setTimeout(function() {
     <div class="widget widget-background1" align="center">
       	<img src="/images/alipay.png" alt="支付宝支付" width="220">
       	<img src="/images/wechat.png" alt="微信支付" width="220">
-      	<a href="https://www.paypal.me/liangzhenduo" title="PayPal支付" onclick="javascript:window.open('https://www.paypal.me/liangzhenduo','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" alt="PayPal支付" width="220"></a>
+      	<a href="https://www.paypal.me/liangzhenduo" title="PayPal支付" onclick="javascript:window.open('https://www.paypal.me/liangzhenduo','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" alt="PayPal支付" width="220"/></a>
     </div>
 </div>
   
@@ -572,17 +586,17 @@ setTimeout(function() {
       <a href="https://www.facebook.com/100005630052910" target="_blank" title="Facebook"><i class="fa-facebook-official"></i></a>
       
       
-      <a href="https://twitter.com/liangzhenduo" target="_blank" title="Twitter"><i class="fa-twitter"></i></a>
+      <a href="https://twitter.com/liangzhenduo" target="_blank" title="Twitter" ><i class="fa-twitter"></i></a>
       
       
       <a href="https://www.linkedin.com/in/zhenduo-liang-795110131" target="_blank" title="LinkedIn"><i class="fa-linkedin"></i></a>
       
       <a href="/images/mmqrcode.png" title="WeChat" class="fancybox"><i class="fa-weixin"></i></a>
       
-      <a href="https://weibo.com/378950608" target="_blank" title="Weibo"><i class="fa-weibo"></i></a>
+      <a href="https://weibo.com/378950608" target="_blank" title="Weibo" ><i class="fa-weibo"></i></a>
       
       
-      <a href="mailto:liangzhenduo0608@hotmail.com" target="_blank" title="Email"><i class="fa-envelope-o"></i></a>
+      <a href="mailto:liangzhenduo0608@hotmail.com" target="_blank" title="Email" ><i class="fa-envelope-o"></i></a>
       
     </div>
     <div id="footer-info" class="inner" align="center">
@@ -632,5 +646,21 @@ setTimeout(function() {
 <script src="/js/script.js"></script>
 
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
 </body>
 </html>

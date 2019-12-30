@@ -1,3 +1,2 @@
-title: Gallery
 toc: false
 ---

@@ -9,7 +9,7 @@
       <header class="article-header">
         <%- partial('post/title', {class_name: 'article-title'}) %>
       </header>
-    <% } %> 
+    <% } %>
     <footer class="article-footer">
       <a data-url="<%- post.permalink %>" data-id="<%= post._id %>" class="article-share-link">Share</a>
       <% if (post.comments && config.disqus_shortname){ %>
@@ -43,7 +43,9 @@
           <div class="toggle-input article-more-link"><a>Read More +</a></div>
         <% } else { %>
           <%- post.content %>
-          <%- partial('post/statement') %>
+          <% if (post.title){ %>
+              <%- partial('post/statement') %>
+          <% } %>
         <% } %>
       <% } %>
     </div>

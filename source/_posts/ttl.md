@@ -1,9 +1,10 @@
+---
 title: 路由器TTL刷机救砖
 date: 2019-01-01
 tags: [ssh, 路由器, Linux]
 categories: [奇技淫巧, 路由器]
 photos:
-	- /img/ttlbanner.png
+  - /img/ttlbanner.png
 ---
 
 ![](/img/ttldw22d.png)
@@ -30,7 +31,7 @@ photos:
 ### 注入ssh公钥
 再次访问[http://192.168.10.1/upgrade.html](http://192.168.10.1/upgrade.html)，同样选择打开ssh，密码框内输入：
 
-	123 | echo YOUR_ID_RSA_PUB > /etc/dropbear/authorized_keys 
+	123 | echo YOUR_ID_RSA_PUB > /etc/dropbear/authorized_keys
 
 同样注意末尾有空格。**其中`YOUR_ID_RSA_PUB`替换为自己的公钥，即电脑上`~/.ssh/id_rsa.pub`的内容。**再次点`确定`提交，此时还会提示密码错误，也可以忽略。
 
@@ -58,7 +59,7 @@ photos:
 以下步骤参考[恩山的教程](https://www.right.com.cn/forum/thread-190778-1-1.html)。
 
 ## USB转TTL
-为了让路由器硬件和电脑相连，需要一个USB转TTl模块，随便在马云家买一个最便宜的就能用，我就买了一个`ch340g`芯片的模块。
+为了让路由器硬件和电脑相连，需要一个USB转TTL模块，随便在马云家买一个最便宜的就能用，我就买了一个`ch340g`芯片的模块。
 
 ### TTL驱动
 然后在github找了[驱动](https://github.com/adrianmihalko/ch340g-ch34g-ch34x-mac-os-x-driver)安装上（这里给的是Mac电脑的驱动，Windows的驱动一般卖家都会提供，网上找找也都有）。

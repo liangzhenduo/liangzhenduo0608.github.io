@@ -108,6 +108,100 @@
         
           <section id="main" class='pjax'>
   
+    <article id="post-tm-nas" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/posts/tm-nas/" class="article-date">
+  <time datetime="2019-12-31T16:00:00.000Z" itemprop="datePublished">2020-01-01</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/奇技淫巧/">奇技淫巧</a>►<a class="article-category-link" href="/categories/奇技淫巧/macOS/">macOS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/tm-nas-banner.png" rel="gallery_ck5jesrpm001addh82hugqgt7">
+        <img src="/img/tm-nas-banner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/tm-nas/">Time Machine通过Samba备份到NAS</a>
+    </h1>
+  
+
+      </header>
+    
+    <footer class="article-footer">
+      <a data-url="https://liangzhenduo0608.github.io/posts/tm-nas/" data-id="ck5jesrpm001addh82hugqgt7" class="article-share-link">Share</a>
+      
+        <a href="https://liangzhenduo0608.github.io/posts/tm-nas/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NAS/">NAS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OMV/">OMV</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
+
+    </footer>
+    <div class="article-entry article-index" itemprop="articleBody">
+      
+          
+        
+          <div class="toggle-content">
+            <p>MacBook升级后去掉了USB口，插移动硬盘比较麻烦，所以就一直没有备份时间机器了。后来觉得samba挂载的硬盘也可以用来备份，于是就想起了2019年捡垃圾时在某宝买的<strong>蜗牛星际</strong>矿渣（现在挂上硬盘装了OMV系统成为了一台家用NAS），希望可以无线局域网的环境下直接备份。</p>
+<h1 id="OMV设置"><a href="#OMV设置" class="headerlink" title="OMV设置"></a>OMV设置</h1><h2 id="配置共享文件夹"><a href="#配置共享文件夹" class="headerlink" title="配置共享文件夹"></a>配置共享文件夹</h2><p>首先进入OMV控制台配置一个共享文件夹用于Time Machine的备份：</p>
+<p><img src="/img/tm-nas-shared-folder.png" alt="共享文件夹"></p>
+<p>这里我用了单独一块磁盘用于备份，并把文件夹命名为Backup。</p>
+<p>配置完成后在<code>特权</code>里给用于备份的账户授予<code>读写权限</code>，并更改<code>ACL</code>设置如下：</p>
+<p><img src="/img/tm-nas-acl.png" alt="修改ACL"></p>
+<h2 id="更改samba设置"><a href="#更改samba设置" class="headerlink" title="更改samba设置"></a>更改samba设置</h2><p>以root身份登入OMV，编辑samba的配置文件<code>/etc/samba/smb.conf</code>，更改备份文件夹的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[Backup]</span><br><span class="line">comment = Time Machine</span><br><span class="line">path = /srv/dev-disk-by-label-Backup/</span><br><span class="line">guest ok = no</span><br><span class="line">guest only = no</span><br><span class="line">read only = no</span><br><span class="line">browseable = yes</span><br><span class="line">inherit acls = yes</span><br><span class="line">inherit permissions = no</span><br><span class="line">ea support = no</span><br><span class="line">store dos attributes = no</span><br><span class="line">fruit:encoding = private</span><br><span class="line">fruit:locking = none</span><br><span class="line">fruit:metadata = netatalk</span><br><span class="line">fruit:resource = file</span><br><span class="line">fruit:time machine = yes</span><br><span class="line">vfs objects = catia fruit streams_xattr</span><br><span class="line">printable = no</span><br><span class="line">create mask = 0664</span><br><span class="line">force create mode = 0664</span><br><span class="line">directory mask = 0775</span><br><span class="line">force directory mode = 0775</span><br><span class="line">hide special files = yes</span><br><span class="line">follow symlinks = yes</span><br><span class="line">hide dot files = yes</span><br><span class="line">valid users = &quot;shintaku&quot;</span><br><span class="line">invalid users =</span><br><span class="line">read list =</span><br><span class="line">write list = &quot;shintaku&quot;</span><br></pre></td></tr></table></figure>
+<p>主要变化在于更改了<code>vfs objects</code>的值并增加了几个<code>fruit</code>的配置。</p>
+<p>保存后运行<code>testparm</code>看一下配置是否正确，没问题就可以<code>systemctl restart smbd</code>重启服务了。</p>
+<h1 id="macOS设置"><a href="#macOS设置" class="headerlink" title="macOS设置"></a>macOS设置</h1><p>将Mac和NAS放到统一局域网下，用Finder的<code>前往</code>-<code>连接服务器</code>挂载一下备份硬盘看看是否正常。</p>
+<h2 id="开启文件共享"><a href="#开启文件共享" class="headerlink" title="开启文件共享"></a>开启文件共享</h2><p>进入<code>系统偏好设置</code>-<code>共享</code>，在<code>文件共享</code>的选项里将SMB共享打勾：</p>
+<p><img src="/img/tm-nas-sharing.png" alt="文件共享"></p>
+<h2 id="配置时间机器"><a href="#配置时间机器" class="headerlink" title="配置时间机器"></a>配置时间机器</h2><p>进入<code>系统偏好设置</code>-<code>时间机器</code>，点<code>选择磁盘</code>：</p>
+<p><img src="/img/tm-nas-select-disk.png" alt="选择磁盘"></p>
+<p>发现在NAS上配置的共享磁盘已经出现了，选择这个磁盘会弹出窗口认证身份，填入之前授权过的用户名密码即可：</p>
+<p><img src="/img/tm-nas-access.png" alt="登录"></p>
+<p>然后就连接完成，可以开始备份了：</p>
+<p><img src="/img/tm-nas-backup.png" alt="备份"></p>
+
+          </div>
+          <div class="toggle-input article-more-link"><a>Read More +</a></div>
+        
+      
+    </div>
+
+  </div>
+  
+</article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-9920928489161252"
+     data-ad-slot="3913131990"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+  
     <article id="post-hexo-mathjax" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     
@@ -126,7 +220,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/mathjaxbanner.png" rel="gallery_ck4p7xq17000o3ph8tp7ei4pu">
+      <a class="article-gallery-img fancybox" href="/img/mathjaxbanner.png" rel="gallery_ck5jesrpa000oddh8jnpuqotw">
         <img src="/img/mathjaxbanner.png" itemprop="image">
       </a>
     
@@ -145,7 +239,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/hexo-mathjax/" data-id="ck4p7xq17000o3ph8tp7ei4pu" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/hexo-mathjax/" data-id="ck5jesrpa000oddh8jnpuqotw" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/hexo-mathjax/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -211,7 +305,7 @@ npm install hexo-renderer-kramed --save
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/ttlbanner.png" rel="gallery_ck4p7xq1j001a3ph8fyhzf21a">
+      <a class="article-gallery-img fancybox" href="/img/ttlbanner.png" rel="gallery_ck5jesrpm001bddh8rd5kgqtv">
         <img src="/img/ttlbanner.png" itemprop="image">
       </a>
     
@@ -230,7 +324,7 @@ npm install hexo-renderer-kramed --save
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/ttl/" data-id="ck4p7xq1j001a3ph8fyhzf21a" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/ttl/" data-id="ck5jesrpm001bddh8rd5kgqtv" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/ttl/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -250,10 +344,10 @@ npm install hexo-renderer-kramed --save
 <h1 id="无拆机刷机"><a href="#无拆机刷机" class="headerlink" title="无拆机刷机"></a>无拆机刷机</h1><p>以下步骤参考<a href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;tid=313543" target="_blank" rel="noopener">恩山的教程</a>。</p>
 <h2 id="开启ssh"><a href="#开启ssh" class="headerlink" title="开启ssh"></a>开启ssh</h2><p>本方法主要依靠后门页面的命令注入漏洞，步骤如下：</p>
 <h3 id="注入新密码"><a href="#注入新密码" class="headerlink" title="注入新密码"></a>注入新密码</h3><p>电脑连上路由器（最好有线方式），访问<a href="http://192.168.10.1/upgrade.html" target="_blank" rel="noopener">http://192.168.10.1/upgrade.html</a>，在页面上打开ssh的选项，密码框内输入：</p>
-<pre><code>123 | echo 6c216b27c8c9b051106c969e2077d4e9 &gt; /ezwrt/bin/upgrade_passwd 
+<pre><code>123 | echo 6c216b27c8c9b051106c969e2077d4e9 &gt; /ezwrt/bin/upgrade_passwd
 </code></pre><p>注意末尾有空格。<strong>这里的md5值是<code>echo dfc643 | md5</code>算出来的，里面的<code>dfc643</code>是发现这个方法大佬的用户名，此处的密码是可以随便改的。</strong>然后点<code>确定</code>提交，此时会提示密码错误，可以忽略。</p>
 <h3 id="注入ssh公钥"><a href="#注入ssh公钥" class="headerlink" title="注入ssh公钥"></a>注入ssh公钥</h3><p>再次访问<a href="http://192.168.10.1/upgrade.html" target="_blank" rel="noopener">http://192.168.10.1/upgrade.html</a>，同样选择打开ssh，密码框内输入：</p>
-<pre><code>123 | echo YOUR_ID_RSA_PUB &gt; /etc/dropbear/authorized_keys 
+<pre><code>123 | echo YOUR_ID_RSA_PUB &gt; /etc/dropbear/authorized_keys
 </code></pre><p>同样注意末尾有空格。<strong>其中<code>YOUR_ID_RSA_PUB</code>替换为自己的公钥，即电脑上<code>~/.ssh/id_rsa.pub</code>的内容。</strong>再次点<code>确定</code>提交，此时还会提示密码错误，也可以忽略。</p>
 <h3 id="开启ssh-1"><a href="#开启ssh-1" class="headerlink" title="开启ssh"></a>开启ssh</h3><p>最后一次访问<a href="http://192.168.10.1/upgrade.html" target="_blank" rel="noopener">http://192.168.10.1/upgrade.html</a>，选择打开ssh，密码为<code>dfc643</code>（如果在第一步注入密码时用了别的密码，此处输入相应的密码），最后点确定提交，提示<code>start ssh success</code>表示已经开启ssh。</p>
 <p>这样就可以<code>ssh root@192.168.10.1</code>登录路由器了。</p>
@@ -265,7 +359,7 @@ npm install hexo-renderer-kramed --save
 </code></pre><p>这样应该就能将breed刷入bootloader，然后就可以随意刷firmware了。</p>
 <p>然而我手残将最后的<code>bootloader</code>打成了<code>firmware</code>，也就是将breed刷入了firmware分区，导致路由器进不去系统了，也才有了后面的ttl救砖。</p>
 <h1 id="TTL刷机"><a href="#TTL刷机" class="headerlink" title="TTL刷机"></a>TTL刷机</h1><p>以下步骤参考<a href="https://www.right.com.cn/forum/thread-190778-1-1.html" target="_blank" rel="noopener">恩山的教程</a>。</p>
-<h2 id="USB转TTL"><a href="#USB转TTL" class="headerlink" title="USB转TTL"></a>USB转TTL</h2><p>为了让路由器硬件和电脑相连，需要一个USB转TTl模块，随便在马云家买一个最便宜的就能用，我就买了一个<code>ch340g</code>芯片的模块。</p>
+<h2 id="USB转TTL"><a href="#USB转TTL" class="headerlink" title="USB转TTL"></a>USB转TTL</h2><p>为了让路由器硬件和电脑相连，需要一个USB转TTL模块，随便在马云家买一个最便宜的就能用，我就买了一个<code>ch340g</code>芯片的模块。</p>
 <h3 id="TTL驱动"><a href="#TTL驱动" class="headerlink" title="TTL驱动"></a>TTL驱动</h3><p>然后在github找了<a href="https://github.com/adrianmihalko/ch340g-ch34g-ch34x-mac-os-x-driver" target="_blank" rel="noopener">驱动</a>安装上（这里给的是Mac电脑的驱动，Windows的驱动一般卖家都会提供，网上找找也都有）。</p>
 <p>重启后打开<code>网络偏好</code>可以看见多了一个串行接口：</p>
 <p><img src="/img/ttldriver.png" alt></p>
@@ -326,7 +420,7 @@ npm install hexo-renderer-kramed --save
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/mactftpbanner.png" rel="gallery_ck4p7xq1a000u3ph8nnur1wec">
+      <a class="article-gallery-img fancybox" href="/img/mactftpbanner.png" rel="gallery_ck5jesrpd000uddh8kn56c7df">
         <img src="/img/mactftpbanner.png" itemprop="image">
       </a>
     
@@ -345,7 +439,7 @@ npm install hexo-renderer-kramed --save
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/mac-tftp/" data-id="ck4p7xq1a000u3ph8nnur1wec" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/mac-tftp/" data-id="ck5jesrpd000uddh8kn56c7df" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/mac-tftp/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -410,7 +504,7 @@ sudo launchctl start com.apple.tftpd
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/l2tpbanner.png" rel="gallery_ck4p7xq19000r3ph8o34jw0fv">
+      <a class="article-gallery-img fancybox" href="/img/l2tpbanner.png" rel="gallery_ck5jesrpc000rddh868tgs7xh">
         <img src="/img/l2tpbanner.png" itemprop="image">
       </a>
     
@@ -429,7 +523,7 @@ sudo launchctl start com.apple.tftpd
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/l2tp/" data-id="ck4p7xq19000r3ph8o34jw0fv" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/l2tp/" data-id="ck5jesrpc000rddh868tgs7xh" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/l2tp/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -537,7 +631,7 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/certbotbanner.png" rel="gallery_ck4p7xq11000d3ph8063t6lf8">
+      <a class="article-gallery-img fancybox" href="/img/certbotbanner.png" rel="gallery_ck5jesrp4000cddh808h1takw">
         <img src="/img/certbotbanner.png" itemprop="image">
       </a>
     
@@ -556,7 +650,7 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/certbot/" data-id="ck4p7xq11000d3ph8063t6lf8" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/certbot/" data-id="ck5jesrp4000cddh808h1takw" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/certbot/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -626,7 +720,7 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/hexodbanner.png" rel="gallery_ck4p7xq16000n3ph80jkqbic6">
+      <a class="article-gallery-img fancybox" href="/img/hexodbanner.png" rel="gallery_ck5jesrpa000nddh8awdyjnlz">
         <img src="/img/hexodbanner.png" itemprop="image">
       </a>
     
@@ -645,7 +739,7 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/hexo-deploy/" data-id="ck4p7xq16000n3ph80jkqbic6" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/hexo-deploy/" data-id="ck5jesrpa000nddh8awdyjnlz" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/hexo-deploy/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -719,7 +813,7 @@ cd hooks
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/w2vbanner.png" rel="gallery_ck4p7xq1k001c3ph809fs0prs">
+      <a class="article-gallery-img fancybox" href="/img/w2vbanner.png" rel="gallery_ck5jesrpn001dddh8kt89xmyr">
         <img src="/img/w2vbanner.png" itemprop="image">
       </a>
     
@@ -738,7 +832,7 @@ cd hooks
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/word2vec/" data-id="ck4p7xq1k001c3ph809fs0prs" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/word2vec/" data-id="ck5jesrpn001dddh8kt89xmyr" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/word2vec/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -831,7 +925,7 @@ cd hooks
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/bbrbanner.png" rel="gallery_ck4p7xq1i00183ph8m9pqpjmu">
+      <a class="article-gallery-img fancybox" href="/img/bbrbanner.png" rel="gallery_ck5jesrpl0018ddh81s5tekaj">
         <img src="/img/bbrbanner.png" itemprop="image">
       </a>
     
@@ -850,7 +944,7 @@ cd hooks
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/tcp-bbr/" data-id="ck4p7xq1i00183ph8m9pqpjmu" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/tcp-bbr/" data-id="ck5jesrpl0018ddh81s5tekaj" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/tcp-bbr/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -933,7 +1027,7 @@ sysctl net.ipv4.tcp_congestion_control
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/scibanner.png" rel="gallery_ck4p7xq1e00113ph8st2o2e4c">
+      <a class="article-gallery-img fancybox" href="/img/scibanner.png" rel="gallery_ck5jesrpi0011ddh8qtk1aero">
         <img src="/img/scibanner.png" itemprop="image">
       </a>
     
@@ -952,7 +1046,7 @@ sysctl net.ipv4.tcp_congestion_control
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/sci/" data-id="ck4p7xq1e00113ph8st2o2e4c" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/sci/" data-id="ck5jesrpi0011ddh8qtk1aero" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/sci/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1041,112 +1135,6 @@ sysctl net.ipv4.tcp_congestion_control
 
 
   
-    <article id="post-line" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-<a href="/posts/line/" class="article-date">
-  <time datetime="2017-04-15T07:15:15.000Z" itemprop="datePublished">2017-04-15</time>
-</a>
-
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/机器学习/">机器学习</a>►<a class="article-category-link" href="/categories/机器学习/论文/">论文</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-      <a class="article-gallery-img fancybox" href="/img/linebanner.png" rel="gallery_ck4p7xq1a000s3ph8k1wjxs3i">
-        <img src="/img/linebanner.png" itemprop="image">
-      </a>
-    
-  </div>
-</div>
-
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/posts/line/">LINE：大规模信息网络嵌入</a>
-    </h1>
-  
-
-      </header>
-    
-    <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/line/" data-id="ck4p7xq1a000s3ph8k1wjxs3i" class="article-share-link">Share</a>
-      
-        <a href="https://liangzhenduo0608.github.io/posts/line/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/机器学习/">机器学习</a></li></ul>
-
-    </footer>
-    <div class="article-entry article-index" itemprop="articleBody">
-      
-          
-        
-          <div class="toggle-content">
-            <blockquote>
-<p>原文：<a href="https://arxiv.org/pdf/1503.03578.pdf" target="_blank" rel="noopener">LINE: Large-scale Information Network Embedding</a><br>源码：<a href="https://github.com/tangjianpku/LINE" target="_blank" rel="noopener">tangjianpku/LINE</a></p>
-</blockquote>
-<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>这篇论文提出了一种将大规模信息网络嵌入到低维向量空间中的方法，适用于有向、无向、有权、无权图。该方法用了精心设计的目标函数，保留了局部和全局网络结构。边采样方法克服了传统梯度下降法的局限性，提高了效率和效果。</p>
-<h1 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h1><h2 id="信息网络"><a href="#信息网络" class="headerlink" title="信息网络"></a>信息网络</h2><p>信息网络定义为\(G=(V, E)\)，\(V\)是点集，\(E\)是边集。每条边是有序对\(e=(u, v)\)且有大于0的权重\(w_{u,v}\)来表示关系强度（该问题中不考虑负权）。无向图认为双向边相等。<br>把信息网络嵌入到低维空间非常有用，但要执行嵌入必须先保留网络结构。</p>
-<h2 id="一阶接近度"><a href="#一阶接近度" class="headerlink" title="一阶接近度"></a>一阶接近度</h2><p>网络中的一阶接近度是指两点间的局部成对相似度。连接点对的<strong>边之权重表示两点间的一阶接近度</strong>，若无边则一阶接近度是0。一阶接近度通常暗含真实网络中两点的相似度，但被观测到的边只占很小一部分，未观测到的一阶接近度被视作0，因此一阶接近度不足以保留网络结构。</p>
-<h2 id="二阶接近度"><a href="#二阶接近度" class="headerlink" title="二阶接近度"></a>二阶接近度</h2><p>点对间的二阶接近度是它们邻居网络结构的相似度。用\(p_u=(w_{u,1},\ldots,w_{u,|V|})\)表示\(u\)到其他节点的一阶接近度，<strong>二阶接近度就是\(p_u\)和\(p_v\)（一阶接近度）的相似度</strong>。如果没有节点与\(u\)和\(v\)相连，则二阶接近度为0。</p>
-<h2 id="大规模信息网络嵌入"><a href="#大规模信息网络嵌入" class="headerlink" title="大规模信息网络嵌入"></a>大规模信息网络嵌入</h2><p>给出大型网络\(G=(V, E)\)，信息网络嵌入旨在把每个节点\(v\)表示到低维空间\(R^d\)中，学习一个函数\(f_G:V\to R^d\)其中\(d\ll |V|\)。在空间\(R^d\)中一阶接近度和二阶接近度都保留着。</p>
-<h1 id="LINE模型"><a href="#LINE模型" class="headerlink" title="LINE模型"></a>LINE模型</h1><p>合格的真实世界信息网络嵌入模型要满足以下条件：</p>
-<ul>
-<li>保留节点间的一阶接近度和二阶接近度</li>
-<li>可用于大型网络</li>
-<li>可以处理有向／无向／有权／无权图</li>
-</ul>
-<h2 id="模型描述"><a href="#模型描述" class="headerlink" title="模型描述"></a>模型描述</h2><h3 id="一阶接近度的LINE"><a href="#一阶接近度的LINE" class="headerlink" title="一阶接近度的LINE"></a>一阶接近度的LINE</h3><p>对于每条无向边\((i, j)\)，定义\(v_i\)和\(v_j\)的连接概率为：</p>
-<script type="math/tex; mode=display">p_1(v_i, v_j)=\frac{1}{1+\exp(-\overrightarrow{u_i}^T\cdot\overrightarrow{u_j})}</script><p>其中\(\overrightarrow{u_i}\)是\(v_i\)的低维向量表示。上式定义的\(V \times V\)空间内的分布，经验分布\(\hat{p_1}(i, j)=\frac{w_{ij}}{W}\)，其中\(W=\sum_{(i,j)\in{E}}{w_{ij}}\)。为了保留一阶接近度，简单的方法是减小以下目标函数：</p>
-<script type="math/tex; mode=display">O_1=d(\hat{p_1}(\cdot, \cdot), {p_1}(\cdot, \cdot))</script><p>其中\(d(\cdot, \cdot)\)是两个分布之间的距离。减小两个概率分布的<a href="https://zh.wikipedia.org/zh-hans/%E7%9B%B8%E5%AF%B9%E7%86%B5" target="_blank" rel="noopener">KL散度</a>，用KL散度替换距离函数并去掉常量后得到：</p>
-<script type="math/tex; mode=display">O_1=-\sum_{(i,j)\in{E}}{w_{ij}\log{p_1(v_i,v_j)}}</script><p>注意<strong>一阶接近度仅适用于无向图</strong>。找到减小上式的\(\left\{\overrightarrow{u_i}\right\}_{i=1..|V|}\)就可以表示d维空间内的每个点。</p>
-<h3 id="二阶接近度的LINE"><a href="#二阶接近度的LINE" class="headerlink" title="二阶接近度的LINE"></a>二阶接近度的LINE</h3><p><strong>二阶接近度适用于有向图和无向图</strong>。给出一般网络，假设其有向。二阶接近度假设节点与其他节点共享多条连接，这种情况下每个节点都有独特的<em>环境（context）</em>且在<em>环境</em>上分布相似的节点被假设为相似的。因此每个节点扮演两种角色：节点本身和其他节点的外部<em>环境</em>。引入两个向量\(\overrightarrow{u_i}\)和\(\overrightarrow{u_i}’\)，其中\(\overrightarrow{u_i}\)表示作为节点的\(v_i\)，\(\overrightarrow{u_i}’\)表示作为<em>环境</em>的\(v_i\)。对于每个有向边\((i,j)\)首先定义<em>环境</em>\(v_j\)生成节点\(v_i\)的概率：</p>
-<script type="math/tex; mode=display">p_2(v_j\mid v_i)=\frac{\exp({\overrightarrow{u_j}'}^T\cdot\overrightarrow{u_i})}{\sum_{k=1}^{|V|}\exp({\overrightarrow{u_k}'^T\cdot\overrightarrow{u_i})}}</script><p>其中\(|V|\)是节点或<em>环境</em>的数量。对于每个节点\(v_i\)，上式确定了环境上的条件分布。为保留二阶接近度，应当由低维表示确定条件分布来接近经验分布\(\hat{p_2}(\cdot|v_i)\)，因此减小以下目标函数：</p>
-<script type="math/tex; mode=display">O_2=\sum_{i\in{V}}\lambda_{i}d(\hat{p_2}(\cdot\mid v_i),p_2(\cdot\mid v_i))</script><p>其中\(d(\cdot, \cdot)\)是两个分布之间的距离，由于网络中节点的重要性可能不同，引入\(\lambda_i\)来表示网络中节点\(i\)可通过算法用度或相似度来衡量的重要性。经验分布\(\hat{p_2}(\cdot\mid v_i)\)定义为\(\hat{p_2}(v_j\mid v_i)=\frac{w_{ij}}{d_i}\)，其中\(w_{ij}\)是边\((i, j)\)的权重，\(d_i\)是节点\(i\)的出度。为了简化，引入KL散度作为距离函数，将\(\lambda_i\)设为度\(d_i\)并去掉常量后得到：</p>
-<script type="math/tex; mode=display">O_2=-\sum_{(i,j)\in{E}}w_{ij}\log{p_2(v_j\mid v_i)}</script><p>通过学习\(\left\{\overrightarrow{u_i}\right\}_{i=1..|V|}\)和\(\left\{\overrightarrow{u_i}’\right\}_{i=1..|V|}\)减小这项，就可以用d维向量\(\overrightarrow{u_i}\)表示每个节点\(v_i\)。</p>
-<h3 id="结合一阶二阶接近度"><a href="#结合一阶二阶接近度" class="headerlink" title="结合一阶二阶接近度"></a>结合一阶二阶接近度</h3><p>简单有效的方法是分别求出一阶二阶接近度，然后对每个节点把两种方法的嵌入训练组合起来。更正规的方法是结合两个接近度联合训练两个目标函数。</p>
-<h2 id="模型优化"><a href="#模型优化" class="headerlink" title="模型优化"></a>模型优化</h2><p>优化\(O_2\)计算代价很高，因为在计算条件概率\(p_2\)时要累加全部节点。于是引入<a href="http://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf" target="_blank" rel="noopener">mikolov2013distributed</a>中提出的<em>负采样（negative sampling）</em>，根据每个边\((i, j)\)的噪声分布取样多个负边，特别对每个边指定了以下函数：</p>
-<script type="math/tex; mode=display">\log\sigma(\overrightarrow{u_j}'^T\cdot\overrightarrow{u_i})+\sum_{i=1}^K E_{v_n\sim P_n(v)}[\log\sigma(-\overrightarrow{u_n}'^T\cdot\overrightarrow{u_i})]</script><p>其中\(\sigma(x)=1/(1+\exp(-x))\)。第一项构造观测边，第二项构造由噪声分布画出的负边，\(K\)是负边数。令\(P_n(v)\propto d_v^{3/4}\)，其中\(d_v\)是节点\(v\)的出度。<br>对于\(O_1\)存在<a href="https://zh.wikipedia.org/wiki/%E5%B9%B3%E5%87%A1_%28%E6%95%B8%E5%AD%B8%29#.E5.B9.B3.E5.87.A1.E8.A7.A3" target="_blank" rel="noopener">平凡解</a>：当\(i\)取\(1,\ldots,|V|\)，\(k\)取\(1,\ldots,d\)时\(u_{ik}=\infty\)。为了避免平凡解可以使用把\(\overrightarrow{u_j}’^T\)改为\(\overrightarrow{u_i}\)的负采样方法。<br>引用<a href="http://papers.nips.cc/paper/4390-hogwild-a-lock-free-approach-to-parallelizing-stochastic-gradient-descent.pdf" target="_blank" rel="noopener">recht2011hogwild</a>中提出的<em>异步随机梯度算法（ASGD）</em>来优化上式。每一步算法采样少量边然后更新模型参数。如果边\((i, j)\)被采样了，节点\(i\)的嵌入向量\(\overrightarrow{u_i}\)是：</p>
-<script type="math/tex; mode=display">\frac{\partial O_2}{\partial \overrightarrow{u_i}}=w_{ij}\cdot\frac{\partial\log{p_2}(v_j\mid v_i)}{\partial \overrightarrow{u_i}}</script><p>注意梯度要乘边权，当边权差距很大时会难以找到好的学习速率。如果根据小权边确定了大的学习速率，会造成大权边的梯度爆炸，因为在根据大权边选择学习速率时梯度会变得很小。</p>
-<h3 id="通过边采样优化"><a href="#通过边采样优化" class="headerlink" title="通过边采样优化"></a>通过边采样优化</h3><p>简单的解决方案是将权为\(w\)的边展开成\(w\)个<em>二元边（binary edges）</em>，但是会显著提高内存需求，尤其是当边权非常大时。解决这种问题的一种方法是从原始边进行采样并转换为<em>二元</em>边，通过采样率按比例还原原始边。然后问题就退化成了如何根据权重采样边。<br>令\(W=(w_1,\ldots,w_{|E|})\)表示边权序列，边权和\(w_{sum}=\sum_{i=1}^{|E|}w_i\)，然后在\(\left[0,w_{sum}\right]\)取随机数，看它落在\(\left[\sum_{j=0}^{i-1}w_j,\sum_{j=0}^iw_j\right)\)的哪个区间内。这种方法用\(O(|E|)\)的复杂度，当边数非常大时会很耗时。所以引用<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.675.8158&amp;rep=rep1&amp;type=pdf" target="_blank" rel="noopener">li2014reducing</a>中提出的<em>别名法（alias method）</em>只用\(O(1)\)的复杂度就能从同一离散分布中刻画样本。用负采样可以将常数时间优化到\(O(d(K+1))\)次，其中\(K\)是负采样数量，因此每步要做\(O(dK)\)次。在实践中发现优化步数和边数是成比例的，所以LINE的总体复杂度是\(O(dK|E|)\)，和边数是线性相关并与节点数无关。这种边采样方法提高了随机梯度下降法的效率。</p>
-<h2 id="讨论"><a href="#讨论" class="headerlink" title="讨论"></a>讨论</h2><h3 id="低度节点"><a href="#低度节点" class="headerlink" title="低度节点"></a>低度节点</h3><p>一个实际问题是如何准确嵌入度很小的节点。由于其邻居节点很少，难以推断其表达式，特别是依赖其环境的二阶接近度。于是这里考虑对每个节点扩张其二阶邻居节点，也就是邻居的邻居。节点\(i\)和其二阶邻居\(j\)间的权重是：</p>
-<script type="math/tex; mode=display">w_{ij}=\sum_{k\in N(i)}w_{ik}\frac{w_{kj}}{d_k}</script><p>在实践中只能增加与低度节点\(i\)有最大相似度\(w_{ij}\)的节点\(\{j\}\)的子集。</p>
-<h3 id="新节点"><a href="#新节点" class="headerlink" title="新节点"></a>新节点</h3><p>另一个实际问题是如何表示新加节点。对于新节点\(i\)，如果所连节点已知就可以获得已知节点经验分布\(\hat{p_1}(\cdot, v_i)\)和\(\hat{p_2}(\cdot\mid v_i)\)。为了获得新节点的嵌入，根据\(O_1\)和\(O_2\)通过更新新节点嵌入并保持已有节点的嵌入来直接减小</p>
-<script type="math/tex; mode=display">-\sum_{j\in{N(i)}}{w_{ji}\log{p_1(v_j,v_i)}},\quad或\quad -\sum_{j\in{N(i)}}{w_{ji}\log{p_2(v_j,v_i)}},</script><p>如果没有观测到新节点和已有节点的连接就需要其他信息，比如节点的文本信息。</p>
-
-          </div>
-          <div class="toggle-input article-more-link"><a>Read More +</a></div>
-        
-      
-    </div>
-
-  </div>
-  
-</article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-9920928489161252"
-     data-ad-slot="3913131990"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -1200,7 +1188,7 @@ setTimeout(function() {
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -1210,6 +1198,14 @@ setTimeout(function() {
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a class="text" href="/posts/tm-nas/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Time Machine通过Samba备份到NAS</a>
+          </li>
         
           <li>
             <a class="text" href="/posts/hexo-mathjax/">
@@ -1283,14 +1279,6 @@ setTimeout(function() {
             大型属性网络的语义社团识别</a>
           </li>
         
-          <li>
-            <a class="text" href="/posts/line/">
-              
-                <i class="fa-paperclip"></i> 
-              
-            LINE：大规模信息网络嵌入</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1301,7 +1289,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 21.82px; color: #d1e8ff">VPS</a> <a href="/tags/科学上网/" style="font-size: 20.73px; color: #b9dcff">科学上网</a> <a href="/tags/服务器/" style="font-size: 22.91px; color: #e8f3ff">服务器</a> <a href="/tags/代理/" style="font-size: 17.45px; color: #74b9ff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/OpenWrt/" style="font-size: 19.64px; color: #a2d0ff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20.73px; color: #b9dcff">路由器</a> <a href="/tags/ShadowSocks/" style="font-size: 16.36px; color: #5daeff">ShadowSocks</a> <a href="/tags/IPv6/" style="font-size: 13.09px; color: #178bff">IPv6</a> <a href="/tags/macOS/" style="font-size: 18.55px; color: #8bc5ff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13.09px; color: #178bff">Minecraft</a> <a href="/tags/Android/" style="font-size: 13.09px; color: #178bff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14.18px; color: #2e96ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13.09px; color: #178bff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16.36px; color: #5daeff">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13.09px; color: #178bff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13.09px; color: #178bff">PHP</a> <a href="/tags/SSL/" style="font-size: 13.09px; color: #178bff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15.27px; color: #46a2ff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18.55px; color: #8bc5ff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/舰队Collection/" style="font-size: 13.09px; color: #178bff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14.18px; color: #2e96ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13.09px; color: #178bff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/shell/" style="font-size: 13.09px; color: #178bff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 21.82px; color: #d1e8ff">VPS</a> <a href="/tags/科学上网/" style="font-size: 20.73px; color: #b9dcff">科学上网</a> <a href="/tags/服务器/" style="font-size: 22.91px; color: #e8f3ff">服务器</a> <a href="/tags/代理/" style="font-size: 17.45px; color: #74b9ff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/OpenWrt/" style="font-size: 19.64px; color: #a2d0ff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20.73px; color: #b9dcff">路由器</a> <a href="/tags/ShadowSocks/" style="font-size: 16.36px; color: #5daeff">ShadowSocks</a> <a href="/tags/IPv6/" style="font-size: 13.09px; color: #178bff">IPv6</a> <a href="/tags/Android/" style="font-size: 13.09px; color: #178bff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19.64px; color: #a2d0ff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13.09px; color: #178bff">Minecraft</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14.18px; color: #2e96ff">Unix</a> <a href="/tags/SSL/" style="font-size: 13.09px; color: #178bff">SSL</a> <a href="/tags/Nginx/" style="font-size: 16.36px; color: #5daeff">Nginx</a> <a href="/tags/LEMP/" style="font-size: 13.09px; color: #178bff">LEMP</a> <a href="/tags/MySQL/" style="font-size: 13.09px; color: #178bff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13.09px; color: #178bff">PHP</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15.27px; color: #46a2ff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18.55px; color: #8bc5ff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/舰队Collection/" style="font-size: 13.09px; color: #178bff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14.18px; color: #2e96ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13.09px; color: #178bff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/shell/" style="font-size: 13.09px; color: #178bff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 
@@ -1432,7 +1420,7 @@ setTimeout(function() {
       
     </div>
     <div id="footer-info" class="inner" align="center">
-      Powered by <a href="https:\/\/hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https:\/\/github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2019 Shintaku
+      Powered by <a href="https:\/\/hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https:\/\/github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2020 Shintaku
     </div>
   </div>
 </footer>

@@ -108,6 +108,85 @@
         
           <section id="main" class='pjax'>
   
+    <article id="post-ssh-conf" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/posts/ssh-conf/" class="article-date">
+  <time datetime="2016-09-21T14:22:22.000Z" itemprop="datePublished">2016-09-21</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/奇技淫巧/">奇技淫巧</a>►<a class="article-category-link" href="/categories/奇技淫巧/＊nix/">＊nix</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/sshconfbanner.png" rel="gallery_ck5jesrpk0016ddh82st7z8n4">
+        <img src="/img/sshconfbanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/ssh-conf/">ssh保持继续连接</a>
+    </h1>
+  
+
+      </header>
+    
+    <footer class="article-footer">
+      <a data-url="https://liangzhenduo0608.github.io/posts/ssh-conf/" data-id="ck5jesrpk0016ddh82st7z8n4" class="article-share-link">Share</a>
+      
+        <a href="https://liangzhenduo0608.github.io/posts/ssh-conf/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li></ul>
+
+    </footer>
+    <div class="article-entry article-index" itemprop="articleBody">
+      
+          
+        
+          <div class="toggle-content">
+            <p>公司开发登录堡垒机时需要使用<strong>PIN+token</strong>的方式进行认证，而且动态密码只能一次使用，因此一次要打开多个终端都要多次等待动态密码的变化才能登录。</p>
+<p>所以听从公司同（xué）事（zhǎng）的建议，配置了一下<code>~/.ssh/config</code>：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Host</span> *</span><br><span class="line">    ControlMaster auto</span><br><span class="line">    ControlPath ~/.ssh/%h-%p-%r</span><br><span class="line">    ControlPersist <span class="literal">yes</span></span><br></pre></td></tr></table></figure>
+<p>如果没有这个文件可以新建。其中<code>Host</code>项是指目标地址；<code>ControlMaster</code>一项会使一旦有一个连接以后，再次从其他终端连接同一个host也不必再输密码；<code>ControlPersist</code>一项可以一段时间不再输密码也可以登录。这样配置以后就能实现输一次密码后对于同一host不再输密码即可连接了。</p>
+
+          </div>
+          <div class="toggle-input article-more-link"><a>Read More +</a></div>
+        
+      
+    </div>
+
+  </div>
+  
+</article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-9920928489161252"
+     data-ad-slot="3913131990"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+  
     <article id="post-ngrok" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     
@@ -126,7 +205,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/ngbanner.png" rel="gallery_ck4p7xq1c000x3ph8opkttg0u">
+      <a class="article-gallery-img fancybox" href="/img/ngbanner.png" rel="gallery_ck5jesrpf000xddh84lj6e1ly">
         <img src="/img/ngbanner.png" itemprop="image">
       </a>
     
@@ -145,7 +224,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/ngrok/" data-id="ck4p7xq1c000x3ph8opkttg0u" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/ngrok/" data-id="ck5jesrpf000xddh84lj6e1ly" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/ngrok/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -264,7 +343,7 @@ opkg install libopenssl
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/dhbanner.png" rel="gallery_ck4p7xq13000h3ph8b4dkzmsx">
+      <a class="article-gallery-img fancybox" href="/img/dhbanner.png" rel="gallery_ck5jesrp6000hddh827bp34tp">
         <img src="/img/dhbanner.png" itemprop="image">
       </a>
     
@@ -283,7 +362,7 @@ opkg install libopenssl
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/denyhosts/" data-id="ck4p7xq13000h3ph8b4dkzmsx" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/denyhosts/" data-id="ck5jesrp6000hddh827bp34tp" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/denyhosts/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -359,7 +438,7 @@ systemctl enable denyhosts
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/gfwbanner.png" rel="gallery_ck4p7xq15000k3ph8hgqk19p4">
+      <a class="article-gallery-img fancybox" href="/img/gfwbanner.png" rel="gallery_ck5jesrp8000kddh845djq2yt">
         <img src="/img/gfwbanner.png" itemprop="image">
       </a>
     
@@ -378,7 +457,7 @@ systemctl enable denyhosts
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/gfwlist/" data-id="ck4p7xq15000k3ph8hgqk19p4" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/gfwlist/" data-id="ck5jesrp8000kddh845djq2yt" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/gfwlist/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -464,7 +543,7 @@ systemctl enable denyhosts
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/adbbanner.png" rel="gallery_ck4p7xq0x00083ph81iz32oc1">
+      <a class="article-gallery-img fancybox" href="/img/adbbanner.png" rel="gallery_ck5jesroz0007ddh8jjjy2gn5">
         <img src="/img/adbbanner.png" itemprop="image">
       </a>
     
@@ -483,7 +562,7 @@ systemctl enable denyhosts
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/adb/" data-id="ck4p7xq0x00083ph81iz32oc1" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/adb/" data-id="ck5jesroz0007ddh8jjjy2gn5" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/adb/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -615,7 +694,7 @@ systemctl enable denyhosts
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/dubanner.png" rel="gallery_ck4p7xq0x00093ph88mfrh54v">
+      <a class="article-gallery-img fancybox" href="/img/dubanner.png" rel="gallery_ck5jesrp3000bddh8w1ne90ay">
         <img src="/img/dubanner.png" itemprop="image">
       </a>
     
@@ -634,7 +713,7 @@ systemctl enable denyhosts
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/baidu-interview/" data-id="ck4p7xq0x00093ph88mfrh54v" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/baidu-interview/" data-id="ck5jesrp3000bddh8w1ne90ay" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/baidu-interview/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -870,7 +949,7 @@ systemctl enable denyhosts
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/dbbanner.png" rel="gallery_ck4p7xq14000j3ph8yzra3a6n">
+      <a class="article-gallery-img fancybox" href="/img/dbbanner.png" rel="gallery_ck5jesrp7000jddh89hh1jb7u">
         <img src="/img/dbbanner.png" itemprop="image">
       </a>
     
@@ -889,7 +968,7 @@ systemctl enable denyhosts
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/dropbear/" data-id="ck4p7xq14000j3ph8yzra3a6n" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/dropbear/" data-id="ck5jesrp7000jddh89hh1jb7u" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/dropbear/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -962,7 +1041,7 @@ cat ~/.ssh/id_rsa.pub | ssh remote_username@remote_host &#39;cat &gt;&gt; .ssh/a
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/dnsbanner.png" rel="gallery_ck4p7xq11000e3ph8gbsr5xoc">
+      <a class="article-gallery-img fancybox" href="/img/dnsbanner.png" rel="gallery_ck5jesrp5000eddh86pkfxkm8">
         <img src="/img/dnsbanner.png" itemprop="image">
       </a>
     
@@ -981,7 +1060,7 @@ cat ~/.ssh/id_rsa.pub | ssh remote_username@remote_host &#39;cat &gt;&gt; .ssh/a
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/chinadns/" data-id="ck4p7xq11000e3ph8gbsr5xoc" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/chinadns/" data-id="ck5jesrp5000eddh86pkfxkm8" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/chinadns/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1072,7 +1151,7 @@ systemctl enable dnsmasq
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/appbanner.png" rel="gallery_ck4p7xq0v00073ph8g0qu4xel">
+      <a class="article-gallery-img fancybox" href="/img/appbanner.png" rel="gallery_ck5jesrp00008ddh8f5m6jq4t">
         <img src="/img/appbanner.png" itemprop="image">
       </a>
     
@@ -1091,7 +1170,7 @@ systemctl enable dnsmasq
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/app/" data-id="ck4p7xq0v00073ph8g0qu4xel" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/app/" data-id="ck5jesrp00008ddh8f5m6jq4t" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/app/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1163,7 +1242,7 @@ systemctl enable dnsmasq
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/vlbanner.png" rel="gallery_ck4p7xq1j001b3ph839hxbuws">
+      <a class="article-gallery-img fancybox" href="/img/vlbanner.png" rel="gallery_ck5jesrpn001cddh8uu0kiyry">
         <img src="/img/vlbanner.png" itemprop="image">
       </a>
     
@@ -1182,7 +1261,7 @@ systemctl enable dnsmasq
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/verilog/" data-id="ck4p7xq1j001b3ph839hxbuws" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/verilog/" data-id="ck5jesrpn001cddh8uu0kiyry" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/verilog/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1216,135 +1295,6 @@ systemctl enable dnsmasq
 ./test.vvp
 </code></pre><p>生成vcd格式的波形文件用Scansion打开即可（也可以使用命令<code>open -a Scansion test.vcd</code>）：</p>
 <p><img src="/img/vltest.png" alt="输出波形"></p>
-
-          </div>
-          <div class="toggle-input article-more-link"><a>Read More +</a></div>
-        
-      
-    </div>
-
-  </div>
-  
-</article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-9920928489161252"
-     data-ad-slot="3913131990"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-  
-    <article id="post-centos-lemp" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-<a href="/posts/centos-lemp/" class="article-date">
-  <time datetime="2016-03-21T13:11:11.000Z" itemprop="datePublished">2016-03-21</time>
-</a>
-
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/网络/">网络</a>►<a class="article-category-link" href="/categories/网络/网站部署/">网站部署</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-      <a class="article-gallery-img fancybox" href="/img/lempbanner.png" rel="gallery_ck4p7xq10000c3ph82vtqopwb">
-        <img src="/img/lempbanner.png" itemprop="image">
-      </a>
-    
-  </div>
-</div>
-
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/posts/centos-lemp/">CentOS 7配置LEMP环境</a>
-    </h1>
-  
-
-      </header>
-    
-    <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/centos-lemp/" data-id="ck4p7xq10000c3ph82vtqopwb" class="article-share-link">Share</a>
-      
-        <a href="https://liangzhenduo0608.github.io/posts/centos-lemp/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LEMP/">LEMP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/服务器/">服务器</a></li></ul>
-
-    </footer>
-    <div class="article-entry article-index" itemprop="articleBody">
-      
-          
-        
-          <div class="toggle-content">
-            <p>由于最近许多服务都需要依赖LEMP（Linux、Nginx、MySQL、PHP）环境，之前旧金山机房的VPS使用CentOS 6的系统总是安装不成功，最近换了新加坡机房装了CentOS 7，所以重新完完整整的配置一遍，以便后面使用。</p>
-<h1 id="安装MySQL"><a href="#安装MySQL" class="headerlink" title="安装MySQL"></a>安装MySQL</h1><p>MySQL直接从yum安装总是不能成功，后来索性就直接下载rpm包安装了。首先下载MySQL社区版的rpm包并执行安装：</p>
-<pre><code>rpm -ivh http://repo.mysql.com/mysql-community-release-el7-7.noarch.rpm
-yum update
-</code></pre><p>之后安装mysql-server：</p>
-<pre><code>yum install mysql-server
-</code></pre><p>通过<code>mysql -V</code>命令查看版本来检查MySQL是否安装成功。</p>
-<p>启动服务并设置开机启动：</p>
-<pre><code>systemctl start mysqld
-systemctl enable mysqld
-</code></pre><p>然后配置安全脚本：</p>
-<pre><code>mysql_secure_installation
-</code></pre><p>这时会要求输入数据库的root密码，由于是新安装的并没有密码，所以直接回车即可。接下来会提示设置新的root密码，然后会有一些其它选项：</p>
-<blockquote>
-<p>Remove anonymous users? [Y/n]<br>Disallow root login remotely? [Y/n]<br>Remove test database and access to it? [Y/n]<br>Reload privilege tables now? [Y/n]</p>
-</blockquote>
-<p>按需求选择即可，推荐都选Y。</p>
-<p>结束后使用<code>mysql -u root -p</code>命令以root身份登录，后面输入密码就登进去了。</p>
-<h1 id="安装PHP"><a href="#安装PHP" class="headerlink" title="安装PHP"></a>安装PHP</h1><p>yum默认安装的PHP还是5.4版本，对于需要新版本特性的用户还是通过Remi源安装好了。所以首先下载安装Remi源：</p>
-<pre><code>rpm -ivh http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-rpm -ivh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
-yum update
-</code></pre><p>然后编辑<code>/etc/yum.repos.d/remi.repo</code>文件：</p>
-<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">[remi]</span></span><br><span class="line">name=Remi's RPM repository for Enterprise Linux <span class="number">7</span> - $basearch</span><br><span class="line">#baseurl=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/remi/$basearch/</span><br><span class="line">mirrorlist=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/remi/mirror</span><br><span class="line">enabled=<span class="number">1</span></span><br><span class="line">gpgcheck=<span class="number">1</span></span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi</span><br></pre></td></tr></table></figure>
-<p>请确保<code>[remi]</code>中的<code>enabled</code>的值是<code>1</code>。然后向下查看，在想要安装的php的版本（<code>[remi-php55]</code>或<code>[remi-php56]</code>）一段将对应的<code>enabled</code>的值改为<code>1</code>，例如：</p>
-<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">[remi-php55]</span></span><br><span class="line">name=Remi's PHP <span class="number">5</span>.<span class="number">5</span> RPM repository for Enterprise Linux <span class="number">7</span> - $basearch</span><br><span class="line">#baseurl=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/php55/$basearch/</span><br><span class="line">mirrorlist=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/php55/mirror</span><br><span class="line"># NOTICE: common dependencies are in <span class="string">"remi-safe"</span></span><br><span class="line">enabled=<span class="number">0</span></span><br><span class="line">gpgcheck=<span class="number">1</span></span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi</span><br><span class="line"></span><br><span class="line"><span class="string">[remi-php56]</span></span><br><span class="line">name=Remi's PHP <span class="number">5</span>.<span class="number">6</span> RPM repository for Enterprise Linux <span class="number">7</span> - $basearch</span><br><span class="line">#baseurl=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/php56/$basearch/</span><br><span class="line">mirrorlist=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/php56/mirror</span><br><span class="line"># NOTICE: common dependencies are in <span class="string">"remi-safe"</span></span><br><span class="line">enabled=<span class="number">1</span></span><br><span class="line">gpgcheck=<span class="number">1</span></span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi</span><br></pre></td></tr></table></figure>
-<p>保存之后就可以用yum命令安装较新的PHP了：</p>
-<pre><code>yum install php php-fpm php-mysql
-</code></pre><p>当然以后如果发现缺了什么php的组件也可以通过这种方式安装，例如：</p>
-<pre><code>yum install php-gd php-mcrypt php-pear
-</code></pre><p>通过<code>php -v</code>命令查看版本来检查PHP是否安装成功。</p>
-<p>启动PHP并设置开机启动：</p>
-<pre><code>systemctl start php-fpm
-systemctl enable php-fpm
-</code></pre><h1 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h1><p>再使用yum安装Nginx：</p>
-<pre><code>yum install nginx
-</code></pre><p>通过<code>nginx -v</code>命令查看版本来检查Nginx是否安装成功。</p>
-<p>启动Nginx并设置开机启动：</p>
-<pre><code>systemctl start nginx
-systemctl enable nginx
-</code></pre><p>然后在<code>/etc/nginx/nginx.conf</code>的<code>http</code>段中加入一句：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include /etc/nginx/conf.d/*.conf;</span><br></pre></td></tr></table></figure>
-<p>编辑<code>/etc/nginx/conf.d/default.conf</code>文件（若不存在请新建，以后就可以在这里修改配置了）：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span>  your_domain;</span><br><span class="line">    <span class="attribute">return</span> <span class="number">301</span> https://<span class="variable">$server_name</span><span class="variable">$request_uri</span>;</span><br><span class="line">    <span class="comment">#charset koi8-r;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#access_log  logs/host.access.log  main;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Load configuration files for the default server block.</span></span><br><span class="line">    </span><br><span class="line">    <span class="attribute">include</span> /etc/nginx/default.d/<span class="regexp">*.conf</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/html;</span><br><span class="line">        <span class="attribute">index</span>  index.html index.htm index.php;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_page</span>  <span class="number">404</span>              /<span class="number">404</span>.html;</span><br><span class="line">    <span class="attribute">location</span> = /<span class="number">404</span>.html &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># redirect server error pages to the static page /50x.html</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="attribute">error_page</span>   <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">    <span class="attribute">location</span> = /50x.html &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># proxy the PHP scripts to Apache listening on 127.0.0.1:80</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#location ~ \.php$ &#123;</span></span><br><span class="line">    <span class="comment">#    proxy_pass   http://127.0.0.1;</span></span><br><span class="line">    <span class="comment">#&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#location ~ \.php$ &#123;</span></span><br><span class="line">    <span class="comment">#    root           html;</span></span><br><span class="line">    <span class="comment">#    fastcgi_pass   127.0.0.1:9000;</span></span><br><span class="line">    <span class="comment">#    fastcgi_index  index.php;</span></span><br><span class="line">    <span class="comment">#    fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</span></span><br><span class="line">    <span class="comment">#    include        fastcgi_params;</span></span><br><span class="line">    <span class="comment">#&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># deny access to .htaccess files, if Apache's document root</span></span><br><span class="line">    <span class="comment"># concurs with nginx's one</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#location ~ /\.ht &#123;</span></span><br><span class="line">    <span class="comment">#    deny  all;</span></span><br><span class="line">    <span class="comment">#&#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>保存后通过<code>systemctl restart nginx</code>命令重启Nginx。然后在根目录下新建一个html文件并从浏览器访问它看看是不是正常显示。</p>
-<h1 id="配置Nginx和PHP"><a href="#配置Nginx和PHP" class="headerlink" title="配置Nginx和PHP"></a>配置Nginx和PHP</h1><p>继续编辑<code>/etc/nginx/conf.d/default.conf</code>文件，将<code>location ~ \.php$</code>一段解注释，并改成如下样子：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span> <span class="regexp">~ \.php$</span> &#123;</span><br><span class="line">    <span class="attribute">root</span>	   /usr/share/nginx/html;</span><br><span class="line">    <span class="attribute">fastcgi_pass</span>   <span class="number">127.0.0.1:9000</span>;</span><br><span class="line">    <span class="attribute">fastcgi_index</span>  index.php;</span><br><span class="line">    <span class="attribute">fastcgi_param</span>  SCRIPT_FILENAME  <span class="variable">$document_root</span><span class="variable">$fastcgi_script_name</span>;</span><br><span class="line">    <span class="attribute">include</span>        fastcgi_params;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其中要注意<code>root</code>改成网页的根目录，此外还要确保<code>location /</code>的<code>index</code>中有<code>index.php</code>。然后通过<code>systemctl restart nginx</code>命令重启Nginx。</p>
-<p>再编辑<code>/etc/php-php.d/www.conf</code>将<code>user</code>和<code>group</code>的值改为<code>nginx</code>（默认应该是<code>apache</code>）：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">user = nginx</span><br><span class="line">group = nginx</span><br></pre></td></tr></table></figure>
-<p>保存后使用<code>systemctl restart php-fpm</code>命令重启PHP。</p>
-<p>下面新建<code>/usr/share/nginx/html/index.php</code>文件测试PHP环境是否配置成功：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	phpinfo();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>从浏览器打开该页面，如果出现PHP信息则说明配置完成。</p>
 
           </div>
           <div class="toggle-input article-more-link"><a>Read More +</a></div>
@@ -1423,7 +1373,7 @@ setTimeout(function() {
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -1433,6 +1383,14 @@ setTimeout(function() {
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a class="text" href="/posts/tm-nas/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Time Machine通过Samba备份到NAS</a>
+          </li>
         
           <li>
             <a class="text" href="/posts/hexo-mathjax/">
@@ -1506,14 +1464,6 @@ setTimeout(function() {
             大型属性网络的语义社团识别</a>
           </li>
         
-          <li>
-            <a class="text" href="/posts/line/">
-              
-                <i class="fa-paperclip"></i> 
-              
-            LINE：大规模信息网络嵌入</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1524,7 +1474,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 21.82px; color: #d1e8ff">VPS</a> <a href="/tags/科学上网/" style="font-size: 20.73px; color: #b9dcff">科学上网</a> <a href="/tags/服务器/" style="font-size: 22.91px; color: #e8f3ff">服务器</a> <a href="/tags/代理/" style="font-size: 17.45px; color: #74b9ff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/OpenWrt/" style="font-size: 19.64px; color: #a2d0ff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20.73px; color: #b9dcff">路由器</a> <a href="/tags/ShadowSocks/" style="font-size: 16.36px; color: #5daeff">ShadowSocks</a> <a href="/tags/IPv6/" style="font-size: 13.09px; color: #178bff">IPv6</a> <a href="/tags/macOS/" style="font-size: 18.55px; color: #8bc5ff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13.09px; color: #178bff">Minecraft</a> <a href="/tags/Android/" style="font-size: 13.09px; color: #178bff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14.18px; color: #2e96ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13.09px; color: #178bff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16.36px; color: #5daeff">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13.09px; color: #178bff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13.09px; color: #178bff">PHP</a> <a href="/tags/SSL/" style="font-size: 13.09px; color: #178bff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15.27px; color: #46a2ff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18.55px; color: #8bc5ff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/舰队Collection/" style="font-size: 13.09px; color: #178bff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14.18px; color: #2e96ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13.09px; color: #178bff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/shell/" style="font-size: 13.09px; color: #178bff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 21.82px; color: #d1e8ff">VPS</a> <a href="/tags/科学上网/" style="font-size: 20.73px; color: #b9dcff">科学上网</a> <a href="/tags/服务器/" style="font-size: 22.91px; color: #e8f3ff">服务器</a> <a href="/tags/代理/" style="font-size: 17.45px; color: #74b9ff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/OpenWrt/" style="font-size: 19.64px; color: #a2d0ff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20.73px; color: #b9dcff">路由器</a> <a href="/tags/ShadowSocks/" style="font-size: 16.36px; color: #5daeff">ShadowSocks</a> <a href="/tags/IPv6/" style="font-size: 13.09px; color: #178bff">IPv6</a> <a href="/tags/Android/" style="font-size: 13.09px; color: #178bff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19.64px; color: #a2d0ff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13.09px; color: #178bff">Minecraft</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14.18px; color: #2e96ff">Unix</a> <a href="/tags/SSL/" style="font-size: 13.09px; color: #178bff">SSL</a> <a href="/tags/Nginx/" style="font-size: 16.36px; color: #5daeff">Nginx</a> <a href="/tags/LEMP/" style="font-size: 13.09px; color: #178bff">LEMP</a> <a href="/tags/MySQL/" style="font-size: 13.09px; color: #178bff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13.09px; color: #178bff">PHP</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15.27px; color: #46a2ff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18.55px; color: #8bc5ff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/舰队Collection/" style="font-size: 13.09px; color: #178bff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14.18px; color: #2e96ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13.09px; color: #178bff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/shell/" style="font-size: 13.09px; color: #178bff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 
@@ -1655,7 +1605,7 @@ setTimeout(function() {
       
     </div>
     <div id="footer-info" class="inner" align="center">
-      Powered by <a href="https:\/\/hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https:\/\/github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2019 Shintaku
+      Powered by <a href="https:\/\/hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https:\/\/github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2020 Shintaku
     </div>
   </div>
 </footer>

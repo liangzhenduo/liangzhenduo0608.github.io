@@ -108,6 +108,112 @@
         
           <section id="main" class='pjax'>
   
+    <article id="post-line" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/posts/line/" class="article-date">
+  <time datetime="2017-04-15T07:15:15.000Z" itemprop="datePublished">2017-04-15</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/机器学习/">机器学习</a>►<a class="article-category-link" href="/categories/机器学习/论文/">论文</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/linebanner.png" rel="gallery_ck5jesrpc000sddh8c4heq958">
+        <img src="/img/linebanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/line/">LINE：大规模信息网络嵌入</a>
+    </h1>
+  
+
+      </header>
+    
+    <footer class="article-footer">
+      <a data-url="https://liangzhenduo0608.github.io/posts/line/" data-id="ck5jesrpc000sddh8c4heq958" class="article-share-link">Share</a>
+      
+        <a href="https://liangzhenduo0608.github.io/posts/line/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/机器学习/">机器学习</a></li></ul>
+
+    </footer>
+    <div class="article-entry article-index" itemprop="articleBody">
+      
+          
+        
+          <div class="toggle-content">
+            <blockquote>
+<p>原文：<a href="https://arxiv.org/pdf/1503.03578.pdf" target="_blank" rel="noopener">LINE: Large-scale Information Network Embedding</a><br>源码：<a href="https://github.com/tangjianpku/LINE" target="_blank" rel="noopener">tangjianpku/LINE</a></p>
+</blockquote>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>这篇论文提出了一种将大规模信息网络嵌入到低维向量空间中的方法，适用于有向、无向、有权、无权图。该方法用了精心设计的目标函数，保留了局部和全局网络结构。边采样方法克服了传统梯度下降法的局限性，提高了效率和效果。</p>
+<h1 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h1><h2 id="信息网络"><a href="#信息网络" class="headerlink" title="信息网络"></a>信息网络</h2><p>信息网络定义为\(G=(V, E)\)，\(V\)是点集，\(E\)是边集。每条边是有序对\(e=(u, v)\)且有大于0的权重\(w_{u,v}\)来表示关系强度（该问题中不考虑负权）。无向图认为双向边相等。<br>把信息网络嵌入到低维空间非常有用，但要执行嵌入必须先保留网络结构。</p>
+<h2 id="一阶接近度"><a href="#一阶接近度" class="headerlink" title="一阶接近度"></a>一阶接近度</h2><p>网络中的一阶接近度是指两点间的局部成对相似度。连接点对的<strong>边之权重表示两点间的一阶接近度</strong>，若无边则一阶接近度是0。一阶接近度通常暗含真实网络中两点的相似度，但被观测到的边只占很小一部分，未观测到的一阶接近度被视作0，因此一阶接近度不足以保留网络结构。</p>
+<h2 id="二阶接近度"><a href="#二阶接近度" class="headerlink" title="二阶接近度"></a>二阶接近度</h2><p>点对间的二阶接近度是它们邻居网络结构的相似度。用\(p_u=(w_{u,1},\ldots,w_{u,|V|})\)表示\(u\)到其他节点的一阶接近度，<strong>二阶接近度就是\(p_u\)和\(p_v\)（一阶接近度）的相似度</strong>。如果没有节点与\(u\)和\(v\)相连，则二阶接近度为0。</p>
+<h2 id="大规模信息网络嵌入"><a href="#大规模信息网络嵌入" class="headerlink" title="大规模信息网络嵌入"></a>大规模信息网络嵌入</h2><p>给出大型网络\(G=(V, E)\)，信息网络嵌入旨在把每个节点\(v\)表示到低维空间\(R^d\)中，学习一个函数\(f_G:V\to R^d\)其中\(d\ll |V|\)。在空间\(R^d\)中一阶接近度和二阶接近度都保留着。</p>
+<h1 id="LINE模型"><a href="#LINE模型" class="headerlink" title="LINE模型"></a>LINE模型</h1><p>合格的真实世界信息网络嵌入模型要满足以下条件：</p>
+<ul>
+<li>保留节点间的一阶接近度和二阶接近度</li>
+<li>可用于大型网络</li>
+<li>可以处理有向／无向／有权／无权图</li>
+</ul>
+<h2 id="模型描述"><a href="#模型描述" class="headerlink" title="模型描述"></a>模型描述</h2><h3 id="一阶接近度的LINE"><a href="#一阶接近度的LINE" class="headerlink" title="一阶接近度的LINE"></a>一阶接近度的LINE</h3><p>对于每条无向边\((i, j)\)，定义\(v_i\)和\(v_j\)的连接概率为：</p>
+<script type="math/tex; mode=display">p_1(v_i, v_j)=\frac{1}{1+\exp(-\overrightarrow{u_i}^T\cdot\overrightarrow{u_j})}</script><p>其中\(\overrightarrow{u_i}\)是\(v_i\)的低维向量表示。上式定义的\(V \times V\)空间内的分布，经验分布\(\hat{p_1}(i, j)=\frac{w_{ij}}{W}\)，其中\(W=\sum_{(i,j)\in{E}}{w_{ij}}\)。为了保留一阶接近度，简单的方法是减小以下目标函数：</p>
+<script type="math/tex; mode=display">O_1=d(\hat{p_1}(\cdot, \cdot), {p_1}(\cdot, \cdot))</script><p>其中\(d(\cdot, \cdot)\)是两个分布之间的距离。减小两个概率分布的<a href="https://zh.wikipedia.org/zh-hans/%E7%9B%B8%E5%AF%B9%E7%86%B5" target="_blank" rel="noopener">KL散度</a>，用KL散度替换距离函数并去掉常量后得到：</p>
+<script type="math/tex; mode=display">O_1=-\sum_{(i,j)\in{E}}{w_{ij}\log{p_1(v_i,v_j)}}</script><p>注意<strong>一阶接近度仅适用于无向图</strong>。找到减小上式的\(\left\{\overrightarrow{u_i}\right\}_{i=1..|V|}\)就可以表示d维空间内的每个点。</p>
+<h3 id="二阶接近度的LINE"><a href="#二阶接近度的LINE" class="headerlink" title="二阶接近度的LINE"></a>二阶接近度的LINE</h3><p><strong>二阶接近度适用于有向图和无向图</strong>。给出一般网络，假设其有向。二阶接近度假设节点与其他节点共享多条连接，这种情况下每个节点都有独特的<em>环境（context）</em>且在<em>环境</em>上分布相似的节点被假设为相似的。因此每个节点扮演两种角色：节点本身和其他节点的外部<em>环境</em>。引入两个向量\(\overrightarrow{u_i}\)和\(\overrightarrow{u_i}’\)，其中\(\overrightarrow{u_i}\)表示作为节点的\(v_i\)，\(\overrightarrow{u_i}’\)表示作为<em>环境</em>的\(v_i\)。对于每个有向边\((i,j)\)首先定义<em>环境</em>\(v_j\)生成节点\(v_i\)的概率：</p>
+<script type="math/tex; mode=display">p_2(v_j\mid v_i)=\frac{\exp({\overrightarrow{u_j}'}^T\cdot\overrightarrow{u_i})}{\sum_{k=1}^{|V|}\exp({\overrightarrow{u_k}'^T\cdot\overrightarrow{u_i})}}</script><p>其中\(|V|\)是节点或<em>环境</em>的数量。对于每个节点\(v_i\)，上式确定了环境上的条件分布。为保留二阶接近度，应当由低维表示确定条件分布来接近经验分布\(\hat{p_2}(\cdot|v_i)\)，因此减小以下目标函数：</p>
+<script type="math/tex; mode=display">O_2=\sum_{i\in{V}}\lambda_{i}d(\hat{p_2}(\cdot\mid v_i),p_2(\cdot\mid v_i))</script><p>其中\(d(\cdot, \cdot)\)是两个分布之间的距离，由于网络中节点的重要性可能不同，引入\(\lambda_i\)来表示网络中节点\(i\)可通过算法用度或相似度来衡量的重要性。经验分布\(\hat{p_2}(\cdot\mid v_i)\)定义为\(\hat{p_2}(v_j\mid v_i)=\frac{w_{ij}}{d_i}\)，其中\(w_{ij}\)是边\((i, j)\)的权重，\(d_i\)是节点\(i\)的出度。为了简化，引入KL散度作为距离函数，将\(\lambda_i\)设为度\(d_i\)并去掉常量后得到：</p>
+<script type="math/tex; mode=display">O_2=-\sum_{(i,j)\in{E}}w_{ij}\log{p_2(v_j\mid v_i)}</script><p>通过学习\(\left\{\overrightarrow{u_i}\right\}_{i=1..|V|}\)和\(\left\{\overrightarrow{u_i}’\right\}_{i=1..|V|}\)减小这项，就可以用d维向量\(\overrightarrow{u_i}\)表示每个节点\(v_i\)。</p>
+<h3 id="结合一阶二阶接近度"><a href="#结合一阶二阶接近度" class="headerlink" title="结合一阶二阶接近度"></a>结合一阶二阶接近度</h3><p>简单有效的方法是分别求出一阶二阶接近度，然后对每个节点把两种方法的嵌入训练组合起来。更正规的方法是结合两个接近度联合训练两个目标函数。</p>
+<h2 id="模型优化"><a href="#模型优化" class="headerlink" title="模型优化"></a>模型优化</h2><p>优化\(O_2\)计算代价很高，因为在计算条件概率\(p_2\)时要累加全部节点。于是引入<a href="http://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf" target="_blank" rel="noopener">mikolov2013distributed</a>中提出的<em>负采样（negative sampling）</em>，根据每个边\((i, j)\)的噪声分布取样多个负边，特别对每个边指定了以下函数：</p>
+<script type="math/tex; mode=display">\log\sigma(\overrightarrow{u_j}'^T\cdot\overrightarrow{u_i})+\sum_{i=1}^K E_{v_n\sim P_n(v)}[\log\sigma(-\overrightarrow{u_n}'^T\cdot\overrightarrow{u_i})]</script><p>其中\(\sigma(x)=1/(1+\exp(-x))\)。第一项构造观测边，第二项构造由噪声分布画出的负边，\(K\)是负边数。令\(P_n(v)\propto d_v^{3/4}\)，其中\(d_v\)是节点\(v\)的出度。<br>对于\(O_1\)存在<a href="https://zh.wikipedia.org/wiki/%E5%B9%B3%E5%87%A1_%28%E6%95%B8%E5%AD%B8%29#.E5.B9.B3.E5.87.A1.E8.A7.A3" target="_blank" rel="noopener">平凡解</a>：当\(i\)取\(1,\ldots,|V|\)，\(k\)取\(1,\ldots,d\)时\(u_{ik}=\infty\)。为了避免平凡解可以使用把\(\overrightarrow{u_j}’^T\)改为\(\overrightarrow{u_i}\)的负采样方法。<br>引用<a href="http://papers.nips.cc/paper/4390-hogwild-a-lock-free-approach-to-parallelizing-stochastic-gradient-descent.pdf" target="_blank" rel="noopener">recht2011hogwild</a>中提出的<em>异步随机梯度算法（ASGD）</em>来优化上式。每一步算法采样少量边然后更新模型参数。如果边\((i, j)\)被采样了，节点\(i\)的嵌入向量\(\overrightarrow{u_i}\)是：</p>
+<script type="math/tex; mode=display">\frac{\partial O_2}{\partial \overrightarrow{u_i}}=w_{ij}\cdot\frac{\partial\log{p_2}(v_j\mid v_i)}{\partial \overrightarrow{u_i}}</script><p>注意梯度要乘边权，当边权差距很大时会难以找到好的学习速率。如果根据小权边确定了大的学习速率，会造成大权边的梯度爆炸，因为在根据大权边选择学习速率时梯度会变得很小。</p>
+<h3 id="通过边采样优化"><a href="#通过边采样优化" class="headerlink" title="通过边采样优化"></a>通过边采样优化</h3><p>简单的解决方案是将权为\(w\)的边展开成\(w\)个<em>二元边（binary edges）</em>，但是会显著提高内存需求，尤其是当边权非常大时。解决这种问题的一种方法是从原始边进行采样并转换为<em>二元</em>边，通过采样率按比例还原原始边。然后问题就退化成了如何根据权重采样边。<br>令\(W=(w_1,\ldots,w_{|E|})\)表示边权序列，边权和\(w_{sum}=\sum_{i=1}^{|E|}w_i\)，然后在\(\left[0,w_{sum}\right]\)取随机数，看它落在\(\left[\sum_{j=0}^{i-1}w_j,\sum_{j=0}^iw_j\right)\)的哪个区间内。这种方法用\(O(|E|)\)的复杂度，当边数非常大时会很耗时。所以引用<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.675.8158&amp;rep=rep1&amp;type=pdf" target="_blank" rel="noopener">li2014reducing</a>中提出的<em>别名法（alias method）</em>只用\(O(1)\)的复杂度就能从同一离散分布中刻画样本。用负采样可以将常数时间优化到\(O(d(K+1))\)次，其中\(K\)是负采样数量，因此每步要做\(O(dK)\)次。在实践中发现优化步数和边数是成比例的，所以LINE的总体复杂度是\(O(dK|E|)\)，和边数是线性相关并与节点数无关。这种边采样方法提高了随机梯度下降法的效率。</p>
+<h2 id="讨论"><a href="#讨论" class="headerlink" title="讨论"></a>讨论</h2><h3 id="低度节点"><a href="#低度节点" class="headerlink" title="低度节点"></a>低度节点</h3><p>一个实际问题是如何准确嵌入度很小的节点。由于其邻居节点很少，难以推断其表达式，特别是依赖其环境的二阶接近度。于是这里考虑对每个节点扩张其二阶邻居节点，也就是邻居的邻居。节点\(i\)和其二阶邻居\(j\)间的权重是：</p>
+<script type="math/tex; mode=display">w_{ij}=\sum_{k\in N(i)}w_{ik}\frac{w_{kj}}{d_k}</script><p>在实践中只能增加与低度节点\(i\)有最大相似度\(w_{ij}\)的节点\(\{j\}\)的子集。</p>
+<h3 id="新节点"><a href="#新节点" class="headerlink" title="新节点"></a>新节点</h3><p>另一个实际问题是如何表示新加节点。对于新节点\(i\)，如果所连节点已知就可以获得已知节点经验分布\(\hat{p_1}(\cdot, v_i)\)和\(\hat{p_2}(\cdot\mid v_i)\)。为了获得新节点的嵌入，根据\(O_1\)和\(O_2\)通过更新新节点嵌入并保持已有节点的嵌入来直接减小</p>
+<script type="math/tex; mode=display">-\sum_{j\in{N(i)}}{w_{ji}\log{p_1(v_j,v_i)}},\quad或\quad -\sum_{j\in{N(i)}}{w_{ji}\log{p_2(v_j,v_i)}},</script><p>如果没有观测到新节点和已有节点的连接就需要其他信息，比如节点的文本信息。</p>
+
+          </div>
+          <div class="toggle-input article-more-link"><a>Read More +</a></div>
+        
+      
+    </div>
+
+  </div>
+  
+</article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-9920928489161252"
+     data-ad-slot="3913131990"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+  
     <article id="post-deepwalk" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     
@@ -126,7 +232,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/deepwalkbanner.png" rel="gallery_ck4p7xq12000g3ph8g79j0x3d">
+      <a class="article-gallery-img fancybox" href="/img/deepwalkbanner.png" rel="gallery_ck5jesrp6000gddh8bjkp9v61">
         <img src="/img/deepwalkbanner.png" itemprop="image">
       </a>
     
@@ -145,7 +251,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/deepwalk/" data-id="ck4p7xq12000g3ph8g79j0x3d" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/deepwalk/" data-id="ck5jesrp6000gddh8bjkp9v61" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/deepwalk/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -238,7 +344,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/nat6banner.png" rel="gallery_ck4p7xq1b000w3ph83a6mh1c1">
+      <a class="article-gallery-img fancybox" href="/img/nat6banner.png" rel="gallery_ck5jesrpe000wddh858otg5d6">
         <img src="/img/nat6banner.png" itemprop="image">
       </a>
     
@@ -257,7 +363,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/nat6/" data-id="ck4p7xq1b000w3ph83a6mh1c1" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/nat6/" data-id="ck5jesrpe000wddh858otg5d6" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/nat6/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -345,7 +451,7 @@ opkg install luci-app-shadowsocks
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/breedbanner.png" rel="gallery_ck4p7xq0z000b3ph8hlz0tl3i">
+      <a class="article-gallery-img fancybox" href="/img/breedbanner.png" rel="gallery_ck5jesrp2000addh8nxh47aan">
         <img src="/img/breedbanner.png" itemprop="image">
       </a>
     
@@ -364,7 +470,7 @@ opkg install luci-app-shadowsocks
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/breed/" data-id="ck4p7xq0z000b3ph8hlz0tl3i" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/breed/" data-id="ck5jesrp2000addh8nxh47aan" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/breed/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -445,7 +551,7 @@ mtd -r write breed-mt7620-phicomm-psg1208.bin Bootloader
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/oledbanner.png" rel="gallery_ck4p7xq1d00103ph860716yat">
+      <a class="article-gallery-img fancybox" href="/img/oledbanner.png" rel="gallery_ck5jesrph0010ddh8fc1wxvk9">
         <img src="/img/oledbanner.png" itemprop="image">
       </a>
     
@@ -464,7 +570,7 @@ mtd -r write breed-mt7620-phicomm-psg1208.bin Bootloader
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/raspi-oled/" data-id="ck4p7xq1d00103ph860716yat" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/raspi-oled/" data-id="ck5jesrph0010ddh8fc1wxvk9" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/raspi-oled/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -608,7 +714,7 @@ sudo systemctl enable oled
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/sshaddbanner.png" rel="gallery_ck4p7xq1g00153ph8uqai264m">
+      <a class="article-gallery-img fancybox" href="/img/sshaddbanner.png" rel="gallery_ck5jesrpk0015ddh857g5i8f0">
         <img src="/img/sshaddbanner.png" itemprop="image">
       </a>
     
@@ -627,7 +733,7 @@ sudo systemctl enable oled
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/ssh-add/" data-id="ck4p7xq1g00153ph8uqai264m" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/ssh-add/" data-id="ck5jesrpk0015ddh857g5i8f0" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/ssh-add/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -687,7 +793,7 @@ sudo systemctl enable oled
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/kcabanner.png" rel="gallery_ck4p7xq17000p3ph8k7yljter">
+      <a class="article-gallery-img fancybox" href="/img/kcabanner.png" rel="gallery_ck5jesrpb000pddh89h8bgwto">
         <img src="/img/kcabanner.png" itemprop="image">
       </a>
     
@@ -706,7 +812,7 @@ sudo systemctl enable oled
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/kancolle-android/" data-id="ck4p7xq17000p3ph8k7yljter" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/kancolle-android/" data-id="ck5jesrpb000pddh89h8bgwto" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/kancolle-android/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -771,7 +877,7 @@ sudo systemctl enable oled
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/terbanner.png" rel="gallery_ck4p7xq1i00193ph8d8w29tub">
+      <a class="article-gallery-img fancybox" href="/img/terbanner.png" rel="gallery_ck5jesrpl0019ddh8d4ilvc6q">
         <img src="/img/terbanner.png" itemprop="image">
       </a>
     
@@ -790,7 +896,7 @@ sudo systemctl enable oled
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/terminal/" data-id="ck4p7xq1i00193ph8d8w29tub" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/terminal/" data-id="ck5jesrpl0019ddh8d4ilvc6q" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/terminal/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -865,7 +971,7 @@ cd fonts &amp;&amp; ./install.sh
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/mpbanner.png" rel="gallery_ck4p7xq1a000t3ph8v7lpdhzm">
+      <a class="article-gallery-img fancybox" href="/img/mpbanner.png" rel="gallery_ck5jesrpd000tddh8rgyhvp1f">
         <img src="/img/mpbanner.png" itemprop="image">
       </a>
     
@@ -884,7 +990,7 @@ cd fonts &amp;&amp; ./install.sh
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/mac-php/" data-id="ck4p7xq1a000t3ph8v7lpdhzm" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/mac-php/" data-id="ck5jesrpd000tddh8rgyhvp1f" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/mac-php/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -967,7 +1073,7 @@ cd fonts &amp;&amp; ./install.sh
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/shbanner.png" rel="gallery_ck4p7xq1f00133ph8qgpqbfnb">
+      <a class="article-gallery-img fancybox" href="/img/shbanner.png" rel="gallery_ck5jesrpj0013ddh8yvino26w">
         <img src="/img/shbanner.png" itemprop="image">
       </a>
     
@@ -986,7 +1092,7 @@ cd fonts &amp;&amp; ./install.sh
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/shell-parallel/" data-id="ck4p7xq1f00133ph8qgpqbfnb" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/shell-parallel/" data-id="ck5jesrpj0013ddh8yvino26w" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/shell-parallel/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1008,85 +1114,6 @@ cd fonts &amp;&amp; ./install.sh
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">array=( \</span><br><span class="line">	<span class="string">"10.144.1.1"</span> \</span><br><span class="line">	<span class="string">"10.144.1.2"</span> \</span><br><span class="line">	<span class="string">"10.144.1.3"</span> \</span><br><span class="line">	<span class="string">"10.144.1.4"</span> \</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;array[@]&#125;</span></span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">	ssh <span class="variable">$i</span> <span class="string">"sh <span class="variable">$log_dir</span>/run.sh"</span></span><br><span class="line">	scp <span class="variable">$i</span>:<span class="variable">$log_dir</span>/<span class="built_in">log</span> <span class="variable">$work_dir</span>/<span class="variable">$i</span>/</span><br><span class="line">&#125;&amp;</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">wait</span></span><br><span class="line"></span><br><span class="line">cat <span class="variable">$work_dir</span>/*/<span class="built_in">log</span> | sort | uniq &gt; <span class="variable">$work_dir</span>/<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
 <p>可以发现主要的改动就在for循环的内容用<code>{}</code>括起来并在末尾加个<code>&amp;</code>，这样就可以实现多次循环一起执行了；另外在<code>done</code>后面加个<code>wait</code>是为了等待所有的循环都执行完成后再做后面的汇总工作，否则一旦有一个循环执行完成就会往下执行了。</p>
 <p>这样的执行时间大约是<strong>每台机器时间+汇总时间</strong>，可以看出比最初快了很多。</p>
-
-          </div>
-          <div class="toggle-input article-more-link"><a>Read More +</a></div>
-        
-      
-    </div>
-
-  </div>
-  
-</article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-9920928489161252"
-     data-ad-slot="3913131990"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-  
-    <article id="post-ssh-conf" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-<a href="/posts/ssh-conf/" class="article-date">
-  <time datetime="2016-09-21T14:22:22.000Z" itemprop="datePublished">2016-09-21</time>
-</a>
-
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/奇技淫巧/">奇技淫巧</a>►<a class="article-category-link" href="/categories/奇技淫巧/＊nix/">＊nix</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-      <a class="article-gallery-img fancybox" href="/img/sshconfbanner.png" rel="gallery_ck4p7xq1h00163ph8zb12vqi3">
-        <img src="/img/sshconfbanner.png" itemprop="image">
-      </a>
-    
-  </div>
-</div>
-
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/posts/ssh-conf/">ssh保持继续连接</a>
-    </h1>
-  
-
-      </header>
-    
-    <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/ssh-conf/" data-id="ck4p7xq1h00163ph8zb12vqi3" class="article-share-link">Share</a>
-      
-        <a href="https://liangzhenduo0608.github.io/posts/ssh-conf/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li></ul>
-
-    </footer>
-    <div class="article-entry article-index" itemprop="articleBody">
-      
-          
-        
-          <div class="toggle-content">
-            <p>公司开发登录堡垒机时需要使用<strong>PIN+token</strong>的方式进行认证，而且动态密码只能一次使用，因此一次要打开多个终端都要多次等待动态密码的变化才能登录。</p>
-<p>所以听从公司同（xué）事（zhǎng）的建议，配置了一下<code>~/.ssh/config</code>：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Host</span> *</span><br><span class="line">    ControlMaster auto</span><br><span class="line">    ControlPath ~/.ssh/%h-%p-%r</span><br><span class="line">    ControlPersist <span class="literal">yes</span></span><br></pre></td></tr></table></figure>
-<p>如果没有这个文件可以新建。其中<code>Host</code>项是指目标地址；<code>ControlMaster</code>一项会使一旦有一个连接以后，再次从其他终端连接同一个host也不必再输密码；<code>ControlPersist</code>一项可以一段时间不再输密码也可以登录。这样配置以后就能实现输一次密码后对于同一host不再输密码即可连接了。</p>
 
           </div>
           <div class="toggle-input article-more-link"><a>Read More +</a></div>
@@ -1165,7 +1192,7 @@ setTimeout(function() {
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -1175,6 +1202,14 @@ setTimeout(function() {
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a class="text" href="/posts/tm-nas/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Time Machine通过Samba备份到NAS</a>
+          </li>
         
           <li>
             <a class="text" href="/posts/hexo-mathjax/">
@@ -1248,14 +1283,6 @@ setTimeout(function() {
             大型属性网络的语义社团识别</a>
           </li>
         
-          <li>
-            <a class="text" href="/posts/line/">
-              
-                <i class="fa-paperclip"></i> 
-              
-            LINE：大规模信息网络嵌入</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1266,7 +1293,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 21.82px; color: #d1e8ff">VPS</a> <a href="/tags/科学上网/" style="font-size: 20.73px; color: #b9dcff">科学上网</a> <a href="/tags/服务器/" style="font-size: 22.91px; color: #e8f3ff">服务器</a> <a href="/tags/代理/" style="font-size: 17.45px; color: #74b9ff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/OpenWrt/" style="font-size: 19.64px; color: #a2d0ff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20.73px; color: #b9dcff">路由器</a> <a href="/tags/ShadowSocks/" style="font-size: 16.36px; color: #5daeff">ShadowSocks</a> <a href="/tags/IPv6/" style="font-size: 13.09px; color: #178bff">IPv6</a> <a href="/tags/macOS/" style="font-size: 18.55px; color: #8bc5ff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13.09px; color: #178bff">Minecraft</a> <a href="/tags/Android/" style="font-size: 13.09px; color: #178bff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14.18px; color: #2e96ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13.09px; color: #178bff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16.36px; color: #5daeff">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13.09px; color: #178bff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13.09px; color: #178bff">PHP</a> <a href="/tags/SSL/" style="font-size: 13.09px; color: #178bff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15.27px; color: #46a2ff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18.55px; color: #8bc5ff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/舰队Collection/" style="font-size: 13.09px; color: #178bff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14.18px; color: #2e96ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13.09px; color: #178bff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/shell/" style="font-size: 13.09px; color: #178bff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 21.82px; color: #d1e8ff">VPS</a> <a href="/tags/科学上网/" style="font-size: 20.73px; color: #b9dcff">科学上网</a> <a href="/tags/服务器/" style="font-size: 22.91px; color: #e8f3ff">服务器</a> <a href="/tags/代理/" style="font-size: 17.45px; color: #74b9ff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/OpenWrt/" style="font-size: 19.64px; color: #a2d0ff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20.73px; color: #b9dcff">路由器</a> <a href="/tags/ShadowSocks/" style="font-size: 16.36px; color: #5daeff">ShadowSocks</a> <a href="/tags/IPv6/" style="font-size: 13.09px; color: #178bff">IPv6</a> <a href="/tags/Android/" style="font-size: 13.09px; color: #178bff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19.64px; color: #a2d0ff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13.09px; color: #178bff">Minecraft</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14.18px; color: #2e96ff">Unix</a> <a href="/tags/SSL/" style="font-size: 13.09px; color: #178bff">SSL</a> <a href="/tags/Nginx/" style="font-size: 16.36px; color: #5daeff">Nginx</a> <a href="/tags/LEMP/" style="font-size: 13.09px; color: #178bff">LEMP</a> <a href="/tags/MySQL/" style="font-size: 13.09px; color: #178bff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13.09px; color: #178bff">PHP</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15.27px; color: #46a2ff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18.55px; color: #8bc5ff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/舰队Collection/" style="font-size: 13.09px; color: #178bff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14.18px; color: #2e96ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13.09px; color: #178bff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/shell/" style="font-size: 13.09px; color: #178bff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 
@@ -1397,7 +1424,7 @@ setTimeout(function() {
       
     </div>
     <div id="footer-info" class="inner" align="center">
-      Powered by <a href="https:\/\/hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https:\/\/github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2019 Shintaku
+      Powered by <a href="https:\/\/hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https:\/\/github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2020 Shintaku
     </div>
   </div>
 </footer>

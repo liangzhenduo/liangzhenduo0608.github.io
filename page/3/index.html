@@ -108,6 +108,90 @@
         
           <section id="main" class='pjax'>
   
+    <article id="post-shell-parallel" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/posts/shell-parallel/" class="article-date">
+  <time datetime="2016-10-10T14:22:22.000Z" itemprop="datePublished">2016-10-10</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/手帐/">手帐</a>►<a class="article-category-link" href="/categories/手帐/实习/">实习</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/shbanner.png" rel="gallery_ck651l5wl0013nwh8kbfduitf">
+        <img src="/img/shbanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/shell-parallel/">shell脚本内的并发执行</a>
+    </h1>
+  
+
+      </header>
+    
+    <footer class="article-footer">
+      <a data-url="https://liangzhenduo0608.github.io/posts/shell-parallel/" data-id="ck651l5wl0013nwh8kbfduitf" class="article-share-link">Share</a>
+      
+        <a href="https://liangzhenduo0608.github.io/posts/shell-parallel/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
+
+    </footer>
+    <div class="article-entry article-index" itemprop="articleBody">
+      
+          
+        
+          <div class="toggle-content">
+            <p>之前有一个每周数据统计的工作，需要每周的某一天定时从多台服务器上拉取日志进行汇总生成报表。</p>
+<h1 id="顺序执行"><a href="#顺序执行" class="headerlink" title="顺序执行"></a>顺序执行</h1><p>最初的思路是先做一个循环，遍历每台机器并在上面执行相应的数据处理脚本，然后将处理好的数据拉取到汇总的机器上，这样逐台进行，最后进行汇总处理，写出来的脚本是类似这样的：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">array=( \</span><br><span class="line">	<span class="string">"10.144.1.1"</span> \</span><br><span class="line">	<span class="string">"10.144.1.2"</span> \</span><br><span class="line">	<span class="string">"10.144.1.3"</span> \</span><br><span class="line">	<span class="string">"10.144.1.4"</span> \</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;array[@]&#125;</span></span><br><span class="line"><span class="keyword">do</span>  </span><br><span class="line">	ssh <span class="variable">$i</span> <span class="string">"sh <span class="variable">$log_dir</span>/run.sh"</span></span><br><span class="line">	scp <span class="variable">$i</span>:<span class="variable">$log_dir</span>/<span class="built_in">log</span> <span class="variable">$work_dir</span>/<span class="variable">$i</span>/</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">cat <span class="variable">$work_dir</span>/*/<span class="built_in">log</span> | sort | uniq &gt; <span class="variable">$work_dir</span>/<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+<p>这样写的执行时间大约是<strong>每台机器时间*台数+汇总时间</strong>，虽然不算快，但是凌晨一般也能执行完成。</p>
+<h1 id="并发执行"><a href="#并发执行" class="headerlink" title="并发执行"></a>并发执行</h1><p>后来到了国庆假期期间，服务流量骤增，再加上业务改版等一系列原因，导致数据量突然增大，执行时间翻了几倍，任务大概要到下午才能完成，这样一来就会耽误白天的工作。</p>
+<p>因为机器数量不少，分机器统计也是主要的时间消耗，因此想到既然几台机器各自的统计互不影响，可以让它们同时进行汇总工作。于是上网找了一下改进方法，改完了大致是这样的：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">array=( \</span><br><span class="line">	<span class="string">"10.144.1.1"</span> \</span><br><span class="line">	<span class="string">"10.144.1.2"</span> \</span><br><span class="line">	<span class="string">"10.144.1.3"</span> \</span><br><span class="line">	<span class="string">"10.144.1.4"</span> \</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;array[@]&#125;</span></span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">	ssh <span class="variable">$i</span> <span class="string">"sh <span class="variable">$log_dir</span>/run.sh"</span></span><br><span class="line">	scp <span class="variable">$i</span>:<span class="variable">$log_dir</span>/<span class="built_in">log</span> <span class="variable">$work_dir</span>/<span class="variable">$i</span>/</span><br><span class="line">&#125;&amp;</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">wait</span></span><br><span class="line"></span><br><span class="line">cat <span class="variable">$work_dir</span>/*/<span class="built_in">log</span> | sort | uniq &gt; <span class="variable">$work_dir</span>/<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+<p>可以发现主要的改动就在for循环的内容用<code>{}</code>括起来并在末尾加个<code>&amp;</code>，这样就可以实现多次循环一起执行了；另外在<code>done</code>后面加个<code>wait</code>是为了等待所有的循环都执行完成后再做后面的汇总工作，否则一旦有一个循环执行完成就会往下执行了。</p>
+<p>这样的执行时间大约是<strong>每台机器时间+汇总时间</strong>，可以看出比最初快了很多。</p>
+
+          </div>
+          <div class="toggle-input article-more-link"><a>Read More +</a></div>
+        
+      
+    </div>
+
+  </div>
+  
+</article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-9920928489161252"
+     data-ad-slot="3913131990"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+  
     <article id="post-ssh-conf" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     
@@ -126,7 +210,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/sshconfbanner.png" rel="gallery_ck5jesrpk0016ddh82st7z8n4">
+      <a class="article-gallery-img fancybox" href="/img/sshconfbanner.png" rel="gallery_ck651l5wm0016nwh8x50nymxx">
         <img src="/img/sshconfbanner.png" itemprop="image">
       </a>
     
@@ -145,7 +229,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/ssh-conf/" data-id="ck5jesrpk0016ddh82st7z8n4" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/ssh-conf/" data-id="ck651l5wm0016nwh8x50nymxx" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/ssh-conf/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -205,7 +289,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/ngbanner.png" rel="gallery_ck5jesrpf000xddh84lj6e1ly">
+      <a class="article-gallery-img fancybox" href="/img/ngbanner.png" rel="gallery_ck651l5wh000wnwh8jk8la0xu">
         <img src="/img/ngbanner.png" itemprop="image">
       </a>
     
@@ -224,7 +308,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/ngrok/" data-id="ck5jesrpf000xddh84lj6e1ly" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/ngrok/" data-id="ck651l5wh000wnwh8jk8la0xu" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/ngrok/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -343,7 +427,7 @@ opkg install libopenssl
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/dhbanner.png" rel="gallery_ck5jesrp6000hddh827bp34tp">
+      <a class="article-gallery-img fancybox" href="/img/dhbanner.png" rel="gallery_ck651l5w8000gnwh83lsdggfc">
         <img src="/img/dhbanner.png" itemprop="image">
       </a>
     
@@ -362,7 +446,7 @@ opkg install libopenssl
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/denyhosts/" data-id="ck5jesrp6000hddh827bp34tp" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/denyhosts/" data-id="ck651l5w8000gnwh83lsdggfc" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/denyhosts/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -438,7 +522,7 @@ systemctl enable denyhosts
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/gfwbanner.png" rel="gallery_ck5jesrp8000kddh845djq2yt">
+      <a class="article-gallery-img fancybox" href="/img/gfwbanner.png" rel="gallery_ck651l5wa000jnwh8apjptdsh">
         <img src="/img/gfwbanner.png" itemprop="image">
       </a>
     
@@ -457,7 +541,7 @@ systemctl enable denyhosts
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/gfwlist/" data-id="ck5jesrp8000kddh845djq2yt" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/gfwlist/" data-id="ck651l5wa000jnwh8apjptdsh" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/gfwlist/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -543,7 +627,7 @@ systemctl enable denyhosts
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/adbbanner.png" rel="gallery_ck5jesroz0007ddh8jjjy2gn5">
+      <a class="article-gallery-img fancybox" href="/img/adbbanner.png" rel="gallery_ck651l5w10006nwh83p9t4s6j">
         <img src="/img/adbbanner.png" itemprop="image">
       </a>
     
@@ -562,7 +646,7 @@ systemctl enable denyhosts
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/adb/" data-id="ck5jesroz0007ddh8jjjy2gn5" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/adb/" data-id="ck651l5w10006nwh83p9t4s6j" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/adb/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -694,7 +778,7 @@ systemctl enable denyhosts
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/dubanner.png" rel="gallery_ck5jesrp3000bddh8w1ne90ay">
+      <a class="article-gallery-img fancybox" href="/img/dubanner.png" rel="gallery_ck651l5w30009nwh8uq4gixum">
         <img src="/img/dubanner.png" itemprop="image">
       </a>
     
@@ -713,7 +797,7 @@ systemctl enable denyhosts
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/baidu-interview/" data-id="ck5jesrp3000bddh8w1ne90ay" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/baidu-interview/" data-id="ck651l5w30009nwh8uq4gixum" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/baidu-interview/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -949,7 +1033,7 @@ systemctl enable denyhosts
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/dbbanner.png" rel="gallery_ck5jesrp7000jddh89hh1jb7u">
+      <a class="article-gallery-img fancybox" href="/img/dbbanner.png" rel="gallery_ck651l5w9000inwh83mcbpvqs">
         <img src="/img/dbbanner.png" itemprop="image">
       </a>
     
@@ -968,7 +1052,7 @@ systemctl enable denyhosts
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/dropbear/" data-id="ck5jesrp7000jddh89hh1jb7u" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/dropbear/" data-id="ck651l5w9000inwh83mcbpvqs" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/dropbear/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1041,7 +1125,7 @@ cat ~/.ssh/id_rsa.pub | ssh remote_username@remote_host &#39;cat &gt;&gt; .ssh/a
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/dnsbanner.png" rel="gallery_ck5jesrp5000eddh86pkfxkm8">
+      <a class="article-gallery-img fancybox" href="/img/dnsbanner.png" rel="gallery_ck651l5w6000dnwh8qqbz8fez">
         <img src="/img/dnsbanner.png" itemprop="image">
       </a>
     
@@ -1060,7 +1144,7 @@ cat ~/.ssh/id_rsa.pub | ssh remote_username@remote_host &#39;cat &gt;&gt; .ssh/a
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/chinadns/" data-id="ck5jesrp5000eddh86pkfxkm8" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/chinadns/" data-id="ck651l5w6000dnwh8qqbz8fez" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/chinadns/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1151,7 +1235,7 @@ systemctl enable dnsmasq
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/appbanner.png" rel="gallery_ck5jesrp00008ddh8f5m6jq4t">
+      <a class="article-gallery-img fancybox" href="/img/appbanner.png" rel="gallery_ck651l5w10007nwh8le674hp0">
         <img src="/img/appbanner.png" itemprop="image">
       </a>
     
@@ -1170,7 +1254,7 @@ systemctl enable dnsmasq
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/app/" data-id="ck5jesrp00008ddh8f5m6jq4t" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/app/" data-id="ck651l5w10007nwh8le674hp0" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/app/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1199,102 +1283,6 @@ systemctl enable dnsmasq
 <p>这时将复制好的图片粘贴到这里就可以更改图标了。</p>
 <p>现在就可以到Launchpad里启动Minecraft的启动器了：</p>
 <p><img src="/img/applaunch.png" alt="Launchpad"></p>
-
-          </div>
-          <div class="toggle-input article-more-link"><a>Read More +</a></div>
-        
-      
-    </div>
-
-  </div>
-  
-</article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-9920928489161252"
-     data-ad-slot="3913131990"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-  
-    <article id="post-verilog" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-<a href="/posts/verilog/" class="article-date">
-  <time datetime="2016-04-11T13:11:11.000Z" itemprop="datePublished">2016-04-11</time>
-</a>
-
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/手帐/">手帐</a>►<a class="article-category-link" href="/categories/手帐/课程/">课程</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-      <a class="article-gallery-img fancybox" href="/img/vlbanner.png" rel="gallery_ck5jesrpn001cddh8uu0kiyry">
-        <img src="/img/vlbanner.png" itemprop="image">
-      </a>
-    
-  </div>
-</div>
-
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/posts/verilog/">Mac上进行Verilog仿真</a>
-    </h1>
-  
-
-      </header>
-    
-    <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/verilog/" data-id="ck5jesrpn001cddh8uu0kiyry" class="article-share-link">Share</a>
-      
-        <a href="https://liangzhenduo0608.github.io/posts/verilog/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Verilog/">Verilog</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
-
-    </footer>
-    <div class="article-entry article-index" itemprop="articleBody">
-      
-          
-        
-          <div class="toggle-content">
-            <p>这学期上VLSI系统设计这门课，同时顺带着把计算机设计与调试的课程设计做了。往FPGA上烧写之前要用Verilog进行仿真，在实验室直接用机房的ModelSim仿真了，但是课下在虚拟机上做有诸多的不便，于是就研究了一下在Mac下写Verilog的方法。</p>
-<h1 id="配置Sublime代码高亮"><a href="#配置Sublime代码高亮" class="headerlink" title="配置Sublime代码高亮"></a>配置Sublime代码高亮</h1><p>Sublime Text默认是不支持Verilog代码高亮的，可以通过安装插件增加对其的支持。首先要安装Sublime包管理工具，按<code>control+` </code>打开控制台，并运行以下代码（以Sublime Text 2为例）：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2,os,hashlib; h = <span class="string">'2915d1851351e5ee549c20394736b442'</span> + <span class="string">'8bc59f460fa1548d1514676163dafc88'</span>; pf = <span class="string">'Package Control.sublime-package'</span>; ipp = sublime.installed_packages_path(); os.makedirs( ipp ) <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(ipp) <span class="keyword">else</span> <span class="keyword">None</span>; urllib2.install_opener( urllib2.build_opener( urllib2.ProxyHandler()) ); by = urllib2.urlopen( <span class="string">'http://packagecontrol.io/'</span> + pf.replace(<span class="string">' '</span>, <span class="string">'%20'</span>)).read(); dh = hashlib.sha256(by).hexdigest(); open( os.path.join( ipp, pf), <span class="string">'wb'</span> ).write(by) <span class="keyword">if</span> dh == h <span class="keyword">else</span> <span class="keyword">None</span>; print(<span class="string">'Error validating download (got %s instead of %s), please try manual install'</span> % (dh, h) <span class="keyword">if</span> dh != h <span class="keyword">else</span> <span class="string">'Please restart Sublime Text to finish installation'</span>)</span><br></pre></td></tr></table></figure>
-<p>安装完后重启，按<code>command+shift+P</code>唤出命令面板，打开<code>Install Package</code>包管理工具：</p>
-<p><img src="/img/vlinstall.png" alt="Install Package"></p>
-<p>然后查找<code>Verilog</code>，将搜到的自动补全和代码高亮插件装上重启就可以了：</p>
-<p><img src="/img/vlverilog.png" alt="Verilog"></p>
-<h1 id="安装Icarus-Verilog"><a href="#安装Icarus-Verilog" class="headerlink" title="安装Icarus Verilog"></a>安装Icarus Verilog</h1><p>Icarus Verilog是Verilog硬件描述语言的实现工具之一。该软件以GNU通用公共许可协议发布，是一个自由软件。它支持Verilog对应的的IEEE 1995、IEEE 2001和IEEE 2005三个不同的版本，并对SystemVerilog的部分内容提供支持。</p>
-<p>首先保证已经安装了Homebrew，然后通过brew安装：</p>
-<pre><code>brew install icarus-verilog
-</code></pre><h1 id="安装Scansion"><a href="#安装Scansion" class="headerlink" title="安装Scansion"></a>安装Scansion</h1><p>Scansion是Mac平台下的一个VCD文件查看工具，可以去<a href="http://www.logicpoet.com/downloads/" target="_blank" rel="noopener">http://www.logicpoet.com/downloads/</a>下载其最新版本并安装。</p>
-<h1 id="编译仿真"><a href="#编译仿真" class="headerlink" title="编译仿真"></a>编译仿真</h1><p>随便新建一个测试文件叫test.v：</p>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> vaddsws( vra, vrb, vrt, sat );</span><br><span class="line"></span><br><span class="line"><span class="keyword">input</span>  [<span class="number">31</span> : <span class="number">0</span>] vra;</span><br><span class="line"><span class="keyword">input</span>  [<span class="number">31</span> : <span class="number">0</span>] vrb;</span><br><span class="line"><span class="keyword">output</span> [<span class="number">31</span> : <span class="number">0</span>] vrt;</span><br><span class="line"><span class="keyword">output</span>          sat;</span><br><span class="line"></span><br><span class="line"><span class="keyword">wire</span>   [<span class="number">31</span> : <span class="number">0</span>] sum;</span><br><span class="line"><span class="keyword">wire</span>   [<span class="number">31</span> : <span class="number">0</span>] vrt;</span><br><span class="line"><span class="keyword">wire</span>            sat;</span><br><span class="line"></span><br><span class="line"><span class="keyword">assign</span> &#123;sat, sum&#125;	= vra + vrb;</span><br><span class="line"><span class="keyword">assign</span> vrt = (vra[<span class="number">31</span>]^vrb[<span class="number">31</span>]) ? sum : (vra[<span class="number">31</span>]&amp;&amp;vrb[<span class="number">31</span>] ? (sum[<span class="number">31</span>] ? sum : <span class="number">32'h80000000</span>) : (sum[<span class="number">31</span>] ? <span class="number">32'h7fffffff</span> : sum));</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-<p>再对其新建testbench文件test_tb.v：</p>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">`<span class="meta-keyword">timescale</span> 1ns/100ps</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> "test.v"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> vaddsws_tb;</span><br><span class="line"></span><br><span class="line"><span class="keyword">reg</span>	[<span class="number">31</span>: <span class="number">0</span>]	vra;</span><br><span class="line"><span class="keyword">reg</span>	[<span class="number">31</span>: <span class="number">0</span>]	vrb;</span><br><span class="line"><span class="keyword">wire</span>	[<span class="number">31</span>: <span class="number">0</span>]	vrt;</span><br><span class="line"><span class="keyword">wire</span>	sat;</span><br><span class="line"></span><br><span class="line"><span class="keyword">initial</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">	<span class="built_in">$dumpfile</span>(<span class="string">"test.vcd"</span>);</span><br><span class="line">	<span class="built_in">$dumpvars</span>(<span class="number">0</span>, vaddsws_tb);</span><br><span class="line">	<span class="keyword">assign</span> vra=<span class="number">32'hffffffff</span>;</span><br><span class="line">	<span class="keyword">assign</span> vrb=<span class="number">32'hffffffff</span>;</span><br><span class="line">	#<span class="number">100</span></span><br><span class="line">	<span class="keyword">assign</span> vra=<span class="number">32'h01234567</span>;</span><br><span class="line">	<span class="keyword">assign</span> vrb=<span class="number">32'h76543210</span>;</span><br><span class="line">	#<span class="number">100</span></span><br><span class="line">	<span class="built_in">$finish</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">vaddsws add( <span class="variable">.vra</span>(vra), <span class="variable">.vrb</span>(vrb), <span class="variable">.vrt</span>(vrt), <span class="variable">.sat</span>(sat) );</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-<p>注意testbench文件的第二行中<code>include</code>宏是为了引用前一个文件的模块定义，如果在Windows下用ModelSim时把它注释掉就可以了。第13行是为了生成波形文件以便在Scansion里查看。</p>
-<p>源码编辑好后执行以下命令编译执行：</p>
-<pre><code>iverilog -o test.vvp test_tb.v
-./test.vvp
-</code></pre><p>生成vcd格式的波形文件用Scansion打开即可（也可以使用命令<code>open -a Scansion test.vcd</code>）：</p>
-<p><img src="/img/vltest.png" alt="输出波形"></p>
 
           </div>
           <div class="toggle-input article-more-link"><a>Read More +</a></div>
@@ -1373,7 +1361,7 @@ setTimeout(function() {
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -1390,6 +1378,14 @@ setTimeout(function() {
                 <i class="fa-paperclip"></i> 
               
             Time Machine通过Samba备份到NAS</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/shadowsocks-v2ray/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            ShadowSocks启用v2ray-plugin</a>
           </li>
         
           <li>
@@ -1456,14 +1452,6 @@ setTimeout(function() {
             VPS开启TCP-BBR拥塞控制</a>
           </li>
         
-          <li>
-            <a class="text" href="/posts/sci/">
-              
-                <i class="fa-paperclip"></i> 
-              
-            大型属性网络的语义社团识别</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1474,7 +1462,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 21.82px; color: #d1e8ff">VPS</a> <a href="/tags/科学上网/" style="font-size: 20.73px; color: #b9dcff">科学上网</a> <a href="/tags/服务器/" style="font-size: 22.91px; color: #e8f3ff">服务器</a> <a href="/tags/代理/" style="font-size: 17.45px; color: #74b9ff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/OpenWrt/" style="font-size: 19.64px; color: #a2d0ff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20.73px; color: #b9dcff">路由器</a> <a href="/tags/ShadowSocks/" style="font-size: 16.36px; color: #5daeff">ShadowSocks</a> <a href="/tags/IPv6/" style="font-size: 13.09px; color: #178bff">IPv6</a> <a href="/tags/Android/" style="font-size: 13.09px; color: #178bff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19.64px; color: #a2d0ff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13.09px; color: #178bff">Minecraft</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14.18px; color: #2e96ff">Unix</a> <a href="/tags/SSL/" style="font-size: 13.09px; color: #178bff">SSL</a> <a href="/tags/Nginx/" style="font-size: 16.36px; color: #5daeff">Nginx</a> <a href="/tags/LEMP/" style="font-size: 13.09px; color: #178bff">LEMP</a> <a href="/tags/MySQL/" style="font-size: 13.09px; color: #178bff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13.09px; color: #178bff">PHP</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15.27px; color: #46a2ff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18.55px; color: #8bc5ff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/舰队Collection/" style="font-size: 13.09px; color: #178bff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14.18px; color: #2e96ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13.09px; color: #178bff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/shell/" style="font-size: 13.09px; color: #178bff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/科学上网/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/服务器/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/代理/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 19px; color: #95caff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/舰队Collection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 

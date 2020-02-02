@@ -50,6 +50,45 @@
   </entry>
   
   <entry>
+    <title>ShadowSocks启用v2ray-plugin</title>
+    <link href="https://liangzhenduo0608.github.io/posts/shadowsocks-v2ray/"/>
+    <id>https://liangzhenduo0608.github.io/posts/shadowsocks-v2ray/</id>
+    <published>2019-11-10T16:00:00.000Z</published>
+    <updated>2020-02-02T12:55:02.067Z</updated>
+    
+    <content type="html"><![CDATA[<p>2019年6月初由于某事件发生30周年，导致某长城突然加高，将大量机场IP屏蔽，于是将梯子改成了<strong>v2ray</strong>，并通过cloudflare代理DNS解析的方式将翻墙流量伪装成对域名的tls访问流量，曲线解决了IP端口被封的问题。<br>但是路由器上使用v2ray客户端有一些性能问题，总觉得不如原来的shadowsocks流畅，于是找到一种继续使用ss，并通过v2ray-plugin插件来伪装流量的方法。</p><h1 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h1><h2 id="搭建服务"><a href="#搭建服务" class="headerlink" title="搭建服务"></a>搭建服务</h2><p>停用原来的python版，安装shadowsocks-libev：</p><pre><code>yum install shadowsocks-libev -y</code></pre><p>克隆v2ray-plugin代码并编译（需要golang环境）：</p><pre><code>git clone https://github.com/shadowsocks/v2ray-plugin.gitcd v2ray-plugin &amp;&amp; go buildcp v2ray-plugin /usr/bin/</code></pre><h2 id="更改配置"><a href="#更改配置" class="headerlink" title="更改配置"></a>更改配置</h2><p>编辑<code>/etc/shadowsocks-libev/config.json</code>：</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"server"</span>:<span class="string">"0.0.0.0"</span>,</span><br><span class="line">    <span class="attr">"server_port"</span>:<span class="number">23333</span>,</span><br><span class="line">    <span class="attr">"local_port"</span>:<span class="number">1080</span>,</span><br><span class="line">    <span class="attr">"password"</span>:<span class="string">"password"</span>,</span><br><span class="line">    <span class="attr">"timeout"</span>:<span class="number">300</span>,</span><br><span class="line">    <span class="attr">"method"</span>:<span class="string">"rc4-md5"</span>,</span><br><span class="line">    <span class="attr">"plugin"</span>:<span class="string">"v2ray-plugin"</span>,</span><br><span class="line">    <span class="attr">"plugin_opts"</span>:<span class="string">"server;loglevel=none"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>本来这里使用v2ray插件的目的是将shadowsocks的流量伪装成tls流量，自然服务器端口应当使用443。<br>但是我的服务器同时还启用了nginx，再使用443会造成端口冲突，所以在这里使用一个其他的端口，然后再用nginx做一次端口转发。</p><h2 id="端口转发"><a href="#端口转发" class="headerlink" title="端口转发"></a>端口转发</h2><p>在<code>/etc/nginx/conf.d/</code>目录下新建一个配置：</p><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">443</span>;</span><br><span class="line">    <span class="attribute">server_name</span>  ss.your.domain;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://127.0.0.1:23333;</span><br><span class="line">        <span class="attribute">proxy_redirect</span>    <span class="literal">off</span>;</span><br><span class="line">        <span class="attribute">proxy_http_version</span><span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>    Host<span class="variable">$http_host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>    Upgrade<span class="variable">$http_upgrade</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>    Connection<span class="string">"upgrade"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><code>server_name</code>需要使用自己的域名，并将这个二级域名解析到vps上。</p><p>保存后重启nginx，启动shadowsocks并设置开机启动：</p><pre><code>systemctl restart nginxsystemctl start shadowsocks-libevsystemctl enable shadowsocks-libev</code></pre><h1 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h1><p>主要注意以下配置：</p><ul><li><code>服务器地址</code>填上面配置的<code>二级域名</code></li><li><code>服务器端口</code>填<code>443</code></li><li><code>插件名称</code>填<code>v2ray-plugin</code></li><li><code>插件参数</code>填<code>tls;host=二级域名</code></li></ul><h2 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h2><p>此处以老毛子固件为例：</p><p><img src="/img/shadowsocks-v2ray-pdcn.png" alt="路由器设置"></p><p>打开开关应用即可。</p><h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><ul><li>客户端下载：<a href="https://github.com/shadowsocks/shadowsocks-windows/releases/latest" target="_blank" rel="noopener">shadowsocks-windows</a></li><li>插件下载：<a href="https://github.com/shadowsocks/v2ray-plugin/releases/latest" target="_blank" rel="noopener">v2ray-plugin</a></li></ul><p>下载完成将插件<code>v2ray-plugin.exe</code>解压到shadowsocks的文件夹中（使其与<code>shadowsocks.exe</code>平级），启动按如下配置：</p><p><img src="/img/shadowsocks-v2ray-windows.png" alt="Windows设置"></p><h2 id="macOS"><a href="#macOS" class="headerlink" title="macOS"></a>macOS</h2><ul><li>客户端下载：<a href="https://github.com/shadowsocks/ShadowsocksX-NG/releases/latest" target="_blank" rel="noopener">ShadowsocksX-NG</a></li></ul><p>将客户端解压到应用目录(客户端会自己安装插件)，启动按如下配置：</p><p><img src="/img/shadowsocks-v2ray-macos.png" alt="macOS设置"></p><h2 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h2><ul><li>客户端下载：<a href="https://github.com/shadowsocks/shadowsocks-android/releases/latest" target="_blank" rel="noopener">shadowsocks-android</a></li><li>插件下载：<a href="https://github.com/shadowsocks/v2ray-plugin-android/releases/latest" target="_blank" rel="noopener">v2ray-plugin-android</a></li></ul><p>两个apk安装以后启动按如下配置：</p><p><img src="/img/shadowsocks-v2ray-android.png" alt="Android设置"><br><img src="/img/shadowsocks-v2ray-android-plugin.png" alt="插件设置"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;2019年6月初由于某事件发生30周年，导致某长城突然加高，将大量机场IP屏蔽，于是将梯子改成了&lt;strong&gt;v2ray&lt;/strong&gt;，并通过cloudflare代理DNS解析的方式将翻墙流量伪装成对域名的tls访问流量，曲线解决了IP端口被封的问题。&lt;br&gt;但是路由
+      
+    
+    </summary>
+    
+      <category term="网络" scheme="https://liangzhenduo0608.github.io/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="科学上网" scheme="https://liangzhenduo0608.github.io/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    
+    
+      <category term="VPS" scheme="https://liangzhenduo0608.github.io/tags/VPS/"/>
+    
+      <category term="科学上网" scheme="https://liangzhenduo0608.github.io/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    
+      <category term="服务器" scheme="https://liangzhenduo0608.github.io/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+      <category term="代理" scheme="https://liangzhenduo0608.github.io/tags/%E4%BB%A3%E7%90%86/"/>
+    
+      <category term="Linux" scheme="https://liangzhenduo0608.github.io/tags/Linux/"/>
+    
+      <category term="ShadowSocks" scheme="https://liangzhenduo0608.github.io/tags/ShadowSocks/"/>
+    
+      <category term="V2Ray" scheme="https://liangzhenduo0608.github.io/tags/V2Ray/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Hexo博客使用MathJax公式</title>
     <link href="https://liangzhenduo0608.github.io/posts/hexo-mathjax/"/>
     <id>https://liangzhenduo0608.github.io/posts/hexo-mathjax/</id>
@@ -83,9 +122,9 @@
     <link href="https://liangzhenduo0608.github.io/posts/ttl/"/>
     <id>https://liangzhenduo0608.github.io/posts/ttl/</id>
     <published>2018-12-31T16:00:00.000Z</published>
-    <updated>2020-01-18T09:47:10.776Z</updated>
+    <updated>2020-01-18T10:04:34.327Z</updated>
     
-    <content type="html"><![CDATA[<p><img src="/img/ttldw22d.png" alt></p><p>之前偶然拿到一台大麦DW22D路由器，应该是之前的租客办长城宽带赠送的，登入管理界面发现里面是基于长城宽带深度定制的系统。</p><p><img src="/img/ttldomy.png" alt></p><p>上了恩山查了一下发现这个机器的硬件还可以，并且可以无拆机刷入padavan固件，所以就开始按照教程刷机。</p><h1 id="无拆机刷机"><a href="#无拆机刷机" class="headerlink" title="无拆机刷机"></a>无拆机刷机</h1><p>以下步骤参考<a href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;tid=313543" target="_blank" rel="noopener">恩山的教程</a>。</p><h2 id="开启ssh"><a href="#开启ssh" class="headerlink" title="开启ssh"></a>开启ssh</h2><p>本方法主要依靠后门页面的命令注入漏洞，步骤如下：</p><h3 id="注入新密码"><a href="#注入新密码" class="headerlink" title="注入新密码"></a>注入新密码</h3><p>电脑连上路由器（最好有线方式），访问<a href="http://192.168.10.1/upgrade.html" target="_blank" rel="noopener">http://192.168.10.1/upgrade.html</a>，在页面上打开ssh的选项，密码框内输入：</p><pre><code>123 | echo 6c216b27c8c9b051106c969e2077d4e9 &gt; /ezwrt/bin/upgrade_passwd</code></pre><p>注意末尾有空格。<strong>这里的md5值是<code>echo dfc643 | md5</code>算出来的，里面的<code>dfc643</code>是发现这个方法大佬的用户名，此处的密码是可以随便改的。</strong>然后点<code>确定</code>提交，此时会提示密码错误，可以忽略。</p><h3 id="注入ssh公钥"><a href="#注入ssh公钥" class="headerlink" title="注入ssh公钥"></a>注入ssh公钥</h3><p>再次访问<a href="http://192.168.10.1/upgrade.html" target="_blank" rel="noopener">http://192.168.10.1/upgrade.html</a>，同样选择打开ssh，密码框内输入：</p><pre><code>123 | echo YOUR_ID_RSA_PUB &gt; /etc/dropbear/authorized_keys</code></pre><p>同样注意末尾有空格。<strong>其中<code>YOUR_ID_RSA_PUB</code>替换为自己的公钥，即电脑上<code>~/.ssh/id_rsa.pub</code>的内容。</strong>再次点<code>确定</code>提交，此时还会提示密码错误，也可以忽略。</p><h3 id="开启ssh-1"><a href="#开启ssh-1" class="headerlink" title="开启ssh"></a>开启ssh</h3><p>最后一次访问<a href="http://192.168.10.1/upgrade.html" target="_blank" rel="noopener">http://192.168.10.1/upgrade.html</a>，选择打开ssh，密码为<code>dfc643</code>（如果在第一步注入密码时用了别的密码，此处输入相应的密码），最后点确定提交，提示<code>start ssh success</code>表示已经开启ssh。</p><p>这样就可以<code>ssh root@192.168.10.1</code>登录路由器了。</p><h2 id="刷入breed"><a href="#刷入breed" class="headerlink" title="刷入breed"></a>刷入breed</h2><p><a href="https://www.right.com.cn/forum/thread-161906-1-1.html" target="_blank" rel="noopener">breed</a>是hackpascal独立开发的一个全新的 Bootloader。DW22D路由器对应的版本是<a href="https://breed.hackpascal.net/breed-mt7620-reset13.bin" target="_blank" rel="noopener">breed-mt7620-reset13.bin</a>。</p><p>下载好后将其传入路由器的<code>/tmp</code>目录下备用：</p><pre><code>scp breed-mt7620-reset13.bin root@192.168.10.1:/tmp</code></pre><p>然后在路由器上执行：</p><pre><code>mtd_write -x mIp2osnRG3qZGdIlQPh1 -r write /tmp/breed-mt7620-reset13.bin bootloader</code></pre><p>这样应该就能将breed刷入bootloader，然后就可以随意刷firmware了。</p><p>然而我手残将最后的<code>bootloader</code>打成了<code>firmware</code>，也就是将breed刷入了firmware分区，导致路由器进不去系统了，也才有了后面的ttl救砖。</p><h1 id="TTL刷机"><a href="#TTL刷机" class="headerlink" title="TTL刷机"></a>TTL刷机</h1><p>以下步骤参考<a href="https://www.right.com.cn/forum/thread-190778-1-1.html" target="_blank" rel="noopener">恩山的教程</a>。</p><h2 id="USB转TTL"><a href="#USB转TTL" class="headerlink" title="USB转TTL"></a>USB转TTL</h2><p>为了让路由器硬件和电脑相连，需要一个USB转TTL模块，随便在马云家买一个最便宜的就能用，我就买了一个<code>ch340g</code>芯片的模块。</p><h3 id="TTL驱动"><a href="#TTL驱动" class="headerlink" title="TTL驱动"></a>TTL驱动</h3><p>然后在github找了<a href="https://github.com/adrianmihalko/ch340g-ch34g-ch34x-mac-os-x-driver" target="_blank" rel="noopener">驱动</a>安装上（这里给的是Mac电脑的驱动，Windows的驱动一般卖家都会提供，网上找找也都有）。</p><p>重启后打开<code>网络偏好</code>可以看见多了一个串行接口：</p><p><img src="/img/ttldriver.png" alt></p><p>将USB转TTL模块插在电脑上，在<code>/dev</code>目录下会出现名字类似<code>cu.usbserial-1410</code>的设备，说明识别成功。</p><h3 id="TTL连接"><a href="#TTL连接" class="headerlink" title="TTL连接"></a>TTL连接</h3><p>在如图位置焊上引脚（GND那个孔不用焊）：</p><p><img src="/img/ttlwiring.png" alt></p><p>然后用杜邦线将三个引脚和USB转TTL模块相连。</p><h2 id="开启TFTP"><a href="#开启TFTP" class="headerlink" title="开启TFTP"></a>开启TFTP</h2><p>将电脑用网线和路由器lan口连接，设置有线连接为手动模式，按图修改参数：</p><p><img src="/img/ttlnetwork.png" alt></p><p>参考<a href="/posts/mac-tftp/">macOS启用TFTP服务</a>，将<code>breed-mt7620-reset13.bin</code>放到TFTP目录下，将TFTP的地址选择有线ip（即上面设置的10.10.10.3）。</p><h2 id="刷机"><a href="#刷机" class="headerlink" title="刷机"></a>刷机</h2><p>一切就绪后，可以连接路由器开始刷机。</p><h3 id="登录路由器"><a href="#登录路由器" class="headerlink" title="登录路由器"></a>登录路由器</h3><p>使用screen连接未通电的路由器，波特率为57600：</p><pre><code>screen /dev/cu.usbserial-1410 57600</code></pre><p>此时终端里什么也没有。然后给路由器通电，此时会打印出很多东西，最后出现一些选项，立刻（5秒内）按数字键<code>9</code>选择TFTP刷机。</p><h3 id="刷入breed-1"><a href="#刷入breed-1" class="headerlink" title="刷入breed"></a>刷入breed</h3><p>之后会让确认<code>device IP</code>（路由器地址）和<code>server IP</code>（电脑地址），确认无误后会提示输入要刷入的文件名，输入<code>breed-mt7620-reset13.bin</code>回车就开始刷入了。</p><p>刷完后断电按住复位键通电并长按5秒即可进入breed：</p><p><img src="/img/ttlbreed.png" alt></p>]]></content>
+    <content type="html"><![CDATA[<p><img src="/img/ttldw22d.png" alt></p><p>之前偶然拿到一台大麦DW22D路由器，应该是之前的租客办长城宽带赠送的，登入管理界面发现里面是基于长城宽带深度定制的系统。</p><p><img src="/img/ttldomy.png" alt></p><p>上了恩山查了一下发现这个机器的硬件还可以，并且可以无拆机刷入padavan固件，所以就开始按照教程刷机。</p><h1 id="无拆机刷机"><a href="#无拆机刷机" class="headerlink" title="无拆机刷机"></a>无拆机刷机</h1><p>以下步骤参考<a href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;tid=313543" target="_blank" rel="noopener">恩山的教程</a>。</p><h2 id="开启ssh"><a href="#开启ssh" class="headerlink" title="开启ssh"></a>开启ssh</h2><p>本方法主要依靠后门页面的命令注入漏洞，步骤如下：</p><h3 id="注入新密码"><a href="#注入新密码" class="headerlink" title="注入新密码"></a>注入新密码</h3><p>电脑连上路由器（最好有线方式），访问<a href="http://192.168.10.1/upgrade.html" target="_blank" rel="noopener">http://192.168.10.1/upgrade.html</a>，在页面上打开ssh的选项，密码框内输入：</p><pre><code>123 | echo 6c216b27c8c9b051106c969e2077d4e9 &gt; /ezwrt/bin/upgrade_passwd </code></pre><p>注意末尾有空格。<strong>这里的md5值是<code>echo dfc643 | md5</code>算出来的，里面的<code>dfc643</code>是发现这个方法大佬的用户名，此处的密码是可以随便改的。</strong>然后点<code>确定</code>提交，此时会提示密码错误，可以忽略。</p><h3 id="注入ssh公钥"><a href="#注入ssh公钥" class="headerlink" title="注入ssh公钥"></a>注入ssh公钥</h3><p>再次访问<a href="http://192.168.10.1/upgrade.html" target="_blank" rel="noopener">http://192.168.10.1/upgrade.html</a>，同样选择打开ssh，密码框内输入：</p><pre><code>123 | echo YOUR_ID_RSA_PUB &gt; /etc/dropbear/authorized_keys </code></pre><p>同样注意末尾有空格。<strong>其中<code>YOUR_ID_RSA_PUB</code>替换为自己的公钥，即电脑上<code>~/.ssh/id_rsa.pub</code>的内容。</strong>再次点<code>确定</code>提交，此时还会提示密码错误，也可以忽略。</p><h3 id="开启ssh-1"><a href="#开启ssh-1" class="headerlink" title="开启ssh"></a>开启ssh</h3><p>最后一次访问<a href="http://192.168.10.1/upgrade.html" target="_blank" rel="noopener">http://192.168.10.1/upgrade.html</a>，选择打开ssh，密码为<code>dfc643</code>（如果在第一步注入密码时用了别的密码，此处输入相应的密码），最后点确定提交，提示<code>start ssh success</code>表示已经开启ssh。</p><p>这样就可以<code>ssh root@192.168.10.1</code>登录路由器了。</p><h2 id="刷入breed"><a href="#刷入breed" class="headerlink" title="刷入breed"></a>刷入breed</h2><p><a href="https://www.right.com.cn/forum/thread-161906-1-1.html" target="_blank" rel="noopener">breed</a>是hackpascal独立开发的一个全新的 Bootloader。DW22D路由器对应的版本是<a href="https://breed.hackpascal.net/breed-mt7620-reset13.bin" target="_blank" rel="noopener">breed-mt7620-reset13.bin</a>。</p><p>下载好后将其传入路由器的<code>/tmp</code>目录下备用：</p><pre><code>scp breed-mt7620-reset13.bin root@192.168.10.1:/tmp</code></pre><p>然后在路由器上执行：</p><pre><code>mtd_write -x mIp2osnRG3qZGdIlQPh1 -r write /tmp/breed-mt7620-reset13.bin bootloader</code></pre><p>这样应该就能将breed刷入bootloader，然后就可以随意刷firmware了。</p><p>然而我手残将最后的<code>bootloader</code>打成了<code>firmware</code>，也就是将breed刷入了firmware分区，导致路由器进不去系统了，也才有了后面的ttl救砖。</p><h1 id="TTL刷机"><a href="#TTL刷机" class="headerlink" title="TTL刷机"></a>TTL刷机</h1><p>以下步骤参考<a href="https://www.right.com.cn/forum/thread-190778-1-1.html" target="_blank" rel="noopener">恩山的教程</a>。</p><h2 id="USB转TTL"><a href="#USB转TTL" class="headerlink" title="USB转TTL"></a>USB转TTL</h2><p>为了让路由器硬件和电脑相连，需要一个USB转TTL模块，随便在马云家买一个最便宜的就能用，我就买了一个<code>ch340g</code>芯片的模块。</p><h3 id="TTL驱动"><a href="#TTL驱动" class="headerlink" title="TTL驱动"></a>TTL驱动</h3><p>然后在github找了<a href="https://github.com/adrianmihalko/ch340g-ch34g-ch34x-mac-os-x-driver" target="_blank" rel="noopener">驱动</a>安装上（这里给的是Mac电脑的驱动，Windows的驱动一般卖家都会提供，网上找找也都有）。</p><p>重启后打开<code>网络偏好</code>可以看见多了一个串行接口：</p><p><img src="/img/ttldriver.png" alt></p><p>将USB转TTL模块插在电脑上，在<code>/dev</code>目录下会出现名字类似<code>cu.usbserial-1410</code>的设备，说明识别成功。</p><h3 id="TTL连接"><a href="#TTL连接" class="headerlink" title="TTL连接"></a>TTL连接</h3><p>在如图位置焊上引脚（GND那个孔不用焊）：</p><p><img src="/img/ttlwiring.png" alt></p><p>然后用杜邦线将三个引脚和USB转TTL模块相连。</p><h2 id="开启TFTP"><a href="#开启TFTP" class="headerlink" title="开启TFTP"></a>开启TFTP</h2><p>将电脑用网线和路由器lan口连接，设置有线连接为手动模式，按图修改参数：</p><p><img src="/img/ttlnetwork.png" alt></p><p>参考<a href="/posts/mac-tftp/">macOS启用TFTP服务</a>，将<code>breed-mt7620-reset13.bin</code>放到TFTP目录下，将TFTP的地址选择有线ip（即上面设置的10.10.10.3）。</p><h2 id="刷机"><a href="#刷机" class="headerlink" title="刷机"></a>刷机</h2><p>一切就绪后，可以连接路由器开始刷机。</p><h3 id="登录路由器"><a href="#登录路由器" class="headerlink" title="登录路由器"></a>登录路由器</h3><p>使用screen连接未通电的路由器，波特率为57600：</p><pre><code>screen /dev/cu.usbserial-1410 57600</code></pre><p>此时终端里什么也没有。然后给路由器通电，此时会打印出很多东西，最后出现一些选项，立刻（5秒内）按数字键<code>9</code>选择TFTP刷机。</p><h3 id="刷入breed-1"><a href="#刷入breed-1" class="headerlink" title="刷入breed"></a>刷入breed</h3><p>之后会让确认<code>device IP</code>（路由器地址）和<code>server IP</code>（电脑地址），确认无误后会提示输入要刷入的文件名，输入<code>breed-mt7620-reset13.bin</code>回车就开始刷入了。</p><p>刷完后断电按住复位键通电并长按5秒即可进入breed：</p><p><img src="/img/ttlbreed.png" alt></p>]]></content>
     
     <summary type="html">
     
@@ -203,9 +242,9 @@
     
       <category term="服务器" scheme="https://liangzhenduo0608.github.io/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     
-      <category term="SSL" scheme="https://liangzhenduo0608.github.io/tags/SSL/"/>
-    
       <category term="Nginx" scheme="https://liangzhenduo0608.github.io/tags/Nginx/"/>
+    
+      <category term="SSL" scheme="https://liangzhenduo0608.github.io/tags/SSL/"/>
     
   </entry>
   
@@ -414,11 +453,11 @@
     
       <category term="科学上网" scheme="https://liangzhenduo0608.github.io/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
     
+      <category term="ShadowSocks" scheme="https://liangzhenduo0608.github.io/tags/ShadowSocks/"/>
+    
       <category term="OpenWrt" scheme="https://liangzhenduo0608.github.io/tags/OpenWrt/"/>
     
       <category term="路由器" scheme="https://liangzhenduo0608.github.io/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
-    
-      <category term="ShadowSocks" scheme="https://liangzhenduo0608.github.io/tags/ShadowSocks/"/>
     
       <category term="IPv6" scheme="https://liangzhenduo0608.github.io/tags/IPv6/"/>
     
@@ -609,43 +648,13 @@
     
       <category term="macOS" scheme="https://liangzhenduo0608.github.io/tags/macOS/"/>
     
-      <category term="Nginx" scheme="https://liangzhenduo0608.github.io/tags/Nginx/"/>
-    
       <category term="LEMP" scheme="https://liangzhenduo0608.github.io/tags/LEMP/"/>
+    
+      <category term="Nginx" scheme="https://liangzhenduo0608.github.io/tags/Nginx/"/>
     
       <category term="MySQL" scheme="https://liangzhenduo0608.github.io/tags/MySQL/"/>
     
       <category term="PHP" scheme="https://liangzhenduo0608.github.io/tags/PHP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>shell脚本内的并发执行</title>
-    <link href="https://liangzhenduo0608.github.io/posts/shell-parallel/"/>
-    <id>https://liangzhenduo0608.github.io/posts/shell-parallel/</id>
-    <published>2016-10-10T14:22:22.000Z</published>
-    <updated>2019-07-14T15:04:34.207Z</updated>
-    
-    <content type="html"><![CDATA[<p>之前有一个每周数据统计的工作，需要每周的某一天定时从多台服务器上拉取日志进行汇总生成报表。</p><h1 id="顺序执行"><a href="#顺序执行" class="headerlink" title="顺序执行"></a>顺序执行</h1><p>最初的思路是先做一个循环，遍历每台机器并在上面执行相应的数据处理脚本，然后将处理好的数据拉取到汇总的机器上，这样逐台进行，最后进行汇总处理，写出来的脚本是类似这样的：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">array=( \</span><br><span class="line"><span class="string">"10.144.1.1"</span> \</span><br><span class="line"><span class="string">"10.144.1.2"</span> \</span><br><span class="line"><span class="string">"10.144.1.3"</span> \</span><br><span class="line"><span class="string">"10.144.1.4"</span> \</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;array[@]&#125;</span></span><br><span class="line"><span class="keyword">do</span>  </span><br><span class="line">ssh <span class="variable">$i</span> <span class="string">"sh <span class="variable">$log_dir</span>/run.sh"</span></span><br><span class="line">scp <span class="variable">$i</span>:<span class="variable">$log_dir</span>/<span class="built_in">log</span> <span class="variable">$work_dir</span>/<span class="variable">$i</span>/</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">cat <span class="variable">$work_dir</span>/*/<span class="built_in">log</span> | sort | uniq &gt; <span class="variable">$work_dir</span>/<span class="built_in">log</span></span><br></pre></td></tr></table></figure><p>这样写的执行时间大约是<strong>每台机器时间*台数+汇总时间</strong>，虽然不算快，但是凌晨一般也能执行完成。</p><h1 id="并发执行"><a href="#并发执行" class="headerlink" title="并发执行"></a>并发执行</h1><p>后来到了国庆假期期间，服务流量骤增，再加上业务改版等一系列原因，导致数据量突然增大，执行时间翻了几倍，任务大概要到下午才能完成，这样一来就会耽误白天的工作。</p><p>因为机器数量不少，分机器统计也是主要的时间消耗，因此想到既然几台机器各自的统计互不影响，可以让它们同时进行汇总工作。于是上网找了一下改进方法，改完了大致是这样的：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">array=( \</span><br><span class="line"><span class="string">"10.144.1.1"</span> \</span><br><span class="line"><span class="string">"10.144.1.2"</span> \</span><br><span class="line"><span class="string">"10.144.1.3"</span> \</span><br><span class="line"><span class="string">"10.144.1.4"</span> \</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;array[@]&#125;</span></span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">ssh <span class="variable">$i</span> <span class="string">"sh <span class="variable">$log_dir</span>/run.sh"</span></span><br><span class="line">scp <span class="variable">$i</span>:<span class="variable">$log_dir</span>/<span class="built_in">log</span> <span class="variable">$work_dir</span>/<span class="variable">$i</span>/</span><br><span class="line">&#125;&amp;</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">wait</span></span><br><span class="line"></span><br><span class="line">cat <span class="variable">$work_dir</span>/*/<span class="built_in">log</span> | sort | uniq &gt; <span class="variable">$work_dir</span>/<span class="built_in">log</span></span><br></pre></td></tr></table></figure><p>可以发现主要的改动就在for循环的内容用<code>{}</code>括起来并在末尾加个<code>&amp;</code>，这样就可以实现多次循环一起执行了；另外在<code>done</code>后面加个<code>wait</code>是为了等待所有的循环都执行完成后再做后面的汇总工作，否则一旦有一个循环执行完成就会往下执行了。</p><p>这样的执行时间大约是<strong>每台机器时间+汇总时间</strong>，可以看出比最初快了很多。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;之前有一个每周数据统计的工作，需要每周的某一天定时从多台服务器上拉取日志进行汇总生成报表。&lt;/p&gt;
-&lt;h1 id=&quot;顺序执行&quot;&gt;&lt;a href=&quot;#顺序执行&quot; class=&quot;headerlink&quot; title=&quot;顺序执行&quot;&gt;&lt;/a&gt;顺序执行&lt;/h1&gt;&lt;p&gt;最初的思路是先做一
-      
-    
-    </summary>
-    
-      <category term="手帐" scheme="https://liangzhenduo0608.github.io/categories/%E6%89%8B%E5%B8%90/"/>
-    
-      <category term="实习" scheme="https://liangzhenduo0608.github.io/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/"/>
-    
-    
-      <category term="Linux" scheme="https://liangzhenduo0608.github.io/tags/Linux/"/>
-    
-      <category term="shell" scheme="https://liangzhenduo0608.github.io/tags/shell/"/>
     
   </entry>
   

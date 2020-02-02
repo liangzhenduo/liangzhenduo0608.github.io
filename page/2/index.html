@@ -108,6 +108,132 @@
         
           <section id="main" class='pjax'>
   
+    <article id="post-sci" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/posts/sci/" class="article-date">
+  <time datetime="2017-04-28T07:15:15.000Z" itemprop="datePublished">2017-04-28</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/机器学习/">机器学习</a>►<a class="article-category-link" href="/categories/机器学习/论文/">论文</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/scibanner.png" rel="gallery_ck651l5wj0010nwh8d9onu7on">
+        <img src="/img/scibanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/sci/">大型属性网络的语义社团识别</a>
+    </h1>
+  
+
+      </header>
+    
+    <footer class="article-footer">
+      <a data-url="https://liangzhenduo0608.github.io/posts/sci/" data-id="ck651l5wj0010nwh8d9onu7on" class="article-share-link">Share</a>
+      
+        <a href="https://liangzhenduo0608.github.io/posts/sci/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/机器学习/">机器学习</a></li></ul>
+
+    </footer>
+    <div class="article-entry article-index" itemprop="articleBody">
+      
+          
+        
+          <div class="toggle-content">
+            <blockquote>
+<p>原文：<a href="http://www.cse.wustl.edu/~zhang/publications/aaai16-attributenetworks.pdf" target="_blank" rel="noopener">Semantic community identification in large attribute networks</a></p>
+</blockquote>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>网络的模块或社团结构的识别是理解网络语义和功能的关键。虽然已经开发了许多主要探索网络拓扑的社区检测方法，但它们只提供了少量语义信息的社团发现。尽管结构和语义密切相关，但在一起发现并分析这两个基本网络属性上只做了很少的工作。通过在节点上整合网络拓扑和语义信息，如节点属性，研究了社团检测并同时推断其语义的问题。本文提出了一种具有两组参数，社团成员矩阵和社团属性矩阵的新型<a href="https://en.wikipedia.org/wiki/Non-negative_matrix_factorization" target="_blank" rel="noopener">非负矩阵因式分解</a>（NMF）模型，并提出了有效的更新规则保证收敛地评估参数。节点属性的使用改进了社团检测，并为所得到的网络社团提供了语义解释。在人造和真实的世界网络上的广泛实验结果不仅显示了新方法较先进方法的优越性能，而且还展示了其对社团的语义注释能力。</p>
+<h1 id="SCI模型"><a href="#SCI模型" class="headerlink" title="SCI模型"></a>SCI模型</h1><p>考虑一个有\(n\)个节点\(V\)和\(e\)条边\(E\)的无向网络\(G=(V,E)\)，用二值邻接矩阵\(\mathbf{A}\in\mathbb{R}^{n\times n}\)表示。与每个节点\(i\)相关联的是其属性\(\mathbf{S}_i\)，其可以是节点的语义特征。节点的属性是\(m\)维二值向量形式的，所有节点的属性可以由节点属性矩阵\(\mathbf{S}\in\mathbb{R}^{n\times m}\)表示。社团识别的问题是将网络\(G\)划分为\(k\)个社团，并推断每个社团的相关属性或语义。</p>
+<h2 id="建模网络拓扑"><a href="#建模网络拓扑" class="headerlink" title="建模网络拓扑"></a>建模网络拓扑</h2><p>将属于社团\(j\)的节点\(i\)的先验定义为\(U_{ij}\)。网络中所有节点的社团成员为\(\mathbf{U}=(U_{ij})\)，其中\(i=1,2,\ldots,n\)且\(j=1,2,\ldots,k\)。因此\(U_{ir}U_{pr}\)表示社团\(r\)中节点\(i\)和\(p\)之间边数的期望。对所有社团求和，\(i\)和\(p\)之间边数的期望是\(\sum_{r=1}^kU_{ir}U_{pr}\)。 这种生成边的过程意味着如果两个节点具有相似的社团关系，则它们具有更高的连接倾向。节点对之间的期望边数应尽可能与由\(\mathbf{A}\)表示的网络拓扑一致，在矩阵行列式上产生以下函数：</p>
+<script type="math/tex; mode=display">\min\limits_{\mathbf{U}\ge0}\|\mathbf{A}-\mathbf{UU}^T\|_F^2</script><h2 id="建模节点属性"><a href="#建模节点属性" class="headerlink" title="建模节点属性"></a>建模节点属性</h2><p>定义社团\(r\)具有属性\(q\)的倾向为\(C_{qr}\)。因此对于所有社团，有一个社团属性矩阵\(\mathbf{C}=(C_{qr})\)，对于\(q=1,2,\ldots,m\)和\(r=1,2,\ldots,k\)，其中第\(r\)列\(\mathbf{C}_r\)是社团\(r\)的属性成员。如果节点的属性与社团的属性高度相似，那么该节点可能更倾向于在这个社团中。 因此，在\(S_i\)中描述的具有相似属性的节点可能形成一个社团，其可由节点的一般属性来描述。特别地，节点\(i\)属于社团\(r\)的倾向可表示为\(U_{ir}=\mathbf{S}_i\mathbf{C}_r\)。注意如果节点\(i\)和社团\(r\)的属性完全不一致，则节点\(i\)一定不属于社团\(r\)，即\(U_{ir}=0\)。由于所有节点\(mathbf{U}\)的社团成员为结合节点和社团的属性提供了指导，有以下优化函数：</p>
+<script type="math/tex; mode=display">\min\limits_{\mathbf{C}\ge0}\|\mathbf{U}-\mathbf{SC}\|_F^2</script><p>为了给每个社团选择最相关的属性，为矩阵\(\mathbf{C}\)的每列添加一个\(l_1\)稀疏范数。另外为了防止\(\mathbf{C}\)的一些列的值过大（每个社团都有一些有意义的属性），对\(\mathbf{C}\)有约束\(\sum_{j=1}^k|\mathbf{C}(:,j)|_1^2\)，产生以下目标函数：</p>
+<script type="math/tex; mode=display">\min\limits_{\mathbf{C}\ge0}\|\mathbf{U}-\mathbf{SC}\|_F^2+\alpha\sum_{j=1}^k\|\mathbf{C}(:,j)\|_1^2</script><p>其中\(\alpha\)是权衡第一误差项和第二稀疏项的非负参数。</p>
+<h2 id="统一模型"><a href="#统一模型" class="headerlink" title="统一模型"></a>统一模型</h2><p>通过结合网络拓扑模型和节点属性模型的目标函数，有以下完整函数：</p>
+<script type="math/tex; mode=display">\min\limits_{\mathbf{U}\ge0,\mathbf{C}\ge0}L=\|\mathbf{U}-\mathbf{SC}\|_F^2+\alpha\sum_{j=1}^k\|\mathbf{C}(:,j)\|_1^2+\beta\|\mathbf{A}-\mathbf{UU}^T\|_F^2</script><p>其中\(\beta\)是调整网络拓扑权重的正参数。</p>
+<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1><p>由于上面的目标函数不是凸的，所以获得最优解不切实际。局部最小值可以使用<a href="https://en.wikipedia.org/wiki/MM_algorithm" target="_blank" rel="noopener">专门化-最小化</a>框架来实现。这里描述一个固定\(\mathbf{C}\)迭代更新\(\mathbf{U}\)然后固定\(\mathbf{U}\)迭代更新\(\mathbf{C}\)的算法，这保证在每次迭代之后不增加目标函数。具体公式展示为如下两个子问题。</p>
+<h2 id="U问题"><a href="#U问题" class="headerlink" title="U问题"></a><em>U</em>问题</h2><p>当固定\(\mathbf{C}\)更新\(\mathbf{U}\)时，需要解决以下问题：</p>
+<script type="math/tex; mode=display">\min\limits_{\mathbf{U}\ge0}L(\mathbf{U})=\|\mathbf{U}-\mathbf{SC}\|_F^2+\beta\|\mathbf{A}-\mathbf{UU}^T\|_F^2</script><p>为此为\(\mathbf{U}\)上的非负约束引入拉格朗日乘数矩阵\(\mathbf{\Theta}=(\Theta_{ij})\)，得到以下等价目标函数：</p>
+<script type="math/tex; mode=display">L(\mathbf{U})=tr(\mathbf{UU}^T-\mathbf{UC}^T\mathbf{S}^T-\mathbf{SCU}^T+\mathbf{SCC}^T\mathbf{S}^T)+\beta tr(\mathbf{AA}-\mathbf{AUU}^T-\mathbf{UU}^T\mathbf{A}+\mathbf{UU}^T\mathbf{UU}^T)+tr(\mathbf{\Theta U}^T)</script><p>将对\(\mathbf{U}\)的导数\(L(\mathbf{U})\)设为0，有：</p>
+<script type="math/tex; mode=display">\mathbf{\Theta}=-2\mathbf{U}+2\mathbf{SC}+4\beta\mathbf{AU}-4\beta\mathbf{UU}^T\mathbf{U}</script><p>根据对非负\(\mathbf{U}\)的<a href="https://zh.wikipedia.org/wiki/%E5%8D%A1%E7%BE%85%E9%9C%80%EF%BC%8D%E5%BA%AB%E6%81%A9%EF%BC%8D%E5%A1%94%E5%85%8B%E6%A2%9D%E4%BB%B6" target="_blank" rel="noopener">卡罗需-库恩-塔克条件</a>（KKT条件）有如下等式：</p>
+<script type="math/tex; mode=display">(-2\mathbf{U}+2\mathbf{SC}+4\beta\mathbf{AU}-4\beta\mathbf{UU}^T\mathbf{U})_{ij}U_{ij}=\Theta_{ij}U_{ij}=0</script><p>这是解收敛时必须满足的固定点方程。给定\(\mathbf{U}\)的初始值，\(\mathbf{U}\)的连续更新为：</p>
+<script type="math/tex; mode=display">U_{ij}\gets U_{ij}\big(\frac{(\mathbf{SC}+2\beta\mathbf{AU}-\mathbf{U})_{ij}}{2\beta(\mathbf{UU}^T\mathbf{U})_{ij}}\big)^\frac{1}{4}</script><p>为了保证\(\mathbf{U}\)非负的属性，将\(\mathbf{A}\)中的对角元素设置为大于\(\frac{1}{2\beta}\)。\(\mathbf{U}\)的更新规则满足以下定理以保证规则的正确性。</p>
+<ul>
+<li><p><strong>定理1</strong></p>
+<blockquote>
+<p>如果U的更新规则收敛，则最终解满足KKT最优条件。</p>
+</blockquote>
+</li>
+<li><p><strong>定义1</strong></p>
+<blockquote>
+<p>当函数\(Q(\mathbf{U},\mathbf{U}’)\ge L(\mathbf{U})\)，\(Q(\mathbf{U},\mathbf{U})=L(\mathbf{U})\)时，\(Q(\mathbf{U},\mathbf{U}’)\)是\(L(\mathbf{U})\)的辅助函数。</p>
+</blockquote>
+</li>
+<li><p><strong>引理1</strong></p>
+<blockquote>
+<p>如果\(Q\)是\(L\)的辅助函数，则\(L\)在更新规则\(\mathbf{U}^{(t+1)}=arg\min_\mathbf{U}Q(\mathbf{U},\mathbf{U}^{(t)})\)下不增加。</p>
+</blockquote>
+</li>
+<li><p><strong>引理2</strong></p>
+<blockquote>
+<p>函数</p>
+<script type="math/tex; mode=display">Q(\mathbf{U},\mathbf{U}')=tr(\mathbf{SCC}^T\mathbf{S}^T+\beta\mathbf{AA})-\beta tr(\mathbf{RU'}^T\mathbf{U'U'}^T)-tr(\mathbf{U'}^T\mathbf{A'Z})\\\\\quad\quad\quad\quad\quad-tr(\mathbf{Z}^T\mathbf{A'U'})-tr(\mathbf{U'}^T\mathbf{A'U'})-2tr(\mathbf{C}^T\mathbf{S}^T\mathbf{Z})-2tr(\mathbf{C}^T\mathbf{S}^T\mathbf{U'})</script><p>是\(L(\mathbf{U})\)的辅助函数，其中\(R_{ij}=\frac{U_{ij}^4}{U_{ij}’^3}\)，\(Z_{ij}=U’_{ij}\ln\frac{U_{ij}}{U’_{ij}}\)，\(\mathbf{A}’=2\beta\mathbf{A}-\mathbf{I}\)，且\(\mathbf{I}\)是单位矩阵。</p>
+</blockquote>
+</li>
+<li><p><strong>定理2</strong></p>
+<blockquote>
+<p>在\(\mathbf{U}\)的迭代更新下<em>U</em>问题是非增的。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="C问题"><a href="#C问题" class="headerlink" title="C问题"></a><em>C</em>问题</h2><p>当固定\(\mathbf{U}\)更新\(\mathbf{C}\)时，需要解决以下问题：</p>
+<script type="math/tex; mode=display">\min\limits_{\mathbf{C}\ge0}L(\mathbf{C})=\|\mathbf{U}-\mathbf{SC}\|_F^2+\alpha\sum_{j=1}^k\|\mathbf{C}(:,j)\|_1^2</script><p>它等价于如下优化问题：</p>
+<script type="math/tex; mode=display">\min\limits_{\mathbf{C}\ge0}L(\mathbf{C})=\|\dbinom{\mathbf{S}}{\sqrt{\alpha}\mathbf{e}_{1\times m}}\mathbf{C}-\dbinom{\mathbf{U}}{\mathbf{0}_{1\times k}}\|_F^2</script><p>其中\(\mathbf{e}_{1\times m}\)是一个所有分量为1行向量，\(\mathbf{0}_{1\times k}\)是0向量。因此对上面的问题有以下规则：</p>
+<script type="math/tex; mode=display">\mathbf{C}_{ij}\gets\mathbf{C}_{ij}\frac{(\mathbf{S'}^T\mathbf{U'})_{ij}}{(\mathbf{S'}^T\mathbf{S'C})_{ij}}</script><p>其中\(\mathbf{S’}=\dbinom{\mathbf{S}}{\sqrt{\alpha}\mathbf{e}_{1\times m}}\)且\(\mathbf{U’}=\dbinom{\mathbf{U}}{\mathbf{0}_{1\times k}}\)。</p>
+<p>在融合中，由于\(\mathbf{U}\)表达了社团成员软关系分布，可以直接使用\(\mathbf{U}\)或\(\mathbf{U}=\mathbf{SC}\)来获得最终的不相交或重叠的社团。每列\(\mathbf{C}\)表示社团与属性之间的关系，值越大表示与社团对应的属性越相关。</p>
+
+          </div>
+          <div class="toggle-input article-more-link"><a>Read More +</a></div>
+        
+      
+    </div>
+
+  </div>
+  
+</article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-9920928489161252"
+     data-ad-slot="3913131990"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+  
     <article id="post-line" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     
@@ -126,7 +252,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/linebanner.png" rel="gallery_ck5jesrpc000sddh8c4heq958">
+      <a class="article-gallery-img fancybox" href="/img/linebanner.png" rel="gallery_ck651l5wf000rnwh8z0z8jgnd">
         <img src="/img/linebanner.png" itemprop="image">
       </a>
     
@@ -145,7 +271,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/line/" data-id="ck5jesrpc000sddh8c4heq958" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/line/" data-id="ck651l5wf000rnwh8z0z8jgnd" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/line/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -232,7 +358,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/deepwalkbanner.png" rel="gallery_ck5jesrp6000gddh8bjkp9v61">
+      <a class="article-gallery-img fancybox" href="/img/deepwalkbanner.png" rel="gallery_ck651l5w8000fnwh8wy1p7vqd">
         <img src="/img/deepwalkbanner.png" itemprop="image">
       </a>
     
@@ -251,7 +377,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/deepwalk/" data-id="ck5jesrp6000gddh8bjkp9v61" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/deepwalk/" data-id="ck651l5w8000fnwh8wy1p7vqd" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/deepwalk/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -344,7 +470,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/nat6banner.png" rel="gallery_ck5jesrpe000wddh858otg5d6">
+      <a class="article-gallery-img fancybox" href="/img/nat6banner.png" rel="gallery_ck651l5wh000vnwh8aqh7sil2">
         <img src="/img/nat6banner.png" itemprop="image">
       </a>
     
@@ -363,7 +489,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/nat6/" data-id="ck5jesrpe000wddh858otg5d6" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/nat6/" data-id="ck651l5wh000vnwh8aqh7sil2" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/nat6/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -451,7 +577,7 @@ opkg install luci-app-shadowsocks
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/breedbanner.png" rel="gallery_ck5jesrp2000addh8nxh47aan">
+      <a class="article-gallery-img fancybox" href="/img/breedbanner.png" rel="gallery_ck651l5w4000anwh8fgjt9zrx">
         <img src="/img/breedbanner.png" itemprop="image">
       </a>
     
@@ -470,7 +596,7 @@ opkg install luci-app-shadowsocks
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/breed/" data-id="ck5jesrp2000addh8nxh47aan" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/breed/" data-id="ck651l5w4000anwh8fgjt9zrx" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/breed/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -551,7 +677,7 @@ mtd -r write breed-mt7620-phicomm-psg1208.bin Bootloader
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/oledbanner.png" rel="gallery_ck5jesrph0010ddh8fc1wxvk9">
+      <a class="article-gallery-img fancybox" href="/img/oledbanner.png" rel="gallery_ck651l5wi000ynwh8uvse200g">
         <img src="/img/oledbanner.png" itemprop="image">
       </a>
     
@@ -570,7 +696,7 @@ mtd -r write breed-mt7620-phicomm-psg1208.bin Bootloader
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/raspi-oled/" data-id="ck5jesrph0010ddh8fc1wxvk9" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/raspi-oled/" data-id="ck651l5wi000ynwh8uvse200g" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/raspi-oled/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -714,7 +840,7 @@ sudo systemctl enable oled
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/sshaddbanner.png" rel="gallery_ck5jesrpk0015ddh857g5i8f0">
+      <a class="article-gallery-img fancybox" href="/img/sshaddbanner.png" rel="gallery_ck651l5wm0015nwh8rg12twf4">
         <img src="/img/sshaddbanner.png" itemprop="image">
       </a>
     
@@ -733,7 +859,7 @@ sudo systemctl enable oled
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/ssh-add/" data-id="ck5jesrpk0015ddh857g5i8f0" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/ssh-add/" data-id="ck651l5wm0015nwh8rg12twf4" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/ssh-add/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -793,7 +919,7 @@ sudo systemctl enable oled
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/kcabanner.png" rel="gallery_ck5jesrpb000pddh89h8bgwto">
+      <a class="article-gallery-img fancybox" href="/img/kcabanner.png" rel="gallery_ck651l5wc000nnwh8hlbb5rht">
         <img src="/img/kcabanner.png" itemprop="image">
       </a>
     
@@ -812,7 +938,7 @@ sudo systemctl enable oled
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/kancolle-android/" data-id="ck5jesrpb000pddh89h8bgwto" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/kancolle-android/" data-id="ck651l5wc000nnwh8hlbb5rht" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/kancolle-android/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -877,7 +1003,7 @@ sudo systemctl enable oled
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/terbanner.png" rel="gallery_ck5jesrpl0019ddh8d4ilvc6q">
+      <a class="article-gallery-img fancybox" href="/img/terbanner.png" rel="gallery_ck651l5wo0019nwh8et8894qm">
         <img src="/img/terbanner.png" itemprop="image">
       </a>
     
@@ -896,7 +1022,7 @@ sudo systemctl enable oled
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/terminal/" data-id="ck5jesrpl0019ddh8d4ilvc6q" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/terminal/" data-id="ck651l5wo0019nwh8et8894qm" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/terminal/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -971,7 +1097,7 @@ cd fonts &amp;&amp; ./install.sh
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/mpbanner.png" rel="gallery_ck5jesrpd000tddh8rgyhvp1f">
+      <a class="article-gallery-img fancybox" href="/img/mpbanner.png" rel="gallery_ck651l5wf000snwh8weqgjwzl">
         <img src="/img/mpbanner.png" itemprop="image">
       </a>
     
@@ -990,7 +1116,7 @@ cd fonts &amp;&amp; ./install.sh
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/mac-php/" data-id="ck5jesrpd000tddh8rgyhvp1f" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/mac-php/" data-id="ck651l5wf000snwh8weqgjwzl" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/mac-php/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1030,90 +1156,6 @@ cd fonts &amp;&amp; ./install.sh
 <p>保存后将其权限设为<strong>600</strong>即可，然后执行启动：</p>
 <pre><code>launchctl load ~/Library/LaunchAgents/net.php.php-fpm.plist
 </code></pre><p>如果提示<code>Service is disabled</code>，上面的命令加上<code>-w</code>参数再执行就行了。</p>
-
-          </div>
-          <div class="toggle-input article-more-link"><a>Read More +</a></div>
-        
-      
-    </div>
-
-  </div>
-  
-</article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-9920928489161252"
-     data-ad-slot="3913131990"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-  
-    <article id="post-shell-parallel" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-<a href="/posts/shell-parallel/" class="article-date">
-  <time datetime="2016-10-10T14:22:22.000Z" itemprop="datePublished">2016-10-10</time>
-</a>
-
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/手帐/">手帐</a>►<a class="article-category-link" href="/categories/手帐/实习/">实习</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-      <a class="article-gallery-img fancybox" href="/img/shbanner.png" rel="gallery_ck5jesrpj0013ddh8yvino26w">
-        <img src="/img/shbanner.png" itemprop="image">
-      </a>
-    
-  </div>
-</div>
-
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/posts/shell-parallel/">shell脚本内的并发执行</a>
-    </h1>
-  
-
-      </header>
-    
-    <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/shell-parallel/" data-id="ck5jesrpj0013ddh8yvino26w" class="article-share-link">Share</a>
-      
-        <a href="https://liangzhenduo0608.github.io/posts/shell-parallel/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
-
-    </footer>
-    <div class="article-entry article-index" itemprop="articleBody">
-      
-          
-        
-          <div class="toggle-content">
-            <p>之前有一个每周数据统计的工作，需要每周的某一天定时从多台服务器上拉取日志进行汇总生成报表。</p>
-<h1 id="顺序执行"><a href="#顺序执行" class="headerlink" title="顺序执行"></a>顺序执行</h1><p>最初的思路是先做一个循环，遍历每台机器并在上面执行相应的数据处理脚本，然后将处理好的数据拉取到汇总的机器上，这样逐台进行，最后进行汇总处理，写出来的脚本是类似这样的：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">array=( \</span><br><span class="line">	<span class="string">"10.144.1.1"</span> \</span><br><span class="line">	<span class="string">"10.144.1.2"</span> \</span><br><span class="line">	<span class="string">"10.144.1.3"</span> \</span><br><span class="line">	<span class="string">"10.144.1.4"</span> \</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;array[@]&#125;</span></span><br><span class="line"><span class="keyword">do</span>  </span><br><span class="line">	ssh <span class="variable">$i</span> <span class="string">"sh <span class="variable">$log_dir</span>/run.sh"</span></span><br><span class="line">	scp <span class="variable">$i</span>:<span class="variable">$log_dir</span>/<span class="built_in">log</span> <span class="variable">$work_dir</span>/<span class="variable">$i</span>/</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">cat <span class="variable">$work_dir</span>/*/<span class="built_in">log</span> | sort | uniq &gt; <span class="variable">$work_dir</span>/<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
-<p>这样写的执行时间大约是<strong>每台机器时间*台数+汇总时间</strong>，虽然不算快，但是凌晨一般也能执行完成。</p>
-<h1 id="并发执行"><a href="#并发执行" class="headerlink" title="并发执行"></a>并发执行</h1><p>后来到了国庆假期期间，服务流量骤增，再加上业务改版等一系列原因，导致数据量突然增大，执行时间翻了几倍，任务大概要到下午才能完成，这样一来就会耽误白天的工作。</p>
-<p>因为机器数量不少，分机器统计也是主要的时间消耗，因此想到既然几台机器各自的统计互不影响，可以让它们同时进行汇总工作。于是上网找了一下改进方法，改完了大致是这样的：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">array=( \</span><br><span class="line">	<span class="string">"10.144.1.1"</span> \</span><br><span class="line">	<span class="string">"10.144.1.2"</span> \</span><br><span class="line">	<span class="string">"10.144.1.3"</span> \</span><br><span class="line">	<span class="string">"10.144.1.4"</span> \</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;array[@]&#125;</span></span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">	ssh <span class="variable">$i</span> <span class="string">"sh <span class="variable">$log_dir</span>/run.sh"</span></span><br><span class="line">	scp <span class="variable">$i</span>:<span class="variable">$log_dir</span>/<span class="built_in">log</span> <span class="variable">$work_dir</span>/<span class="variable">$i</span>/</span><br><span class="line">&#125;&amp;</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">wait</span></span><br><span class="line"></span><br><span class="line">cat <span class="variable">$work_dir</span>/*/<span class="built_in">log</span> | sort | uniq &gt; <span class="variable">$work_dir</span>/<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
-<p>可以发现主要的改动就在for循环的内容用<code>{}</code>括起来并在末尾加个<code>&amp;</code>，这样就可以实现多次循环一起执行了；另外在<code>done</code>后面加个<code>wait</code>是为了等待所有的循环都执行完成后再做后面的汇总工作，否则一旦有一个循环执行完成就会往下执行了。</p>
-<p>这样的执行时间大约是<strong>每台机器时间+汇总时间</strong>，可以看出比最初快了很多。</p>
 
           </div>
           <div class="toggle-input article-more-link"><a>Read More +</a></div>
@@ -1192,7 +1234,7 @@ setTimeout(function() {
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -1209,6 +1251,14 @@ setTimeout(function() {
                 <i class="fa-paperclip"></i> 
               
             Time Machine通过Samba备份到NAS</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/shadowsocks-v2ray/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            ShadowSocks启用v2ray-plugin</a>
           </li>
         
           <li>
@@ -1275,14 +1325,6 @@ setTimeout(function() {
             VPS开启TCP-BBR拥塞控制</a>
           </li>
         
-          <li>
-            <a class="text" href="/posts/sci/">
-              
-                <i class="fa-paperclip"></i> 
-              
-            大型属性网络的语义社团识别</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1293,7 +1335,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 21.82px; color: #d1e8ff">VPS</a> <a href="/tags/科学上网/" style="font-size: 20.73px; color: #b9dcff">科学上网</a> <a href="/tags/服务器/" style="font-size: 22.91px; color: #e8f3ff">服务器</a> <a href="/tags/代理/" style="font-size: 17.45px; color: #74b9ff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/OpenWrt/" style="font-size: 19.64px; color: #a2d0ff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20.73px; color: #b9dcff">路由器</a> <a href="/tags/ShadowSocks/" style="font-size: 16.36px; color: #5daeff">ShadowSocks</a> <a href="/tags/IPv6/" style="font-size: 13.09px; color: #178bff">IPv6</a> <a href="/tags/Android/" style="font-size: 13.09px; color: #178bff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19.64px; color: #a2d0ff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13.09px; color: #178bff">Minecraft</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14.18px; color: #2e96ff">Unix</a> <a href="/tags/SSL/" style="font-size: 13.09px; color: #178bff">SSL</a> <a href="/tags/Nginx/" style="font-size: 16.36px; color: #5daeff">Nginx</a> <a href="/tags/LEMP/" style="font-size: 13.09px; color: #178bff">LEMP</a> <a href="/tags/MySQL/" style="font-size: 13.09px; color: #178bff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13.09px; color: #178bff">PHP</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15.27px; color: #46a2ff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18.55px; color: #8bc5ff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/舰队Collection/" style="font-size: 13.09px; color: #178bff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14.18px; color: #2e96ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13.09px; color: #178bff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/shell/" style="font-size: 13.09px; color: #178bff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/科学上网/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/服务器/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/代理/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 19px; color: #95caff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/舰队Collection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 

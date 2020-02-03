@@ -31,7 +31,7 @@ photos:
 ### 注入ssh公钥
 再次访问[http://192.168.10.1/upgrade.html](http://192.168.10.1/upgrade.html)，同样选择打开ssh，密码框内输入：
 
-	123 | echo YOUR_ID_RSA_PUB > /etc/dropbear/authorized_keys
+	123 | echo YOUR_ID_RSA_PUB > /etc/dropbear/authorized_keys 
 
 同样注意末尾有空格。**其中`YOUR_ID_RSA_PUB`替换为自己的公钥，即电脑上`~/.ssh/id_rsa.pub`的内容。**再次点`确定`提交，此时还会提示密码错误，也可以忽略。
 

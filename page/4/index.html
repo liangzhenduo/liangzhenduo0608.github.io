@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8" name="theme-color" content="#171714">
   
   <meta name="google-site-verification" content="fTlRYC4_eug8Q64ZK4Lzdv8mcunvs7S0Ec-39TBokv4">
@@ -41,16 +41,18 @@
 <meta property="og:title" content="Shintaku&#39;s Blog">
 <meta property="og:url" content="https://liangzhenduo0608.github.io/page/4/index.html">
 <meta property="og:site_name" content="Shintaku&#39;s Blog">
-<meta property="og:locale" content="default">
+<meta property="og:locale">
+<meta property="article:author" content="Shintaku">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Shintaku&#39;s Blog">
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   <script src="/js/jquery-3.3.1.min.js"></script>
   <script src="/js/nprogress.js"></script>
   <link href="/css/nprogress.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-</html>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
 <body>
   <div id="container">
     <div id="wrap">
@@ -61,10 +63,6 @@
       <h1 id="logo-wrap">
         <a href="/" id="logo">Shintaku&#39;s Blog</a>
       </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">いいこと？暁の水平線に勝利を刻みなさい！</a>
-        </h2>
       
     </div>
     <div id="header-inner" class="inner">
@@ -108,6 +106,97 @@
         
           <section id="main" class='pjax'>
   
+    <article id="post-app" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/posts/app/" class="article-date">
+  <time datetime="2016-05-20T12:00:00.000Z" itemprop="datePublished">2016-05-20</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a>►<a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/">macOS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/appbanner.png" rel="gallery_ckhsyzxia00092uh8eonz135d">
+        <img src="/img/appbanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/app/">将jar程序打包成app</a>
+    </h1>
+  
+
+      </header>
+    
+    <footer class="article-footer">
+      <a data-url="https://liangzhenduo0608.github.io/posts/app/" data-id="ckhsyzxia00092uh8eonz135d" class="article-share-link">Share</a>
+      
+        <a href="https://liangzhenduo0608.github.io/posts/app/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Minecraft/" rel="tag">Minecraft</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/" rel="tag">macOS</a></li></ul>
+
+    </footer>
+    <div class="article-entry article-index" itemprop="articleBody">
+      
+          
+        
+          <div class="toggle-content">
+            <p>Mac下的Minecraft启动器是jar文件，每次需要启动的时候都要进入到它所在的目录下双击用<strong>Jar Launcher</strong>运行，或者使用<code>jawa -jar</code>命令启动，非常麻烦。所以想了一个办法，用<strong>Automator</strong>将它打包成app文件放到<code>Application</code>目录下就会出现在<strong>Launchpad</strong>里了。</p>
+<h1 id="新建app"><a href="#新建app" class="headerlink" title="新建app"></a>新建app</h1><p>首先打开Automator创建一个Application：</p>
+<p><img src="/img/appnew.png" alt="Application"></p>
+<p>选择<code>Run Shell Script</code>并将jar的运行命令填进去：</p>
+<pre><code>java -jar /Applications/Minecraft.app/Contents/Jar/Minecraft\ Launcher.jar
+</code></pre><p><img src="/img/appshell.png" alt="Run Shell Script"></p>
+<p>然后改个名字保存到Application下。</p>
+<h1 id="打包jar"><a href="#打包jar" class="headerlink" title="打包jar"></a>打包jar</h1><p>打开新建好的app的Contents，在里面新建一个Jar目录，并将启动器的jar文件移进去（只要跟上面命令的路径自洽即可）：</p>
+<p><img src="/img/appjar.png" alt="Jar"></p>
+<p>然后可以用Automator右上角的Run测试一下是否可以正常执行：</p>
+<p><img src="/img/apprun.png" alt="Run"></p>
+<h1 id="更改图标"><a href="#更改图标" class="headerlink" title="更改图标"></a>更改图标</h1><p>打开app的Info，点击图标后会出现一个蓝圈：</p>
+<p><img src="/img/appicon.png" alt="Info"></p>
+<p>这时将复制好的图片粘贴到这里就可以更改图标了。</p>
+<p>现在就可以到Launchpad里启动Minecraft的启动器了：</p>
+<p><img src="/img/applaunch.png" alt="Launchpad"></p>
+
+          </div>
+          <div class="toggle-input article-more-link"><a>Read More +</a></div>
+        
+      
+    </div>
+
+  </div>
+  
+</article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-9920928489161252"
+     data-ad-slot="3913131990"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+  
     <article id="post-verilog" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     
@@ -117,7 +206,7 @@
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/手帐/">手帐</a>►<a class="article-category-link" href="/categories/手帐/课程/">课程</a>
+    <a class="article-category-link" href="/categories/%E6%89%8B%E5%B8%90/">手帐</a>►<a class="article-category-link" href="/categories/%E6%89%8B%E5%B8%90/%E8%AF%BE%E7%A8%8B/">课程</a>
   </div>
 
   </div>
@@ -126,7 +215,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/vlbanner.png" rel="gallery_ck651l5wp001cnwh85vot6wkt">
+      <a class="article-gallery-img fancybox" href="/img/vlbanner.png" rel="gallery_ckhsyzxjg00422uh82cyj7sy1">
         <img src="/img/vlbanner.png" itemprop="image">
       </a>
     
@@ -145,12 +234,12 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/verilog/" data-id="ck651l5wp001cnwh85vot6wkt" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/verilog/" data-id="ckhsyzxjg00422uh82cyj7sy1" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/verilog/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Verilog/">Verilog</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Verilog/" rel="tag">Verilog</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/" rel="tag">macOS</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -160,7 +249,7 @@
           <div class="toggle-content">
             <p>这学期上VLSI系统设计这门课，同时顺带着把计算机设计与调试的课程设计做了。往FPGA上烧写之前要用Verilog进行仿真，在实验室直接用机房的ModelSim仿真了，但是课下在虚拟机上做有诸多的不便，于是就研究了一下在Mac下写Verilog的方法。</p>
 <h1 id="配置Sublime代码高亮"><a href="#配置Sublime代码高亮" class="headerlink" title="配置Sublime代码高亮"></a>配置Sublime代码高亮</h1><p>Sublime Text默认是不支持Verilog代码高亮的，可以通过安装插件增加对其的支持。首先要安装Sublime包管理工具，按<code>control+` </code>打开控制台，并运行以下代码（以Sublime Text 2为例）：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2,os,hashlib; h = <span class="string">'2915d1851351e5ee549c20394736b442'</span> + <span class="string">'8bc59f460fa1548d1514676163dafc88'</span>; pf = <span class="string">'Package Control.sublime-package'</span>; ipp = sublime.installed_packages_path(); os.makedirs( ipp ) <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(ipp) <span class="keyword">else</span> <span class="keyword">None</span>; urllib2.install_opener( urllib2.build_opener( urllib2.ProxyHandler()) ); by = urllib2.urlopen( <span class="string">'http://packagecontrol.io/'</span> + pf.replace(<span class="string">' '</span>, <span class="string">'%20'</span>)).read(); dh = hashlib.sha256(by).hexdigest(); open( os.path.join( ipp, pf), <span class="string">'wb'</span> ).write(by) <span class="keyword">if</span> dh == h <span class="keyword">else</span> <span class="keyword">None</span>; print(<span class="string">'Error validating download (got %s instead of %s), please try manual install'</span> % (dh, h) <span class="keyword">if</span> dh != h <span class="keyword">else</span> <span class="string">'Please restart Sublime Text to finish installation'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2,os,hashlib; h = <span class="string">&#x27;2915d1851351e5ee549c20394736b442&#x27;</span> + <span class="string">&#x27;8bc59f460fa1548d1514676163dafc88&#x27;</span>; pf = <span class="string">&#x27;Package Control.sublime-package&#x27;</span>; ipp = sublime.installed_packages_path(); os.makedirs( ipp ) <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(ipp) <span class="keyword">else</span> <span class="literal">None</span>; urllib2.install_opener( urllib2.build_opener( urllib2.ProxyHandler()) ); by = urllib2.urlopen( <span class="string">&#x27;http://packagecontrol.io/&#x27;</span> + pf.replace(<span class="string">&#x27; &#x27;</span>, <span class="string">&#x27;%20&#x27;</span>)).read(); dh = hashlib.sha256(by).hexdigest(); <span class="built_in">open</span>( os.path.join( ipp, pf), <span class="string">&#x27;wb&#x27;</span> ).write(by) <span class="keyword">if</span> dh == h <span class="keyword">else</span> <span class="literal">None</span>; print(<span class="string">&#x27;Error validating download (got %s instead of %s), please try manual install&#x27;</span> % (dh, h) <span class="keyword">if</span> dh != h <span class="keyword">else</span> <span class="string">&#x27;Please restart Sublime Text to finish installation&#x27;</span>)</span><br></pre></td></tr></table></figure>
 <p>安装完后重启，按<code>command+shift+P</code>唤出命令面板，打开<code>Install Package</code>包管理工具：</p>
 <p><img src="/img/vlinstall.png" alt="Install Package"></p>
 <p>然后查找<code>Verilog</code>，将搜到的自动补全和代码高亮插件装上重启就可以了：</p>
@@ -168,11 +257,11 @@
 <h1 id="安装Icarus-Verilog"><a href="#安装Icarus-Verilog" class="headerlink" title="安装Icarus Verilog"></a>安装Icarus Verilog</h1><p>Icarus Verilog是Verilog硬件描述语言的实现工具之一。该软件以GNU通用公共许可协议发布，是一个自由软件。它支持Verilog对应的的IEEE 1995、IEEE 2001和IEEE 2005三个不同的版本，并对SystemVerilog的部分内容提供支持。</p>
 <p>首先保证已经安装了Homebrew，然后通过brew安装：</p>
 <pre><code>brew install icarus-verilog
-</code></pre><h1 id="安装Scansion"><a href="#安装Scansion" class="headerlink" title="安装Scansion"></a>安装Scansion</h1><p>Scansion是Mac平台下的一个VCD文件查看工具，可以去<a href="http://www.logicpoet.com/downloads/" target="_blank" rel="noopener">http://www.logicpoet.com/downloads/</a>下载其最新版本并安装。</p>
+</code></pre><h1 id="安装Scansion"><a href="#安装Scansion" class="headerlink" title="安装Scansion"></a>安装Scansion</h1><p>Scansion是Mac平台下的一个VCD文件查看工具，可以去<a target="_blank" rel="noopener" href="http://www.logicpoet.com/downloads/">http://www.logicpoet.com/downloads/</a>下载其最新版本并安装。</p>
 <h1 id="编译仿真"><a href="#编译仿真" class="headerlink" title="编译仿真"></a>编译仿真</h1><p>随便新建一个测试文件叫test.v：</p>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> vaddsws( vra, vrb, vrt, sat );</span><br><span class="line"></span><br><span class="line"><span class="keyword">input</span>  [<span class="number">31</span> : <span class="number">0</span>] vra;</span><br><span class="line"><span class="keyword">input</span>  [<span class="number">31</span> : <span class="number">0</span>] vrb;</span><br><span class="line"><span class="keyword">output</span> [<span class="number">31</span> : <span class="number">0</span>] vrt;</span><br><span class="line"><span class="keyword">output</span>          sat;</span><br><span class="line"></span><br><span class="line"><span class="keyword">wire</span>   [<span class="number">31</span> : <span class="number">0</span>] sum;</span><br><span class="line"><span class="keyword">wire</span>   [<span class="number">31</span> : <span class="number">0</span>] vrt;</span><br><span class="line"><span class="keyword">wire</span>            sat;</span><br><span class="line"></span><br><span class="line"><span class="keyword">assign</span> &#123;sat, sum&#125;	= vra + vrb;</span><br><span class="line"><span class="keyword">assign</span> vrt = (vra[<span class="number">31</span>]^vrb[<span class="number">31</span>]) ? sum : (vra[<span class="number">31</span>]&amp;&amp;vrb[<span class="number">31</span>] ? (sum[<span class="number">31</span>] ? sum : <span class="number">32'h80000000</span>) : (sum[<span class="number">31</span>] ? <span class="number">32'h7fffffff</span> : sum));</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> vaddsws( vra, vrb, vrt, sat );</span><br><span class="line"></span><br><span class="line"><span class="keyword">input</span>  [<span class="number">31</span> : <span class="number">0</span>] vra;</span><br><span class="line"><span class="keyword">input</span>  [<span class="number">31</span> : <span class="number">0</span>] vrb;</span><br><span class="line"><span class="keyword">output</span> [<span class="number">31</span> : <span class="number">0</span>] vrt;</span><br><span class="line"><span class="keyword">output</span>          sat;</span><br><span class="line"></span><br><span class="line"><span class="keyword">wire</span>   [<span class="number">31</span> : <span class="number">0</span>] sum;</span><br><span class="line"><span class="keyword">wire</span>   [<span class="number">31</span> : <span class="number">0</span>] vrt;</span><br><span class="line"><span class="keyword">wire</span>            sat;</span><br><span class="line"></span><br><span class="line"><span class="keyword">assign</span> &#123;sat, sum&#125;	= vra + vrb;</span><br><span class="line"><span class="keyword">assign</span> vrt = (vra[<span class="number">31</span>]^vrb[<span class="number">31</span>]) ? sum : (vra[<span class="number">31</span>]&amp;&amp;vrb[<span class="number">31</span>] ? (sum[<span class="number">31</span>] ? sum : <span class="number">32&#x27;h80000000</span>) : (sum[<span class="number">31</span>] ? <span class="number">32&#x27;h7fffffff</span> : sum));</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
 <p>再对其新建testbench文件test_tb.v：</p>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">`<span class="meta-keyword">timescale</span> 1ns/100ps</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> "test.v"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> vaddsws_tb;</span><br><span class="line"></span><br><span class="line"><span class="keyword">reg</span>	[<span class="number">31</span>: <span class="number">0</span>]	vra;</span><br><span class="line"><span class="keyword">reg</span>	[<span class="number">31</span>: <span class="number">0</span>]	vrb;</span><br><span class="line"><span class="keyword">wire</span>	[<span class="number">31</span>: <span class="number">0</span>]	vrt;</span><br><span class="line"><span class="keyword">wire</span>	sat;</span><br><span class="line"></span><br><span class="line"><span class="keyword">initial</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">	<span class="built_in">$dumpfile</span>(<span class="string">"test.vcd"</span>);</span><br><span class="line">	<span class="built_in">$dumpvars</span>(<span class="number">0</span>, vaddsws_tb);</span><br><span class="line">	<span class="keyword">assign</span> vra=<span class="number">32'hffffffff</span>;</span><br><span class="line">	<span class="keyword">assign</span> vrb=<span class="number">32'hffffffff</span>;</span><br><span class="line">	#<span class="number">100</span></span><br><span class="line">	<span class="keyword">assign</span> vra=<span class="number">32'h01234567</span>;</span><br><span class="line">	<span class="keyword">assign</span> vrb=<span class="number">32'h76543210</span>;</span><br><span class="line">	#<span class="number">100</span></span><br><span class="line">	<span class="built_in">$finish</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">vaddsws add( <span class="variable">.vra</span>(vra), <span class="variable">.vrb</span>(vrb), <span class="variable">.vrt</span>(vrt), <span class="variable">.sat</span>(sat) );</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">`<span class="meta-keyword">timescale</span> 1ns/100ps</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;test.v&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> vaddsws_tb;</span><br><span class="line"></span><br><span class="line"><span class="keyword">reg</span>	[<span class="number">31</span>: <span class="number">0</span>]	vra;</span><br><span class="line"><span class="keyword">reg</span>	[<span class="number">31</span>: <span class="number">0</span>]	vrb;</span><br><span class="line"><span class="keyword">wire</span>	[<span class="number">31</span>: <span class="number">0</span>]	vrt;</span><br><span class="line"><span class="keyword">wire</span>	sat;</span><br><span class="line"></span><br><span class="line"><span class="keyword">initial</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">	<span class="built_in">$dumpfile</span>(<span class="string">&quot;test.vcd&quot;</span>);</span><br><span class="line">	<span class="built_in">$dumpvars</span>(<span class="number">0</span>, vaddsws_tb);</span><br><span class="line">	<span class="keyword">assign</span> vra=<span class="number">32&#x27;hffffffff</span>;</span><br><span class="line">	<span class="keyword">assign</span> vrb=<span class="number">32&#x27;hffffffff</span>;</span><br><span class="line">	#<span class="number">100</span></span><br><span class="line">	<span class="keyword">assign</span> vra=<span class="number">32&#x27;h01234567</span>;</span><br><span class="line">	<span class="keyword">assign</span> vrb=<span class="number">32&#x27;h76543210</span>;</span><br><span class="line">	#<span class="number">100</span></span><br><span class="line">	<span class="built_in">$finish</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">vaddsws add( <span class="variable">.vra</span>(vra), <span class="variable">.vrb</span>(vrb), <span class="variable">.vrt</span>(vrt), <span class="variable">.sat</span>(sat) );</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
 <p>注意testbench文件的第二行中<code>include</code>宏是为了引用前一个文件的模块定义，如果在Windows下用ModelSim时把它注释掉就可以了。第13行是为了生成波形文件以便在Scansion里查看。</p>
 <p>源码编辑好后执行以下命令编译执行：</p>
 <pre><code>iverilog -o test.vvp test_tb.v
@@ -213,7 +302,7 @@
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/网络/">网络</a>►<a class="article-category-link" href="/categories/网络/网站部署/">网站部署</a>
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>►<a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a>
   </div>
 
   </div>
@@ -222,7 +311,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/lempbanner.png" rel="gallery_ck651l5w5000bnwh8fs5smhsa">
+      <a class="article-gallery-img fancybox" href="/img/lempbanner.png" rel="gallery_ckhsyzxie000i2uh8hbpn5wbr">
         <img src="/img/lempbanner.png" itemprop="image">
       </a>
     
@@ -241,12 +330,12 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/centos-lemp/" data-id="ck651l5w5000bnwh8fs5smhsa" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/centos-lemp/" data-id="ckhsyzxie000i2uh8hbpn5wbr" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/centos-lemp/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LEMP/">LEMP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/服务器/">服务器</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LEMP/" rel="tag">LEMP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/" rel="tag">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -277,9 +366,9 @@ systemctl enable mysqld
 rpm -ivh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 yum update
 </code></pre><p>然后编辑<code>/etc/yum.repos.d/remi.repo</code>文件：</p>
-<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">[remi]</span></span><br><span class="line">name=Remi's RPM repository for Enterprise Linux <span class="number">7</span> - $basearch</span><br><span class="line">#baseurl=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/remi/$basearch/</span><br><span class="line">mirrorlist=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/remi/mirror</span><br><span class="line">enabled=<span class="number">1</span></span><br><span class="line">gpgcheck=<span class="number">1</span></span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi</span><br></pre></td></tr></table></figure>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">[remi]</span></span><br><span class="line">name=Remi&#x27;s RPM repository for Enterprise Linux <span class="number">7</span> - $basearch</span><br><span class="line">#baseurl=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/remi/$basearch/</span><br><span class="line">mirrorlist=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/remi/mirror</span><br><span class="line">enabled=<span class="number">1</span></span><br><span class="line">gpgcheck=<span class="number">1</span></span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi</span><br></pre></td></tr></table></figure>
 <p>请确保<code>[remi]</code>中的<code>enabled</code>的值是<code>1</code>。然后向下查看，在想要安装的php的版本（<code>[remi-php55]</code>或<code>[remi-php56]</code>）一段将对应的<code>enabled</code>的值改为<code>1</code>，例如：</p>
-<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">[remi-php55]</span></span><br><span class="line">name=Remi's PHP <span class="number">5</span>.<span class="number">5</span> RPM repository for Enterprise Linux <span class="number">7</span> - $basearch</span><br><span class="line">#baseurl=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/php55/$basearch/</span><br><span class="line">mirrorlist=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/php55/mirror</span><br><span class="line"># NOTICE: common dependencies are in <span class="string">"remi-safe"</span></span><br><span class="line">enabled=<span class="number">0</span></span><br><span class="line">gpgcheck=<span class="number">1</span></span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi</span><br><span class="line"></span><br><span class="line"><span class="string">[remi-php56]</span></span><br><span class="line">name=Remi's PHP <span class="number">5</span>.<span class="number">6</span> RPM repository for Enterprise Linux <span class="number">7</span> - $basearch</span><br><span class="line">#baseurl=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/php56/$basearch/</span><br><span class="line">mirrorlist=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/php56/mirror</span><br><span class="line"># NOTICE: common dependencies are in <span class="string">"remi-safe"</span></span><br><span class="line">enabled=<span class="number">1</span></span><br><span class="line">gpgcheck=<span class="number">1</span></span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi</span><br></pre></td></tr></table></figure>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">[remi-php55]</span></span><br><span class="line">name=Remi&#x27;s PHP <span class="number">5</span>.<span class="number">5</span> RPM repository for Enterprise Linux <span class="number">7</span> - $basearch</span><br><span class="line">#baseurl=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/php55/$basearch/</span><br><span class="line">mirrorlist=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/php55/mirror</span><br><span class="line"># NOTICE: common dependencies are in <span class="string">&quot;remi-safe&quot;</span></span><br><span class="line">enabled=<span class="number">0</span></span><br><span class="line">gpgcheck=<span class="number">1</span></span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi</span><br><span class="line"></span><br><span class="line"><span class="string">[remi-php56]</span></span><br><span class="line">name=Remi&#x27;s PHP <span class="number">5</span>.<span class="number">6</span> RPM repository for Enterprise Linux <span class="number">7</span> - $basearch</span><br><span class="line">#baseurl=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/php56/$basearch/</span><br><span class="line">mirrorlist=http://rpms.remirepo.net/enterprise/<span class="number">7</span>/php56/mirror</span><br><span class="line"># NOTICE: common dependencies are in <span class="string">&quot;remi-safe&quot;</span></span><br><span class="line">enabled=<span class="number">1</span></span><br><span class="line">gpgcheck=<span class="number">1</span></span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi</span><br></pre></td></tr></table></figure>
 <p>保存之后就可以用yum命令安装较新的PHP了：</p>
 <pre><code>yum install php php-fpm php-mysql
 </code></pre><p>当然以后如果发现缺了什么php的组件也可以通过这种方式安装，例如：</p>
@@ -297,10 +386,10 @@ systemctl enable nginx
 </code></pre><p>然后在<code>/etc/nginx/nginx.conf</code>的<code>http</code>段中加入一句：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include /etc/nginx/conf.d/*.conf;</span><br></pre></td></tr></table></figure>
 <p>编辑<code>/etc/nginx/conf.d/default.conf</code>文件（若不存在请新建，以后就可以在这里修改配置了）：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span>  your_domain;</span><br><span class="line">    <span class="attribute">return</span> <span class="number">301</span> https://<span class="variable">$server_name</span><span class="variable">$request_uri</span>;</span><br><span class="line">    <span class="comment">#charset koi8-r;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#access_log  logs/host.access.log  main;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Load configuration files for the default server block.</span></span><br><span class="line">    </span><br><span class="line">    <span class="attribute">include</span> /etc/nginx/default.d/<span class="regexp">*.conf</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/html;</span><br><span class="line">        <span class="attribute">index</span>  index.html index.htm index.php;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_page</span>  <span class="number">404</span>              /<span class="number">404</span>.html;</span><br><span class="line">    <span class="attribute">location</span> = /<span class="number">404</span>.html &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># redirect server error pages to the static page /50x.html</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="attribute">error_page</span>   <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">    <span class="attribute">location</span> = /50x.html &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># proxy the PHP scripts to Apache listening on 127.0.0.1:80</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#location ~ \.php$ &#123;</span></span><br><span class="line">    <span class="comment">#    proxy_pass   http://127.0.0.1;</span></span><br><span class="line">    <span class="comment">#&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#location ~ \.php$ &#123;</span></span><br><span class="line">    <span class="comment">#    root           html;</span></span><br><span class="line">    <span class="comment">#    fastcgi_pass   127.0.0.1:9000;</span></span><br><span class="line">    <span class="comment">#    fastcgi_index  index.php;</span></span><br><span class="line">    <span class="comment">#    fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</span></span><br><span class="line">    <span class="comment">#    include        fastcgi_params;</span></span><br><span class="line">    <span class="comment">#&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># deny access to .htaccess files, if Apache's document root</span></span><br><span class="line">    <span class="comment"># concurs with nginx's one</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#location ~ /\.ht &#123;</span></span><br><span class="line">    <span class="comment">#    deny  all;</span></span><br><span class="line">    <span class="comment">#&#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span>  your_domain;</span><br><span class="line">    <span class="attribute">return</span> <span class="number">301</span> https://$server_name$request_uri;</span><br><span class="line">    <span class="comment">#charset koi8-r;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#access_log  logs/host.access.log  main;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Load configuration files for the default server block.</span></span><br><span class="line">    </span><br><span class="line">    <span class="attribute">include</span> /etc/nginx/default.d/<span class="regexp">*.conf</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/html;</span><br><span class="line">        <span class="attribute">index</span>  index.html index.htm index.php;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_page</span>  <span class="number">404</span>              /<span class="number">404</span>.html;</span><br><span class="line">    <span class="attribute">location</span> = /<span class="number">404</span>.html &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># redirect server error pages to the static page /50x.html</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="attribute">error_page</span>   <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">    <span class="attribute">location</span> = /50x.html &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># proxy the PHP scripts to Apache listening on 127.0.0.1:80</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#location ~ \.php$ &#123;</span></span><br><span class="line">    <span class="comment">#    proxy_pass   http://127.0.0.1;</span></span><br><span class="line">    <span class="comment">#&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#location ~ \.php$ &#123;</span></span><br><span class="line">    <span class="comment">#    root           html;</span></span><br><span class="line">    <span class="comment">#    fastcgi_pass   127.0.0.1:9000;</span></span><br><span class="line">    <span class="comment">#    fastcgi_index  index.php;</span></span><br><span class="line">    <span class="comment">#    fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</span></span><br><span class="line">    <span class="comment">#    include        fastcgi_params;</span></span><br><span class="line">    <span class="comment">#&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># deny access to .htaccess files, if Apache&#x27;s document root</span></span><br><span class="line">    <span class="comment"># concurs with nginx&#x27;s one</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#location ~ /\.ht &#123;</span></span><br><span class="line">    <span class="comment">#    deny  all;</span></span><br><span class="line">    <span class="comment">#&#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>保存后通过<code>systemctl restart nginx</code>命令重启Nginx。然后在根目录下新建一个html文件并从浏览器访问它看看是不是正常显示。</p>
 <h1 id="配置Nginx和PHP"><a href="#配置Nginx和PHP" class="headerlink" title="配置Nginx和PHP"></a>配置Nginx和PHP</h1><p>继续编辑<code>/etc/nginx/conf.d/default.conf</code>文件，将<code>location ~ \.php$</code>一段解注释，并改成如下样子：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span> <span class="regexp">~ \.php$</span> &#123;</span><br><span class="line">    <span class="attribute">root</span>	   /usr/share/nginx/html;</span><br><span class="line">    <span class="attribute">fastcgi_pass</span>   <span class="number">127.0.0.1:9000</span>;</span><br><span class="line">    <span class="attribute">fastcgi_index</span>  index.php;</span><br><span class="line">    <span class="attribute">fastcgi_param</span>  SCRIPT_FILENAME  <span class="variable">$document_root</span><span class="variable">$fastcgi_script_name</span>;</span><br><span class="line">    <span class="attribute">include</span>        fastcgi_params;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span> <span class="regexp">~ \.php$</span> &#123;</span><br><span class="line">    <span class="attribute">root</span>	   /usr/share/nginx/html;</span><br><span class="line">    <span class="attribute">fastcgi_pass</span>   <span class="number">127.0.0.1:9000</span>;</span><br><span class="line">    <span class="attribute">fastcgi_index</span>  index.php;</span><br><span class="line">    <span class="attribute">fastcgi_param</span>  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</span><br><span class="line">    <span class="attribute">include</span>        fastcgi_params;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其中要注意<code>root</code>改成网页的根目录，此外还要确保<code>location /</code>的<code>index</code>中有<code>index.php</code>。然后通过<code>systemctl restart nginx</code>命令重启Nginx。</p>
 <p>再编辑<code>/etc/php-php.d/www.conf</code>将<code>user</code>和<code>group</code>的值改为<code>nginx</code>（默认应该是<code>apache</code>）：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">user = nginx</span><br><span class="line">group = nginx</span><br></pre></td></tr></table></figure>
@@ -342,7 +431,7 @@ systemctl enable nginx
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/ACG/">ACG</a>►<a class="article-category-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a>
+    <a class="article-category-link" href="/categories/ACG/">ACG</a>►<a class="article-category-link" href="/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/">艦隊これくしょん</a>
   </div>
 
   </div>
@@ -351,7 +440,7 @@ systemctl enable nginx
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/kcbanner.png" rel="gallery_ck651l5wd000pnwh8gf23fxl8">
+      <a class="article-gallery-img fancybox" href="/img/kcbanner.png" rel="gallery_ckhsyzxiv001m2uh804jv7fjo">
         <img src="/img/kcbanner.png" itemprop="image">
       </a>
     
@@ -370,12 +459,12 @@ systemctl enable nginx
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/kancolle-cookie/" data-id="ck651l5wd000pnwh8gf23fxl8" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/kancolle-cookie/" data-id="ckhsyzxiv001m2uh804jv7fjo" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/kancolle-cookie/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/游戏/">游戏</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/舰队Collection/">舰队Collection</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B8%B8%E6%88%8F/" rel="tag">游戏</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%88%B0%E9%98%9FCollection/" rel="tag">舰队Collection</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -389,7 +478,7 @@ systemctl enable nginx
 <p><img src="/img/kcen.png" alt="地区错误"></p>
 <p>之前玩舰娘不是使用ShadowSocks就是使用VPN，后来也曾一度使用改hosts搭配国内VPN的方式（因为只改hosts在有的网络环境下会出现白屏）。觉得这些方式都太繁琐并且过于依赖网络代理，后来就找到一种注入Cookie的方法。</p>
 <p>直连方法是利用DMM在大部分时间都不检查用户IP这个特性，通过技术手段绕过IP验证的环节来达到直接连接的目的，更改浏览器或者舰娘辅助工具（比如Poi）的Cookie来使服务器不去验证用户的地域信息。</p>
-<h1 id="清空Cookie"><a href="#清空Cookie" class="headerlink" title="清空Cookie"></a>清空Cookie</h1><p>首先打开<a href="http://www.dmm.com/" target="_blank" rel="noopener">DMM</a>主页并选择语言为<strong>日本语</strong>：</p>
+<h1 id="清空Cookie"><a href="#清空Cookie" class="headerlink" title="清空Cookie"></a>清空Cookie</h1><p>首先打开<a target="_blank" rel="noopener" href="http://www.dmm.com/">DMM</a>主页并选择语言为<strong>日本语</strong>：</p>
 <p><img src="/img/kcjp.png" alt="选择语言"></p>
 <p>然后清一下Cookie：</p>
 <p><img src="/img/kccookie.png" alt="删除Cookie"></p>
@@ -403,7 +492,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
 <blockquote>
 <p>“ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-netgame.dmm.com;path=/“</p>
 </blockquote>
-<p>则说明注入成功。这时再次进入舰娘的页面<a href="http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/" target="_blank" rel="noopener">-艦これ-</a>则会正常打开：</p>
+<p>则说明注入成功。这时再次进入舰娘的页面<a target="_blank" rel="noopener" href="http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/">-艦これ-</a>则会正常打开：</p>
 <p><img src="/img/kchome.png" alt="舰娘主页"></p>
 <p>登陆后就会顺利进入游戏了：</p>
 <p><img src="/img/kcgame.png" alt="进入游戏"></p>
@@ -451,7 +540,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/mcbanner.png" rel="gallery_ck651l5wg000unwh84lfm3ibx">
+      <a class="article-gallery-img fancybox" href="/img/mcbanner.png" rel="gallery_ckhsyzxiz00232uh8h15t6hrz">
         <img src="/img/mcbanner.png" itemprop="image">
       </a>
     
@@ -470,12 +559,12 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/minecraft/" data-id="ck651l5wg000unwh84lfm3ibx" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/minecraft/" data-id="ckhsyzxiz00232uh8h15t6hrz" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/minecraft/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Minecraft/">Minecraft</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/服务器/">服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/游戏/">游戏</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Minecraft/" rel="tag">Minecraft</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B8%B8%E6%88%8F/" rel="tag">游戏</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -488,15 +577,15 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
 <pre><code>yum install java
 </code></pre><p>好像比其他平台的安装简单得多。然后为了让Minecraft在后台运行而不受终端操作的干扰，要装一个screen：</p>
 <pre><code>yum install screen
-</code></pre><h1 id="启动游戏"><a href="#启动游戏" class="headerlink" title="启动游戏"></a>启动游戏</h1><p>因为最开始要安装到<strong>树莓派</strong>上，硬件资源有限，所以这里介绍一个叫<a href="https://getbukkit.org/download/spigot" target="_blank" rel="noopener">SpigotMC</a>的轻量级MC服务器端，是Bukkit的优化版，但是可能游戏中有些材质无法使用。新建一个目录将下载的spigot.jar放进去，然后用以下命令启动：</p>
+</code></pre><h1 id="启动游戏"><a href="#启动游戏" class="headerlink" title="启动游戏"></a>启动游戏</h1><p>因为最开始要安装到<strong>树莓派</strong>上，硬件资源有限，所以这里介绍一个叫<a target="_blank" rel="noopener" href="https://getbukkit.org/download/spigot">SpigotMC</a>的轻量级MC服务器端，是Bukkit的优化版，但是可能游戏中有些材质无法使用。新建一个目录将下载的spigot.jar放进去，然后用以下命令启动：</p>
 <pre><code>java -Xms256M -Xmx512M -jar spigot.jar nogui
-</code></pre><p>后来发现<a href="https://minecraft.net/zh-hans/download/server/" target="_blank" rel="noopener">微软官网</a>有了服务器版的下载，所以服务器配置足够好的话运行这个也是没有问题的，同样是先下载对应版本的server.jar，启动命令相同：</p>
+</code></pre><p>后来发现<a target="_blank" rel="noopener" href="https://minecraft.net/zh-hans/download/server/">微软官网</a>有了服务器版的下载，所以服务器配置足够好的话运行这个也是没有问题的，同样是先下载对应版本的server.jar，启动命令相同：</p>
 <pre><code>java -Xms512M -Xmx1024M -jar server.jar nogui
 </code></pre><p>其中前两个参数是指定MC运行的内存范围，然后会出现一系列启动信息，最后就是<code>Stopping server</code>。    </p>
 <h1 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h1><p>启动之后MC的目录下会生成一些其他的文件，先编辑<code>eula.txt</code>，将<code>eula</code>的值改为<code>true</code>：</p>
 <pre><code>eula=true
 </code></pre><p>然后编辑<code>server.properties</code>，开始里面应除了一些注释没有其他内容，将以下内容加进去：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">generator-settings</span>=                 #用于设置超平坦世界的函数，留空即可</span><br><span class="line"><span class="attr">op-permission-level</span>=<span class="number">4</span>               #设置OP的许可权等级</span><br><span class="line"><span class="attr">allow-nether</span>=<span class="literal">true</span>                   #是否允许生成/进入下界</span><br><span class="line"><span class="attr">level-name</span>=world                    #世界名称及其文件夹名</span><br><span class="line"><span class="attr">enable-query</span>=<span class="literal">false</span>                  #允许使用GameSpy4协议的服务器监听器</span><br><span class="line"><span class="attr">allow-flight</span>=<span class="literal">false</span>                  #是否允许玩家在生存模式透过MOD飞行</span><br><span class="line"><span class="attr">announce-player-achievements</span>=<span class="literal">true</span>   #是否公开显示玩家成就</span><br><span class="line"><span class="attr">server-port</span>=<span class="number">25565</span>                   #服务器端口（默认为<span class="number">25565</span>）</span><br><span class="line"><span class="attr">level-type</span>=DEFAULT                  #世界类型</span><br><span class="line"><span class="attr">enable-rcon</span>=<span class="literal">false</span>                   #是否允许远程访问服务器仪表盘</span><br><span class="line"><span class="attr">level-seed</span>=                         #世界种子</span><br><span class="line"><span class="attr">force-gamemode</span>=<span class="literal">false</span>                #玩家是否总是以默认游戏模式进入服务器</span><br><span class="line"><span class="attr">server-ip</span>=                          #服务器IP，一般来说留空即可</span><br><span class="line"><span class="attr">max-build-height</span>=<span class="number">256</span>                #最高建筑高度（最高<span class="number">256</span>）</span><br><span class="line"><span class="attr">spawn-npcs</span>=<span class="literal">true</span>                     #是否生成村民NPC</span><br><span class="line"><span class="attr">white-list</span>=<span class="literal">false</span>                    #是否开启白名单认证</span><br><span class="line"><span class="attr">spawn-animals</span>=<span class="literal">true</span>                  #是否生成动物</span><br><span class="line"><span class="attr">hardcore</span>=<span class="literal">false</span>                      #是否开启极限模式</span><br><span class="line"><span class="attr">snooper-enabled</span>=<span class="literal">true</span>                #是否允许服务器定期发送统计数据</span><br><span class="line"><span class="attr">online-mode</span>=<span class="literal">false</span>                   #是否开启正版认证（开启后只有正版玩家可进入）</span><br><span class="line"><span class="attr">resource-pack</span>=                      #资源包URL（可让玩家选择是否使用服务器提供的资源包）</span><br><span class="line"><span class="attr">pvp</span>=<span class="literal">true</span>                            #可否PVP</span><br><span class="line"><span class="attr">difficulty</span>=<span class="number">1</span>                        #难度</span><br><span class="line"><span class="attr">enable-command-block</span>=<span class="literal">false</span>          #是否可以使用命令方块</span><br><span class="line"><span class="attr">gamemode</span>=<span class="number">0</span>                          #默认游戏模式</span><br><span class="line"><span class="attr">player-idle-timeout</span>=<span class="number">0</span>               #如果该玩家无反应超过这个分钟数将会被踢出</span><br><span class="line"><span class="attr">max-players</span>=<span class="number">20</span>                      #最大玩家数量</span><br><span class="line"><span class="attr">spawn-monsters</span>=<span class="literal">true</span>                 #是否生成怪物</span><br><span class="line"><span class="attr">generate-structures</span>=<span class="literal">true</span>            #是否生成建筑物</span><br><span class="line"><span class="attr">view-distance</span>=<span class="number">10</span>                    #客户端视野距离的上限</span><br><span class="line"><span class="attr">motd</span>=A Minecraft Server             #服务器在服务器列表页所显示的信息</span><br></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">generator-settings=                 #用于设置超平坦世界的函数，留空即可</span><br><span class="line"><span class="attr">op-permission-level</span>=<span class="number">4</span>               <span class="comment">#设置OP的许可权等级</span></span><br><span class="line"><span class="attr">allow-nether</span>=<span class="literal">true</span>                   <span class="comment">#是否允许生成/进入下界</span></span><br><span class="line"><span class="attr">level-name</span>=world                    <span class="comment">#世界名称及其文件夹名</span></span><br><span class="line"><span class="attr">enable-query</span>=<span class="literal">false</span>                  <span class="comment">#允许使用GameSpy4协议的服务器监听器</span></span><br><span class="line"><span class="attr">allow-flight</span>=<span class="literal">false</span>                  <span class="comment">#是否允许玩家在生存模式透过MOD飞行</span></span><br><span class="line"><span class="attr">announce-player-achievements</span>=<span class="literal">true</span>   <span class="comment">#是否公开显示玩家成就</span></span><br><span class="line"><span class="attr">server-port</span>=<span class="number">25565</span>                   <span class="comment">#服务器端口（默认为25565）</span></span><br><span class="line"><span class="attr">level-type</span>=DEFAULT                  <span class="comment">#世界类型</span></span><br><span class="line"><span class="attr">enable-rcon</span>=<span class="literal">false</span>                   <span class="comment">#是否允许远程访问服务器仪表盘</span></span><br><span class="line">level-seed=                         #世界种子</span><br><span class="line"><span class="attr">force-gamemode</span>=<span class="literal">false</span>                <span class="comment">#玩家是否总是以默认游戏模式进入服务器</span></span><br><span class="line">server-ip=                          #服务器IP，一般来说留空即可</span><br><span class="line"><span class="attr">max-build-height</span>=<span class="number">256</span>                <span class="comment">#最高建筑高度（最高256）</span></span><br><span class="line"><span class="attr">spawn-npcs</span>=<span class="literal">true</span>                     <span class="comment">#是否生成村民NPC</span></span><br><span class="line"><span class="attr">white-list</span>=<span class="literal">false</span>                    <span class="comment">#是否开启白名单认证</span></span><br><span class="line"><span class="attr">spawn-animals</span>=<span class="literal">true</span>                  <span class="comment">#是否生成动物</span></span><br><span class="line"><span class="attr">hardcore</span>=<span class="literal">false</span>                      <span class="comment">#是否开启极限模式</span></span><br><span class="line"><span class="attr">snooper-enabled</span>=<span class="literal">true</span>                <span class="comment">#是否允许服务器定期发送统计数据</span></span><br><span class="line"><span class="attr">online-mode</span>=<span class="literal">false</span>                   <span class="comment">#是否开启正版认证（开启后只有正版玩家可进入）</span></span><br><span class="line">resource-pack=                      #资源包URL（可让玩家选择是否使用服务器提供的资源包）</span><br><span class="line"><span class="attr">pvp</span>=<span class="literal">true</span>                            <span class="comment">#可否PVP</span></span><br><span class="line"><span class="attr">difficulty</span>=<span class="number">1</span>                        <span class="comment">#难度</span></span><br><span class="line"><span class="attr">enable-command-block</span>=<span class="literal">false</span>          <span class="comment">#是否可以使用命令方块</span></span><br><span class="line"><span class="attr">gamemode</span>=<span class="number">0</span>                          <span class="comment">#默认游戏模式</span></span><br><span class="line"><span class="attr">player-idle-timeout</span>=<span class="number">0</span>               <span class="comment">#如果该玩家无反应超过这个分钟数将会被踢出</span></span><br><span class="line"><span class="attr">max-players</span>=<span class="number">20</span>                      <span class="comment">#最大玩家数量</span></span><br><span class="line"><span class="attr">spawn-monsters</span>=<span class="literal">true</span>                 <span class="comment">#是否生成怪物</span></span><br><span class="line"><span class="attr">generate-structures</span>=<span class="literal">true</span>            <span class="comment">#是否生成建筑物</span></span><br><span class="line"><span class="attr">view-distance</span>=<span class="number">10</span>                    <span class="comment">#客户端视野距离的上限</span></span><br><span class="line"><span class="attr">motd</span>=A Minecraft Server             <span class="comment">#服务器在服务器列表页所显示的信息</span></span><br></pre></td></tr></table></figure>
 <p>可以按照注释自己进行修改，注意如果没有购买正版需要将<code>online-mode</code>一项改为<code>false</code>。</p>
 <p>一切完成后新开一个screen来启动MC：</p>
 <pre><code>screen -S mc
@@ -538,7 +627,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/网络/">网络</a>►<a class="article-category-link" href="/categories/网络/科学上网/">科学上网</a>
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>►<a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a>
   </div>
 
   </div>
@@ -547,7 +636,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/vpnbanner.png" rel="gallery_ck651l5wl0014nwh8pvqwhxq3">
+      <a class="article-gallery-img fancybox" href="/img/vpnbanner.png" rel="gallery_ckhsyzxj800362uh82xt3h5vl">
         <img src="/img/vpnbanner.png" itemprop="image">
       </a>
     
@@ -566,12 +655,12 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/softether/" data-id="ck651l5wl0014nwh8pvqwhxq3" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/softether/" data-id="ckhsyzxj800362uh82xt3h5vl" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/softether/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SoftEther/">SoftEther</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/">VPN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/代理/">代理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/服务器/">服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/科学上网/">科学上网</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SoftEther/" rel="tag">SoftEther</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/" rel="tag">VPN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/" rel="tag">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" rel="tag">科学上网</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -584,12 +673,12 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
 <p>FFF国的小张和小王是<em>异地双性恋</em>，他们之间经常互通情书。但是FFF国有一个规定，就是异性青少年不能互通信件，否则就要被双双烧死。于是这对情侣就拜托他们的父亲老张和<del>隔壁</del>老王代为收发信件：小张和小王写完信后各自放在信封中封好，信封上分别写上<code>小王亲启</code>和<code>小张亲启</code>，然后分别交给他们的父亲，老张和老王把信封又装进一个大信封中，上面分别写上<code>老王收</code>和<code>老张收</code>再寄出。自然之后老张和老王会收到信件，拆开大信封后发现不是给自己的就转交给自己的孩子，这对情侣就这样达到了通信目的。</p>
 </blockquote>
 <p>看了VPN的原理，我们很容易想到可以用这种方式来科学上网。我们虽然不能直接和被墙的网站通讯，但我们可以通过VPN的方式躲过GFW的追杀。</p>
-<p><a href="https://www.softether.org/" target="_blank" rel="noopener">SoftEther VPN</a>是由日本筑波大学的<a href="http://dnobori.cs.tsukuba.ac.jp/en/" target="_blank" rel="noopener">登 大遊</a>在硕士论文中提出的开源、跨平台、多重协议的虚拟专用网方案，是专门为穿过防火墙而设计的。我们可以用它在自己的VPS上搭建一个简单的VPN来使用。</p>
+<p><a target="_blank" rel="noopener" href="https://www.softether.org/">SoftEther VPN</a>是由日本筑波大学的<a target="_blank" rel="noopener" href="http://dnobori.cs.tsukuba.ac.jp/en/">登 大遊</a>在硕士论文中提出的开源、跨平台、多重协议的虚拟专用网方案，是专门为穿过防火墙而设计的。我们可以用它在自己的VPS上搭建一个简单的VPN来使用。</p>
 <h1 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h1><h2 id="下载解压"><a href="#下载解压" class="headerlink" title="下载解压"></a>下载解压</h2><p>首先要在服务器上下载并解压安装文件，一定注意是32位还是64位（可通过<code>uname -a</code>命令查看）。<br>32位系统：</p>
 <pre><code>wget http://jp.softether-download.com/files/softether/v4.20-9608-rtm-2016.04.17-tree/Linux/SoftEther_VPN_Server/32bit_-_Intel_x86/softether-vpnserver-v4.20-9608-rtm-2016.04.17-linux-x86-32bit.tar.gz
 </code></pre><p>64位系统：</p>
 <pre><code>wget http://jp.softether-download.com/files/softether/v4.20-9608-rtm-2016.04.17-tree/Linux/SoftEther_VPN_Server/64bit_-_Intel_x64_or_AMD64/softether-vpnserver-v4.20-9608-rtm-2016.04.17-linux-x64-64bit.tar.gz
-</code></pre><p>以上为截止发布本文时的最新版本，建议从<a href="http://www.softether-download.com/en.aspx?product=softether" target="_blank" rel="noopener">SoftEther官方网站</a>获取最新版本。</p>
+</code></pre><p>以上为截止发布本文时的最新版本，建议从<a target="_blank" rel="noopener" href="http://www.softether-download.com/en.aspx?product=softether">SoftEther官方网站</a>获取最新版本。</p>
 <h2 id="安装启动"><a href="#安装启动" class="headerlink" title="安装启动"></a>安装启动</h2><p>先解压（建议装到<code>/usr/local</code>下）：</p>
 <pre><code>tar -zxvf softether-vpnserver-*.tar.gz
 </code></pre><p><code>cd vpnserver</code>进入到解压目录下并启动安装脚本<code>./.install.sh</code>：</p>
@@ -652,7 +741,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
 <p>VPN Server&gt;</p>
 </blockquote>
 <p>这时我们需要输入<code>ServerPasswordSet</code>命令设置远程管理密码，确认密码后就可以通过Windows版的<code>SoftEther VPN Server Manager</code>远程管理了。</p>
-<h1 id="VPN管理"><a href="#VPN管理" class="headerlink" title="VPN管理"></a>VPN管理</h1><p>首先下载并安装<a href="http://softether-download.com/en.aspx" target="_blank" rel="noopener">SoftEther VPN Server Manager</a>（居然最近移植了Mac版），其实只用到了管理工具：</p>
+<h1 id="VPN管理"><a href="#VPN管理" class="headerlink" title="VPN管理"></a>VPN管理</h1><p>首先下载并安装<a target="_blank" rel="noopener" href="http://softether-download.com/en.aspx">SoftEther VPN Server Manager</a>（居然最近移植了Mac版），其实只用到了管理工具：</p>
 <p><img src="/img/vpnsetup.png" alt="Setup Wizard"></p>
 <p>安装之后运行它：</p>
 <p><img src="/img/vpnnew.png" alt="Server Manager"></p>
@@ -711,8 +800,8 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
 <p>上述设备安装好客户端以后，将之前生成的<code>.ovpn</code>文件传到设备中，用OpenVPN打开即可，之后还会需要输入之前设置的用户名密码之类的，这里不再赘述。</p>
 <h3 id="macOS"><a href="#macOS" class="headerlink" title="macOS"></a>macOS</h3><p>因为没有找到Mac上的OpenVPN客户端，所以使用了一个叫做<strong>Tunnelblick</strong>的App，功能类似。</p>
 <p><img src="/img/vpntunnel.png" alt="Tunnelblick"></p>
-<p>到<a href="https://tunnelblick.net/downloads.html" target="_blank" rel="noopener">Tunnelblick官网</a>下载后，同样将<code>.ovpn</code>文件用它打开就可以了，输入用户名密码后就连上了。</p>
-<h3 id="Windows-1"><a href="#Windows-1" class="headerlink" title="Windows"></a>Windows</h3><p>从理论上讲IPv6的VPN用Windows自带的VPN连接就可以（同IPv4），把地址变一下就可以了。如果遇到不能连接的情况也可以试一下OpenVPN的Windows版，去<a href="https://openvpn.net/index.php/open-source/downloads.html" target="_blank" rel="noopener">OpenVPN官网</a>下载即可。</p>
+<p>到<a target="_blank" rel="noopener" href="https://tunnelblick.net/downloads.html">Tunnelblick官网</a>下载后，同样将<code>.ovpn</code>文件用它打开就可以了，输入用户名密码后就连上了。</p>
+<h3 id="Windows-1"><a href="#Windows-1" class="headerlink" title="Windows"></a>Windows</h3><p>从理论上讲IPv6的VPN用Windows自带的VPN连接就可以（同IPv4），把地址变一下就可以了。如果遇到不能连接的情况也可以试一下OpenVPN的Windows版，去<a target="_blank" rel="noopener" href="https://openvpn.net/index.php/open-source/downloads.html">OpenVPN官网</a>下载即可。</p>
 
           </div>
           <div class="toggle-input article-more-link"><a>Read More +</a></div>
@@ -747,7 +836,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/网络/">网络</a>►<a class="article-category-link" href="/categories/网络/网站部署/">网站部署</a>
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>►<a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a>
   </div>
 
   </div>
@@ -756,7 +845,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/sslbanner.png" rel="gallery_ck651l5wn0017nwh85aeyvuc7">
+      <a class="article-gallery-img fancybox" href="/img/sslbanner.png" rel="gallery_ckhsyzxjb003i2uh8fi4w389x">
         <img src="/img/sslbanner.png" itemprop="image">
       </a>
     
@@ -775,12 +864,12 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/ssl/" data-id="ck651l5wn0017nwh85aeyvuc7" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/ssl/" data-id="ckhsyzxjb003i2uh8fi4w389x" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/ssl/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSL/">SSL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/服务器/">服务器</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSL/" rel="tag">SSL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/" rel="tag">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -791,7 +880,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
             <p>超文本传输安全协议（HTTPS）是一种网络安全传输协议。在计算机网络上，HTTPS经由超文本传输协议进行通讯，但利用SSL/TLS来对数据包进行加密。HTTPS开发的主要目的，是提供对网络服务器的身份认证，保护交换数据的隐私与完整性。</p>
 <p>如今越来越多的个人网站使用HTTPS协议，所以感觉自己的网站不装这么一个逼就落伍了。看着自己的主页地址栏前面有一个绿色的<code>https</code>也感觉安全了许多<del>虽然并没有什么卵用</del>。</p>
 <h1 id="申请证书"><a href="#申请证书" class="headerlink" title="申请证书"></a>申请证书</h1><p>要使用HTTPS协议首先要有一个值得信任的证书颁发机构给你的网站颁发的证书。目前免费的SSL证书颁发机构有很多，本文以从<strong>沃通</strong>上申请证书为例。</p>
-<h2 id="填写信息"><a href="#填写信息" class="headerlink" title="填写信息"></a>填写信息</h2><p>首先到<a href="https://buy.wosign.com/free/" target="_blank" rel="noopener">沃通官网</a>注册账号并登录。</p>
+<h2 id="填写信息"><a href="#填写信息" class="headerlink" title="填写信息"></a>填写信息</h2><p>首先到<a target="_blank" rel="noopener" href="https://buy.wosign.com/free/">沃通官网</a>注册账号并登录。</p>
 <p>然后会出现以下界面：</p>
 <p><img src="/img/ssl1.png" alt="填写信息"></p>
 <p>单次申请支持1个证书5个域名2年期限，证书可选中英文，提交就好了。</p>
@@ -812,7 +901,7 @@ scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
 <p>解开注释并将证书文件路径写进去保存，然后运行<code>nginx -s reload</code>重新加载配置文件即可。</p>
 <h2 id="强制跳转"><a href="#强制跳转" class="headerlink" title="强制跳转"></a>强制跳转</h2><p>经过之前的配置必须在地址里写上<code>https</code>才会跳转到HTTPS域名，不然还是会跳转到HTTP的。</p>
 <p>所以还要编辑<code>/etc/nginx/conf.d</code>下的<code>default.conf</code>文件：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">80</span> default_server;</span><br><span class="line">    <span class="attribute">server_name</span>  your_domain;</span><br><span class="line">    <span class="attribute">return</span> <span class="number">301</span> https://<span class="variable">$server_name</span><span class="variable">$request_uri</span>;        </span><br><span class="line"></span><br><span class="line">    <span class="attribute">include</span> /etc/nginx/default.d/<span class="regexp">*.conf</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/www;</span><br><span class="line">        <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">80</span> default_server;</span><br><span class="line">    <span class="attribute">server_name</span>  your_domain;</span><br><span class="line">    <span class="attribute">return</span> <span class="number">301</span> https://$server_name$request_uri;        </span><br><span class="line"></span><br><span class="line">    <span class="attribute">include</span> /etc/nginx/default.d/<span class="regexp">*.conf</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/www;</span><br><span class="line">        <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在<code>server_name</code>下面加一个301跳转就能强制跳转到<code>https</code>了。</p>
 <p>保存后运行<code>nginx -s reload</code>重新加载配置文件就搞定了。</p>
 
@@ -849,7 +938,7 @@ scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/奇技淫巧/">奇技淫巧</a>►<a class="article-category-link" href="/categories/奇技淫巧/＊nix/">＊nix</a>
+    <a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a>►<a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/">＊nix</a>
   </div>
 
   </div>
@@ -858,7 +947,7 @@ scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/ddbanner.png" rel="gallery_ck651l5w7000enwh842cpmjyd">
+      <a class="article-gallery-img fancybox" href="/img/ddbanner.png" rel="gallery_ckhsyzxii000n2uh89k6c8g45">
         <img src="/img/ddbanner.png" itemprop="image">
       </a>
     
@@ -877,12 +966,12 @@ scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/dd/" data-id="ck651l5w7000enwh842cpmjyd" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/dd/" data-id="ckhsyzxii000n2uh89k6c8g45" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/dd/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unix/">Unix</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unix/" rel="tag">Unix</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/" rel="tag">macOS</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -965,7 +1054,7 @@ scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/奇技淫巧/">奇技淫巧</a>►<a class="article-category-link" href="/categories/奇技淫巧/路由器/">路由器</a>
+    <a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a>►<a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a>
   </div>
 
   </div>
@@ -974,7 +1063,7 @@ scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/6rbanner.png" rel="gallery_ck651l5w00005nwh8eou3e9ec">
+      <a class="article-gallery-img fancybox" href="/img/6rbanner.png" rel="gallery_ckhsyzxi500032uh8ga2i0udw">
         <img src="/img/6rbanner.png" itemprop="image">
       </a>
     
@@ -993,12 +1082,12 @@ scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/6relayd/" data-id="ck651l5w00005nwh8eou3e9ec" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/6relayd/" data-id="ckhsyzxi500032uh8ga2i0udw" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/6relayd/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IPv6/">IPv6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWrt/">OpenWrt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ShadowSocks/">ShadowSocks</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/科学上网/">科学上网</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/路由器/">路由器</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IPv6/" rel="tag">IPv6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWrt/" rel="tag">OpenWrt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ShadowSocks/" rel="tag">ShadowSocks</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" rel="tag">科学上网</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" rel="tag">路由器</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -1013,18 +1102,18 @@ scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
 <li>luci-app-shadowsocks-spec</li>
 <li>6relayd</li>
 </ul>
-<h1 id="安装ShadowSocks"><a href="#安装ShadowSocks" class="headerlink" title="安装ShadowSocks"></a>安装ShadowSocks</h1><p>在OpenWrt上我们可以安装<code>shdowsocks-libev</code>版本，顺便搭配LuCI界面的<code>luci-app</code>使用，这个项目在<a href="https://sourceforge.net/projects/openwrt-dist/files/shadowsocks-libev/" target="_blank" rel="noopener">sourceforge</a>有发布，可以从这里下载最新的。下载完成后使用<code>opkg</code>命令安装：</p>
+<h1 id="安装ShadowSocks"><a href="#安装ShadowSocks" class="headerlink" title="安装ShadowSocks"></a>安装ShadowSocks</h1><p>在OpenWrt上我们可以安装<code>shdowsocks-libev</code>版本，顺便搭配LuCI界面的<code>luci-app</code>使用，这个项目在<a target="_blank" rel="noopener" href="https://sourceforge.net/projects/openwrt-dist/files/shadowsocks-libev/">sourceforge</a>有发布，可以从这里下载最新的。下载完成后使用<code>opkg</code>命令安装：</p>
 <pre><code>opkg install shadowsocks-libev-spec_2.4.6-1_ar71xx.ipk
 opkg install luci-app-shadowsocks-spec_1.4.0-1_all.ipk
 </code></pre><p>安装完成后<code>reboot</code>命令重启路由器，再次进入LuCI界面可以看到多了一个<code>Services</code>-<code>ShadowSocks</code>：</p>
 <p><img src="/img/opss.png" alt="ShadowSocks"></p>
 <p>就说明安装正确，在里面输入ShadowSocks服务器信息就可以自动代理了，凡是连上这台路由器的设备获取到的都是代理后的网络了。</p>
 <h1 id="安装6relayd"><a href="#安装6relayd" class="headerlink" title="安装6relayd"></a>安装6relayd</h1><p>由于现在即使通过代理上网也是消耗校内流量的，为了不走流量，我们只能借助IPv6网络。但是普通的路由器很少可以正常获取IPv6地址，即使路由器能获取到连接设备也很难获取，除了NETGEAR的部分路由器（包括WNR2200）的新版固件是有IPv6连接的，并且本人亲测使用<code>穿透模式</code>可以正常使用IPv6网络。所以我希望在OpenWrt上也能使用<code>穿透模式</code>，再通过ShadowSocks代理IPv6网络就可以免流量访问外网了。</p>
-<p>要使用<code>穿透模式</code>就少不了<a href="https://wiki.openwrt.org/doc/uci/6relayd" target="_blank" rel="noopener">6relayd</a>这个软件。可是官方源如今没提供这个包，于是可以获取我的备份并安装：</p>
+<p>要使用<code>穿透模式</code>就少不了<a target="_blank" rel="noopener" href="https://wiki.openwrt.org/doc/uci/6relayd">6relayd</a>这个软件。可是官方源如今没提供这个包，于是可以获取我的备份并安装：</p>
 <pre><code>wget https://www.shintaku.cc/files/6relayd_2013-10-21_ar71xx.ipk
 opkg install 6relayd_2013-10-21_ar71xx.ipk
 </code></pre><p>安装完成之后编辑<code>/etc/config/6relayd</code>文件在默认配置后面加一组：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">config relay</span><br><span class="line">	option master   <span class="string">'wan'</span></span><br><span class="line">	option network  <span class="string">'lan'</span></span><br><span class="line">	option rd       <span class="string">'relay'</span></span><br><span class="line">	option dhcpv6   <span class="string">'relay'</span></span><br><span class="line">	option ndp      <span class="string">'relay'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">config relay</span><br><span class="line">	option master   <span class="string">&#x27;wan&#x27;</span></span><br><span class="line">	option network  <span class="string">&#x27;lan&#x27;</span></span><br><span class="line">	option rd       <span class="string">&#x27;relay&#x27;</span></span><br><span class="line">	option dhcpv6   <span class="string">&#x27;relay&#x27;</span></span><br><span class="line">	option ndp      <span class="string">&#x27;relay&#x27;</span></span><br></pre></td></tr></table></figure>
 <p>保存后使用下面的命令开启服务并设置为开机启动即可：</p>
 <pre><code>/etc/init.d/6relayd start
 /etc/init.d/6relayd enable
@@ -1072,7 +1161,7 @@ opkg install 6relayd_2013-10-21_ar71xx.ipk
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/奇技淫巧/">奇技淫巧</a>►<a class="article-category-link" href="/categories/奇技淫巧/路由器/">路由器</a>
+    <a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a>►<a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a>
   </div>
 
   </div>
@@ -1081,7 +1170,7 @@ opkg install 6relayd_2013-10-21_ar71xx.ipk
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="https://wiki.openwrt.org/lib/tpl/openwrt/images/logo.png" rel="gallery_ck651l5wi000xnwh8eodb0gcj">
+      <a class="article-gallery-img fancybox" target="_blank" href="https://wiki.openwrt.org/lib/tpl/openwrt/images/logo.png" rel="gallery_ckhsyzxj1002f2uh8a21w3skg noopener">
         <img src="https://wiki.openwrt.org/lib/tpl/openwrt/images/logo.png" itemprop="image">
       </a>
     
@@ -1100,12 +1189,12 @@ opkg install 6relayd_2013-10-21_ar71xx.ipk
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/openwrt/" data-id="ck651l5wi000xnwh8eodb0gcj" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/openwrt/" data-id="ckhsyzxj1002f2uh8a21w3skg" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/openwrt/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWrt/">OpenWrt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/路由器/">路由器</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWrt/" rel="tag">OpenWrt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/" rel="tag">ssh</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" rel="tag">路由器</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -1113,13 +1202,13 @@ opkg install 6relayd_2013-10-21_ar71xx.ipk
           
         
           <div class="toggle-content">
-            <p>暑假剁手了一台rMBP但没有以太网接口，为了省钱就需要一个无线路由器，之前曾了解到路由器可以刷<strong>OpenWrt</strong>后装上<strong>ShadowSocks</strong>实现自动科学上网，于是就在集训的时候从马云家买了一个二手的<a href="http://www.tp-link.com.cn/product_225.html" target="_blank" rel="noopener">TP-Link TL-WR703N</a>刷上OpenWrt在机房给笔记本供网。</p>
+            <p>暑假剁手了一台rMBP但没有以太网接口，为了省钱就需要一个无线路由器，之前曾了解到路由器可以刷<strong>OpenWrt</strong>后装上<strong>ShadowSocks</strong>实现自动科学上网，于是就在集训的时候从马云家买了一个二手的<a target="_blank" rel="noopener" href="http://www.tp-link.com.cn/product_225.html">TP-Link TL-WR703N</a>刷上OpenWrt在机房给笔记本供网。</p>
 <p><img src="/img/op703n.png" alt="TL-WR703N"></p>
-<p>由于这货只有一个网口，当路由器自动获取IP地址后，就进不去<a href="http://192.168.1.1/" target="_blank" rel="noopener">192.168.1.1</a>的管理界面了，虽然能上网，但每次换网线接头的时候都要捅菊花抹掉原来的设置。因此只有使用静态IP时才能正常使用这种路由器。这学期开学后发现家里有一个<a href="http://www.netgear.com/home/products/networking/wifi-routers/wnr2200.aspx" target="_blank" rel="noopener">Netgear WNR2200</a>在吃灰，于是就把它拿到学校刷上了OpenWrt放宿舍给各种无线设备供网。</p>
+<p>由于这货只有一个网口，当路由器自动获取IP地址后，就进不去<a target="_blank" rel="noopener" href="http://192.168.1.1/">192.168.1.1</a>的管理界面了，虽然能上网，但每次换网线接头的时候都要捅菊花抹掉原来的设置。因此只有使用静态IP时才能正常使用这种路由器。这学期开学后发现家里有一个<a target="_blank" rel="noopener" href="http://www.netgear.com/home/products/networking/wifi-routers/wnr2200.aspx">Netgear WNR2200</a>在吃灰，于是就把它拿到学校刷上了OpenWrt放宿舍给各种无线设备供网。</p>
 <p><img src="/img/op2200.png" alt="WNR2200"></p>
 <h1 id="刷入固件"><a href="#刷入固件" class="headerlink" title="刷入固件"></a>刷入固件</h1><p><strong>OpenWrt</strong>是一个适合于嵌入式设备的Linux发行版。它提供了一个可添加软件包的可写的文件系统，使用者可以自由的选择应用程序和配置，并且可以使用一些适合某方面的应用的软件包来定制设备。</p>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h3><p>首先你要拥有一台可以刷入OpenWrt的路由器，至于OpenWrt支持那些设备，请到<a href="https://wiki.openwrt.org/toh/start" target="_blank" rel="noopener">Supported Devices</a>页面查看。本文以WNR2200为例。</p>
-<h3 id="固件"><a href="#固件" class="headerlink" title="固件"></a>固件</h3><p>前往<a href="https://downloads.openwrt.org/latest/" target="_blank" rel="noopener">Download</a>下载最新的对应设备的固件。注意固件列表里一半会有两种后缀：<code>squashfs-factory.img</code>和<code>squashfs-sysupgrade.img</code>，如果是从原厂固件刷到OpenWrt请用前者，如果是从OpenWrt升级请用后者。还有一种可能文件名以<code>NA</code>结尾<del>，可能是代表<code>North America</code></del>，基本上与不带<code>NA</code>的没什么区别。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h3><p>首先你要拥有一台可以刷入OpenWrt的路由器，至于OpenWrt支持那些设备，请到<a target="_blank" rel="noopener" href="https://wiki.openwrt.org/toh/start">Supported Devices</a>页面查看。本文以WNR2200为例。</p>
+<h3 id="固件"><a href="#固件" class="headerlink" title="固件"></a>固件</h3><p>前往<a target="_blank" rel="noopener" href="https://downloads.openwrt.org/latest/">Download</a>下载最新的对应设备的固件。注意固件列表里一半会有两种后缀：<code>squashfs-factory.img</code>和<code>squashfs-sysupgrade.img</code>，如果是从原厂固件刷到OpenWrt请用前者，如果是从OpenWrt升级请用后者。还有一种可能文件名以<code>NA</code>结尾<del>，可能是代表<code>North America</code></del>，基本上与不带<code>NA</code>的没什么区别。</p>
 <h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>还需要一台有以太网接口的电脑和一根网线，电脑操作系统不限，但是<em>Windows</em>需要提前开启<code>TFTP</code>（因为这个功能系统默认是关闭的），具体操作就是进入<code>控制面板</code>-<code>程序</code>-<code>程序和功能</code>，</p>
 <p><img src="/img/optftp.png" alt="开启TFTP"></p>
 <p>打开<code>打开或关闭Windows功能</code>窗口，在里面把<code>TFTP</code>挑上钩，之后就可以开始了。</p>
@@ -1209,117 +1298,10 @@ opkg list
 
 
   
-    <article id="post-aria2" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-<a href="/posts/aria2/" class="article-date">
-  <time datetime="2015-12-03T15:33:33.000Z" itemprop="datePublished">2015-12-03</time>
-</a>
-
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/奇技淫巧/">奇技淫巧</a>►<a class="article-category-link" href="/categories/奇技淫巧/＊nix/">＊nix</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-      <a class="article-gallery-img fancybox" href="/img/arbanner.png" rel="gallery_ck651l5w30008nwh8rbji0erz">
-        <img src="/img/arbanner.png" itemprop="image">
-      </a>
-    
-  </div>
-</div>
-
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/posts/aria2/">使用aria2多线程下载</a>
-    </h1>
-  
-
-      </header>
-    
-    <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/aria2/" data-id="ck651l5w30008nwh8rbji0erz" class="article-share-link">Share</a>
-      
-        <a href="https://liangzhenduo0608.github.io/posts/aria2/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unix/">Unix</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/下载/">下载</a></li></ul>
-
-    </footer>
-    <div class="article-entry article-index" itemprop="articleBody">
-      
-          
-        
-          <div class="toggle-content">
-            <p><strong>aria2</strong>是一款轻量级多线程的命令行下载工具，支持<strong>HTTP/HTTPS</strong>、<strong>FTP</strong>、<strong>SFTP</strong>、<strong>BitTorrent</strong>和<strong>Metalink</strong>等多种下载方式。程序支持Mac OS X、Linux、Windows等多平台。</p>
-<p>这个下载器最大的优点就是多线程。最开始接触它的时候是因为在Mac下下载百度云的资源非常不方便，不借助其他工具只能通过浏览器下载，而且一个线程速度超慢，一不小心就会下载失败。后来从知乎上看到这个神器，<del>用了<em>金坷垃</em>，</del>速度<strong>一千八</strong>。</p>
-<h1 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h1><p>首先到<a href="https://github.com/tatsuhiro-t/aria2/releases" target="_blank" rel="noopener">GitHub</a>下载对应系统的安装文件进行安装；如果在macOS下也可以通过<code>homebrew</code>安装：</p>
-<pre><code>brew install aria2
-</code></pre><h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><p>先新建一个配置文件叫<code>aria2.conf</code>：</p>
-<pre><code>mkdir ~/.aria2
-vi ~/.aria2/aria2.conf
-</code></pre><p>放在这个目录下的主要原因是可以在启动时不再指定其配置文件的位置。然后编辑它：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Basic Options</span></span><br><span class="line"><span class="attr">dir</span>=/Users/<span class="variable">$USER</span>/Downloads</span><br><span class="line"><span class="attr">input-file</span>=/Users/<span class="variable">$USER</span>/.aria2/session.dat</span><br><span class="line"><span class="attr">log</span>=/Users/<span class="variable">$USER</span>/.aria2/aria2.log</span><br><span class="line"><span class="attr">max-concurrent-downloads</span>=<span class="number">15</span></span><br><span class="line"><span class="attr">max-connection-per-server</span>=<span class="number">15</span></span><br><span class="line"><span class="attr">check-integrity</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">continue</span>=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># BitTorrent/Metalink Options</span></span><br><span class="line"><span class="attr">bt-enable-lpd</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">bt-max-open-files</span>=<span class="number">16</span></span><br><span class="line"><span class="attr">bt-max-peers</span>=<span class="number">8</span></span><br><span class="line"><span class="attr">dht-file-path</span>=/opt/var/aria2/dht.dat</span><br><span class="line"><span class="attr">dht-file-path6</span>=/opt/var/aria2/dht6.dat</span><br><span class="line"><span class="attr">dht-listen-port</span>=<span class="number">6801</span></span><br><span class="line"><span class="comment">#enable-dht6=true</span></span><br><span class="line"><span class="attr">listen-port</span>=<span class="number">6801</span></span><br><span class="line"><span class="attr">max-overall-upload-limit</span>=<span class="number">0</span>K</span><br><span class="line"><span class="attr">seed-ratio</span>=<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># RPC Options</span></span><br><span class="line"><span class="attr">enable-rpc</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">rpc-allow-origin-all</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">rpc-listen-all</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">rpc-listen-port</span>=<span class="number">6800</span></span><br><span class="line"><span class="comment">#rpc-secret=123456</span></span><br><span class="line"><span class="comment">#rpc-secure=true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Advanced Options</span></span><br><span class="line"><span class="attr">daemon</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">disable-ipv6</span>=<span class="literal">true</span></span><br><span class="line"><span class="comment">#enable-mmap=true</span></span><br><span class="line"><span class="attr">force-save</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">file-allocation</span>=none</span><br><span class="line"><span class="attr">log-level</span>=warn</span><br><span class="line"><span class="attr">max-overall-download-limit</span>=<span class="number">0</span>K</span><br><span class="line"><span class="attr">save-session</span>=/Users/<span class="variable">$USER</span>/.aria2/session.dat</span><br><span class="line"><span class="attr">always-resume</span>=<span class="literal">true</span></span><br><span class="line"><span class="attr">split</span>=<span class="number">10</span></span><br><span class="line"><span class="attr">min-split-size</span>=<span class="number">10</span>M</span><br><span class="line"></span><br><span class="line"><span class="comment"># Pan.baidu.com</span></span><br><span class="line"><span class="attr">user-agent</span>=netdisk;<span class="number">5.2</span>.<span class="number">6</span>;PC;PC-Windows;<span class="number">6.2</span>.<span class="number">9200</span>;WindowsBaiduYunGuanJia</span><br><span class="line"><span class="attr">referer</span>=http://pan.baidu.com/disk/home</span><br></pre></td></tr></table></figure>
-<p>配置文件中所有<code>$USER</code>要改成自己的用户名，<code>dir</code>参数设置的是下载路径，也可以按自己的习惯更改；<code>input-file</code>、<code>save-session</code>参数是指定session（保存下载进度）的存储位置，如果没有那个文件可以手动创建：</p>
-<pre><code>touch session.dat
-</code></pre><p><code>log</code>参数指定log路径，会自动生成。这时可以通过<code>aria2c</code>命令启动服务了。可以通过<code>ps aux | grep aria2c</code>命令检查是否启动成功。如果没有正常启动可以检查一下log。</p>
-<h1 id="开机启动"><a href="#开机启动" class="headerlink" title="开机启动"></a>开机启动</h1><p>若要配置macOS开机启动，可以在<code>~/Library/LaunchAgents</code>下创建一个plist文件<code>homebrew.mxcl.aria2.plist</code>，内容如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="meta">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>homebrew.mxcl.aria2<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>KeepAlive<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Program<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/local/opt/aria2/bin/aria2c<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h1 id="配置GUI"><a href="#配置GUI" class="headerlink" title="配置GUI"></a>配置GUI</h1><p>由于aria2是一个命令行工具，所以在没有其他辅助的情况下需要通过命令行来操作。具体使用方法请参阅<a href="https://aria2.github.io/" target="_blank" rel="noopener">aria2.github.io</a>。</p>
-<p>为了更加便于使用，GitHub上的<a href="https://github.com/ziahamza" target="_blank" rel="noopener">ziahamza</a>开发了一个WebUI，可以通过网页界面来操作aria2：</p>
-<p><img src="/img/arui.png" alt="WebUI">    </p>
-<p>简单来说就是打开<a href="http://ziahamza.github.io/webui-aria2/" target="_blank" rel="noopener">http://ziahamza.github.io/webui-aria2/</a>就能使用了。也可以将<a href="https://github.com/ziahamza/webui-aria2/archive/master.zip" target="_blank" rel="noopener">项目源码</a>下载下来放到本地或者放到自己的服务器上来用，比如<a href="http://aria.shintaku.cc/" target="_blank" rel="noopener">http://aria.shintaku.cc/</a>。</p>
-<p>打开以后如果右上角出现：</p>
-<p><img src="/img/arsuccess.png" alt="连接成功">    </p>
-<p>就说明连接成功了，这时就可以直接输入下载链接下载了。</p>
-<p>如果连接不成功请到<code>Setting</code>-<code>Connection Setting</code>检查端口是不是6800，并且确保6800端口没被别的服务占用：</p>
-<p><img src="/img/arsetting.png" alt="连接设置">    </p>
-<h1 id="百度网盘插件"><a href="#百度网盘插件" class="headerlink" title="百度网盘插件"></a>百度网盘插件</h1><p>百度网盘如果使用普通下载的话<del>可能得到的是一个临时的链接？</del>不能断点续传，所以需要一个叫<a href="https://chrome.google.com/webstore/detail/baiduexporter/mjaenbjdjmgolhoafkohbhhbaiedbkno" target="_blank" rel="noopener">BaiduExporter</a>的Chrome插件像百度云的客户端一样获取地址。如果Chrome商店被墙了也可以到<a href="https://github.com/acgotaku/BaiduExporter/blob/master/BaiduExporter.crx?raw=true" target="_blank" rel="noopener">GitHub</a>上直接下载<code>crx</code>文件手动添加。</p>
-<p>添加成功后再打开百度云会发现多了一个<code>导出下载</code>按钮：</p>
-<p><img src="/img/arbaiduyun.png" alt="导出下载">    </p>
-<p>打开<code>设置</code>，按照如下设置：</p>
-<p><img src="/img/aryunsetting.png" alt="导出设置"></p>
-<p>其中<code>User-agent</code>需要设置为<code>netdisk;5.2.7;PC;PC-Windows;6.2.9200;WindowsBaiduYunGuanJia</code>，<code>referer</code>设置为<code>http://pan.baidu.com/disk/home</code>，将aria2伪装成百度云管家来解除限速。</p>
-<p>应用后选择百度云上的文件，通过<code>导出下载</code>-<code>ARIA2 RPC</code>：</p>
-<p><img src="/img/ardownload.png" alt="下载成功"></p>
-<p>这时再通过WebUI查看应当已经有新添加的任务以一千八的速度在下载了。</p>
-
-          </div>
-          <div class="toggle-input article-more-link"><a>Read More +</a></div>
-        
-      
-    </div>
-
-  </div>
-  
-</article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-9920928489161252"
-     data-ad-slot="3913131990"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-  
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/3/">&lsaquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next &rsaquo;</a>
+    <a class="extend prev" rel="prev" href="/page/3/">&amp;lsaquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next &amp;rsaquo;</a>
   </nav>
 </section>
           
@@ -1369,7 +1351,7 @@ setTimeout(function() {
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">18</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/">＊nix</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E8%AF%BE%E7%A8%8B/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -1379,6 +1361,14 @@ setTimeout(function() {
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a class="text" href="/posts/docker-openwrt/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            N1盒子Docker安装OpenWrt旁路由</a>
+          </li>
         
           <li>
             <a class="text" href="/posts/tm-nas/">
@@ -1452,14 +1442,6 @@ setTimeout(function() {
             向量空间中词表征的有效估计</a>
           </li>
         
-          <li>
-            <a class="text" href="/posts/tcp-bbr/">
-              
-                <i class="fa-paperclip"></i> 
-              
-            VPS开启TCP-BBR拥塞控制</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1470,7 +1452,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/科学上网/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/服务器/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/代理/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 19px; color: #95caff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/舰队Collection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 20px; color: #aad4ff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 12px; color: #007fff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 
@@ -1543,7 +1525,7 @@ setTimeout(function() {
     <div class="widget widget-background1" align="center">
     	<!--a href="https://clustrmaps.com/site/19kh7" title="Visit tracker"><img src="//clustrmaps.com/map_v2.png?cl=eeeeee&w=220&t=n&d=3kNIfPXlC9a4s7N8RRFV04RgWWonJP-1hQ4Drq_rVj8&co=3d3d3b&ct=eeeeee" /></a-->
     	<script type="text/javascript" src="//rf.revolvermaps.com/0/0/2.js?i=5gpp8v00aap&amp;m=8&amp;s=178&amp;c=fff600&amp;t=1" async="async"></script>
-      	<a href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3D3D3B/txt_FFFFFF/border_3D3D3B/columns_2/maxflags_100/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="shintaku.xyz" border="0"></a>
+      	<a target="_blank" rel="noopener" href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3D3D3B/txt_FFFFFF/border_3D3D3B/columns_2/maxflags_100/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="shintaku.xyz" border="0"></a>
     </div>
 </div>
   
@@ -1552,7 +1534,7 @@ setTimeout(function() {
     <div class="widget widget-background1" align="center">
       	<img src="/images/alipay.png" alt="支付宝支付" width="220">
       	<img src="/images/wechat.png" alt="微信支付" width="220">
-      	<a href="https://www.paypal.me/liangzhenduo" title="PayPal支付" onclick="javascript:window.open('https://www.paypal.me/liangzhenduo','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" alt="PayPal支付" width="220"/></a>
+      	<a target="_blank" rel="noopener" href="https://www.paypal.me/liangzhenduo" title="PayPal支付" onclick="javascript:window.open('https://www.paypal.me/liangzhenduo','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" alt="PayPal支付" width="220"/></a>
     </div>
 </div>
   
@@ -1636,13 +1618,23 @@ setTimeout(function() {
 
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/jquery.lazyload.js"></script>
+
+
 <script src="/js/jquery.als-1.6.js"></script>
+
+
 <script src="/js/script.js"></script>
+
 
   </div>
 <script type="text/x-mathjax-config">

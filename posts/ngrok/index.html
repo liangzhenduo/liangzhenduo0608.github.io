@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8" name="theme-color" content="#171714">
   
   <meta name="google-site-verification" content="fTlRYC4_eug8Q64ZK4Lzdv8mcunvs7S0Ec-39TBokv4">
@@ -38,26 +38,31 @@
   <title>搭建Ngrok内网穿透服务 | Shintaku&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="之前上开源课的时候听说可以通过外网访问局域网电脑获取文件，但由于自己家中的宽带一直不给分配公网地址，所以无法直接访问。 后来又听说可以用花生壳之类的DDNS动态解析，即使家中IP总变化也可以通过域名访问。但苦于这样的服务一般是收费的，而且又是使用第三方的服务器容易受制于人，用起来有些不爽，才一直寻找更好的方法。 近日又发现Ngrok这样的神器，可以自己搭建内网穿透服务，只用一台VPS和一个域名就完">
-<meta name="keywords" content="VPS,服务器,OpenWrt,路由器">
 <meta property="og:type" content="article">
 <meta property="og:title" content="搭建Ngrok内网穿透服务">
 <meta property="og:url" content="https://liangzhenduo0608.github.io/posts/ngrok/index.html">
 <meta property="og:site_name" content="Shintaku&#39;s Blog">
 <meta property="og:description" content="之前上开源课的时候听说可以通过外网访问局域网电脑获取文件，但由于自己家中的宽带一直不给分配公网地址，所以无法直接访问。 后来又听说可以用花生壳之类的DDNS动态解析，即使家中IP总变化也可以通过域名访问。但苦于这样的服务一般是收费的，而且又是使用第三方的服务器容易受制于人，用起来有些不爽，才一直寻找更好的方法。 近日又发现Ngrok这样的神器，可以自己搭建内网穿透服务，只用一台VPS和一个域名就完">
-<meta property="og:locale" content="default">
+<meta property="og:locale">
 <meta property="og:image" content="https://liangzhenduo0608.github.io/img/ngbanner.png">
-<meta property="og:updated_time" content="2019-07-14T15:04:34.206Z">
+<meta property="article:published_time" content="2016-09-01T13:11:11.000Z">
+<meta property="article:modified_time" content="2019-07-14T15:04:34.206Z">
+<meta property="article:author" content="Shintaku">
+<meta property="article:tag" content="VPS">
+<meta property="article:tag" content="服务器">
+<meta property="article:tag" content="OpenWrt">
+<meta property="article:tag" content="路由器">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="搭建Ngrok内网穿透服务">
-<meta name="twitter:description" content="之前上开源课的时候听说可以通过外网访问局域网电脑获取文件，但由于自己家中的宽带一直不给分配公网地址，所以无法直接访问。 后来又听说可以用花生壳之类的DDNS动态解析，即使家中IP总变化也可以通过域名访问。但苦于这样的服务一般是收费的，而且又是使用第三方的服务器容易受制于人，用起来有些不爽，才一直寻找更好的方法。 近日又发现Ngrok这样的神器，可以自己搭建内网穿透服务，只用一台VPS和一个域名就完">
 <meta name="twitter:image" content="https://liangzhenduo0608.github.io/img/ngbanner.png">
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   <script src="/js/jquery-3.3.1.min.js"></script>
   <script src="/js/nprogress.js"></script>
   <link href="/css/nprogress.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-</html>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
 <body>
   <div id="container">
     <div id="wrap">
@@ -68,10 +73,6 @@
       <h1 id="logo-wrap">
         <a href="/" id="logo">Shintaku&#39;s Blog</a>
       </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">いいこと？暁の水平線に勝利を刻みなさい！</a>
-        </h2>
       
     </div>
     <div id="header-inner" class="inner">
@@ -122,7 +123,7 @@
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/网络/">网络</a>►<a class="article-category-link" href="/categories/网络/网站部署/">网站部署</a>
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>►<a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a>
   </div>
 
   </div>
@@ -131,7 +132,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/ngbanner.png" rel="gallery_ck651l5wh000wnwh8jk8la0xu">
+      <a class="article-gallery-img fancybox" href="/img/ngbanner.png" rel="gallery_ckhsyzxj0002b2uh8efj4g5pp">
         <img src="/img/ngbanner.png" itemprop="image">
       </a>
     
@@ -150,12 +151,12 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/ngrok/" data-id="ck651l5wh000wnwh8jk8la0xu" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/ngrok/" data-id="ckhsyzxj0002b2uh8efj4g5pp" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/ngrok/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWrt/">OpenWrt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/服务器/">服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/路由器/">路由器</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWrt/" rel="tag">OpenWrt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/" rel="tag">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" rel="tag">路由器</a></li></ul>
 
     </footer>
     <div class="article-entry " itemprop="articleBody">
@@ -164,15 +165,15 @@
               <div id="toc" class="toc-article">
               <h2 class="toc-title" align="center"><span>目录</span></h2>
               
-                  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#服务端"><span class="toc-number">1.</span> <span class="toc-text">服务端</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#编译"><span class="toc-number">1.1.</span> <span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动"><span class="toc-number">1.2.</span> <span class="toc-text">启动</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#客户端"><span class="toc-number">2.</span> <span class="toc-text">客户端</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#编译-1"><span class="toc-number">2.1.</span> <span class="toc-text">编译</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#macOS"><span class="toc-number">2.1.1.</span> <span class="toc-text">macOS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows"><span class="toc-number">2.1.2.</span> <span class="toc-text">Windows</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenWrt"><span class="toc-number">2.1.3.</span> <span class="toc-text">OpenWrt</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动-1"><span class="toc-number">2.2.</span> <span class="toc-text">启动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PC"><span class="toc-number">2.2.1.</span> <span class="toc-text">PC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenWrt-1"><span class="toc-number">2.2.2.</span> <span class="toc-text">OpenWrt</span></a></li></ol></li></ol></li></ol>
+                  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">1.</span> <span class="toc-text">服务端</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91"><span class="toc-number">1.1.</span> <span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8"><span class="toc-number">1.2.</span> <span class="toc-text">启动</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">2.</span> <span class="toc-text">客户端</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91-1"><span class="toc-number">2.1.</span> <span class="toc-text">编译</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#macOS"><span class="toc-number">2.1.1.</span> <span class="toc-text">macOS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows"><span class="toc-number">2.1.2.</span> <span class="toc-text">Windows</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenWrt"><span class="toc-number">2.1.3.</span> <span class="toc-text">OpenWrt</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8-1"><span class="toc-number">2.2.</span> <span class="toc-text">启动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PC"><span class="toc-number">2.2.1.</span> <span class="toc-text">PC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenWrt-1"><span class="toc-number">2.2.2.</span> <span class="toc-text">OpenWrt</span></a></li></ol></li></ol></li></ol>
               
               </div>
           
         
           <p>之前上开源课的时候听说可以通过外网访问局域网电脑获取文件，但由于自己家中的宽带一直不给分配公网地址，所以无法直接访问。</p>
-<p>后来又听说可以用<a href="http://www.oray.com/" target="_blank" rel="noopener">花生壳</a>之类的<strong>DDNS</strong>动态解析，即使家中IP总变化也可以通过域名访问。但苦于这样的服务一般是收费的，而且又是使用第三方的服务器容易受制于人，用起来有些不爽，才一直寻找更好的方法。</p>
+<p>后来又听说可以用<a target="_blank" rel="noopener" href="http://www.oray.com/">花生壳</a>之类的<strong>DDNS</strong>动态解析，即使家中IP总变化也可以通过域名访问。但苦于这样的服务一般是收费的，而且又是使用第三方的服务器容易受制于人，用起来有些不爽，才一直寻找更好的方法。</p>
 <p>近日又发现<strong>Ngrok</strong>这样的神器，可以自己搭建内网穿透服务，只用<strong>一台VPS</strong>和<strong>一个域名</strong>就完美地解决了问题。其主要是在客户端与服务端之间建立端到端的隧道进行通信，用固定的域名进行访问以规避了IP变更的不便。</p>
-<h1 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h1><p>目前<a href="https://ngrok.com/" target="_blank" rel="noopener">Ngrok官网</a>上放出的2.0以上版本是付费的服务，若要自己搭建需要自行编译1.7的源码。首先将源码从<a href="https://github.com/inconshreveable/ngrok" target="_blank" rel="noopener">GitHub</a>上clone下来：</p>
+<h1 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h1><p>目前<a target="_blank" rel="noopener" href="https://ngrok.com/">Ngrok官网</a>上放出的2.0以上版本是付费的服务，若要自己搭建需要自行编译1.7的源码。首先将源码从<a target="_blank" rel="noopener" href="https://github.com/inconshreveable/ngrok">GitHub</a>上clone下来：</p>
 <pre><code>git clone https://github.com/inconshreveable/ngrok.git
 </code></pre><h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>由于该服务是<em>Go语言</em>编写的，所以先要安装golang开发环境：</p>
 <pre><code>yum install golang
@@ -204,27 +205,27 @@ cp snakeoil.key assets/server/tls/
 <h1 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h1><h2 id="编译-1"><a href="#编译-1" class="headerlink" title="编译"></a>编译</h2><p>客户端的编译和服务端类似，但要使用与服务端相同的文件。可以先在本机安装golang环境，再将VPS上的源码拷贝到本机直接用<code>make release-client</code>编译；也可以在VPS上加参数编译其他环境的客户端：</p>
 <h3 id="macOS"><a href="#macOS" class="headerlink" title="macOS"></a>macOS</h3><pre><code>GOOS=darwin GOARCH=amd64 make release-client
 </code></pre><h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><pre><code>GOOS=windows GOARCH=amd64 make release-client
-</code></pre><h3 id="OpenWrt"><a href="#OpenWrt" class="headerlink" title="OpenWrt"></a>OpenWrt</h3><p>由于OpenWrt上没有对应的Go环境，所以没法用ngrok源码直接编译OpenWrt的客户端。但是<a href="https://www.v2ex.com/t/176838" target="_blank" rel="noopener">dosgo</a>大神写了一个<em>C语言</em>版本的<a href="https://github.com/dosgo/ngrok-c" target="_blank" rel="noopener">ngrok-c</a>，文档中也附带了<a href="http://www.jianshu.com/p/8428949d946c" target="_blank" rel="noopener">编译方法</a>。但是编译过程比较复杂，而且自己编译出来的二进制文件体积也不小，比较占空间，所以就在恩山上搜了一个民间高手编译好的装上了，顺带着LuCI界面放到服务器上：</p>
+</code></pre><h3 id="OpenWrt"><a href="#OpenWrt" class="headerlink" title="OpenWrt"></a>OpenWrt</h3><p>由于OpenWrt上没有对应的Go环境，所以没法用ngrok源码直接编译OpenWrt的客户端。但是<a target="_blank" rel="noopener" href="https://www.v2ex.com/t/176838">dosgo</a>大神写了一个<em>C语言</em>版本的<a target="_blank" rel="noopener" href="https://github.com/dosgo/ngrok-c">ngrok-c</a>，文档中也附带了<a target="_blank" rel="noopener" href="http://www.jianshu.com/p/8428949d946c">编译方法</a>。但是编译过程比较复杂，而且自己编译出来的二进制文件体积也不小，比较占空间，所以就在恩山上搜了一个民间高手编译好的装上了，顺带着LuCI界面放到服务器上：</p>
 <pre><code>wget https://www.shintaku.cc/files/ngrokc_ba56781152-1_ar71xx.ipk
 wget https://www.shintaku.cc/files/luci-app-ngrokc_git-15.290.16504-8c2fd44-1_all.ipk
 </code></pre><p>如果安装时遇到问题请确定路由器上是否已经安装了必要的库：</p>
 <pre><code>opkg install libstdcpp
 opkg install libopenssl
 </code></pre><h2 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h2><h3 id="PC"><a href="#PC" class="headerlink" title="PC"></a>PC</h3><p>先创建配置文件<code>~/.ngrok</code>并编辑，写入自己的域名和监听端口：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">server_addr: <span class="string">"shintaku.cc:4443"</span></span><br><span class="line">trust_host_root_certs: false</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">server_addr: <span class="string">&quot;shintaku.cc:4443&quot;</span></span><br><span class="line">trust_host_root_certs: false</span><br></pre></td></tr></table></figure>
 <p>可以先用<code>ngrok -h</code>查看使用说明，然后指定二级域名和要映射的端口启动客户端：</p>
 <pre><code>ngrok -subdomain test 4000
 </code></pre><p>就会出现Ngrok的连接状态：</p>
 <blockquote>
 <p>ngrok                                                           (Ctrl+C to quit)</p>
-<p>Tunnel Status                 online<br>Version                       1.7/1.7<br>Forwarding                    <a href="http://test.shintaku.cc" target="_blank" rel="noopener">http://test.shintaku.cc</a> -&gt; 127.0.0.1:4000<br>Forwarding                    <a href="https://test.shintaku.cc" target="_blank" rel="noopener">https://test.shintaku.cc</a> -&gt; 127.0.0.1:4000<br>Web Interface                 127.0.0.1:4040<br># Conn                        0<br>Avg Conn Time                 0.00ms</p>
+<p>Tunnel Status                 online<br>Version                       1.7/1.7<br>Forwarding                    <a target="_blank" rel="noopener" href="http://test.shintaku.cc">http://test.shintaku.cc</a> -&gt; 127.0.0.1:4000<br>Forwarding                    <a target="_blank" rel="noopener" href="https://test.shintaku.cc">https://test.shintaku.cc</a> -&gt; 127.0.0.1:4000<br>Web Interface                 127.0.0.1:4040<br># Conn                        0<br>Avg Conn Time                 0.00ms</p>
 </blockquote>
 <p>然后再访问<code>test.shintaku.cc</code>就会发现和<code>localhost:4000</code>的内容是一样的，就说明Ngrok连接成功了：</p>
-<p><img src="/img/ngcompare.png" alt></p>
+<p><img src="/img/ngcompare.png" alt=""></p>
 <p>也可以通过<code>localhost:4040</code>的Web页面查看连接状态：</p>
 <p><img src="/img/ngrequests.png" alt="Inbound Requests"></p>
 <p>如果要同时穿透多个端口也可以将它们都写在配置文件里：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server_addr: <span class="string">"shintaku.cc:4443"</span></span><br><span class="line">trust_host_root_certs: false</span><br><span class="line"></span><br><span class="line">tunnels:</span><br><span class="line">    test:</span><br><span class="line">        proto:</span><br><span class="line">            http: <span class="number">4000</span></span><br><span class="line">    ssh:</span><br><span class="line">        proto:</span><br><span class="line">            tcp: <span class="number">22</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server_addr: <span class="string">&quot;shintaku.cc:4443&quot;</span></span><br><span class="line">trust_host_root_certs: false</span><br><span class="line"></span><br><span class="line">tunnels:</span><br><span class="line">    test:</span><br><span class="line">        proto:</span><br><span class="line">            http: <span class="number">4000</span></span><br><span class="line">    ssh:</span><br><span class="line">        proto:</span><br><span class="line">            tcp: <span class="number">22</span></span><br></pre></td></tr></table></figure>
 <p>然后启动时加上要启动的tunnel名就可以了：</p>
 <pre><code>ngrok start test ssh
 </code></pre><h3 id="OpenWrt-1"><a href="#OpenWrt-1" class="headerlink" title="OpenWrt"></a>OpenWrt</h3><p>路由器上装好了以后可以在<code>服务</code>-<code>Ngrok Settings</code>下设置：</p>
@@ -291,7 +292,7 @@ opkg install libopenssl
 
 <section id="comments">
   <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
 </section>
 
@@ -343,7 +344,7 @@ setTimeout(function() {
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">18</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/">＊nix</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E8%AF%BE%E7%A8%8B/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -353,6 +354,14 @@ setTimeout(function() {
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a class="text" href="/posts/docker-openwrt/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            N1盒子Docker安装OpenWrt旁路由</a>
+          </li>
         
           <li>
             <a class="text" href="/posts/tm-nas/">
@@ -426,14 +435,6 @@ setTimeout(function() {
             向量空间中词表征的有效估计</a>
           </li>
         
-          <li>
-            <a class="text" href="/posts/tcp-bbr/">
-              
-                <i class="fa-paperclip"></i> 
-              
-            VPS开启TCP-BBR拥塞控制</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -444,7 +445,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/科学上网/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/服务器/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/代理/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 19px; color: #95caff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/舰队Collection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 20px; color: #aad4ff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 12px; color: #007fff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 
@@ -517,7 +518,7 @@ setTimeout(function() {
     <div class="widget widget-background1" align="center">
     	<!--a href="https://clustrmaps.com/site/19kh7" title="Visit tracker"><img src="//clustrmaps.com/map_v2.png?cl=eeeeee&w=220&t=n&d=3kNIfPXlC9a4s7N8RRFV04RgWWonJP-1hQ4Drq_rVj8&co=3d3d3b&ct=eeeeee" /></a-->
     	<script type="text/javascript" src="//rf.revolvermaps.com/0/0/2.js?i=5gpp8v00aap&amp;m=8&amp;s=178&amp;c=fff600&amp;t=1" async="async"></script>
-      	<a href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3D3D3B/txt_FFFFFF/border_3D3D3B/columns_2/maxflags_100/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="shintaku.xyz" border="0"></a>
+      	<a target="_blank" rel="noopener" href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3D3D3B/txt_FFFFFF/border_3D3D3B/columns_2/maxflags_100/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="shintaku.xyz" border="0"></a>
     </div>
 </div>
   
@@ -526,7 +527,7 @@ setTimeout(function() {
     <div class="widget widget-background1" align="center">
       	<img src="/images/alipay.png" alt="支付宝支付" width="220">
       	<img src="/images/wechat.png" alt="微信支付" width="220">
-      	<a href="https://www.paypal.me/liangzhenduo" title="PayPal支付" onclick="javascript:window.open('https://www.paypal.me/liangzhenduo','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" alt="PayPal支付" width="220"/></a>
+      	<a target="_blank" rel="noopener" href="https://www.paypal.me/liangzhenduo" title="PayPal支付" onclick="javascript:window.open('https://www.paypal.me/liangzhenduo','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" alt="PayPal支付" width="220"/></a>
     </div>
 </div>
   
@@ -612,13 +613,23 @@ setTimeout(function() {
 
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/jquery.lazyload.js"></script>
+
+
 <script src="/js/jquery.als-1.6.js"></script>
+
+
 <script src="/js/script.js"></script>
+
 
   </div>
 <script type="text/x-mathjax-config">

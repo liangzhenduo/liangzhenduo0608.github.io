@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8" name="theme-color" content="#171714">
   
   <meta name="google-site-verification" content="fTlRYC4_eug8Q64ZK4Lzdv8mcunvs7S0Ec-39TBokv4">
@@ -38,26 +38,33 @@
   <title>搭建L2TP/IPSec VPN | Shintaku&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="之前曾经介绍过SoftEthern VPN的搭建，最近换了新的VPS，需要重新搭建VPN，由于除了iOS以外的其他平台都可以用ShadowSocks的梯子，就想搭建一个最简单的无需安装第三方App的VPN给iOS使用。想到系统自带的VPN可以连接L2TP over IPSec，就决定搭一个L2TP的VPN。 由于新VPS装的是CentOS 6，所以CentOS 7风格的命令就写在注释里了。 安装先">
-<meta name="keywords" content="VPS,科学上网,服务器,代理,Linux,VPN">
 <meta property="og:type" content="article">
 <meta property="og:title" content="搭建L2TP&#x2F;IPSec VPN">
 <meta property="og:url" content="https://liangzhenduo0608.github.io/posts/l2tp/index.html">
 <meta property="og:site_name" content="Shintaku&#39;s Blog">
 <meta property="og:description" content="之前曾经介绍过SoftEthern VPN的搭建，最近换了新的VPS，需要重新搭建VPN，由于除了iOS以外的其他平台都可以用ShadowSocks的梯子，就想搭建一个最简单的无需安装第三方App的VPN给iOS使用。想到系统自带的VPN可以连接L2TP over IPSec，就决定搭一个L2TP的VPN。 由于新VPS装的是CentOS 6，所以CentOS 7风格的命令就写在注释里了。 安装先">
-<meta property="og:locale" content="default">
+<meta property="og:locale">
 <meta property="og:image" content="https://liangzhenduo0608.github.io/img/l2tpbanner.png">
-<meta property="og:updated_time" content="2019-07-14T15:04:34.206Z">
+<meta property="article:published_time" content="2017-09-10T15:33:33.000Z">
+<meta property="article:modified_time" content="2019-07-14T15:04:34.206Z">
+<meta property="article:author" content="Shintaku">
+<meta property="article:tag" content="VPS">
+<meta property="article:tag" content="科学上网">
+<meta property="article:tag" content="服务器">
+<meta property="article:tag" content="代理">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="VPN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="搭建L2TP&#x2F;IPSec VPN">
-<meta name="twitter:description" content="之前曾经介绍过SoftEthern VPN的搭建，最近换了新的VPS，需要重新搭建VPN，由于除了iOS以外的其他平台都可以用ShadowSocks的梯子，就想搭建一个最简单的无需安装第三方App的VPN给iOS使用。想到系统自带的VPN可以连接L2TP over IPSec，就决定搭一个L2TP的VPN。 由于新VPS装的是CentOS 6，所以CentOS 7风格的命令就写在注释里了。 安装先">
 <meta name="twitter:image" content="https://liangzhenduo0608.github.io/img/l2tpbanner.png">
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   <script src="/js/jquery-3.3.1.min.js"></script>
   <script src="/js/nprogress.js"></script>
   <link href="/css/nprogress.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-</html>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
 <body>
   <div id="container">
     <div id="wrap">
@@ -68,10 +75,6 @@
       <h1 id="logo-wrap">
         <a href="/" id="logo">Shintaku&#39;s Blog</a>
       </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">いいこと？暁の水平線に勝利を刻みなさい！</a>
-        </h2>
       
     </div>
     <div id="header-inner" class="inner">
@@ -122,7 +125,7 @@
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/网络/">网络</a>►<a class="article-category-link" href="/categories/网络/科学上网/">科学上网</a>
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>►<a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a>
   </div>
 
   </div>
@@ -131,7 +134,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/l2tpbanner.png" rel="gallery_ck651l5we000qnwh8n289sr7q">
+      <a class="article-gallery-img fancybox" href="/img/l2tpbanner.png" rel="gallery_ckhsyzxiv001o2uh81ap58oyf">
         <img src="/img/l2tpbanner.png" itemprop="image">
       </a>
     
@@ -150,12 +153,12 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/l2tp/" data-id="ck651l5we000qnwh8n289sr7q" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/l2tp/" data-id="ckhsyzxiv001o2uh81ap58oyf" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/l2tp/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/">VPN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/代理/">代理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/服务器/">服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/科学上网/">科学上网</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/" rel="tag">VPN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/" rel="tag">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" rel="tag">科学上网</a></li></ul>
 
     </footer>
     <div class="article-entry " itemprop="articleBody">
@@ -164,7 +167,7 @@
               <div id="toc" class="toc-article">
               <h2 class="toc-title" align="center"><span>目录</span></h2>
               
-                  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安装"><span class="toc-number">1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置IPSec"><span class="toc-number">2.</span> <span class="toc-text">配置IPSec</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#更改系统参数"><span class="toc-number">3.</span> <span class="toc-text">更改系统参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#启动IPSec"><span class="toc-number">4.</span> <span class="toc-text">启动IPSec</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置xl2tpd"><span class="toc-number">5.</span> <span class="toc-text">配置xl2tpd</span></a></li></ol>
+                  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEIPSec"><span class="toc-number">2.</span> <span class="toc-text">配置IPSec</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9B%B4%E6%94%B9%E7%B3%BB%E7%BB%9F%E5%8F%82%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">更改系统参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8IPSec"><span class="toc-number">4.</span> <span class="toc-text">启动IPSec</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AExl2tpd"><span class="toc-number">5.</span> <span class="toc-text">配置xl2tpd</span></a></li></ol>
               
               </div>
           
@@ -175,13 +178,13 @@
 <pre><code>yum install openswan xl2tpd
 </code></pre><p>如果没有<code>ppp</code>也要安装。</p>
 <h1 id="配置IPSec"><a href="#配置IPSec" class="headerlink" title="配置IPSec"></a>配置IPSec</h1><p>在<code>/etc/ipsec.d</code>中新建一个<code>vpn.conf</code>文件，内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">conn L2TP-PSK-NAT</span><br><span class="line">    rightsubnet=vhost:%priv</span><br><span class="line">    also=L2TP-PSK-noNAT</span><br><span class="line"></span><br><span class="line">conn L2TP-PSK-noNAT</span><br><span class="line">    authby=secret</span><br><span class="line">    pfs=no</span><br><span class="line">    auto=add</span><br><span class="line">    keyingtries=3</span><br><span class="line">    rekey=no</span><br><span class="line">    ikelifetime=8h</span><br><span class="line">    keylife=1h</span><br><span class="line">    type=transport</span><br><span class="line">    left=YOUR_PUBLIC_IP_ADDRESS</span><br><span class="line">    leftprotoport=17/1701</span><br><span class="line">    right=%any</span><br><span class="line">    rightprotoport=17/%any</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">conn L2TP-PSK-NAT</span><br><span class="line">    rightsubnet&#x3D;vhost:%priv</span><br><span class="line">    also&#x3D;L2TP-PSK-noNAT</span><br><span class="line"></span><br><span class="line">conn L2TP-PSK-noNAT</span><br><span class="line">    authby&#x3D;secret</span><br><span class="line">    pfs&#x3D;no</span><br><span class="line">    auto&#x3D;add</span><br><span class="line">    keyingtries&#x3D;3</span><br><span class="line">    rekey&#x3D;no</span><br><span class="line">    ikelifetime&#x3D;8h</span><br><span class="line">    keylife&#x3D;1h</span><br><span class="line">    type&#x3D;transport</span><br><span class="line">    left&#x3D;YOUR_PUBLIC_IP_ADDRESS</span><br><span class="line">    leftprotoport&#x3D;17&#x2F;1701</span><br><span class="line">    right&#x3D;%any</span><br><span class="line">    rightprotoport&#x3D;17&#x2F;%any</span><br></pre></td></tr></table></figure>
 <p>其中<code>left</code>的值改为VPS的公网IP。</p>
 <p>再新建一个<code>vpn.secrets</code>文件，里面写一行：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">YOUR_PUBLIC_IP_ADDRESS %any: PSK &quot;YOUR_PRE_SHARED_KEY&quot;</span><br></pre></td></tr></table></figure>
 <p>前面还是公网IP，后面引号里面是自己设置的预共享密钥。</p>
 <h1 id="更改系统参数"><a href="#更改系统参数" class="headerlink" title="更改系统参数"></a>更改系统参数</h1><p>编辑<code>/etc/sysctl.conf</code>文件，修改或添加成以下配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.ip_forward = 1</span><br><span class="line">net.ipv4.conf.default.rp_filter = 0</span><br><span class="line">net.ipv4.conf.all.send_redirects = 0</span><br><span class="line">net.ipv4.conf.default.send_redirects = 0</span><br><span class="line">net.ipv4.conf.all.log_martians = 0</span><br><span class="line">net.ipv4.conf.default.log_martians = 0</span><br><span class="line">net.ipv4.conf.default.accept_source_route = 0</span><br><span class="line">net.ipv4.conf.all.accept_redirects = 0</span><br><span class="line">net.ipv4.conf.default.accept_redirects = 0</span><br><span class="line">net.ipv4.icmp_ignore_bogus_error_responses = 1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.ip_forward &#x3D; 1</span><br><span class="line">net.ipv4.conf.default.rp_filter &#x3D; 0</span><br><span class="line">net.ipv4.conf.all.send_redirects &#x3D; 0</span><br><span class="line">net.ipv4.conf.default.send_redirects &#x3D; 0</span><br><span class="line">net.ipv4.conf.all.log_martians &#x3D; 0</span><br><span class="line">net.ipv4.conf.default.log_martians &#x3D; 0</span><br><span class="line">net.ipv4.conf.default.accept_source_route &#x3D; 0</span><br><span class="line">net.ipv4.conf.all.accept_redirects &#x3D; 0</span><br><span class="line">net.ipv4.conf.default.accept_redirects &#x3D; 0</span><br><span class="line">net.ipv4.icmp_ignore_bogus_error_responses &#x3D; 1</span><br></pre></td></tr></table></figure>
 <p>用<code>sysctl -p</code>命令使更改生效。</p>
 <p>然后用以下脚本将<code>/proc/sys/net/ipv4/conf</code>下配置的值都改为<code>0</code>：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> /proc/sys/net/ipv4/conf/*</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> 0 &gt; <span class="variable">$each</span>/accept_redirects</span><br><span class="line">    <span class="built_in">echo</span> 0 &gt; <span class="variable">$each</span>/send_redirects</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
@@ -210,7 +213,7 @@ Checking &#39;prelink&#39; command does not interfere with FIPSChecking for obso
 Opportunistic Encryption                                  [DISABLED]
 </code></pre><p>如果有异常请检查之前的配置。</p>
 <h1 id="配置xl2tpd"><a href="#配置xl2tpd" class="headerlink" title="配置xl2tpd"></a>配置xl2tpd</h1><p>编辑<code>/etc/xl2tpd/xl2tpd.conf</code>配置如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[global]</span><br><span class="line">listen-addr = YOUR_PUBLIC_IP_ADDRESS</span><br><span class="line">ipsec saref = yes</span><br><span class="line"></span><br><span class="line">[lns default]</span><br><span class="line">ip range = 192.168.1.128-192.168.1.254</span><br><span class="line">local ip = 192.168.1.99</span><br><span class="line">require chap = yes</span><br><span class="line">refuse pap = yes</span><br><span class="line">require authentication = yes</span><br><span class="line">name = LinuxVPNserver</span><br><span class="line">ppp debug = yes</span><br><span class="line">pppoptfile = /etc/ppp/options.xl2tpd</span><br><span class="line">length bit = yes</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[global]</span><br><span class="line">listen-addr &#x3D; YOUR_PUBLIC_IP_ADDRESS</span><br><span class="line">ipsec saref &#x3D; yes</span><br><span class="line"></span><br><span class="line">[lns default]</span><br><span class="line">ip range &#x3D; 192.168.1.128-192.168.1.254</span><br><span class="line">local ip &#x3D; 192.168.1.99</span><br><span class="line">require chap &#x3D; yes</span><br><span class="line">refuse pap &#x3D; yes</span><br><span class="line">require authentication &#x3D; yes</span><br><span class="line">name &#x3D; LinuxVPNserver</span><br><span class="line">ppp debug &#x3D; yes</span><br><span class="line">pppoptfile &#x3D; &#x2F;etc&#x2F;ppp&#x2F;options.xl2tpd</span><br><span class="line">length bit &#x3D; yes</span><br></pre></td></tr></table></figure>
 <p>其实主要注意监听地址和几个<code>yes</code>就行了，其他基本不用动。</p>
 <p>然后编辑<code>/etc/ppp/options.xl2tpd</code>配置如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ipcp-accept-local</span><br><span class="line">ipcp-accept-remote</span><br><span class="line">ms-dns	8.8.8.8</span><br><span class="line">ms-dns	8.8.4.4</span><br><span class="line">noccp</span><br><span class="line">auth</span><br><span class="line">crtscts</span><br><span class="line">idle 1800</span><br><span class="line">mtu 1410</span><br><span class="line">mru 1410</span><br><span class="line">nodefaultroute</span><br><span class="line">debug</span><br><span class="line">lock</span><br><span class="line">proxyarp</span><br><span class="line">connect-delay 5000</span><br></pre></td></tr></table></figure>
@@ -280,7 +283,7 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
 
 <section id="comments">
   <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
 </section>
 
@@ -332,7 +335,7 @@ setTimeout(function() {
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">18</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/">＊nix</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E8%AF%BE%E7%A8%8B/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -342,6 +345,14 @@ setTimeout(function() {
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a class="text" href="/posts/docker-openwrt/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            N1盒子Docker安装OpenWrt旁路由</a>
+          </li>
         
           <li>
             <a class="text" href="/posts/tm-nas/">
@@ -415,14 +426,6 @@ setTimeout(function() {
             向量空间中词表征的有效估计</a>
           </li>
         
-          <li>
-            <a class="text" href="/posts/tcp-bbr/">
-              
-                <i class="fa-paperclip"></i> 
-              
-            VPS开启TCP-BBR拥塞控制</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -433,7 +436,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/科学上网/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/服务器/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/代理/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 19px; color: #95caff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/舰队Collection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 20px; color: #aad4ff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 12px; color: #007fff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 
@@ -506,7 +509,7 @@ setTimeout(function() {
     <div class="widget widget-background1" align="center">
     	<!--a href="https://clustrmaps.com/site/19kh7" title="Visit tracker"><img src="//clustrmaps.com/map_v2.png?cl=eeeeee&w=220&t=n&d=3kNIfPXlC9a4s7N8RRFV04RgWWonJP-1hQ4Drq_rVj8&co=3d3d3b&ct=eeeeee" /></a-->
     	<script type="text/javascript" src="//rf.revolvermaps.com/0/0/2.js?i=5gpp8v00aap&amp;m=8&amp;s=178&amp;c=fff600&amp;t=1" async="async"></script>
-      	<a href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3D3D3B/txt_FFFFFF/border_3D3D3B/columns_2/maxflags_100/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="shintaku.xyz" border="0"></a>
+      	<a target="_blank" rel="noopener" href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3D3D3B/txt_FFFFFF/border_3D3D3B/columns_2/maxflags_100/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="shintaku.xyz" border="0"></a>
     </div>
 </div>
   
@@ -515,7 +518,7 @@ setTimeout(function() {
     <div class="widget widget-background1" align="center">
       	<img src="/images/alipay.png" alt="支付宝支付" width="220">
       	<img src="/images/wechat.png" alt="微信支付" width="220">
-      	<a href="https://www.paypal.me/liangzhenduo" title="PayPal支付" onclick="javascript:window.open('https://www.paypal.me/liangzhenduo','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" alt="PayPal支付" width="220"/></a>
+      	<a target="_blank" rel="noopener" href="https://www.paypal.me/liangzhenduo" title="PayPal支付" onclick="javascript:window.open('https://www.paypal.me/liangzhenduo','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" alt="PayPal支付" width="220"/></a>
     </div>
 </div>
   
@@ -601,13 +604,23 @@ setTimeout(function() {
 
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/jquery.lazyload.js"></script>
+
+
 <script src="/js/jquery.als-1.6.js"></script>
+
+
 <script src="/js/script.js"></script>
+
 
   </div>
 <script type="text/x-mathjax-config">

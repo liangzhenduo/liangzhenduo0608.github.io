@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8" name="theme-color" content="#171714">
   
   <meta name="google-site-verification" content="fTlRYC4_eug8Q64ZK4Lzdv8mcunvs7S0Ec-39TBokv4">
@@ -41,16 +41,18 @@
 <meta property="og:title" content="Shintaku&#39;s Blog">
 <meta property="og:url" content="https://liangzhenduo0608.github.io/index.html">
 <meta property="og:site_name" content="Shintaku&#39;s Blog">
-<meta property="og:locale" content="default">
+<meta property="og:locale">
+<meta property="article:author" content="Shintaku">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Shintaku&#39;s Blog">
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   <script src="/js/jquery-3.3.1.min.js"></script>
   <script src="/js/nprogress.js"></script>
   <link href="/css/nprogress.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-</html>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
 <body>
   <div id="container">
     <div id="wrap">
@@ -61,10 +63,6 @@
       <h1 id="logo-wrap">
         <a href="/" id="logo">Shintaku&#39;s Blog</a>
       </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">いいこと？暁の水平線に勝利を刻みなさい！</a>
-        </h2>
       
     </div>
     <div id="header-inner" class="inner">
@@ -108,6 +106,94 @@
         
           <section id="main" class='pjax'>
   
+    <article id="post-docker-openwrt" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/posts/docker-openwrt/" class="article-date">
+  <time datetime="2020-11-16T16:00:00.000Z" itemprop="datePublished">2020-11-17</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a>►<a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/">＊nix</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/dockeropenwrtbanner.png" rel="gallery_ckhsyzxin000w2uh80koq73te">
+        <img src="/img/dockeropenwrtbanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/docker-openwrt/">N1盒子Docker安装OpenWrt旁路由</a>
+    </h1>
+  
+
+      </header>
+    
+    <footer class="article-footer">
+      <a data-url="https://liangzhenduo0608.github.io/posts/docker-openwrt/" data-id="ckhsyzxin000w2uh80koq73te" class="article-share-link">Share</a>
+      
+        <a href="https://liangzhenduo0608.github.io/posts/docker-openwrt/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/N1%E7%9B%92%E5%AD%90/" rel="tag">N1盒子</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWrt/" rel="tag">OpenWrt</a></li></ul>
+
+    </footer>
+    <div class="article-entry article-index" itemprop="articleBody">
+      
+          
+        
+          <div class="toggle-content">
+            <p>N1盒子装上Armbian以后就可以当作一台低功耗的小主机使用，配合各种docker可以集各种功能于一体。</p>
+<p>Armbian固件使用的是恩山flippy大神的49+o（<a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/thread-981406-1-1.html">原帖地址</a>），目前已经稳定，于是在刷入u盘后顺手刷入了eMMC。</p>
+<p>在刷入前先在u盘启动的系统里运行<code>ddbr</code>命令选<code>b</code>进行备份（记得选压缩），文件保存到了<code>/ddbr</code>目录，以便以后有需要时恢复原系统。<br>然后执行<code>install-to-emmc.sh</code>脚本按提示将系统拷贝到N1的闪存中。拷贝完成关机、拔U盘、再开机，就进入内置的系统了。</p>
+<h1 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h1><p>执行<code>install-docker.sh</code>安装docker，啪的一下就安装完成了，很快啊！</p>
+<p>可以接着安装一个Docker图像化管理工具<a target="_blank" rel="noopener" href="https://www.portainer.io/">Portainer</a>：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker volume create portainer_data</span><br><span class="line">docker run -d --name portainer --restart always -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer</span><br></pre></td></tr></table></figure><br>通过浏览器访问盒子的9000端口就能管理docker了。</p>
+<h1 id="安装OpenWrt"><a href="#安装OpenWrt" class="headerlink" title="安装OpenWrt"></a>安装OpenWrt</h1><p>OpenWrt的Docker镜像使用的也是flippy大神提供的（<a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/thread-958173-1-1.html">原帖地址</a>），目前还在更新。</p>
+<h2 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h2><p>从网盘上下载压缩包传到Armbian目录下，省去pull的步骤直接启动：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gzip -dc docker-img-openwrt-aarch64-r20.10.20.gz | docker load</span><br><span class="line">docker network create -d macvlan --subnet=192.168.123.0/24 --gateway=192.168.123.1 -o parent=eth0 macnet</span><br><span class="line">docker run -d --name openwrt --restart always --network macnet --privileged unifreq/openwrt-aarch64:r20.10.20</span><br></pre></td></tr></table></figure><br>其中macvlan的网段按主路由的实际情况填写。</p>
+<h2 id="配置OpenWrt地址"><a href="#配置OpenWrt地址" class="headerlink" title="配置OpenWrt地址"></a>配置OpenWrt地址</h2><p>执行<code>docker exec -it openwrt bash</code>进入容器里进行配置。<br>编辑容器里的<code>/etc/config/network</code>配置文件，将<code>option ipaddr</code>的值改为指定给OpenWrt的ip地址，如<code>192.168.123.2</code>。<br>保存后执行<code>/etc/init.d/network restart</code>使配置生效。<br>此时通过浏览器访问刚刚配置的地址应该就可以进入luci管理界面了（默认密码应该是<code>password</code>）。</p>
+<h2 id="旁路由设置"><a href="#旁路由设置" class="headerlink" title="旁路由设置"></a>旁路由设置</h2><p>通过浏览器进入OpenWrt的管理界面，在<code>网络</code>-<code>接口</code>里修改<code>lan</code>的配置，将<code>IPv4网关</code>设置为主路由的地址，如<code>192.168.123.1</code>，在<code>使用自定义的DNS服务器</code>里添加几个当地最好用的公共DNS；在<code>物理设置</code>里关闭<code>桥接接口</code>；关闭<code>DHCP服务器</code>里的<code>动态DHCP</code>功能，保存并与应用设置。</p>
+<h2 id="主路由设置"><a href="#主路由设置" class="headerlink" title="主路由设置"></a>主路由设置</h2><p>在主路由的<code>内部网络(LAN)</code>-<code>DHCP服务器</code>设置里将<code>默认网关</code>和<code>DNS服务器</code>设置为旁路由地址，如<code>192.168.123.2</code>。<br>如果主路由是padavan固件且<code>外部网络(WAN)</code>-<code>外网设置</code>开启了硬件加速，需要将<code>IPv4 硬件加速</code>设置为<code>OFFLOAD TCP/UDP for LAN</code>。</p>
+<h1 id="Armbian和OpenWrt网络互通"><a href="#Armbian和OpenWrt网络互通" class="headerlink" title="Armbian和OpenWrt网络互通"></a>Armbian和OpenWrt网络互通</h1><p>按照上面设置完旁路由发现Docker的宿主机Armbian系统和OpenWrt无法互相访问。需要修改Armbian网络配置<code>/etc/network/interfaces</code>，增加如下内容：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">up ip link <span class="built_in">set</span> eth0 promisc on</span><br><span class="line"></span><br><span class="line">auto macvlan</span><br><span class="line">iface macvlan inet static</span><br><span class="line">    address 192.168.123.123</span><br><span class="line">    netmask 255.255.255.0</span><br><span class="line">    gateway 192.168.123.1</span><br><span class="line">    dns-nameservers 192.168.123.1</span><br><span class="line">    pre-up ip link add macvlan link eth0 <span class="built_in">type</span> macvlan mode bridge</span><br><span class="line">    post-down ip link del macvlan link eth0 <span class="built_in">type</span> macvlan mode bridge</span><br></pre></td></tr></table></figure><br>其中<code>address</code>是要固定的Armbian的地址，<code>gateway</code>和<code>dns-nameservers</code>填主路由地址就可以了。</p>
+<p>保存后执行<code>systemctl restart networking</code>使配置生效，两个地址就可以互相访问了。</p>
+<p>然后在比硬路由更强大的N1盒子上就起一些留学服务了。</p>
+
+          </div>
+          <div class="toggle-input article-more-link"><a>Read More +</a></div>
+        
+      
+    </div>
+
+  </div>
+  
+</article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-9920928489161252"
+     data-ad-slot="3913131990"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+  
     <article id="post-tm-nas" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     
@@ -117,7 +203,7 @@
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/奇技淫巧/">奇技淫巧</a>►<a class="article-category-link" href="/categories/奇技淫巧/macOS/">macOS</a>
+    <a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a>►<a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/">macOS</a>
   </div>
 
   </div>
@@ -126,7 +212,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/tm-nas-banner.png" rel="gallery_ck651l5wo001anwh80mum1pjo">
+      <a class="article-gallery-img fancybox" href="/img/tm-nas-banner.png" rel="gallery_ckhsyzxje003u2uh80asuff45">
         <img src="/img/tm-nas-banner.png" itemprop="image">
       </a>
     
@@ -145,12 +231,12 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/tm-nas/" data-id="ck651l5wo001anwh80mum1pjo" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/tm-nas/" data-id="ckhsyzxje003u2uh80asuff45" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/tm-nas/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NAS/">NAS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OMV/">OMV</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NAS/" rel="tag">NAS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OMV/" rel="tag">OMV</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/" rel="tag">macOS</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -165,7 +251,7 @@
 <p>配置完成后在<code>特权</code>里给用于备份的账户授予<code>读写权限</code>，并更改<code>ACL</code>设置如下：</p>
 <p><img src="/img/tm-nas-acl.png" alt="修改ACL"></p>
 <h2 id="更改samba设置"><a href="#更改samba设置" class="headerlink" title="更改samba设置"></a>更改samba设置</h2><p>以root身份登入OMV，编辑samba的配置文件<code>/etc/samba/smb.conf</code>，更改备份文件夹的内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[Backup]</span><br><span class="line">comment = Time Machine</span><br><span class="line">path = /srv/dev-disk-by-label-Backup/</span><br><span class="line">guest ok = no</span><br><span class="line">guest only = no</span><br><span class="line">read only = no</span><br><span class="line">browseable = yes</span><br><span class="line">inherit acls = yes</span><br><span class="line">inherit permissions = no</span><br><span class="line">ea support = no</span><br><span class="line">store dos attributes = no</span><br><span class="line">fruit:encoding = private</span><br><span class="line">fruit:locking = none</span><br><span class="line">fruit:metadata = netatalk</span><br><span class="line">fruit:resource = file</span><br><span class="line">fruit:time machine = yes</span><br><span class="line">vfs objects = catia fruit streams_xattr</span><br><span class="line">printable = no</span><br><span class="line">create mask = 0664</span><br><span class="line">force create mode = 0664</span><br><span class="line">directory mask = 0775</span><br><span class="line">force directory mode = 0775</span><br><span class="line">hide special files = yes</span><br><span class="line">follow symlinks = yes</span><br><span class="line">hide dot files = yes</span><br><span class="line">valid users = &quot;shintaku&quot;</span><br><span class="line">invalid users =</span><br><span class="line">read list =</span><br><span class="line">write list = &quot;shintaku&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[Backup]</span><br><span class="line">comment &#x3D; Time Machine</span><br><span class="line">path &#x3D; &#x2F;srv&#x2F;dev-disk-by-label-Backup&#x2F;</span><br><span class="line">guest ok &#x3D; no</span><br><span class="line">guest only &#x3D; no</span><br><span class="line">read only &#x3D; no</span><br><span class="line">browseable &#x3D; yes</span><br><span class="line">inherit acls &#x3D; yes</span><br><span class="line">inherit permissions &#x3D; no</span><br><span class="line">ea support &#x3D; no</span><br><span class="line">store dos attributes &#x3D; no</span><br><span class="line">fruit:encoding &#x3D; private</span><br><span class="line">fruit:locking &#x3D; none</span><br><span class="line">fruit:metadata &#x3D; netatalk</span><br><span class="line">fruit:resource &#x3D; file</span><br><span class="line">fruit:time machine &#x3D; yes</span><br><span class="line">vfs objects &#x3D; catia fruit streams_xattr</span><br><span class="line">printable &#x3D; no</span><br><span class="line">create mask &#x3D; 0664</span><br><span class="line">force create mode &#x3D; 0664</span><br><span class="line">directory mask &#x3D; 0775</span><br><span class="line">force directory mode &#x3D; 0775</span><br><span class="line">hide special files &#x3D; yes</span><br><span class="line">follow symlinks &#x3D; yes</span><br><span class="line">hide dot files &#x3D; yes</span><br><span class="line">valid users &#x3D; &quot;shintaku&quot;</span><br><span class="line">invalid users &#x3D;</span><br><span class="line">read list &#x3D;</span><br><span class="line">write list &#x3D; &quot;shintaku&quot;</span><br></pre></td></tr></table></figure>
 <p>主要变化在于更改了<code>vfs objects</code>的值并增加了几个<code>fruit</code>的配置。</p>
 <p>保存后运行<code>testparm</code>看一下配置是否正确，没问题就可以<code>systemctl restart smbd</code>重启服务了。</p>
 <h1 id="macOS设置"><a href="#macOS设置" class="headerlink" title="macOS设置"></a>macOS设置</h1><p>将Mac和NAS放到统一局域网下，用Finder的<code>前往</code>-<code>连接服务器</code>挂载一下备份硬盘看看是否正常。</p>
@@ -211,7 +297,7 @@
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/网络/">网络</a>►<a class="article-category-link" href="/categories/网络/科学上网/">科学上网</a>
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>►<a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a>
   </div>
 
   </div>
@@ -220,7 +306,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/shadowsocks-v2ray-banner.png" rel="gallery_ck651l5wk0011nwh85707fqdx">
+      <a class="article-gallery-img fancybox" href="/img/shadowsocks-v2ray-banner.png" rel="gallery_ckhsyzxj5002u2uh89g9i98v3">
         <img src="/img/shadowsocks-v2ray-banner.png" itemprop="image">
       </a>
     
@@ -239,12 +325,12 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/shadowsocks-v2ray/" data-id="ck651l5wk0011nwh85707fqdx" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/shadowsocks-v2ray/" data-id="ckhsyzxj5002u2uh89g9i98v3" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/shadowsocks-v2ray/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ShadowSocks/">ShadowSocks</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/V2Ray/">V2Ray</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/代理/">代理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/服务器/">服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/科学上网/">科学上网</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ShadowSocks/" rel="tag">ShadowSocks</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/V2Ray/" rel="tag">V2Ray</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/" rel="tag">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" rel="tag">科学上网</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -260,10 +346,10 @@
 cd v2ray-plugin &amp;&amp; go build
 cp v2ray-plugin /usr/bin/
 </code></pre><h2 id="更改配置"><a href="#更改配置" class="headerlink" title="更改配置"></a>更改配置</h2><p>编辑<code>/etc/shadowsocks-libev/config.json</code>：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"server"</span>:<span class="string">"0.0.0.0"</span>,</span><br><span class="line">    <span class="attr">"server_port"</span>:<span class="number">23333</span>,</span><br><span class="line">    <span class="attr">"local_port"</span>:<span class="number">1080</span>,</span><br><span class="line">    <span class="attr">"password"</span>:<span class="string">"password"</span>,</span><br><span class="line">    <span class="attr">"timeout"</span>:<span class="number">300</span>,</span><br><span class="line">    <span class="attr">"method"</span>:<span class="string">"rc4-md5"</span>,</span><br><span class="line">    <span class="attr">"plugin"</span>:<span class="string">"v2ray-plugin"</span>,</span><br><span class="line">    <span class="attr">"plugin_opts"</span>:<span class="string">"server;loglevel=none"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;server&quot;</span>:<span class="string">&quot;0.0.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;server_port&quot;</span>:<span class="number">23333</span>,</span><br><span class="line">    <span class="attr">&quot;local_port&quot;</span>:<span class="number">1080</span>,</span><br><span class="line">    <span class="attr">&quot;password&quot;</span>:<span class="string">&quot;password&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;timeout&quot;</span>:<span class="number">300</span>,</span><br><span class="line">    <span class="attr">&quot;method&quot;</span>:<span class="string">&quot;rc4-md5&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;plugin&quot;</span>:<span class="string">&quot;v2ray-plugin&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;plugin_opts&quot;</span>:<span class="string">&quot;server;loglevel=none&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>本来这里使用v2ray插件的目的是将shadowsocks的流量伪装成tls流量，自然服务器端口应当使用443。<br>但是我的服务器同时还启用了nginx，再使用443会造成端口冲突，所以在这里使用一个其他的端口，然后再用nginx做一次端口转发。</p>
 <h2 id="端口转发"><a href="#端口转发" class="headerlink" title="端口转发"></a>端口转发</h2><p>在<code>/etc/nginx/conf.d/</code>目录下新建一个配置：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">443</span>;</span><br><span class="line">    <span class="attribute">server_name</span>  ss.your.domain;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://127.0.0.1:23333;</span><br><span class="line">        <span class="attribute">proxy_redirect</span>	    <span class="literal">off</span>;</span><br><span class="line">        <span class="attribute">proxy_http_version</span>	<span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>    Host	<span class="variable">$http_host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>    Upgrade	<span class="variable">$http_upgrade</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>    Connection	<span class="string">"upgrade"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">443</span>;</span><br><span class="line">    <span class="attribute">server_name</span>  ss.your.domain;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://127.0.0.1:23333;</span><br><span class="line">        <span class="attribute">proxy_redirect</span>      <span class="literal">off</span>;</span><br><span class="line">        <span class="attribute">proxy_http_version</span>  <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>    Host $http_host;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>    Upgrade $http_upgrade;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>    Connection <span class="string">&quot;upgrade&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><code>server_name</code>需要使用自己的域名，并将这个二级域名解析到vps上。</p>
 <p>保存后重启nginx，启动shadowsocks并设置开机启动：</p>
 <pre><code>systemctl restart nginx
@@ -280,19 +366,19 @@ systemctl enable shadowsocks-libev
 <p><img src="/img/shadowsocks-v2ray-pdcn.png" alt="路由器设置"></p>
 <p>打开开关应用即可。</p>
 <h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><ul>
-<li>客户端下载：<a href="https://github.com/shadowsocks/shadowsocks-windows/releases/latest" target="_blank" rel="noopener">shadowsocks-windows</a></li>
-<li>插件下载：<a href="https://github.com/shadowsocks/v2ray-plugin/releases/latest" target="_blank" rel="noopener">v2ray-plugin</a></li>
+<li>客户端下载：<a target="_blank" rel="noopener" href="https://github.com/shadowsocks/shadowsocks-windows/releases/latest">shadowsocks-windows</a></li>
+<li>插件下载：<a target="_blank" rel="noopener" href="https://github.com/shadowsocks/v2ray-plugin/releases/latest">v2ray-plugin</a></li>
 </ul>
 <p>下载完成将插件<code>v2ray-plugin.exe</code>解压到shadowsocks的文件夹中（使其与<code>shadowsocks.exe</code>平级），启动按如下配置：</p>
 <p><img src="/img/shadowsocks-v2ray-windows.png" alt="Windows设置"></p>
 <h2 id="macOS"><a href="#macOS" class="headerlink" title="macOS"></a>macOS</h2><ul>
-<li>客户端下载：<a href="https://github.com/shadowsocks/ShadowsocksX-NG/releases/latest" target="_blank" rel="noopener">ShadowsocksX-NG</a></li>
+<li>客户端下载：<a target="_blank" rel="noopener" href="https://github.com/shadowsocks/ShadowsocksX-NG/releases/latest">ShadowsocksX-NG</a></li>
 </ul>
-<p>将客户端解压到应用目录(客户端会自己安装插件)，启动按如下配置：</p>
+<p>将客户端解压到应用目录（客户端会自己安装插件），启动按如下配置：</p>
 <p><img src="/img/shadowsocks-v2ray-macos.png" alt="macOS设置"></p>
 <h2 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h2><ul>
-<li>客户端下载：<a href="https://github.com/shadowsocks/shadowsocks-android/releases/latest" target="_blank" rel="noopener">shadowsocks-android</a></li>
-<li>插件下载：<a href="https://github.com/shadowsocks/v2ray-plugin-android/releases/latest" target="_blank" rel="noopener">v2ray-plugin-android</a></li>
+<li>客户端下载：<a target="_blank" rel="noopener" href="https://github.com/shadowsocks/shadowsocks-android/releases/latest">shadowsocks-android</a></li>
+<li>插件下载：<a target="_blank" rel="noopener" href="https://github.com/shadowsocks/v2ray-plugin-android/releases/latest">v2ray-plugin-android</a></li>
 </ul>
 <p>两个apk安装以后启动按如下配置：</p>
 <p><img src="/img/shadowsocks-v2ray-android.png" alt="Android设置"><br><img src="/img/shadowsocks-v2ray-android-plugin.png" alt="插件设置"></p>
@@ -330,7 +416,7 @@ systemctl enable shadowsocks-libev
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/网络/">网络</a>►<a class="article-category-link" href="/categories/网络/网站部署/">网站部署</a>
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>►<a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a>
   </div>
 
   </div>
@@ -339,7 +425,7 @@ systemctl enable shadowsocks-libev
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/mathjaxbanner.png" rel="gallery_ck651l5wd000onwh87n8qgthg">
+      <a class="article-gallery-img fancybox" href="/img/mathjaxbanner.png" rel="gallery_ckhsyzxit001g2uh89w0rhkhn">
         <img src="/img/mathjaxbanner.png" itemprop="image">
       </a>
     
@@ -358,12 +444,12 @@ systemctl enable shadowsocks-libev
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/hexo-mathjax/" data-id="ck651l5wd000onwh87n8qgthg" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/hexo-mathjax/" data-id="ckhsyzxit001g2uh89w0rhkhn" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/hexo-mathjax/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/">Node.js</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -371,7 +457,7 @@ systemctl enable shadowsocks-libev
           
         
           <div class="toggle-content">
-            <p>最近手贱将Hexo的博客的版本升到了3.8.0，顺便将npm组件也都升级了。一开始没有发现什么问题，后来打开一篇带公式的文章发现里面的部分<a href="https://www.mathjax.org/" target="_blank" rel="noopener">MathJax</a>公式渲染失败了。想到之前曾经因为Markdown里面的下划线<code>_</code>表示斜体，和MathJax里的下标冲突了，之前改过的node_modules被更新覆盖了，这次索性重新搞一遍。</p>
+            <p>最近手贱将Hexo的博客的版本升到了3.8.0，顺便将npm组件也都升级了。一开始没有发现什么问题，后来打开一篇带公式的文章发现里面的部分<a target="_blank" rel="noopener" href="https://www.mathjax.org/">MathJax</a>公式渲染失败了。想到之前曾经因为Markdown里面的下划线<code>_</code>表示斜体，和MathJax里的下标冲突了，之前改过的node_modules被更新覆盖了，这次索性重新搞一遍。</p>
 <h1 id="更换渲染引擎"><a href="#更换渲染引擎" class="headerlink" title="更换渲染引擎"></a>更换渲染引擎</h1><p>卸载原来的<code>hexo-renderer-marked</code>，换成专门对MathJax魔改过的<code>hexo-renderer-kramed</code>（注意<code>kram</code>这个单词的拼写）：</p>
 <pre><code>npm uninstall hexo-renderer-marked --save
 npm install hexo-renderer-kramed --save
@@ -379,7 +465,7 @@ npm install hexo-renderer-kramed --save
 <pre><code>npm install hexo-renderer-mathjax --save
 </code></pre><h1 id="更改字符集"><a href="#更改字符集" class="headerlink" title="更改字符集"></a>更改字符集</h1><p>为了避免语义冲突，修改<code>node_modules/kramed/lib/rules/inline.js</code>文件的<code>escape</code>和<code>em</code>：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,</span></span><br><span class="line"><span class="built_in">escape</span>: <span class="regexp">/^\\([`*\[\]()#$+\-.!_&gt;])/</span>,</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span></span><br><span class="line">em: <span class="regexp">/^\*((?:\*\*|[\s\S])+?)\*(?!\*)/</span>,</span><br></pre></td></tr></table></figure>
-<h1 id="更改cdn链接"><a href="#更改cdn链接" class="headerlink" title="更改cdn链接"></a>更改cdn链接</h1><p>修改<code>node_modules/hexo-renderer-mathjax/mathjax.html</code>的最后一行，将<code>http</code>改成<code>https</code>：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="更改cdn链接"><a href="#更改cdn链接" class="headerlink" title="更改cdn链接"></a>更改cdn链接</h1><p>修改<code>node_modules/hexo-renderer-mathjax/mathjax.html</code>的最后一行，将<code>http</code>改成<code>https</code>：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--script src=&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;&lt;/script--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>这样是为了避免在网站为https协议时请求http的内容时被浏览器block。使用<code>hexo s</code>预览是否已生效。</p>
 
           </div>
@@ -415,7 +501,7 @@ npm install hexo-renderer-kramed --save
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/奇技淫巧/">奇技淫巧</a>►<a class="article-category-link" href="/categories/奇技淫巧/路由器/">路由器</a>
+    <a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a>►<a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a>
   </div>
 
   </div>
@@ -424,7 +510,7 @@ npm install hexo-renderer-kramed --save
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/ttlbanner.png" rel="gallery_ck651l5wo001bnwh81ylspgxe">
+      <a class="article-gallery-img fancybox" href="/img/ttlbanner.png" rel="gallery_ckhsyzxjf003y2uh8afoh1542">
         <img src="/img/ttlbanner.png" itemprop="image">
       </a>
     
@@ -443,12 +529,12 @@ npm install hexo-renderer-kramed --save
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/ttl/" data-id="ck651l5wo001bnwh81ylspgxe" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/ttl/" data-id="ckhsyzxjf003y2uh8afoh1542" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/ttl/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/路由器/">路由器</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/" rel="tag">ssh</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" rel="tag">路由器</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -456,38 +542,38 @@ npm install hexo-renderer-kramed --save
           
         
           <div class="toggle-content">
-            <p><img src="/img/ttldw22d.png" alt></p>
+            <p><img src="/img/ttldw22d.png" alt=""></p>
 <p>之前偶然拿到一台大麦DW22D路由器，应该是之前的租客办长城宽带赠送的，登入管理界面发现里面是基于长城宽带深度定制的系统。</p>
-<p><img src="/img/ttldomy.png" alt></p>
+<p><img src="/img/ttldomy.png" alt=""></p>
 <p>上了恩山查了一下发现这个机器的硬件还可以，并且可以无拆机刷入padavan固件，所以就开始按照教程刷机。</p>
-<h1 id="无拆机刷机"><a href="#无拆机刷机" class="headerlink" title="无拆机刷机"></a>无拆机刷机</h1><p>以下步骤参考<a href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;tid=313543" target="_blank" rel="noopener">恩山的教程</a>。</p>
+<h1 id="无拆机刷机"><a href="#无拆机刷机" class="headerlink" title="无拆机刷机"></a>无拆机刷机</h1><p>以下步骤参考<a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;tid=313543">恩山的教程</a>。</p>
 <h2 id="开启ssh"><a href="#开启ssh" class="headerlink" title="开启ssh"></a>开启ssh</h2><p>本方法主要依靠后门页面的命令注入漏洞，步骤如下：</p>
-<h3 id="注入新密码"><a href="#注入新密码" class="headerlink" title="注入新密码"></a>注入新密码</h3><p>电脑连上路由器（最好有线方式），访问<a href="http://192.168.10.1/upgrade.html" target="_blank" rel="noopener">http://192.168.10.1/upgrade.html</a>，在页面上打开ssh的选项，密码框内输入：</p>
+<h3 id="注入新密码"><a href="#注入新密码" class="headerlink" title="注入新密码"></a>注入新密码</h3><p>电脑连上路由器（最好有线方式），访问<a target="_blank" rel="noopener" href="http://192.168.10.1/upgrade.html">http://192.168.10.1/upgrade.html</a>，在页面上打开ssh的选项，密码框内输入：</p>
 <pre><code>123 | echo 6c216b27c8c9b051106c969e2077d4e9 &gt; /ezwrt/bin/upgrade_passwd 
 </code></pre><p>注意末尾有空格。<strong>这里的md5值是<code>echo dfc643 | md5</code>算出来的，里面的<code>dfc643</code>是发现这个方法大佬的用户名，此处的密码是可以随便改的。</strong>然后点<code>确定</code>提交，此时会提示密码错误，可以忽略。</p>
-<h3 id="注入ssh公钥"><a href="#注入ssh公钥" class="headerlink" title="注入ssh公钥"></a>注入ssh公钥</h3><p>再次访问<a href="http://192.168.10.1/upgrade.html" target="_blank" rel="noopener">http://192.168.10.1/upgrade.html</a>，同样选择打开ssh，密码框内输入：</p>
+<h3 id="注入ssh公钥"><a href="#注入ssh公钥" class="headerlink" title="注入ssh公钥"></a>注入ssh公钥</h3><p>再次访问<a target="_blank" rel="noopener" href="http://192.168.10.1/upgrade.html">http://192.168.10.1/upgrade.html</a>，同样选择打开ssh，密码框内输入：</p>
 <pre><code>123 | echo YOUR_ID_RSA_PUB &gt; /etc/dropbear/authorized_keys 
 </code></pre><p>同样注意末尾有空格。<strong>其中<code>YOUR_ID_RSA_PUB</code>替换为自己的公钥，即电脑上<code>~/.ssh/id_rsa.pub</code>的内容。</strong>再次点<code>确定</code>提交，此时还会提示密码错误，也可以忽略。</p>
-<h3 id="开启ssh-1"><a href="#开启ssh-1" class="headerlink" title="开启ssh"></a>开启ssh</h3><p>最后一次访问<a href="http://192.168.10.1/upgrade.html" target="_blank" rel="noopener">http://192.168.10.1/upgrade.html</a>，选择打开ssh，密码为<code>dfc643</code>（如果在第一步注入密码时用了别的密码，此处输入相应的密码），最后点确定提交，提示<code>start ssh success</code>表示已经开启ssh。</p>
+<h3 id="开启ssh-1"><a href="#开启ssh-1" class="headerlink" title="开启ssh"></a>开启ssh</h3><p>最后一次访问<a target="_blank" rel="noopener" href="http://192.168.10.1/upgrade.html">http://192.168.10.1/upgrade.html</a>，选择打开ssh，密码为<code>dfc643</code>（如果在第一步注入密码时用了别的密码，此处输入相应的密码），最后点确定提交，提示<code>start ssh success</code>表示已经开启ssh。</p>
 <p>这样就可以<code>ssh root@192.168.10.1</code>登录路由器了。</p>
-<h2 id="刷入breed"><a href="#刷入breed" class="headerlink" title="刷入breed"></a>刷入breed</h2><p><a href="https://www.right.com.cn/forum/thread-161906-1-1.html" target="_blank" rel="noopener">breed</a>是hackpascal独立开发的一个全新的 Bootloader。DW22D路由器对应的版本是<a href="https://breed.hackpascal.net/breed-mt7620-reset13.bin" target="_blank" rel="noopener">breed-mt7620-reset13.bin</a>。</p>
+<h2 id="刷入breed"><a href="#刷入breed" class="headerlink" title="刷入breed"></a>刷入breed</h2><p><a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/thread-161906-1-1.html">breed</a>是hackpascal独立开发的一个全新的 Bootloader。DW22D路由器对应的版本是<a target="_blank" rel="noopener" href="https://breed.hackpascal.net/breed-mt7620-reset13.bin">breed-mt7620-reset13.bin</a>。</p>
 <p>下载好后将其传入路由器的<code>/tmp</code>目录下备用：</p>
 <pre><code>scp breed-mt7620-reset13.bin root@192.168.10.1:/tmp
 </code></pre><p>然后在路由器上执行：</p>
 <pre><code>mtd_write -x mIp2osnRG3qZGdIlQPh1 -r write /tmp/breed-mt7620-reset13.bin bootloader
 </code></pre><p>这样应该就能将breed刷入bootloader，然后就可以随意刷firmware了。</p>
 <p>然而我手残将最后的<code>bootloader</code>打成了<code>firmware</code>，也就是将breed刷入了firmware分区，导致路由器进不去系统了，也才有了后面的ttl救砖。</p>
-<h1 id="TTL刷机"><a href="#TTL刷机" class="headerlink" title="TTL刷机"></a>TTL刷机</h1><p>以下步骤参考<a href="https://www.right.com.cn/forum/thread-190778-1-1.html" target="_blank" rel="noopener">恩山的教程</a>。</p>
+<h1 id="TTL刷机"><a href="#TTL刷机" class="headerlink" title="TTL刷机"></a>TTL刷机</h1><p>以下步骤参考<a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/thread-190778-1-1.html">恩山的教程</a>。</p>
 <h2 id="USB转TTL"><a href="#USB转TTL" class="headerlink" title="USB转TTL"></a>USB转TTL</h2><p>为了让路由器硬件和电脑相连，需要一个USB转TTL模块，随便在马云家买一个最便宜的就能用，我就买了一个<code>ch340g</code>芯片的模块。</p>
-<h3 id="TTL驱动"><a href="#TTL驱动" class="headerlink" title="TTL驱动"></a>TTL驱动</h3><p>然后在github找了<a href="https://github.com/adrianmihalko/ch340g-ch34g-ch34x-mac-os-x-driver" target="_blank" rel="noopener">驱动</a>安装上（这里给的是Mac电脑的驱动，Windows的驱动一般卖家都会提供，网上找找也都有）。</p>
+<h3 id="TTL驱动"><a href="#TTL驱动" class="headerlink" title="TTL驱动"></a>TTL驱动</h3><p>然后在github找了<a target="_blank" rel="noopener" href="https://github.com/adrianmihalko/ch340g-ch34g-ch34x-mac-os-x-driver">驱动</a>安装上（这里给的是Mac电脑的驱动，Windows的驱动一般卖家都会提供，网上找找也都有）。</p>
 <p>重启后打开<code>网络偏好</code>可以看见多了一个串行接口：</p>
-<p><img src="/img/ttldriver.png" alt></p>
+<p><img src="/img/ttldriver.png" alt=""></p>
 <p>将USB转TTL模块插在电脑上，在<code>/dev</code>目录下会出现名字类似<code>cu.usbserial-1410</code>的设备，说明识别成功。</p>
 <h3 id="TTL连接"><a href="#TTL连接" class="headerlink" title="TTL连接"></a>TTL连接</h3><p>在如图位置焊上引脚（GND那个孔不用焊）：</p>
-<p><img src="/img/ttlwiring.png" alt></p>
+<p><img src="/img/ttlwiring.png" alt=""></p>
 <p>然后用杜邦线将三个引脚和USB转TTL模块相连。</p>
 <h2 id="开启TFTP"><a href="#开启TFTP" class="headerlink" title="开启TFTP"></a>开启TFTP</h2><p>将电脑用网线和路由器lan口连接，设置有线连接为手动模式，按图修改参数：</p>
-<p><img src="/img/ttlnetwork.png" alt></p>
+<p><img src="/img/ttlnetwork.png" alt=""></p>
 <p>参考<a href="/posts/mac-tftp/">macOS启用TFTP服务</a>，将<code>breed-mt7620-reset13.bin</code>放到TFTP目录下，将TFTP的地址选择有线ip（即上面设置的10.10.10.3）。</p>
 <h2 id="刷机"><a href="#刷机" class="headerlink" title="刷机"></a>刷机</h2><p>一切就绪后，可以连接路由器开始刷机。</p>
 <h3 id="登录路由器"><a href="#登录路由器" class="headerlink" title="登录路由器"></a>登录路由器</h3><p>使用screen连接未通电的路由器，波特率为57600：</p>
@@ -495,7 +581,7 @@ npm install hexo-renderer-kramed --save
 </code></pre><p>此时终端里什么也没有。然后给路由器通电，此时会打印出很多东西，最后出现一些选项，立刻（5秒内）按数字键<code>9</code>选择TFTP刷机。</p>
 <h3 id="刷入breed-1"><a href="#刷入breed-1" class="headerlink" title="刷入breed"></a>刷入breed</h3><p>之后会让确认<code>device IP</code>（路由器地址）和<code>server IP</code>（电脑地址），确认无误后会提示输入要刷入的文件名，输入<code>breed-mt7620-reset13.bin</code>回车就开始刷入了。</p>
 <p>刷完后断电按住复位键通电并长按5秒即可进入breed：</p>
-<p><img src="/img/ttlbreed.png" alt></p>
+<p><img src="/img/ttlbreed.png" alt=""></p>
 
           </div>
           <div class="toggle-input article-more-link"><a>Read More +</a></div>
@@ -530,7 +616,7 @@ npm install hexo-renderer-kramed --save
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/奇技淫巧/">奇技淫巧</a>►<a class="article-category-link" href="/categories/奇技淫巧/macOS/">macOS</a>
+    <a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a>►<a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/">macOS</a>
   </div>
 
   </div>
@@ -539,7 +625,7 @@ npm install hexo-renderer-kramed --save
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/mactftpbanner.png" rel="gallery_ck651l5wg000tnwh8lqrvj3as">
+      <a class="article-gallery-img fancybox" href="/img/mactftpbanner.png" rel="gallery_ckhsyzxiy001z2uh88w0w3bif">
         <img src="/img/mactftpbanner.png" itemprop="image">
       </a>
     
@@ -558,12 +644,12 @@ npm install hexo-renderer-kramed --save
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/mac-tftp/" data-id="ck651l5wg000tnwh8lqrvj3as" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/mac-tftp/" data-id="ckhsyzxiy001z2uh88w0w3bif" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/mac-tftp/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/" rel="tag">macOS</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -577,8 +663,8 @@ npm install hexo-renderer-kramed --save
 </code></pre><p>然后启用服务：</p>
 <pre><code>sudo launchctl load -F /System/Library/LaunchDaemons/tftp.plist
 sudo launchctl start com.apple.tftpd
-</code></pre><p>如果觉得命令行方式不直观，macOS上也有类似Windows上的Tftpd32的应用<a href="http://ww2.unime.it/flr/tftpserver/" target="_blank" rel="noopener">TFTP Server</a>，直接下载安装即可：</p>
-<p><img src="/img/mactftpserver.png" alt></p>
+</code></pre><p>如果觉得命令行方式不直观，macOS上也有类似Windows上的Tftpd32的应用<a target="_blank" rel="noopener" href="http://ww2.unime.it/flr/tftpserver/">TFTP Server</a>，直接下载安装即可：</p>
+<p><img src="/img/mactftpserver.png" alt=""></p>
 <p>TFTP的目录也可以在应用中修改。</p>
 
           </div>
@@ -614,7 +700,7 @@ sudo launchctl start com.apple.tftpd
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/网络/">网络</a>►<a class="article-category-link" href="/categories/网络/科学上网/">科学上网</a>
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>►<a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a>
   </div>
 
   </div>
@@ -623,7 +709,7 @@ sudo launchctl start com.apple.tftpd
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/l2tpbanner.png" rel="gallery_ck651l5we000qnwh8n289sr7q">
+      <a class="article-gallery-img fancybox" href="/img/l2tpbanner.png" rel="gallery_ckhsyzxiv001o2uh81ap58oyf">
         <img src="/img/l2tpbanner.png" itemprop="image">
       </a>
     
@@ -642,12 +728,12 @@ sudo launchctl start com.apple.tftpd
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/l2tp/" data-id="ck651l5we000qnwh8n289sr7q" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/l2tp/" data-id="ckhsyzxiv001o2uh81ap58oyf" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/l2tp/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/">VPN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/代理/">代理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/服务器/">服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/科学上网/">科学上网</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/" rel="tag">VPN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/" rel="tag">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" rel="tag">科学上网</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -661,13 +747,13 @@ sudo launchctl start com.apple.tftpd
 <pre><code>yum install openswan xl2tpd
 </code></pre><p>如果没有<code>ppp</code>也要安装。</p>
 <h1 id="配置IPSec"><a href="#配置IPSec" class="headerlink" title="配置IPSec"></a>配置IPSec</h1><p>在<code>/etc/ipsec.d</code>中新建一个<code>vpn.conf</code>文件，内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">conn L2TP-PSK-NAT</span><br><span class="line">    rightsubnet=vhost:%priv</span><br><span class="line">    also=L2TP-PSK-noNAT</span><br><span class="line"></span><br><span class="line">conn L2TP-PSK-noNAT</span><br><span class="line">    authby=secret</span><br><span class="line">    pfs=no</span><br><span class="line">    auto=add</span><br><span class="line">    keyingtries=3</span><br><span class="line">    rekey=no</span><br><span class="line">    ikelifetime=8h</span><br><span class="line">    keylife=1h</span><br><span class="line">    type=transport</span><br><span class="line">    left=YOUR_PUBLIC_IP_ADDRESS</span><br><span class="line">    leftprotoport=17/1701</span><br><span class="line">    right=%any</span><br><span class="line">    rightprotoport=17/%any</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">conn L2TP-PSK-NAT</span><br><span class="line">    rightsubnet&#x3D;vhost:%priv</span><br><span class="line">    also&#x3D;L2TP-PSK-noNAT</span><br><span class="line"></span><br><span class="line">conn L2TP-PSK-noNAT</span><br><span class="line">    authby&#x3D;secret</span><br><span class="line">    pfs&#x3D;no</span><br><span class="line">    auto&#x3D;add</span><br><span class="line">    keyingtries&#x3D;3</span><br><span class="line">    rekey&#x3D;no</span><br><span class="line">    ikelifetime&#x3D;8h</span><br><span class="line">    keylife&#x3D;1h</span><br><span class="line">    type&#x3D;transport</span><br><span class="line">    left&#x3D;YOUR_PUBLIC_IP_ADDRESS</span><br><span class="line">    leftprotoport&#x3D;17&#x2F;1701</span><br><span class="line">    right&#x3D;%any</span><br><span class="line">    rightprotoport&#x3D;17&#x2F;%any</span><br></pre></td></tr></table></figure>
 <p>其中<code>left</code>的值改为VPS的公网IP。</p>
 <p>再新建一个<code>vpn.secrets</code>文件，里面写一行：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">YOUR_PUBLIC_IP_ADDRESS %any: PSK &quot;YOUR_PRE_SHARED_KEY&quot;</span><br></pre></td></tr></table></figure>
 <p>前面还是公网IP，后面引号里面是自己设置的预共享密钥。</p>
 <h1 id="更改系统参数"><a href="#更改系统参数" class="headerlink" title="更改系统参数"></a>更改系统参数</h1><p>编辑<code>/etc/sysctl.conf</code>文件，修改或添加成以下配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.ip_forward = 1</span><br><span class="line">net.ipv4.conf.default.rp_filter = 0</span><br><span class="line">net.ipv4.conf.all.send_redirects = 0</span><br><span class="line">net.ipv4.conf.default.send_redirects = 0</span><br><span class="line">net.ipv4.conf.all.log_martians = 0</span><br><span class="line">net.ipv4.conf.default.log_martians = 0</span><br><span class="line">net.ipv4.conf.default.accept_source_route = 0</span><br><span class="line">net.ipv4.conf.all.accept_redirects = 0</span><br><span class="line">net.ipv4.conf.default.accept_redirects = 0</span><br><span class="line">net.ipv4.icmp_ignore_bogus_error_responses = 1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.ip_forward &#x3D; 1</span><br><span class="line">net.ipv4.conf.default.rp_filter &#x3D; 0</span><br><span class="line">net.ipv4.conf.all.send_redirects &#x3D; 0</span><br><span class="line">net.ipv4.conf.default.send_redirects &#x3D; 0</span><br><span class="line">net.ipv4.conf.all.log_martians &#x3D; 0</span><br><span class="line">net.ipv4.conf.default.log_martians &#x3D; 0</span><br><span class="line">net.ipv4.conf.default.accept_source_route &#x3D; 0</span><br><span class="line">net.ipv4.conf.all.accept_redirects &#x3D; 0</span><br><span class="line">net.ipv4.conf.default.accept_redirects &#x3D; 0</span><br><span class="line">net.ipv4.icmp_ignore_bogus_error_responses &#x3D; 1</span><br></pre></td></tr></table></figure>
 <p>用<code>sysctl -p</code>命令使更改生效。</p>
 <p>然后用以下脚本将<code>/proc/sys/net/ipv4/conf</code>下配置的值都改为<code>0</code>：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> /proc/sys/net/ipv4/conf/*</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> 0 &gt; <span class="variable">$each</span>/accept_redirects</span><br><span class="line">    <span class="built_in">echo</span> 0 &gt; <span class="variable">$each</span>/send_redirects</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
@@ -696,7 +782,7 @@ Checking &#39;prelink&#39; command does not interfere with FIPSChecking for obso
 Opportunistic Encryption                                  [DISABLED]
 </code></pre><p>如果有异常请检查之前的配置。</p>
 <h1 id="配置xl2tpd"><a href="#配置xl2tpd" class="headerlink" title="配置xl2tpd"></a>配置xl2tpd</h1><p>编辑<code>/etc/xl2tpd/xl2tpd.conf</code>配置如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[global]</span><br><span class="line">listen-addr = YOUR_PUBLIC_IP_ADDRESS</span><br><span class="line">ipsec saref = yes</span><br><span class="line"></span><br><span class="line">[lns default]</span><br><span class="line">ip range = 192.168.1.128-192.168.1.254</span><br><span class="line">local ip = 192.168.1.99</span><br><span class="line">require chap = yes</span><br><span class="line">refuse pap = yes</span><br><span class="line">require authentication = yes</span><br><span class="line">name = LinuxVPNserver</span><br><span class="line">ppp debug = yes</span><br><span class="line">pppoptfile = /etc/ppp/options.xl2tpd</span><br><span class="line">length bit = yes</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[global]</span><br><span class="line">listen-addr &#x3D; YOUR_PUBLIC_IP_ADDRESS</span><br><span class="line">ipsec saref &#x3D; yes</span><br><span class="line"></span><br><span class="line">[lns default]</span><br><span class="line">ip range &#x3D; 192.168.1.128-192.168.1.254</span><br><span class="line">local ip &#x3D; 192.168.1.99</span><br><span class="line">require chap &#x3D; yes</span><br><span class="line">refuse pap &#x3D; yes</span><br><span class="line">require authentication &#x3D; yes</span><br><span class="line">name &#x3D; LinuxVPNserver</span><br><span class="line">ppp debug &#x3D; yes</span><br><span class="line">pppoptfile &#x3D; &#x2F;etc&#x2F;ppp&#x2F;options.xl2tpd</span><br><span class="line">length bit &#x3D; yes</span><br></pre></td></tr></table></figure>
 <p>其实主要注意监听地址和几个<code>yes</code>就行了，其他基本不用动。</p>
 <p>然后编辑<code>/etc/ppp/options.xl2tpd</code>配置如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ipcp-accept-local</span><br><span class="line">ipcp-accept-remote</span><br><span class="line">ms-dns	8.8.8.8</span><br><span class="line">ms-dns	8.8.4.4</span><br><span class="line">noccp</span><br><span class="line">auth</span><br><span class="line">crtscts</span><br><span class="line">idle 1800</span><br><span class="line">mtu 1410</span><br><span class="line">mru 1410</span><br><span class="line">nodefaultroute</span><br><span class="line">debug</span><br><span class="line">lock</span><br><span class="line">proxyarp</span><br><span class="line">connect-delay 5000</span><br></pre></td></tr></table></figure>
@@ -741,7 +827,7 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/网络/">网络</a>►<a class="article-category-link" href="/categories/网络/网站部署/">网站部署</a>
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>►<a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a>
   </div>
 
   </div>
@@ -750,7 +836,7 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/certbotbanner.png" rel="gallery_ck651l5w6000cnwh8580bkpps">
+      <a class="article-gallery-img fancybox" href="/img/certbotbanner.png" rel="gallery_ckhsyzxig000j2uh835mh0bll">
         <img src="/img/certbotbanner.png" itemprop="image">
       </a>
     
@@ -769,12 +855,12 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/certbot/" data-id="ck651l5w6000cnwh8580bkpps" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/certbot/" data-id="ckhsyzxig000j2uh835mh0bll" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/certbot/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSL/">SSL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/服务器/">服务器</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSL/" rel="tag">SSL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/" rel="tag">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -782,8 +868,8 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
           
         
           <div class="toggle-content">
-            <p><a href="https://letsencrypt.org/" target="_blank" rel="noopener">Let’s Encrypt</a>是一个于2015年三季度推出的数字证书认证机构，旨在以自动化流程消除手动创建和安装证书的复杂流程，并推广使万维网服务器的加密连接无所不在，为安全网站提供免费的SSL/TLS证书。</p>
-<p>官方建议用<a href="https://www.eff.org/" target="_blank" rel="noopener">EFF</a>开发的<a href="https://certbot.eff.org/" target="_blank" rel="noopener">Certbot</a> ACME客户端签发证书。</p>
+            <p><a target="_blank" rel="noopener" href="https://letsencrypt.org/">Let’s Encrypt</a>是一个于2015年三季度推出的数字证书认证机构，旨在以自动化流程消除手动创建和安装证书的复杂流程，并推广使万维网服务器的加密连接无所不在，为安全网站提供免费的SSL/TLS证书。</p>
+<p>官方建议用<a target="_blank" rel="noopener" href="https://www.eff.org/">EFF</a>开发的<a target="_blank" rel="noopener" href="https://certbot.eff.org/">Certbot</a> ACME客户端签发证书。</p>
 <h1 id="安装certbot"><a href="#安装certbot" class="headerlink" title="安装certbot"></a>安装certbot</h1><p>CentOS可以通过yum直接安装：</p>
 <pre><code>yum install certbot
 </code></pre><p>如果yum找不到<code>certbot</code>，建议安装或重装<code>epel-release</code>。</p>
@@ -791,8 +877,8 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
 <pre><code>certbot certonly --webroot --email user@domain.com -w /usr/share/nginx/blog -d www.shintaku.cc -w /usr/share/nginx/info -d info.shintaku.cc
 </code></pre><p>然后在<code>/etc/letsencrypt/live/</code>下就会生成存放证书链接的目录，将它们配置到Web服务器就可以了。</p>
 <h1 id="配置Nginx"><a href="#配置Nginx" class="headerlink" title="配置Nginx"></a>配置Nginx</h1><p>在<code>/etc/nginx/conf.d</code>新建<code>ssl.conf</code>文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       443;</span><br><span class="line">    server_name  www.shintaku.cc;</span><br><span class="line"></span><br><span class="line">    ssl                  on;</span><br><span class="line">    ssl_certificate      /etc/letsencrypt/live/www.shintaku.cc/fullchain.pem;</span><br><span class="line">    ssl_certificate_key  /etc/letsencrypt/live/www.shintaku.cc/privkey.pem;</span><br><span class="line">    </span><br><span class="line">    ssl_session_cache shared:le_nginx_SSL:1m;</span><br><span class="line">    ssl_session_timeout 1440m;</span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line"></span><br><span class="line">    ssl_ciphers &quot;ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS&quot;;</span><br><span class="line">    </span><br><span class="line">    add_header Strict-Transport-Security max-age=31536000;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        root   /usr/share/nginx/blog;</span><br><span class="line">        index  index.html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    error_page  404              /404.html;</span><br><span class="line">    location = /404.html &#123;</span><br><span class="line">        root   /usr/share/nginx/blog;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen       443;</span><br><span class="line">    server_name  info.shintaku.cc;</span><br><span class="line">    autoindex    on;</span><br><span class="line">    ssl                  on;</span><br><span class="line">    ssl_certificate      /etc/letsencrypt/live/www.shintaku.cc/fullchain.pem;</span><br><span class="line">    ssl_certificate_key  /etc/letsencrypt/live/www.shintaku.cc/privkey.pem;</span><br><span class="line">    </span><br><span class="line">    ssl_session_cache shared:le_nginx_SSL:1m;</span><br><span class="line">    ssl_session_timeout 1440m;</span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line"></span><br><span class="line">    ssl_ciphers &quot;ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS&quot;;</span><br><span class="line"></span><br><span class="line">    add_header Strict-Transport-Security max-age=31536000;</span><br><span class="line">    </span><br><span class="line">    root   /usr/share/nginx/info;</span><br><span class="line">    </span><br><span class="line">    location / &#123;</span><br><span class="line">        index  index.html index.htm index.php;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">        fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">        fastcgi_index  index.php;</span><br><span class="line">        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</span><br><span class="line">        include        fastcgi_params;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>最后重载Nginx配置就可以了。可以到<a href="https://www.ssllabs.com/" target="_blank" rel="noopener">SSL Labs</a>检测一下SSL状态。使用上述配置一般可以获得A+评分，也可以使用<a href="https://mozilla.github.io/server-side-tls/ssl-config-generator/" target="_blank" rel="noopener">Mozilla SSL Configuration Generator</a>生成配置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       443;</span><br><span class="line">    server_name  www.shintaku.cc;</span><br><span class="line"></span><br><span class="line">    ssl                  on;</span><br><span class="line">    ssl_certificate      &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;www.shintaku.cc&#x2F;fullchain.pem;</span><br><span class="line">    ssl_certificate_key  &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;www.shintaku.cc&#x2F;privkey.pem;</span><br><span class="line">    </span><br><span class="line">    ssl_session_cache shared:le_nginx_SSL:1m;</span><br><span class="line">    ssl_session_timeout 1440m;</span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line"></span><br><span class="line">    ssl_ciphers &quot;ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS&quot;;</span><br><span class="line">    </span><br><span class="line">    add_header Strict-Transport-Security max-age&#x3D;31536000;</span><br><span class="line"></span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">        root   &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;blog;</span><br><span class="line">        index  index.html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    error_page  404              &#x2F;404.html;</span><br><span class="line">    location &#x3D; &#x2F;404.html &#123;</span><br><span class="line">        root   &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;blog;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen       443;</span><br><span class="line">    server_name  info.shintaku.cc;</span><br><span class="line">    autoindex    on;</span><br><span class="line">    ssl                  on;</span><br><span class="line">    ssl_certificate      &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;www.shintaku.cc&#x2F;fullchain.pem;</span><br><span class="line">    ssl_certificate_key  &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;www.shintaku.cc&#x2F;privkey.pem;</span><br><span class="line">    </span><br><span class="line">    ssl_session_cache shared:le_nginx_SSL:1m;</span><br><span class="line">    ssl_session_timeout 1440m;</span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line"></span><br><span class="line">    ssl_ciphers &quot;ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS&quot;;</span><br><span class="line"></span><br><span class="line">    add_header Strict-Transport-Security max-age&#x3D;31536000;</span><br><span class="line">    </span><br><span class="line">    root   &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;info;</span><br><span class="line">    </span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">        index  index.html index.htm index.php;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">        fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">        fastcgi_index  index.php;</span><br><span class="line">        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</span><br><span class="line">        include        fastcgi_params;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后重载Nginx配置就可以了。可以到<a target="_blank" rel="noopener" href="https://www.ssllabs.com/">SSL Labs</a>检测一下SSL状态。使用上述配置一般可以获得A+评分，也可以使用<a target="_blank" rel="noopener" href="https://mozilla.github.io/server-side-tls/ssl-config-generator/">Mozilla SSL Configuration Generator</a>生成配置。</p>
 <p><img src="/img/certbotssl.png" alt="评分"></p>
 <h1 id="证书续期"><a href="#证书续期" class="headerlink" title="证书续期"></a>证书续期</h1><p>Let’s Encrypt的证书有效期为90天，所以需要定期更新，离过期30天以内可以续期：</p>
 <pre><code>certbot renew &amp;&amp; nginx -s reload
@@ -830,7 +916,7 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/网络/">网络</a>►<a class="article-category-link" href="/categories/网络/网站部署/">网站部署</a>
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>►<a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a>
   </div>
 
   </div>
@@ -839,7 +925,7 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/hexodbanner.png" rel="gallery_ck651l5wc000mnwh8g907dj8r">
+      <a class="article-gallery-img fancybox" href="/img/hexodbanner.png" rel="gallery_ckhsyzxir001c2uh8c59v93ka">
         <img src="/img/hexodbanner.png" itemprop="image">
       </a>
     
@@ -858,12 +944,12 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/hexo-deploy/" data-id="ck651l5wc000mnwh8g907dj8r" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/hexo-deploy/" data-id="ckhsyzxir001c2uh8c59v93ka" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/hexo-deploy/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/服务器/">服务器</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/" rel="tag">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -879,12 +965,12 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
 git init --bare
 cd hooks
 </code></pre><p>之后就可以在<code>hooks</code>目录里配置自动执行的脚本了，编辑<code>post-receive</code>：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash -l</span></span><br><span class="line">GIT_REPO=/usr/share/nginx/blog.git</span><br><span class="line">PUBLIC_WWW=/usr/share/nginx/blog</span><br><span class="line">rm -rf <span class="variable">$PUBLIC_WWW</span></span><br><span class="line">git <span class="built_in">clone</span> <span class="variable">$GIT_REPO</span> <span class="variable">$PUBLIC_WWW</span></span><br><span class="line">rm -rf <span class="variable">$PUBLIC_WWW</span>/.git</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash -l</span></span><br><span class="line">GIT_REPO=/usr/share/nginx/blog.git</span><br><span class="line">PUBLIC_WWW=/usr/share/nginx/blog</span><br><span class="line">rm -rf <span class="variable">$PUBLIC_WWW</span></span><br><span class="line">git <span class="built_in">clone</span> <span class="variable">$GIT_REPO</span> <span class="variable">$PUBLIC_WWW</span></span><br><span class="line">rm -rf <span class="variable">$PUBLIC_WWW</span>/.git</span><br></pre></td></tr></table></figure>
 <p>记得给这个脚本添加执行权限：</p>
 <pre><code>chmod +x post-receive
 </code></pre><p>通过这个hook就可以将新生成的博客放到<code>/usr/share/nginx/blog</code>下了。</p>
-<h1 id="修改部署配置"><a href="#修改部署配置" class="headerlink" title="修改部署配置"></a>修改部署配置</h1><p>编辑本地Hexo仓库的<code>_config.yml</code>，在<code>deploy</code>下面增加一个新的配置，参考<a href="https://hexo.io/zh-cn/docs/deployment.html" target="_blank" rel="noopener">官方文档</a>：</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- type:</span> git</span><br><span class="line"><span class="attr">  repo:</span> root@YOUR_VPS_IP:/usr/share/nginx/blog.git</span><br><span class="line"><span class="attr">  branch:</span> master</span><br></pre></td></tr></table></figure>
+<h1 id="修改部署配置"><a href="#修改部署配置" class="headerlink" title="修改部署配置"></a>修改部署配置</h1><p>编辑本地Hexo仓库的<code>_config.yml</code>，在<code>deploy</code>下面增加一个新的配置，参考<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/deployment.html">官方文档</a>：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">root@YOUR_VPS_IP:/usr/share/nginx/blog.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
 <p>保存后使用<code>hexo d</code>命令重新部署，在这之前确认一下是否已经配置过VPS的公私钥登录。部署完成后到VPS的<code>/usr/share/nginx</code>下看是否出现<code>blog</code>目录，且里面是Hexo生成的页面内容。</p>
 <h1 id="服务器Nginx配置"><a href="#服务器Nginx配置" class="headerlink" title="服务器Nginx配置"></a>服务器Nginx配置</h1><p>进入<code>/etc/nginx/conf.d</code>目录新建一个配置文件<code>blog.conf</code>：</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span>  www.shintaku.cc;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/blog;</span><br><span class="line">        <span class="attribute">index</span>  index.html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_page</span>  <span class="number">404</span>              /<span class="number">404</span>.html;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_page</span>   <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">    <span class="attribute">location</span> = /50x.html &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/html;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -923,7 +1009,7 @@ cd hooks
 
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/机器学习/">机器学习</a>►<a class="article-category-link" href="/categories/机器学习/论文/">论文</a>
+    <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>►<a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/">论文</a>
   </div>
 
   </div>
@@ -932,7 +1018,7 @@ cd hooks
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/w2vbanner.png" rel="gallery_ck651l5wp001dnwh8t54l88kr">
+      <a class="article-gallery-img fancybox" href="/img/w2vbanner.png" rel="gallery_ckhsyzxkm00bx2uh8eocn7wrf">
         <img src="/img/w2vbanner.png" itemprop="image">
       </a>
     
@@ -951,12 +1037,12 @@ cd hooks
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/word2vec/" data-id="ck651l5wp001dnwh8t54l88kr" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/word2vec/" data-id="ckhsyzxkm00bx2uh8eocn7wrf" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/word2vec/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/机器学习/">机器学习</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
 
     </footer>
     <div class="article-entry article-index" itemprop="articleBody">
@@ -965,30 +1051,30 @@ cd hooks
         
           <div class="toggle-content">
             <blockquote>
-<p>原文：<a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">Efficient Estimation of Word Representations in Vector Space</a><br>源码：<a href="https://code.google.com/archive/p/word2vec/" target="_blank" rel="noopener">word2vec</a></p>
+<p>原文：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1301.3781.pdf">Efficient Estimation of Word Representations in Vector Space</a><br>源码：<a target="_blank" rel="noopener" href="https://code.google.com/archive/p/word2vec/">word2vec</a></p>
 </blockquote>
-<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>本文提出了两种新的模型结构，用于计算大型数据集中单词的连续向量表征。这些表征的质量是在单词相似性任务中衡量出来的，并将结果与​​之前基于不同类型<a href="https://zh.wikipedia.org/wiki/%E4%BA%BA%E5%B7%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C" target="_blank" rel="noopener">神经网络</a>（neural network）的最佳效果进行比较。我们观测到在低计算成本的精度上有大幅提高，只用不到一天的时间从16亿单词中学到高质量的词向量。此外，我们展示了这些向量在衡量句法和词义相似性上保证了最先进的性能。</p>
-<h1 id="绪论"><a href="#绪论" class="headerlink" title="绪论"></a>绪论</h1><p>当今先进的自然语言处理系统与技术都把词作为原子单元。总是被用作词表的索引，而不去考虑词间的相似性。这样做的好处在于简单且健壮，而且观察到简单模型在大量数据上训练的性能优于复杂模型在少量数据上的训练。统计语言模型中的<a href="https://zh.wikipedia.org/wiki/N%E5%85%83%E8%AF%AD%E6%B3%95" target="_blank" rel="noopener">N-gram</a>就是这样的典型例子，几乎可以在所有可用数据上训练（万亿词量）。</p>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>本文提出了两种新的模型结构，用于计算大型数据集中单词的连续向量表征。这些表征的质量是在单词相似性任务中衡量出来的，并将结果与​​之前基于不同类型<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BA%BA%E5%B7%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C">神经网络</a>（neural network）的最佳效果进行比较。我们观测到在低计算成本的精度上有大幅提高，只用不到一天的时间从16亿单词中学到高质量的词向量。此外，我们展示了这些向量在衡量句法和词义相似性上保证了最先进的性能。</p>
+<h1 id="绪论"><a href="#绪论" class="headerlink" title="绪论"></a>绪论</h1><p>当今先进的自然语言处理系统与技术都把词作为原子单元。总是被用作词表的索引，而不去考虑词间的相似性。这样做的好处在于简单且健壮，而且观察到简单模型在大量数据上训练的性能优于复杂模型在少量数据上的训练。统计语言模型中的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/N%E5%85%83%E8%AF%AD%E6%B3%95">N-gram</a>就是这样的典型例子，几乎可以在所有可用数据上训练（万亿词量）。</p>
 <p>然而简单的技术在很多领域都有其局限性。例如相关领域内的自动语音识别数据是有限的，简单模型的性能通常取决于转录的高质量的语音数据的大小，通常只有几百万的词。在机器翻译中，很多语音的已有的语料库的大小也只有几十亿。因此，对这些基本技术的简单升级并不会带来很大的性能提升，我们不得不考虑更复杂的高级技术。</p>
 <p>随着机器学习技术的发展，训练更大规模数据上的复杂模型成为可能，它们要远远超过那些简单模型。可能最成功的概念就是使用<strong>分布式词表征</strong>（distributed representations of words），例如基于神经网络的语言模型远优于N-gram模型。</p>
 <h2 id="本文目标"><a href="#本文目标" class="headerlink" title="本文目标"></a>本文目标</h2><p>本文的主要目标是介绍一种能从几十亿的语料库与几百万的词表的巨大数据集中学习高质量词表征的技术。据我们所知，迄今为止没有任何一个框架能以50～100维的词向量成功训练上亿的词表。</p>
-<p>使用最近提出的一项技术来衡量得到的向量表征的质量，该度量指标不但期望意思相近的词表征相近，而且还能表示词的<strong>多种相似性程度</strong>（multiple degrees of similarity）。这常见于<a href="https://zh.wikipedia.org/wiki/%E5%B1%88%E6%8A%98%E8%AF%AD" target="_blank" rel="noopener">屈折语</a>（inflectional language）中，例如名词可能有多种词尾（后缀），如果在原始的向量子空间中搜索相似词，可能找到的是具有相似词尾的词。</p>
+<p>使用最近提出的一项技术来衡量得到的向量表征的质量，该度量指标不但期望意思相近的词表征相近，而且还能表示词的<strong>多种相似性程度</strong>（multiple degrees of similarity）。这常见于<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%B1%88%E6%8A%98%E8%AF%AD">屈折语</a>（inflectional language）中，例如名词可能有多种词尾（后缀），如果在原始的向量子空间中搜索相似词，可能找到的是具有相似词尾的词。</p>
 <p>令人惊讶的是词表征的相似性远远超出了简单的语法规则。使用词偏置技术时，对词向量进行简单的代数操作，例如<em>vector(“King”)-vector(“Man”)+vector(“Woman”)</em>得到的向量与<em>Queen</em>比较近。</p>
 <p>本文通过开发新的模型结构来最大化向量操作的精度，从而保留词间的线性规则。我们设计了一个综合的测试集从语法和语义规则两方面衡量，以此来展示该模型可以以很高的精度学习到许多规则，并进一步讨论了模型的训练时间和精度取决于词向量的维度和训练数据集的大小。</p>
 <h2 id="前期工作"><a href="#前期工作" class="headerlink" title="前期工作"></a>前期工作</h2><p>将词表示为连续的向量的思想由来已久。一个很受欢迎的模型结构称为<strong>神经网络语言模型</strong>（neural network language model, NNLM），采用一个线性投影层加上一个非线性隐藏层来同时学习到词向量表征和统计语言模型。该工作得到后续很多工作的参考。</p>
 <p>另一个有趣的NNLM结构是先用一个隐藏层的神经网络来学习词向量，再使用这些词向量来训练NNLM。因此，词向量的学习不需要构建完整的NNLM。本文对这个结构进一步扩展，致力于使用一个简单的模型来学习词向量表征。</p>
-<p>后续会展示词向量表征可以用来显著改善和简化许多NLP应用。词向量本身的估计可以采用多种模型结构，在多种语料库上训练，其中一些学习到的词向量表征可以用作进一步的研究和对比。然而，据我们所知，这些模型的计算代价要远远高于最早的模型，一个例外是<a href="http://machinelearning.wustl.edu/mlpapers/paper_files/icml2007_MnihH07.pdf" target="_blank" rel="noopener">mnih2007three</a>中提出的采用对角权重矩阵的<strong>log-bilinear</strong>模型。</p>
-<h1 id="模型结构"><a href="#模型结构" class="headerlink" title="模型结构"></a>模型结构</h1><p>许多已经提出的不同的模型可以用来估计词的连续向量表征，包括广为人知的<a href="https://zh.wikipedia.org/wiki/%E6%BD%9C%E5%9C%A8%E8%AF%AD%E4%B9%89%E5%AD%A6" target="_blank" rel="noopener">潜在语义分析</a>（Latent Semantic Analysis, LSA）以及<a href="https://zh.wikipedia.org/wiki/%E9%9A%90%E5%90%AB%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%88%86%E5%B8%83" target="_blank" rel="noopener">隐含狄利克雷分布</a>（Latent Dirichlet Allocation, LDA）。本文着重于用神经网络学习词的分布式表征，已有的工作表明，与LSA相比分布式表征可以更好的保留词间的线性规则。而LDA最大的缺点在于大数据集上的计算复杂度高。</p>
+<p>后续会展示词向量表征可以用来显著改善和简化许多NLP应用。词向量本身的估计可以采用多种模型结构，在多种语料库上训练，其中一些学习到的词向量表征可以用作进一步的研究和对比。然而，据我们所知，这些模型的计算代价要远远高于最早的模型，一个例外是<a target="_blank" rel="noopener" href="http://machinelearning.wustl.edu/mlpapers/paper_files/icml2007_MnihH07.pdf">mnih2007three</a>中提出的采用对角权重矩阵的<strong>log-bilinear</strong>模型。</p>
+<h1 id="模型结构"><a href="#模型结构" class="headerlink" title="模型结构"></a>模型结构</h1><p>许多已经提出的不同的模型可以用来估计词的连续向量表征，包括广为人知的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%BD%9C%E5%9C%A8%E8%AF%AD%E4%B9%89%E5%AD%A6">潜在语义分析</a>（Latent Semantic Analysis, LSA）以及<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%9A%90%E5%90%AB%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%88%86%E5%B8%83">隐含狄利克雷分布</a>（Latent Dirichlet Allocation, LDA）。本文着重于用神经网络学习词的分布式表征，已有的工作表明，与LSA相比分布式表征可以更好的保留词间的线性规则。而LDA最大的缺点在于大数据集上的计算复杂度高。</p>
 <p>比较不同模型结构，首先用完整的训练模型所需要的参数的数量来定义模型计算的复杂度。接下来试图最大化精度，同时最小化计算复杂度。对于下面所有模型，训练复杂度遵循：</p>
-<script type="math/tex; mode=display">O=E\times T\times Q</script><p>其中\(E\)表示训练次数，\(T\)表示训练集单词数，\(Q\)表示模型结构进一步定义。通常\(E\)在3～50之间，\(T\)高达十亿。所有的模型采用<a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent" target="_blank" rel="noopener">随机梯度下降</a>和<a href="https://zh.wikipedia.org/wiki/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95" target="_blank" rel="noopener">反向传播</a>。</p>
+<script type="math/tex; mode=display">O=E\times T\times Q</script><p>其中\(E\)表示训练次数，\(T\)表示训练集单词数，\(Q\)表示模型结构进一步定义。通常\(E\)在3～50之间，\(T\)高达十亿。所有的模型采用<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent">随机梯度下降</a>和<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95">反向传播</a>。</p>
 <h2 id="前馈NNLM"><a href="#前馈NNLM" class="headerlink" title="前馈NNLM"></a>前馈NNLM</h2><p>概率<strong>前馈神经网络语言模型</strong>（Feedforward NNLM）包括<strong>输入</strong>（input）、<strong>投影</strong>（projection）、<strong>隐藏</strong>（hidden）、<strong>输出</strong>（output）四层。输入层中，前\(N\)个词编码为1-of-\(V\)，\(V\)为词表大小。输入层映射到\(N\times D\)维的投影层\(P\)。由于在任何时刻，仅\(N\)个输入是激活的，因此投影层的组合是相对简单的操作。</p>
 <p>NNLM结构的复杂计算在于投影层和隐藏层之间的计算，主要原因是投影层是稠密的。对于一个常见的选择\(N=10\)，投影层\(P\)的大小可能为500～2000，而隐藏层\(H\)的大小通常为500～1000。更进一步讲，隐藏层通常用来计算在整个词表上的概率分布，输出层的结果是\(V\)维的。因此每个训练实例的计算复杂度为：</p>
 <script type="math/tex; mode=display">Q=N\times D+N\times D\times H+H\times V</script><p>其中\(H\times V\)起决定作用。然而为了避免如此提出了一些实际的解决方案：使用<strong>Hierarchical Softmax</strong>，或者在训练的时候使用未归一化的模型来避免对模型的归一化。采用词表的二叉树表示，可以将输出单元的数量降低到\(\log_2(V)\)。这样模型的主要复杂度就在\(N\times D\times H\)了。</p>
 <p>本文的模型采用Hierarchical Softmax，其中词表表示为霍夫曼树。这样做主要是基于之前观测到的一个现象：词频对于在NNLM上获取分类非常有效。霍夫曼树给频繁出现的词以较短的编码，这样进一步减少了输出单元的数量。而平衡二叉树需要\(\log_2(V)\)输出来评估，基于霍夫曼树的Hierarchical Softmax仅仅需要\(\log_2(Unigram_perplexity(V))\)。例如当词表大小为100万时计算效率得到了两倍的加速。虽然对于NNLM来讲不是最关键的加速，因为主要的计算瓶颈在于\(N\times D\times H\)，后续提出的模型结构并没有隐藏层，而是主要取决于Softmax正则化。</p>
-<h2 id="递归NNLM"><a href="#递归NNLM" class="headerlink" title="递归NNLM"></a>递归NNLM</h2><p><strong>递归神经网络语言模型</strong>（Recurrent NNLM）的提出是为了克服前馈NNLM的一些局限性，例如需要指定上下文的长度（模型阶数N），因此理论上讲<a href="https://zh.wikipedia.org/wiki/%E9%80%92%E5%BD%92%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C" target="_blank" rel="noopener">递归神经网络</a>（recurrent neural network）可以比<strong>浅层神经网络</strong>（shallow neural networks）更高效的表示更复杂的模式。RNN并没有投影层，只有输入、隐藏、输出三层。这类模型的特殊性在于递归矩阵，该矩阵用时间延迟将隐藏层与自身连接起来。这就允许递归模型形式化某种短时记忆，因为之前的信息能够表示为隐藏层中的状态，该状态可以根据当前的输入以及上个时间步的状态进行更新。</p>
+<h2 id="递归NNLM"><a href="#递归NNLM" class="headerlink" title="递归NNLM"></a>递归NNLM</h2><p><strong>递归神经网络语言模型</strong>（Recurrent NNLM）的提出是为了克服前馈NNLM的一些局限性，例如需要指定上下文的长度（模型阶数N），因此理论上讲<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%80%92%E5%BD%92%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C">递归神经网络</a>（recurrent neural network）可以比<strong>浅层神经网络</strong>（shallow neural networks）更高效的表示更复杂的模式。RNN并没有投影层，只有输入、隐藏、输出三层。这类模型的特殊性在于递归矩阵，该矩阵用时间延迟将隐藏层与自身连接起来。这就允许递归模型形式化某种短时记忆，因为之前的信息能够表示为隐藏层中的状态，该状态可以根据当前的输入以及上个时间步的状态进行更新。</p>
 <p>RNN模型对于一个训练实例的时间复杂度是：</p>
 <script type="math/tex; mode=display">Q=H\times H+H\times V</script><p>其中词表征\(D\)具有与隐藏层\(H\)相同的维度。我们同样可以使用Hierarchical Softmax将\(H\times V\)有效降低为\(H\times\log_2(V)\)。主要计算复杂度在于\(H\times H\)。</p>
-<h2 id="神经网络的并行训练"><a href="#神经网络的并行训练" class="headerlink" title="神经网络的并行训练"></a>神经网络的并行训练</h2><p>在大规模数据集上训练模型时，已经基于大规模分布式框架<a href="https://zh.wikipedia.org/wiki/TensorFlow#DistBelief" target="_blank" rel="noopener">DistBlief</a>实现了几个模型包括前馈NNLM以及本文中提出的新模型。该框架支持并行运行一个模型的多个副本，每个副本通过保持参数一致的中央服务器来同步梯度更新。对于并行训练，我们采用自适应的学习速率下的<strong>mini-batch异步梯度下降</strong>，整个过程称为<a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent#AdaGrad" target="_blank" rel="noopener">Adagrad</a>。在这种框架下，通常一个数据中心使用100多个模型副本，每个副本使用不同机器的多核。</p>
+<h2 id="神经网络的并行训练"><a href="#神经网络的并行训练" class="headerlink" title="神经网络的并行训练"></a>神经网络的并行训练</h2><p>在大规模数据集上训练模型时，已经基于大规模分布式框架<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/TensorFlow#DistBelief">DistBlief</a>实现了几个模型包括前馈NNLM以及本文中提出的新模型。该框架支持并行运行一个模型的多个副本，每个副本通过保持参数一致的中央服务器来同步梯度更新。对于并行训练，我们采用自适应的学习速率下的<strong>mini-batch异步梯度下降</strong>，整个过程称为<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent#AdaGrad">Adagrad</a>。在这种框架下，通常一个数据中心使用100多个模型副本，每个副本使用不同机器的多核。</p>
 <h1 id="对数线性模型"><a href="#对数线性模型" class="headerlink" title="对数线性模型"></a>对数线性模型</h1><p>本节提出两个以最小化计算复杂度来学习分布式词表征的模型结构。前文观测结果表明：模型计算的主要复杂度来自于非线性隐藏层。尽管这些隐藏层使神经网络更优雅，本文还是决定使用可能没有神经网络数据精确的更为简单的模型，但是至少能够高效的训练更多的数据。</p>
 <p>新结构的提出主要基于之前发现的NNLM可以通过两步进行训练：</p>
 <ul>
@@ -996,113 +1082,11 @@ cd hooks
 <li>基于分布式词表征训练N-gram神经网络语言模型</li>
 </ul>
 <h2 id="连续Bag-of-Words模型"><a href="#连续Bag-of-Words模型" class="headerlink" title="连续Bag-of-Words模型"></a>连续Bag-of-Words模型</h2><p><img src="/img/w2vcbow.png" alt="CBOW"></p>
-<p>首先提出的结构类似于前馈NNLM，去掉了其中的非线性隐层，所有词共享投影层（不只是投影矩阵）；所有的词投影到相同的位置（向量平均）。因为历史词序并不能影响投影，所以把这个结构称为<a href="https://zh.wikipedia.org/wiki/%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B" target="_blank" rel="noopener">词袋模型</a>（bag-of-words）。更何况也使用了未来的词。在下节提到的任务中，使用4个未来词和4个历史词作为输入取得了最优的性能，其中优化目标是能准确对当前词分类。训练复杂度为：</p>
+<p>首先提出的结构类似于前馈NNLM，去掉了其中的非线性隐层，所有词共享投影层（不只是投影矩阵）；所有的词投影到相同的位置（向量平均）。因为历史词序并不能影响投影，所以把这个结构称为<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B">词袋模型</a>（bag-of-words）。更何况也使用了未来的词。在下节提到的任务中，使用4个未来词和4个历史词作为输入取得了最优的性能，其中优化目标是能准确对当前词分类。训练复杂度为：</p>
 <script type="math/tex; mode=display">Q=N\times D+D\times\log_2(V)</script><p>将这个模型记为<strong>CBOW</strong>。与标准词袋模型不同，它使用上下文的连续分布式表征。注意输入层与投影层之间的权重矩阵与NNLM一样是所有词位置共享的。</p>
 <h2 id="连续Skip-Gram模型"><a href="#连续Skip-Gram模型" class="headerlink" title="连续Skip-Gram模型"></a>连续Skip-Gram模型</h2><p><img src="/img/w2vskip.png" alt="Skip-gram"></p>
 <p>第二个结构与CBOW类似，不同的是CBOW基于上下文预测当前词，这个模型尝试根据同一句子中的另外一个词来最大化一个词的分类。更准确的说法，使用当前词作为有连续投影层的对数线性分类器的输入，来预测词语所在当前词的前后范围。发现增加窗口的大小可以提高学习到的词向量的质量，但也增加了计算复杂度。因为离得越远的词通常与当前词越不相关，所以给那些离得较远的词较小的权重使得其被采样的概率变小。该结构的训练复杂度正比于：</p>
-<script type="math/tex; mode=display">Q=C\times(D+D\times\log_2(V))</script><p>其中\(C\)为词间的最大距离，对于每个训练词从\(<1;c>\)范围内选择随机数\(R\)，使用\(R\)个历史词与\(R\)个未来词作为当前词的标签。这就需要做\(R\times2\)个词分类，将当前词作为输入，\(R+R\)中的每个词作为输出。</1;c></p>
-
-          </div>
-          <div class="toggle-input article-more-link"><a>Read More +</a></div>
-        
-      
-    </div>
-
-  </div>
-  
-</article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-9920928489161252"
-     data-ad-slot="3913131990"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-  
-    <article id="post-tcp-bbr" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-<a href="/posts/tcp-bbr/" class="article-date">
-  <time datetime="2017-05-11T03:11:11.000Z" itemprop="datePublished">2017-05-11</time>
-</a>
-
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/网络/">网络</a>►<a class="article-category-link" href="/categories/网络/科学上网/">科学上网</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-      <a class="article-gallery-img fancybox" href="/img/bbrbanner.png" rel="gallery_ck651l5wn0018nwh8eie3qc97">
-        <img src="/img/bbrbanner.png" itemprop="image">
-      </a>
-    
-  </div>
-</div>
-
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/posts/tcp-bbr/">VPS开启TCP-BBR拥塞控制</a>
-    </h1>
-  
-
-      </header>
-    
-    <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/tcp-bbr/" data-id="ck651l5wn0018nwh8eie3qc97" class="article-share-link">Share</a>
-      
-        <a href="https://liangzhenduo0608.github.io/posts/tcp-bbr/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/代理/">代理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/服务器/">服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/科学上网/">科学上网</a></li></ul>
-
-    </footer>
-    <div class="article-entry article-index" itemprop="articleBody">
-      
-          
-        
-          <div class="toggle-content">
-            <p>早就听说Google又搞出了<a href="https://github.com/google/bbr" target="_blank" rel="noopener">BBR</a>这样的黑科技，能在有一定丢包率的网络链路上充分利用带宽并降低延迟，起到了玄学般的加速效果，比<strong>锐速</strong>不知道高到哪里去了，简直是梯子用户的福音。由于需要升级内核，有影响VPS上服务的风险，就一直没动。现在机器闲下来了，又赶上余额快用完了，就趁机乱搞一发。</p>
-<h1 id="更新内核"><a href="#更新内核" class="headerlink" title="更新内核"></a>更新内核</h1><p>首先更新一下系统：</p>
-<pre><code>yum update -y
-</code></pre><p>然后添加<a href="http://elrepo.org/" target="_blank" rel="noopener">ELRepo</a>源来更新4.9及以上版本的内核：</p>
-<pre><code>rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
-rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
-yum --enablerepo=elrepo-kernel install kernel-ml -y
-</code></pre><p>安装完后检查一下是否安装成功：</p>
-<pre><code>awk -F\&#39; &#39;$1==&quot;menuentry &quot; {print i++ &quot; : &quot; $2}&#39; /etc/grub2.cfg
-</code></pre><p>如果没有其他问题一般来说新安装的内核会出现在第一行：</p>
-<pre><code>0 : CentOS Linux (4.11.0-1.el7.elrepo.x86_64) 7 (Core)
-1 : CentOS Linux 7 Rescue f4cdc05ef89d44228e2623a70209bbce (3.10.0-327.28.3.el7.x86_64)
-2 : CentOS Linux (3.10.0-327.28.3.el7.x86_64) 7 (Core)
-3 : CentOS Linux (3.10.0-327.28.2.el7.x86_64) 7 (Core)
-4 : CentOS Linux (0-rescue-3839f3a1ba354857903e239a272e6cec) 7 (Core)
-</code></pre><p>然后将最新的内核（编号为0的）设为默认内核：</p>
-<pre><code>grub2-set-default 0
-</code></pre><p>然后<code>reboot</code>重启就可以了；如果是DigitalOcean的VPS建议先<code>poweroff</code>关机，然后到控制台把Kernel改成<code>DigitalOcean GrubLoader v0.2</code>，然后再开机：</p>
-<p><img src="/img/bbrkernel.png" alt></p>
-<h1 id="开启BBR"><a href="#开启BBR" class="headerlink" title="开启BBR"></a>开启BBR</h1><p>开机后先<code>uname -r</code>确认一下内核是否更换成功，如果没问题就编辑<code>/etc/sysctl.conf</code>加入以下内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net.core.default_qdisc = fq</span><br><span class="line">net.ipv4.tcp_congestion_control = bbr</span><br></pre></td></tr></table></figure>
-<p>保存后执行<code>sysctl -p</code>生效。然后查看TCP配置：</p>
-<pre><code>sysctl net.ipv4.tcp_available_congestion_control
-sysctl net.ipv4.tcp_congestion_control
-</code></pre><p>如果<code>=</code>后面都有<code>bbr</code>出现则说明设置成功。执行：</p>
-<pre><code>lsmod | grep tcp_bbr
-</code></pre><p>如果有<code>tcp_bbr</code>则说明已开启。</p>
+<script type="math/tex; mode=display">Q=C\times(D+D\times\log_2(V))</script><p>其中\(C\)为词间的最大距离，对于每个训练词从\(<1;C>\)范围内选择随机数\(R\)，使用\(R\)个历史词与\(R\)个未来词作为当前词的标签。这就需要做\(R\times2\)个词分类，将当前词作为输入，\(R+R\)中的每个词作为输出。</p>
 
           </div>
           <div class="toggle-input article-more-link"><a>Read More +</a></div>
@@ -1131,7 +1115,7 @@ sysctl net.ipv4.tcp_congestion_control
 
 
   <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &rsaquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &amp;rsaquo;</a>
   </nav>
 </section>
           
@@ -1181,7 +1165,7 @@ setTimeout(function() {
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">18</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/">＊nix</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E8%AF%BE%E7%A8%8B/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -1191,6 +1175,14 @@ setTimeout(function() {
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a class="text" href="/posts/docker-openwrt/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            N1盒子Docker安装OpenWrt旁路由</a>
+          </li>
         
           <li>
             <a class="text" href="/posts/tm-nas/">
@@ -1264,14 +1256,6 @@ setTimeout(function() {
             向量空间中词表征的有效估计</a>
           </li>
         
-          <li>
-            <a class="text" href="/posts/tcp-bbr/">
-              
-                <i class="fa-paperclip"></i> 
-              
-            VPS开启TCP-BBR拥塞控制</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1282,7 +1266,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/科学上网/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/服务器/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/代理/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 19px; color: #95caff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/舰队Collection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 20px; color: #aad4ff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 12px; color: #007fff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 
@@ -1355,7 +1339,7 @@ setTimeout(function() {
     <div class="widget widget-background1" align="center">
     	<!--a href="https://clustrmaps.com/site/19kh7" title="Visit tracker"><img src="//clustrmaps.com/map_v2.png?cl=eeeeee&w=220&t=n&d=3kNIfPXlC9a4s7N8RRFV04RgWWonJP-1hQ4Drq_rVj8&co=3d3d3b&ct=eeeeee" /></a-->
     	<script type="text/javascript" src="//rf.revolvermaps.com/0/0/2.js?i=5gpp8v00aap&amp;m=8&amp;s=178&amp;c=fff600&amp;t=1" async="async"></script>
-      	<a href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3D3D3B/txt_FFFFFF/border_3D3D3B/columns_2/maxflags_100/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="shintaku.xyz" border="0"></a>
+      	<a target="_blank" rel="noopener" href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3D3D3B/txt_FFFFFF/border_3D3D3B/columns_2/maxflags_100/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="shintaku.xyz" border="0"></a>
     </div>
 </div>
   
@@ -1364,7 +1348,7 @@ setTimeout(function() {
     <div class="widget widget-background1" align="center">
       	<img src="/images/alipay.png" alt="支付宝支付" width="220">
       	<img src="/images/wechat.png" alt="微信支付" width="220">
-      	<a href="https://www.paypal.me/liangzhenduo" title="PayPal支付" onclick="javascript:window.open('https://www.paypal.me/liangzhenduo','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" alt="PayPal支付" width="220"/></a>
+      	<a target="_blank" rel="noopener" href="https://www.paypal.me/liangzhenduo" title="PayPal支付" onclick="javascript:window.open('https://www.paypal.me/liangzhenduo','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" alt="PayPal支付" width="220"/></a>
     </div>
 </div>
   
@@ -1448,13 +1432,23 @@ setTimeout(function() {
 
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/jquery.lazyload.js"></script>
+
+
 <script src="/js/jquery.als-1.6.js"></script>
+
+
 <script src="/js/script.js"></script>
+
 
   </div>
 <script type="text/x-mathjax-config">

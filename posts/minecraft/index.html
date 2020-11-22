@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8" name="theme-color" content="#171714">
   
   <meta name="google-site-verification" content="fTlRYC4_eug8Q64ZK4Lzdv8mcunvs7S0Ec-39TBokv4">
@@ -38,26 +38,31 @@
   <title>Linux上搭建Minecraft服务器 | Shintaku&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="之前想在树莓派上搭建一个Minecraft服务器，但是只限于局域网内玩有点不爽，所以才想在VPS上开服。这个服务器的地址是mc.shintaku.xyz，一般时候都是宕机，欢迎大家过来乱搞。 环境配置Minecraft是基于Java运行的，所以首先要安装Java环境： yum install java 好像比其他平台的安装简单得多。然后为了让Minecraft在后台运行而不受终端操作的干扰，要装一">
-<meta name="keywords" content="服务器,Linux,Minecraft,游戏">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux上搭建Minecraft服务器">
 <meta property="og:url" content="https://liangzhenduo0608.github.io/posts/minecraft/index.html">
 <meta property="og:site_name" content="Shintaku&#39;s Blog">
 <meta property="og:description" content="之前想在树莓派上搭建一个Minecraft服务器，但是只限于局域网内玩有点不爽，所以才想在VPS上开服。这个服务器的地址是mc.shintaku.xyz，一般时候都是宕机，欢迎大家过来乱搞。 环境配置Minecraft是基于Java运行的，所以首先要安装Java环境： yum install java 好像比其他平台的安装简单得多。然后为了让Minecraft在后台运行而不受终端操作的干扰，要装一">
-<meta property="og:locale" content="default">
+<meta property="og:locale">
 <meta property="og:image" content="https://liangzhenduo0608.github.io/img/mcbanner.png">
-<meta property="og:updated_time" content="2019-07-14T15:04:34.206Z">
+<meta property="article:published_time" content="2016-02-14T13:11:11.000Z">
+<meta property="article:modified_time" content="2019-07-14T15:04:34.206Z">
+<meta property="article:author" content="Shintaku">
+<meta property="article:tag" content="服务器">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Minecraft">
+<meta property="article:tag" content="游戏">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux上搭建Minecraft服务器">
-<meta name="twitter:description" content="之前想在树莓派上搭建一个Minecraft服务器，但是只限于局域网内玩有点不爽，所以才想在VPS上开服。这个服务器的地址是mc.shintaku.xyz，一般时候都是宕机，欢迎大家过来乱搞。 环境配置Minecraft是基于Java运行的，所以首先要安装Java环境： yum install java 好像比其他平台的安装简单得多。然后为了让Minecraft在后台运行而不受终端操作的干扰，要装一">
 <meta name="twitter:image" content="https://liangzhenduo0608.github.io/img/mcbanner.png">
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   <script src="/js/jquery-3.3.1.min.js"></script>
   <script src="/js/nprogress.js"></script>
   <link href="/css/nprogress.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-</html>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
 <body>
   <div id="container">
     <div id="wrap">
@@ -68,10 +73,6 @@
       <h1 id="logo-wrap">
         <a href="/" id="logo">Shintaku&#39;s Blog</a>
       </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">いいこと？暁の水平線に勝利を刻みなさい！</a>
-        </h2>
       
     </div>
     <div id="header-inner" class="inner">
@@ -131,7 +132,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/mcbanner.png" rel="gallery_ck651l5wg000unwh84lfm3ibx">
+      <a class="article-gallery-img fancybox" href="/img/mcbanner.png" rel="gallery_ckhsyzxiz00232uh8h15t6hrz">
         <img src="/img/mcbanner.png" itemprop="image">
       </a>
     
@@ -150,12 +151,12 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/minecraft/" data-id="ck651l5wg000unwh84lfm3ibx" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/minecraft/" data-id="ckhsyzxiz00232uh8h15t6hrz" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/minecraft/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Minecraft/">Minecraft</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/服务器/">服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/游戏/">游戏</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Minecraft/" rel="tag">Minecraft</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B8%B8%E6%88%8F/" rel="tag">游戏</a></li></ul>
 
     </footer>
     <div class="article-entry " itemprop="articleBody">
@@ -164,7 +165,7 @@
               <div id="toc" class="toc-article">
               <h2 class="toc-title" align="center"><span>目录</span></h2>
               
-                  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#环境配置"><span class="toc-number">1.</span> <span class="toc-text">环境配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#启动游戏"><span class="toc-number">2.</span> <span class="toc-text">启动游戏</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改配置文件"><span class="toc-number">3.</span> <span class="toc-text">修改配置文件</span></a></li></ol>
+                  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">环境配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E6%B8%B8%E6%88%8F"><span class="toc-number">2.</span> <span class="toc-text">启动游戏</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">修改配置文件</span></a></li></ol>
               
               </div>
           
@@ -174,15 +175,15 @@
 <pre><code>yum install java
 </code></pre><p>好像比其他平台的安装简单得多。然后为了让Minecraft在后台运行而不受终端操作的干扰，要装一个screen：</p>
 <pre><code>yum install screen
-</code></pre><h1 id="启动游戏"><a href="#启动游戏" class="headerlink" title="启动游戏"></a>启动游戏</h1><p>因为最开始要安装到<strong>树莓派</strong>上，硬件资源有限，所以这里介绍一个叫<a href="https://getbukkit.org/download/spigot" target="_blank" rel="noopener">SpigotMC</a>的轻量级MC服务器端，是Bukkit的优化版，但是可能游戏中有些材质无法使用。新建一个目录将下载的spigot.jar放进去，然后用以下命令启动：</p>
+</code></pre><h1 id="启动游戏"><a href="#启动游戏" class="headerlink" title="启动游戏"></a>启动游戏</h1><p>因为最开始要安装到<strong>树莓派</strong>上，硬件资源有限，所以这里介绍一个叫<a target="_blank" rel="noopener" href="https://getbukkit.org/download/spigot">SpigotMC</a>的轻量级MC服务器端，是Bukkit的优化版，但是可能游戏中有些材质无法使用。新建一个目录将下载的spigot.jar放进去，然后用以下命令启动：</p>
 <pre><code>java -Xms256M -Xmx512M -jar spigot.jar nogui
-</code></pre><p>后来发现<a href="https://minecraft.net/zh-hans/download/server/" target="_blank" rel="noopener">微软官网</a>有了服务器版的下载，所以服务器配置足够好的话运行这个也是没有问题的，同样是先下载对应版本的server.jar，启动命令相同：</p>
+</code></pre><p>后来发现<a target="_blank" rel="noopener" href="https://minecraft.net/zh-hans/download/server/">微软官网</a>有了服务器版的下载，所以服务器配置足够好的话运行这个也是没有问题的，同样是先下载对应版本的server.jar，启动命令相同：</p>
 <pre><code>java -Xms512M -Xmx1024M -jar server.jar nogui
 </code></pre><p>其中前两个参数是指定MC运行的内存范围，然后会出现一系列启动信息，最后就是<code>Stopping server</code>。    </p>
 <h1 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h1><p>启动之后MC的目录下会生成一些其他的文件，先编辑<code>eula.txt</code>，将<code>eula</code>的值改为<code>true</code>：</p>
 <pre><code>eula=true
 </code></pre><p>然后编辑<code>server.properties</code>，开始里面应除了一些注释没有其他内容，将以下内容加进去：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">generator-settings</span>=                 #用于设置超平坦世界的函数，留空即可</span><br><span class="line"><span class="attr">op-permission-level</span>=<span class="number">4</span>               #设置OP的许可权等级</span><br><span class="line"><span class="attr">allow-nether</span>=<span class="literal">true</span>                   #是否允许生成/进入下界</span><br><span class="line"><span class="attr">level-name</span>=world                    #世界名称及其文件夹名</span><br><span class="line"><span class="attr">enable-query</span>=<span class="literal">false</span>                  #允许使用GameSpy4协议的服务器监听器</span><br><span class="line"><span class="attr">allow-flight</span>=<span class="literal">false</span>                  #是否允许玩家在生存模式透过MOD飞行</span><br><span class="line"><span class="attr">announce-player-achievements</span>=<span class="literal">true</span>   #是否公开显示玩家成就</span><br><span class="line"><span class="attr">server-port</span>=<span class="number">25565</span>                   #服务器端口（默认为<span class="number">25565</span>）</span><br><span class="line"><span class="attr">level-type</span>=DEFAULT                  #世界类型</span><br><span class="line"><span class="attr">enable-rcon</span>=<span class="literal">false</span>                   #是否允许远程访问服务器仪表盘</span><br><span class="line"><span class="attr">level-seed</span>=                         #世界种子</span><br><span class="line"><span class="attr">force-gamemode</span>=<span class="literal">false</span>                #玩家是否总是以默认游戏模式进入服务器</span><br><span class="line"><span class="attr">server-ip</span>=                          #服务器IP，一般来说留空即可</span><br><span class="line"><span class="attr">max-build-height</span>=<span class="number">256</span>                #最高建筑高度（最高<span class="number">256</span>）</span><br><span class="line"><span class="attr">spawn-npcs</span>=<span class="literal">true</span>                     #是否生成村民NPC</span><br><span class="line"><span class="attr">white-list</span>=<span class="literal">false</span>                    #是否开启白名单认证</span><br><span class="line"><span class="attr">spawn-animals</span>=<span class="literal">true</span>                  #是否生成动物</span><br><span class="line"><span class="attr">hardcore</span>=<span class="literal">false</span>                      #是否开启极限模式</span><br><span class="line"><span class="attr">snooper-enabled</span>=<span class="literal">true</span>                #是否允许服务器定期发送统计数据</span><br><span class="line"><span class="attr">online-mode</span>=<span class="literal">false</span>                   #是否开启正版认证（开启后只有正版玩家可进入）</span><br><span class="line"><span class="attr">resource-pack</span>=                      #资源包URL（可让玩家选择是否使用服务器提供的资源包）</span><br><span class="line"><span class="attr">pvp</span>=<span class="literal">true</span>                            #可否PVP</span><br><span class="line"><span class="attr">difficulty</span>=<span class="number">1</span>                        #难度</span><br><span class="line"><span class="attr">enable-command-block</span>=<span class="literal">false</span>          #是否可以使用命令方块</span><br><span class="line"><span class="attr">gamemode</span>=<span class="number">0</span>                          #默认游戏模式</span><br><span class="line"><span class="attr">player-idle-timeout</span>=<span class="number">0</span>               #如果该玩家无反应超过这个分钟数将会被踢出</span><br><span class="line"><span class="attr">max-players</span>=<span class="number">20</span>                      #最大玩家数量</span><br><span class="line"><span class="attr">spawn-monsters</span>=<span class="literal">true</span>                 #是否生成怪物</span><br><span class="line"><span class="attr">generate-structures</span>=<span class="literal">true</span>            #是否生成建筑物</span><br><span class="line"><span class="attr">view-distance</span>=<span class="number">10</span>                    #客户端视野距离的上限</span><br><span class="line"><span class="attr">motd</span>=A Minecraft Server             #服务器在服务器列表页所显示的信息</span><br></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">generator-settings=                 #用于设置超平坦世界的函数，留空即可</span><br><span class="line"><span class="attr">op-permission-level</span>=<span class="number">4</span>               <span class="comment">#设置OP的许可权等级</span></span><br><span class="line"><span class="attr">allow-nether</span>=<span class="literal">true</span>                   <span class="comment">#是否允许生成/进入下界</span></span><br><span class="line"><span class="attr">level-name</span>=world                    <span class="comment">#世界名称及其文件夹名</span></span><br><span class="line"><span class="attr">enable-query</span>=<span class="literal">false</span>                  <span class="comment">#允许使用GameSpy4协议的服务器监听器</span></span><br><span class="line"><span class="attr">allow-flight</span>=<span class="literal">false</span>                  <span class="comment">#是否允许玩家在生存模式透过MOD飞行</span></span><br><span class="line"><span class="attr">announce-player-achievements</span>=<span class="literal">true</span>   <span class="comment">#是否公开显示玩家成就</span></span><br><span class="line"><span class="attr">server-port</span>=<span class="number">25565</span>                   <span class="comment">#服务器端口（默认为25565）</span></span><br><span class="line"><span class="attr">level-type</span>=DEFAULT                  <span class="comment">#世界类型</span></span><br><span class="line"><span class="attr">enable-rcon</span>=<span class="literal">false</span>                   <span class="comment">#是否允许远程访问服务器仪表盘</span></span><br><span class="line">level-seed=                         #世界种子</span><br><span class="line"><span class="attr">force-gamemode</span>=<span class="literal">false</span>                <span class="comment">#玩家是否总是以默认游戏模式进入服务器</span></span><br><span class="line">server-ip=                          #服务器IP，一般来说留空即可</span><br><span class="line"><span class="attr">max-build-height</span>=<span class="number">256</span>                <span class="comment">#最高建筑高度（最高256）</span></span><br><span class="line"><span class="attr">spawn-npcs</span>=<span class="literal">true</span>                     <span class="comment">#是否生成村民NPC</span></span><br><span class="line"><span class="attr">white-list</span>=<span class="literal">false</span>                    <span class="comment">#是否开启白名单认证</span></span><br><span class="line"><span class="attr">spawn-animals</span>=<span class="literal">true</span>                  <span class="comment">#是否生成动物</span></span><br><span class="line"><span class="attr">hardcore</span>=<span class="literal">false</span>                      <span class="comment">#是否开启极限模式</span></span><br><span class="line"><span class="attr">snooper-enabled</span>=<span class="literal">true</span>                <span class="comment">#是否允许服务器定期发送统计数据</span></span><br><span class="line"><span class="attr">online-mode</span>=<span class="literal">false</span>                   <span class="comment">#是否开启正版认证（开启后只有正版玩家可进入）</span></span><br><span class="line">resource-pack=                      #资源包URL（可让玩家选择是否使用服务器提供的资源包）</span><br><span class="line"><span class="attr">pvp</span>=<span class="literal">true</span>                            <span class="comment">#可否PVP</span></span><br><span class="line"><span class="attr">difficulty</span>=<span class="number">1</span>                        <span class="comment">#难度</span></span><br><span class="line"><span class="attr">enable-command-block</span>=<span class="literal">false</span>          <span class="comment">#是否可以使用命令方块</span></span><br><span class="line"><span class="attr">gamemode</span>=<span class="number">0</span>                          <span class="comment">#默认游戏模式</span></span><br><span class="line"><span class="attr">player-idle-timeout</span>=<span class="number">0</span>               <span class="comment">#如果该玩家无反应超过这个分钟数将会被踢出</span></span><br><span class="line"><span class="attr">max-players</span>=<span class="number">20</span>                      <span class="comment">#最大玩家数量</span></span><br><span class="line"><span class="attr">spawn-monsters</span>=<span class="literal">true</span>                 <span class="comment">#是否生成怪物</span></span><br><span class="line"><span class="attr">generate-structures</span>=<span class="literal">true</span>            <span class="comment">#是否生成建筑物</span></span><br><span class="line"><span class="attr">view-distance</span>=<span class="number">10</span>                    <span class="comment">#客户端视野距离的上限</span></span><br><span class="line"><span class="attr">motd</span>=A Minecraft Server             <span class="comment">#服务器在服务器列表页所显示的信息</span></span><br></pre></td></tr></table></figure>
 <p>可以按照注释自己进行修改，注意如果没有购买正版需要将<code>online-mode</code>一项改为<code>false</code>。</p>
 <p>一切完成后新开一个screen来启动MC：</p>
 <pre><code>screen -S mc
@@ -249,7 +250,7 @@
 
 <section id="comments">
   <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
 </section>
 
@@ -301,7 +302,7 @@ setTimeout(function() {
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/艦隊これくしょん/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/">奇技淫巧</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/树莓派/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/路由器/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/奇技淫巧/＊nix/">＊nix</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/实习/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/手帐/课程/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/论文/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/网络/科学上网/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/网站部署/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">18</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/">＊nix</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E8%AF%BE%E7%A8%8B/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -311,6 +312,14 @@ setTimeout(function() {
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a class="text" href="/posts/docker-openwrt/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            N1盒子Docker安装OpenWrt旁路由</a>
+          </li>
         
           <li>
             <a class="text" href="/posts/tm-nas/">
@@ -384,14 +393,6 @@ setTimeout(function() {
             向量空间中词表征的有效估计</a>
           </li>
         
-          <li>
-            <a class="text" href="/posts/tcp-bbr/">
-              
-                <i class="fa-paperclip"></i> 
-              
-            VPS开启TCP-BBR拥塞控制</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -402,7 +403,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/科学上网/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/服务器/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/代理/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 19px; color: #95caff">OpenWrt</a> <a href="/tags/路由器/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/刷机/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/下载/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/机器学习/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/舰队Collection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/游戏/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/树莓派/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 20px; color: #aad4ff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 12px; color: #007fff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 
@@ -475,7 +476,7 @@ setTimeout(function() {
     <div class="widget widget-background1" align="center">
     	<!--a href="https://clustrmaps.com/site/19kh7" title="Visit tracker"><img src="//clustrmaps.com/map_v2.png?cl=eeeeee&w=220&t=n&d=3kNIfPXlC9a4s7N8RRFV04RgWWonJP-1hQ4Drq_rVj8&co=3d3d3b&ct=eeeeee" /></a-->
     	<script type="text/javascript" src="//rf.revolvermaps.com/0/0/2.js?i=5gpp8v00aap&amp;m=8&amp;s=178&amp;c=fff600&amp;t=1" async="async"></script>
-      	<a href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3D3D3B/txt_FFFFFF/border_3D3D3B/columns_2/maxflags_100/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="shintaku.xyz" border="0"></a>
+      	<a target="_blank" rel="noopener" href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3D3D3B/txt_FFFFFF/border_3D3D3B/columns_2/maxflags_100/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="shintaku.xyz" border="0"></a>
     </div>
 </div>
   
@@ -484,7 +485,7 @@ setTimeout(function() {
     <div class="widget widget-background1" align="center">
       	<img src="/images/alipay.png" alt="支付宝支付" width="220">
       	<img src="/images/wechat.png" alt="微信支付" width="220">
-      	<a href="https://www.paypal.me/liangzhenduo" title="PayPal支付" onclick="javascript:window.open('https://www.paypal.me/liangzhenduo','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" alt="PayPal支付" width="220"/></a>
+      	<a target="_blank" rel="noopener" href="https://www.paypal.me/liangzhenduo" title="PayPal支付" onclick="javascript:window.open('https://www.paypal.me/liangzhenduo','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" alt="PayPal支付" width="220"/></a>
     </div>
 </div>
   
@@ -570,13 +571,23 @@ setTimeout(function() {
 
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/jquery.lazyload.js"></script>
+
+
 <script src="/js/jquery.als-1.6.js"></script>
+
+
 <script src="/js/script.js"></script>
+
 
   </div>
 <script type="text/x-mathjax-config">

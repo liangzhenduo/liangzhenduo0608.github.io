@@ -124,7 +124,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/dockeropenwrtbanner.png" rel="gallery_ckhsyzxin000w2uh80koq73te">
+      <a class="article-gallery-img fancybox" href="/img/dockeropenwrtbanner.png" rel="gallery_ckhsz9a43000wcjh8hyol6dye">
         <img src="/img/dockeropenwrtbanner.png" itemprop="image">
       </a>
     
@@ -143,7 +143,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/docker-openwrt/" data-id="ckhsyzxin000w2uh80koq73te" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/docker-openwrt/" data-id="ckhsz9a43000wcjh8hyol6dye" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/docker-openwrt/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -157,15 +157,15 @@
         
           <div class="toggle-content">
             <p>N1盒子装上Armbian以后就可以当作一台低功耗的小主机使用，配合各种docker可以集各种功能于一体。</p>
-<p>Armbian固件使用的是恩山flippy大神的49+o（<a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/thread-981406-1-1.html">原帖地址</a>），目前已经稳定，于是在刷入u盘后顺手刷入了eMMC。</p>
+<h1 id="刷入Armbian"><a href="#刷入Armbian" class="headerlink" title="刷入Armbian"></a>刷入Armbian</h1><p>Armbian固件使用的是恩山flippy大神的49+o（<a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/thread-981406-1-1.html">原帖地址</a>），目前已经稳定，于是在刷入u盘后顺手刷入了eMMC。</p>
 <p>在刷入前先在u盘启动的系统里运行<code>ddbr</code>命令选<code>b</code>进行备份（记得选压缩），文件保存到了<code>/ddbr</code>目录，以便以后有需要时恢复原系统。<br>然后执行<code>install-to-emmc.sh</code>脚本按提示将系统拷贝到N1的闪存中。拷贝完成关机、拔U盘、再开机，就进入内置的系统了。</p>
 <h1 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h1><p>执行<code>install-docker.sh</code>安装docker，啪的一下就安装完成了，很快啊！</p>
 <p>可以接着安装一个Docker图像化管理工具<a target="_blank" rel="noopener" href="https://www.portainer.io/">Portainer</a>：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker volume create portainer_data</span><br><span class="line">docker run -d --name portainer --restart always -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer</span><br></pre></td></tr></table></figure><br>通过浏览器访问盒子的9000端口就能管理docker了。</p>
 <h1 id="安装OpenWrt"><a href="#安装OpenWrt" class="headerlink" title="安装OpenWrt"></a>安装OpenWrt</h1><p>OpenWrt的Docker镜像使用的也是flippy大神提供的（<a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/thread-958173-1-1.html">原帖地址</a>），目前还在更新。</p>
 <h2 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h2><p>从网盘上下载压缩包传到Armbian目录下，省去pull的步骤直接启动：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gzip -dc docker-img-openwrt-aarch64-r20.10.20.gz | docker load</span><br><span class="line">docker network create -d macvlan --subnet=192.168.123.0/24 --gateway=192.168.123.1 -o parent=eth0 macnet</span><br><span class="line">docker run -d --name openwrt --restart always --network macnet --privileged unifreq/openwrt-aarch64:r20.10.20</span><br></pre></td></tr></table></figure><br>其中macvlan的网段按主路由的实际情况填写。</p>
 <h2 id="配置OpenWrt地址"><a href="#配置OpenWrt地址" class="headerlink" title="配置OpenWrt地址"></a>配置OpenWrt地址</h2><p>执行<code>docker exec -it openwrt bash</code>进入容器里进行配置。<br>编辑容器里的<code>/etc/config/network</code>配置文件，将<code>option ipaddr</code>的值改为指定给OpenWrt的ip地址，如<code>192.168.123.2</code>。<br>保存后执行<code>/etc/init.d/network restart</code>使配置生效。<br>此时通过浏览器访问刚刚配置的地址应该就可以进入luci管理界面了（默认密码应该是<code>password</code>）。</p>
-<h2 id="旁路由设置"><a href="#旁路由设置" class="headerlink" title="旁路由设置"></a>旁路由设置</h2><p>通过浏览器进入OpenWrt的管理界面，在<code>网络</code>-<code>接口</code>里修改<code>lan</code>的配置，将<code>IPv4网关</code>设置为主路由的地址，如<code>192.168.123.1</code>，在<code>使用自定义的DNS服务器</code>里添加几个当地最好用的公共DNS；在<code>物理设置</code>里关闭<code>桥接接口</code>；关闭<code>DHCP服务器</code>里的<code>动态DHCP</code>功能，保存并与应用设置。</p>
-<h2 id="主路由设置"><a href="#主路由设置" class="headerlink" title="主路由设置"></a>主路由设置</h2><p>在主路由的<code>内部网络(LAN)</code>-<code>DHCP服务器</code>设置里将<code>默认网关</code>和<code>DNS服务器</code>设置为旁路由地址，如<code>192.168.123.2</code>。<br>如果主路由是padavan固件且<code>外部网络(WAN)</code>-<code>外网设置</code>开启了硬件加速，需要将<code>IPv4 硬件加速</code>设置为<code>OFFLOAD TCP/UDP for LAN</code>。</p>
+<h2 id="旁路由设置"><a href="#旁路由设置" class="headerlink" title="旁路由设置"></a>旁路由设置</h2><p>通过浏览器进入OpenWrt的管理界面，在<strong>网络</strong>-<strong>接口</strong>里修改<strong>lan</strong>的配置，将<strong>IPv4网关</strong>设置为主路由的地址，如<code>192.168.123.1</code>，在<strong>使用自定义的DNS服务器</strong>里添加几个当地最好用的公共DNS；在<strong>物理设置</strong>里关闭<strong>桥接接口</strong>；关闭<strong>DHCP服务器</strong>里的<strong>动态DHCP</strong>功能，保存并与应用设置。</p>
+<h2 id="主路由设置"><a href="#主路由设置" class="headerlink" title="主路由设置"></a>主路由设置</h2><p>在主路由的<strong>内部网络(LAN)</strong>-<strong>DHCP服务器</strong>设置里将<strong>默认网关</strong>和<strong>DNS服务器</strong>设置为旁路由地址，如<code>192.168.123.2</code>。<br>如果主路由是padavan固件且<strong>外部网络(WAN)</strong>-<strong>外网设置</strong>开启了硬件加速，需要将<strong>IPv4 硬件加速</strong>设置为<code>OFFLOAD TCP/UDP for LAN</code>。</p>
 <h1 id="Armbian和OpenWrt网络互通"><a href="#Armbian和OpenWrt网络互通" class="headerlink" title="Armbian和OpenWrt网络互通"></a>Armbian和OpenWrt网络互通</h1><p>按照上面设置完旁路由发现Docker的宿主机Armbian系统和OpenWrt无法互相访问。需要修改Armbian网络配置<code>/etc/network/interfaces</code>，增加如下内容：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">up ip link <span class="built_in">set</span> eth0 promisc on</span><br><span class="line"></span><br><span class="line">auto macvlan</span><br><span class="line">iface macvlan inet static</span><br><span class="line">    address 192.168.123.123</span><br><span class="line">    netmask 255.255.255.0</span><br><span class="line">    gateway 192.168.123.1</span><br><span class="line">    dns-nameservers 192.168.123.1</span><br><span class="line">    pre-up ip link add macvlan link eth0 <span class="built_in">type</span> macvlan mode bridge</span><br><span class="line">    post-down ip link del macvlan link eth0 <span class="built_in">type</span> macvlan mode bridge</span><br></pre></td></tr></table></figure><br>其中<code>address</code>是要固定的Armbian的地址，<code>gateway</code>和<code>dns-nameservers</code>填主路由地址就可以了。</p>
 <p>保存后执行<code>systemctl restart networking</code>使配置生效，两个地址就可以互相访问了。</p>
 <p>然后在比硬路由更强大的N1盒子上就起一些留学服务了。</p>
@@ -212,7 +212,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/tm-nas-banner.png" rel="gallery_ckhsyzxje003u2uh80asuff45">
+      <a class="article-gallery-img fancybox" href="/img/tm-nas-banner.png" rel="gallery_ckhsz9a4w003xcjh847ecb47h">
         <img src="/img/tm-nas-banner.png" itemprop="image">
       </a>
     
@@ -231,7 +231,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/tm-nas/" data-id="ckhsyzxje003u2uh80asuff45" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/tm-nas/" data-id="ckhsz9a4w003xcjh847ecb47h" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/tm-nas/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -306,7 +306,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/shadowsocks-v2ray-banner.png" rel="gallery_ckhsyzxj5002u2uh89g9i98v3">
+      <a class="article-gallery-img fancybox" href="/img/shadowsocks-v2ray-banner.png" rel="gallery_ckhsz9a4l002tcjh83fwphhb3">
         <img src="/img/shadowsocks-v2ray-banner.png" itemprop="image">
       </a>
     
@@ -325,7 +325,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/shadowsocks-v2ray/" data-id="ckhsyzxj5002u2uh89g9i98v3" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/shadowsocks-v2ray/" data-id="ckhsz9a4l002tcjh83fwphhb3" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/shadowsocks-v2ray/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -425,7 +425,7 @@ systemctl enable shadowsocks-libev
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/mathjaxbanner.png" rel="gallery_ckhsyzxit001g2uh89w0rhkhn">
+      <a class="article-gallery-img fancybox" href="/img/mathjaxbanner.png" rel="gallery_ckhsz9a49001fcjh8ezi71cpr">
         <img src="/img/mathjaxbanner.png" itemprop="image">
       </a>
     
@@ -444,7 +444,7 @@ systemctl enable shadowsocks-libev
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/hexo-mathjax/" data-id="ckhsyzxit001g2uh89w0rhkhn" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/hexo-mathjax/" data-id="ckhsz9a49001fcjh8ezi71cpr" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/hexo-mathjax/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -510,7 +510,7 @@ npm install hexo-renderer-kramed --save
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/ttlbanner.png" rel="gallery_ckhsyzxjf003y2uh8afoh1542">
+      <a class="article-gallery-img fancybox" href="/img/ttlbanner.png" rel="gallery_ckhsz9a4v003tcjh85521dtuy">
         <img src="/img/ttlbanner.png" itemprop="image">
       </a>
     
@@ -529,7 +529,7 @@ npm install hexo-renderer-kramed --save
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/ttl/" data-id="ckhsyzxjf003y2uh8afoh1542" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/ttl/" data-id="ckhsz9a4v003tcjh85521dtuy" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/ttl/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -625,7 +625,7 @@ npm install hexo-renderer-kramed --save
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/mactftpbanner.png" rel="gallery_ckhsyzxiy001z2uh88w0w3bif">
+      <a class="article-gallery-img fancybox" href="/img/mactftpbanner.png" rel="gallery_ckhsz9a4e001ycjh8aeon74ky">
         <img src="/img/mactftpbanner.png" itemprop="image">
       </a>
     
@@ -644,7 +644,7 @@ npm install hexo-renderer-kramed --save
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/mac-tftp/" data-id="ckhsyzxiy001z2uh88w0w3bif" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/mac-tftp/" data-id="ckhsz9a4e001ycjh8aeon74ky" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/mac-tftp/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -709,7 +709,7 @@ sudo launchctl start com.apple.tftpd
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/l2tpbanner.png" rel="gallery_ckhsyzxiv001o2uh81ap58oyf">
+      <a class="article-gallery-img fancybox" href="/img/l2tpbanner.png" rel="gallery_ckhsz9a4c001ncjh8hsa3egep">
         <img src="/img/l2tpbanner.png" itemprop="image">
       </a>
     
@@ -728,7 +728,7 @@ sudo launchctl start com.apple.tftpd
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/l2tp/" data-id="ckhsyzxiv001o2uh81ap58oyf" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/l2tp/" data-id="ckhsz9a4c001ncjh8hsa3egep" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/l2tp/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -836,7 +836,7 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/certbotbanner.png" rel="gallery_ckhsyzxig000j2uh835mh0bll">
+      <a class="article-gallery-img fancybox" href="/img/certbotbanner.png" rel="gallery_ckhsz9a3w000jcjh84oe7hh6l">
         <img src="/img/certbotbanner.png" itemprop="image">
       </a>
     
@@ -855,7 +855,7 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/certbot/" data-id="ckhsyzxig000j2uh835mh0bll" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/certbot/" data-id="ckhsz9a3w000jcjh84oe7hh6l" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/certbot/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -925,7 +925,7 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/hexodbanner.png" rel="gallery_ckhsyzxir001c2uh8c59v93ka">
+      <a class="article-gallery-img fancybox" href="/img/hexodbanner.png" rel="gallery_ckhsz9a48001bcjh80dbb7gfr">
         <img src="/img/hexodbanner.png" itemprop="image">
       </a>
     
@@ -944,7 +944,7 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/hexo-deploy/" data-id="ckhsyzxir001c2uh8c59v93ka" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/hexo-deploy/" data-id="ckhsz9a48001bcjh80dbb7gfr" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/hexo-deploy/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1018,7 +1018,7 @@ cd hooks
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/w2vbanner.png" rel="gallery_ckhsyzxkm00bx2uh8eocn7wrf">
+      <a class="article-gallery-img fancybox" href="/img/w2vbanner.png" rel="gallery_ckhsz9a4y0045cjh89g4f7x75">
         <img src="/img/w2vbanner.png" itemprop="image">
       </a>
     
@@ -1037,7 +1037,7 @@ cd hooks
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/word2vec/" data-id="ckhsyzxkm00bx2uh8eocn7wrf" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/word2vec/" data-id="ckhsz9a4y0045cjh89g4f7x75" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/word2vec/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1266,7 +1266,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 20px; color: #aad4ff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 12px; color: #007fff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 20px; color: #aad4ff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 12px; color: #007fff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 

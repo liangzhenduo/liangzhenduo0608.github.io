@@ -106,6 +106,116 @@
         
           <section id="main" class='pjax'>
   
+    <article id="post-chinadns" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/posts/chinadns/" class="article-date">
+  <time datetime="2016-06-01T10:18:18.000Z" itemprop="datePublished">2016-06-01</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>►<a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/dnsbanner.png" rel="gallery_cktojt4kb000nh7h8fy0b8vkc">
+        <img src="/img/dnsbanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/chinadns/">ChinaDNS+ShadowSocks实现路由器透明代理</a>
+    </h1>
+  
+
+      </header>
+    
+    <footer class="article-footer">
+      <a data-url="https://liangzhenduo0608.github.io/posts/chinadns/" data-id="cktojt4kb000nh7h8fy0b8vkc" class="article-share-link">Share</a>
+      
+        <a href="https://liangzhenduo0608.github.io/posts/chinadns/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ChinaDNS/" rel="tag">ChinaDNS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWrt/" rel="tag">OpenWrt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ShadowSocks/" rel="tag">ShadowSocks</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" rel="tag">科学上网</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" rel="tag">路由器</a></li></ul>
+
+    </footer>
+    <div class="article-entry article-index" itemprop="articleBody">
+      
+          
+        
+          <div class="toggle-content">
+            <p>之前给一个路由器刷了<strong>OpenWrt</strong>在学校上网用，这个月开始学校改计费方式了，索性就拿回家来做透明代理了。之前想使用<strong>GFWlist</strong>来分流结果没成功，所以才折腾一下<strong>ChinaDNS</strong>感觉还是比较简单的，但唯一的弊病是无论境外IP是否被屏蔽都会走代理，这样有些无关痛痒的国外网站访问起来可能会变慢。无论如何，终端设备不再使用代理软件已经方便很多了。</p>
+<p>在搞透明代理之前请确保路由器已经安刷好了OpenWrt。具体怎么刷OpenWrt请参见我之前的一篇博文<a href="/posts/openwrt/">路由器刷入OpenWrt固件</a>。</p>
+<h1 id="必要软件"><a href="#必要软件" class="headerlink" title="必要软件"></a>必要软件</h1><p>首先是在OpenWrt下装上一堆必要软件：</p>
+<ul>
+<li>shadowsocks-libev-spec</li>
+<li>luci-app-shadowsocks-spec</li>
+<li>ChinaDNS</li>
+<li>luci-app-chinadns</li>
+</ul>
+<p>这些都可以在<a target="_blank" rel="noopener" href="https://sourceforge.net/projects/openwrt-dist/files/">sourceforge</a>里找到。如果无法访问也可以下载我备份在服务器上的较老版本：</p>
+<pre><code>wget https://www.shintaku.cc/files/shadowsocks-libev-spec_2.4.6-1_ar71xx.ipk
+wget https://www.shintaku.cc/files/luci-app-shadowsocks-spec_1.4.0-1_all.ipk
+wget https://www.shintaku.cc/files/ChinaDNS_1.3.2-3_ar71xx.ipk
+wget https://www.shintaku.cc/files/luci-app-chinadns_1.4.0-1_all.ipk
+</code></pre><p>下载完成后使用<code>opkg</code>命令安装，如果当前目录下没有其他文件就直接<code>opkg install *</code>就好了。这时刷新一下LuCI界面就会多出<code>服务</code>一项了。</p>
+<p><img src="/img/dnsservice.png" alt="服务"></p>
+<h1 id="配置ChinaDNS"><a href="#配置ChinaDNS" class="headerlink" title="配置ChinaDNS"></a>配置ChinaDNS</h1><p>默认配置是这样的：</p>
+<p><img src="/img/dnschinadns.png" alt="ChinaDNS"></p>
+<p>其中的设置基本不用动，国内路由表在<code>/etc/chinadns_chnroute.txt</code>，最好设置成定期更新，可以在计划任务中添加<code>crontab</code>任务：</p>
+<pre><code>0 4 * * * wget -O- &#39;http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest&#39; | grep ipv4 | grep CN | awk -F\| &#39;&#123; printf(&quot;\%s/\%d\n&quot;, $4, 32-log($5)/log(2)) &#125;&#39; &gt; /etc/chinadns_chnroute.txt
+</code></pre><p>这样每天凌晨4点就可以将新的路由表文件写入了。</p>
+<p>还有<code>上游服务器</code>一项，前面的是对于国内线路的DNS服务器，默认是114基本没什么问题；但是后一个DNS服务器则要求没有污染，默认用的Google的，感觉直接作为DNS不会太理想，所以需要自己在VPS上搭建一个简易的DNS服务器。</p>
+<p>简单来说，使用<code>dnsmasq</code>比较方便，所以登入VPS服务器，安装dnsmasq并加入开机启动：</p>
+<pre><code>yum install dnsmasq
+systemctl enable dnsmasq
+</code></pre><p>然后编辑配置文件<code>/etc/dnsmasq.conf</code>（因为所有内容都注释掉了，所以直接加入下面几行就可以了）：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">port</span> = <span class="number">5353</span></span><br><span class="line"><span class="attr">server</span> = <span class="number">8.8</span>.<span class="number">8.8</span></span><br><span class="line"><span class="attr">server</span> = <span class="number">8.8</span>.<span class="number">4.4</span></span><br></pre></td></tr></table></figure>
+<p>保存后运行<code>dnsmasq</code>就监听到5353端口了，这样就可以间接地使用Google的DNS了。</p>
+<p>回到路由器方面，将<code>上游服务器</code>的后一项改为<code>VPS_ip:5353</code>保存就可以了。</p>
+<p>然后进入<code>网络</code>-<code>DHCP/DNS</code>，将<code>基本设置</code>里的<code>本地服务器</code>改为<code>127.0.0.1#5353</code>：</p>
+<p><img src="/img/dnsdhcpdns.png" alt="DHCP/DNS"></p>
+<p>再到<code>HOSTS和解析文件</code>中<code>忽略解析文件</code>和<code>忽略/etc/hosts</code>保存即可。</p>
+<h1 id="配置ShadowSocks"><a href="#配置ShadowSocks" class="headerlink" title="配置ShadowSocks"></a>配置ShadowSocks</h1><p><code>服务器配置</code>按实际情况填写即可，主要要注意<code>访问控制</code>里的<code>被忽略IP列表</code>，因为装了ChinaDNS，所以选里面的<code>ChinaDNS路由表</code>就行了。如果怕自己的VPS也被代理了，在<code>额外被忽略IP</code>里填上自己的VPS地址就好了：</p>
+<p><img src="/img/dnsshadowsocks.png" alt="ShadowSocks"></p>
+<p>启动ShadowSocks以后可以用Baidu和Google分别测一下自己的IP地址，如果分别是ISP和VPS的IP应该就没问题了。</p>
+
+          </div>
+          <div class="toggle-input article-more-link"><a>Read More +</a></div>
+        
+      
+    </div>
+
+  </div>
+  
+</article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-9920928489161252"
+     data-ad-slot="3913131990"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+  
     <article id="post-app" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     
@@ -124,7 +234,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/appbanner.png" rel="gallery_cklkxj6dc000bzfh85djffgxi">
+      <a class="article-gallery-img fancybox" href="/img/appbanner.png" rel="gallery_cktojt4k20009h7h89izoanfd">
         <img src="/img/appbanner.png" itemprop="image">
       </a>
     
@@ -143,7 +253,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/app/" data-id="cklkxj6dc000bzfh85djffgxi" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/app/" data-id="cktojt4k20009h7h89izoanfd" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/app/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -215,7 +325,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/vlbanner.png" rel="gallery_cklkxj6ei0042zfh8alg0bkfh">
+      <a class="article-gallery-img fancybox" href="/img/vlbanner.png" rel="gallery_cktojt4lj0046h7h8fevu8mhi">
         <img src="/img/vlbanner.png" itemprop="image">
       </a>
     
@@ -234,7 +344,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/verilog/" data-id="cklkxj6ei0042zfh8alg0bkfh" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/verilog/" data-id="cktojt4lj0046h7h8fevu8mhi" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/verilog/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -311,7 +421,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/lempbanner.png" rel="gallery_cklkxj6dg000izfh81p1170jw">
+      <a class="article-gallery-img fancybox" href="/img/lempbanner.png" rel="gallery_cktojt4k8000ih7h85nmh0pmt">
         <img src="/img/lempbanner.png" itemprop="image">
       </a>
     
@@ -330,7 +440,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/centos-lemp/" data-id="cklkxj6dg000izfh81p1170jw" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/centos-lemp/" data-id="cktojt4k8000ih7h85nmh0pmt" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/centos-lemp/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -440,7 +550,7 @@ systemctl enable nginx
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/kcbanner.png" rel="gallery_cklkxj6dw001mzfh8a2po4mef">
+      <a class="article-gallery-img fancybox" href="/img/kcbanner.png" rel="gallery_cktojt4kq001mh7h8cxom2epc">
         <img src="/img/kcbanner.png" itemprop="image">
       </a>
     
@@ -459,7 +569,7 @@ systemctl enable nginx
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/kancolle-cookie/" data-id="cklkxj6dw001mzfh8a2po4mef" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/kancolle-cookie/" data-id="cktojt4kq001mh7h8cxom2epc" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/kancolle-cookie/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -540,7 +650,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/mcbanner.png" rel="gallery_cklkxj6e00023zfh8esfd2dm8">
+      <a class="article-gallery-img fancybox" href="/img/mcbanner.png" rel="gallery_cktojt4kv0023h7h8cqdoh7vt">
         <img src="/img/mcbanner.png" itemprop="image">
       </a>
     
@@ -559,7 +669,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/minecraft/" data-id="cklkxj6e00023zfh8esfd2dm8" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/minecraft/" data-id="cktojt4kv0023h7h8cqdoh7vt" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/minecraft/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -636,7 +746,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/vpnbanner.png" rel="gallery_cklkxj6e90036zfh84jc034pr">
+      <a class="article-gallery-img fancybox" href="/img/vpnbanner.png" rel="gallery_cktojt4l7003ah7h8fssj2pqr">
         <img src="/img/vpnbanner.png" itemprop="image">
       </a>
     
@@ -655,7 +765,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/softether/" data-id="cklkxj6e90036zfh84jc034pr" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/softether/" data-id="cktojt4l7003ah7h8fssj2pqr" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/softether/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -845,7 +955,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/sslbanner.png" rel="gallery_cklkxj6ed003izfh832gd83kw">
+      <a class="article-gallery-img fancybox" href="/img/sslbanner.png" rel="gallery_cktojt4lc003mh7h83s0yejxu">
         <img src="/img/sslbanner.png" itemprop="image">
       </a>
     
@@ -864,7 +974,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/ssl/" data-id="cklkxj6ed003izfh832gd83kw" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/ssl/" data-id="cktojt4lc003mh7h83s0yejxu" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/ssl/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -947,7 +1057,7 @@ scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/ddbanner.png" rel="gallery_cklkxj6dj000nzfh8hknn30my">
+      <a class="article-gallery-img fancybox" href="/img/ddbanner.png" rel="gallery_cktojt4ka000mh7h8d6hlaxtj">
         <img src="/img/ddbanner.png" itemprop="image">
       </a>
     
@@ -966,7 +1076,7 @@ scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/dd/" data-id="cklkxj6dj000nzfh8hknn30my" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/dd/" data-id="cktojt4ka000mh7h8d6hlaxtj" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/dd/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1063,7 +1173,7 @@ scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/6rbanner.png" rel="gallery_cklkxj6d60003zfh87cpi7wnf">
+      <a class="article-gallery-img fancybox" href="/img/6rbanner.png" rel="gallery_cktojt4jy0003h7h862m543zf">
         <img src="/img/6rbanner.png" itemprop="image">
       </a>
     
@@ -1082,7 +1192,7 @@ scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/6relayd/" data-id="cklkxj6d60003zfh87cpi7wnf" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/6relayd/" data-id="cktojt4jy0003h7h862m543zf" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/6relayd/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1127,152 +1237,6 @@ opkg install 6relayd_2013-10-21_ar71xx.ipk
 <p><img src="/img/opsss.png" alt="ShadowSocks设置"></p>
 <p>记得要开全局代理，因为毕竟PPPoE拨着号呢，<del>在校园网11月30日改革后有线网拨号后不用登录就能上网让我很慌啊，路由器一直连着网终归是有偷跑流量的风险，所以打开IPv6全局代理最为保险，使得能通过代理的IPv6网络可以使用而IPv4网络因为通不过代理无法使用。</del>2016年春季学期开学后发现即使拨号路由器也无法获取IPv6地址了。</p>
 <p>于是现在得到的效果就是任何连接到这台路由器的设备无需任何登录即可<strong>访问外网</strong>，而且<strong>不消耗校内网流量</strong>，网络还<strong>自带科学上网Buff</strong>，从此妈妈再也不用担心我流量不够用了。</p>
-
-          </div>
-          <div class="toggle-input article-more-link"><a>Read More +</a></div>
-        
-      
-    </div>
-
-  </div>
-  
-</article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-9920928489161252"
-     data-ad-slot="3913131990"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-  
-    <article id="post-openwrt" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-<a href="/posts/openwrt/" class="article-date">
-  <time datetime="2015-12-12T04:12:12.000Z" itemprop="datePublished">2015-12-12</time>
-</a>
-
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a>►<a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-      <a class="article-gallery-img fancybox" target="_blank" href="https://wiki.openwrt.org/lib/tpl/openwrt/images/logo.png" rel="gallery_cklkxj6e3002fzfh8hhql3flt noopener">
-        <img src="https://wiki.openwrt.org/lib/tpl/openwrt/images/logo.png" itemprop="image">
-      </a>
-    
-  </div>
-</div>
-
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/posts/openwrt/">路由器刷入OpenWrt固件</a>
-    </h1>
-  
-
-      </header>
-    
-    <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/openwrt/" data-id="cklkxj6e3002fzfh8hhql3flt" class="article-share-link">Share</a>
-      
-        <a href="https://liangzhenduo0608.github.io/posts/openwrt/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWrt/" rel="tag">OpenWrt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/" rel="tag">ssh</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" rel="tag">路由器</a></li></ul>
-
-    </footer>
-    <div class="article-entry article-index" itemprop="articleBody">
-      
-          
-        
-          <div class="toggle-content">
-            <p>暑假剁手了一台rMBP但没有以太网接口，为了省钱就需要一个无线路由器，之前曾了解到路由器可以刷<strong>OpenWrt</strong>后装上<strong>ShadowSocks</strong>实现自动科学上网，于是就在集训的时候从马云家买了一个二手的<a target="_blank" rel="noopener" href="http://www.tp-link.com.cn/product_225.html">TP-Link TL-WR703N</a>刷上OpenWrt在机房给笔记本供网。</p>
-<p><img src="/img/op703n.png" alt="TL-WR703N"></p>
-<p>由于这货只有一个网口，当路由器自动获取IP地址后，就进不去<a target="_blank" rel="noopener" href="http://192.168.1.1/">192.168.1.1</a>的管理界面了，虽然能上网，但每次换网线接头的时候都要捅菊花抹掉原来的设置。因此只有使用静态IP时才能正常使用这种路由器。这学期开学后发现家里有一个<a target="_blank" rel="noopener" href="http://www.netgear.com/home/products/networking/wifi-routers/wnr2200.aspx">Netgear WNR2200</a>在吃灰，于是就把它拿到学校刷上了OpenWrt放宿舍给各种无线设备供网。</p>
-<p><img src="/img/op2200.png" alt="WNR2200"></p>
-<h1 id="刷入固件"><a href="#刷入固件" class="headerlink" title="刷入固件"></a>刷入固件</h1><p><strong>OpenWrt</strong>是一个适合于嵌入式设备的Linux发行版。它提供了一个可添加软件包的可写的文件系统，使用者可以自由的选择应用程序和配置，并且可以使用一些适合某方面的应用的软件包来定制设备。</p>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h3><p>首先你要拥有一台可以刷入OpenWrt的路由器，至于OpenWrt支持那些设备，请到<a target="_blank" rel="noopener" href="https://wiki.openwrt.org/toh/start">Supported Devices</a>页面查看。本文以WNR2200为例。</p>
-<h3 id="固件"><a href="#固件" class="headerlink" title="固件"></a>固件</h3><p>前往<a target="_blank" rel="noopener" href="https://downloads.openwrt.org/latest/">Download</a>下载最新的对应设备的固件。注意固件列表里一半会有两种后缀：<code>squashfs-factory.img</code>和<code>squashfs-sysupgrade.img</code>，如果是从原厂固件刷到OpenWrt请用前者，如果是从OpenWrt升级请用后者。还有一种可能文件名以<code>NA</code>结尾<del>，可能是代表<code>North America</code></del>，基本上与不带<code>NA</code>的没什么区别。</p>
-<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>还需要一台有以太网接口的电脑和一根网线，电脑操作系统不限，但是<em>Windows</em>需要提前开启<code>TFTP</code>（因为这个功能系统默认是关闭的），具体操作就是进入<code>控制面板</code>-<code>程序</code>-<code>程序和功能</code>，</p>
-<p><img src="/img/optftp.png" alt="开启TFTP"></p>
-<p>打开<code>打开或关闭Windows功能</code>窗口，在里面把<code>TFTP</code>挑上钩，之后就可以开始了。</p>
-<h2 id="刷入固件-1"><a href="#刷入固件-1" class="headerlink" title="刷入固件"></a>刷入固件</h2><p><strong>刷机有风险，操作需谨慎！</strong><br><strong>刷机有风险，操作需谨慎！</strong><br><strong>刷机有风险，操作需谨慎！</strong><br><del>重要的事说三遍</del></p>
-<p>首先要将路由器与电脑用网线相连（在后面的设置中网线是必要的），然后进入到路由器管理界面。</p>
-<p>有的原厂固件是可以直接升级成OpenWrt的，因此首先进入路由器管理界面，找到固件升级的选项，选择下好的OpenWrt固件上传就可以了，我之前刷TL-WR703N时是可以直接上传的，上传完成重启后就算是刷完了。但我后来刷WNR2200时遇到了不认固件的情况（可能是因为原厂固件的版本问题），于是只好用<strong>TFTP</strong>的方式上传固件，这就是之前为什么要打开Windows中<code>TFTP</code>功能的原因。</p>
-<p>如果从原厂管理界面中直接上传固件成功，请直接进入下一节；若不认固件，请执行以下步骤：</p>
-<ul>
-<li><p>关闭路由器电源，用笔尖捅住“Restore Factory Settings”<del>菊花</del>键不放。</p>
-</li>
-<li><p>打开路由器电源，这时电源黄灯开始闪烁，这时依然<strong>不要松开</strong>RESET键，直到电源灯变为绿色长亮（或闪烁？）才可松手（可能有的路由器的表现不一样，达到类似效果即可），这时路由器已经进入了tftp模式。</p>
-</li>
-<li><p>将电脑的IP设为<code>192.168.1.2</code>，子网掩码设为<code>255.255.255.0</code>，将电脑与路由器的<strong>1号LAN口</strong>用网线相连。</p>
-</li>
-<li><p>从终端进入到要刷的固件所在目录中，假设固件名叫<code>openwrt.img</code>，如果在<em>Windows</em>下则使用命令：</p>
-<pre><code>  tftp -i 192.168.1.1 PUT &quot;openwrt.img&quot;
-</code></pre><p>如果在<em>OS X</em>或<em>Linux</em>下则在终端里键入<code>tftp</code>，之后使用以下命令：</p>
-<pre><code>  connect 192.168.1.1
-  binary
-  rexmt 1
-  timeout 60
-  put &quot;openwrt.img&quot;
-</code></pre><p>稍等片刻，路由器的灯会出现各种变化，直到电源灯又恢复长绿状态（不同路由器或许不同），说明上传完成了。</p>
-</li>
-<li><p>重启路由器，不出意外之后应该可以通过网页访问<a href="192.168.1.1">192.168.1.1</a>的<code>LuCI</code>管理界面了。</p>
-</li>
-</ul>
-<h2 id="开启无线"><a href="#开启无线" class="headerlink" title="开启无线"></a>开启无线</h2><p>较新的OpenWrt应该已经自带<code>LuCI</code>图形化界面了，因此直接浏览器打开<a href="192.168.1.1">192.168.1.1</a>就可以看到类似如下界面：</p>
-<p><img src="/img/opfirst.png" alt="LuCI"></p>
-<p>当然咯，第一次登入肯定是要先设密码的，毕竟也算是一个Linux系统：</p>
-<p><img src="/img/oppasswd.png" alt="更改密码"></p>
-<p>OpenWrt默认是关闭无线网络的，所以到<code>Network</code>-<code>Wifi</code>下面启用即可：</p>
-<p><img src="/img/opwifi.png" alt="启用Wifi"></p>
-<p>之后设置SSID和密码就可以通过无线方式连接了。</p>
-<h1 id="基本设置"><a href="#基本设置" class="headerlink" title="基本设置"></a>基本设置</h1><p>既然要装上软件，自然要从互联网获取，那么路由器当然要联网咯。先到<code>Network</code>-<code>Interfaces</code>设置WAN口的上网方式，这点和普通路由器没有什么差别，这里不再赘述。</p>
-<p>如果觉得英文LuCI使用不便，也可以到<code>System</code>-<code>Software</code>下找到一个叫<code>luci-i18n-base-zh-cn</code>的包装上就行了，当然首先要<code>Update lists</code>一下，之后到<code>System</code>-<code>System</code>下切换成<code>普通话</code>再刷新一下就变成中文界面了。</p>
-<p><img src="/img/oplucicn.png" alt="设置中文"></p>
-<p>当然，以后要装的部分软件也可以通过上面这种方式安装，但由于有的包官方源里没有，我们在下面使用一种更通用的方法——从命令行安装。</p>
-<p>OpenWrt归根结底还是一个<strong>Linux发行版</strong>，所以Linux命令在这里依然适用。</p>
-<p>我们还是通过SSH登录：</p>
-<pre><code>ssh root@192.168.1.1
-</code></pre><p>输入之前设置的密码后，就会看到OpenWrt特有的终端界面：</p>
-<pre><code>BusyBox v1.23.2 (2015-07-25 15:09:46 CEST) built-in shell (ash)
-
-  _______                     ________        __
- |       |.-----.-----.-----.|  |  |  |.----.|  |_
- |   -   ||  _  |  -__|     ||  |  |  ||   _||   _|
- |_______||   __|_____|__|__||________||__|  |____|
-          |__| W I R E L E S S   F R E E D O M
- -----------------------------------------------------
- CHAOS CALMER (15.05, r46767)
- -----------------------------------------------------
-  * 1 1/2 oz Gin            Shake with a glassful
-  * 1/4 oz Triple Sec       of broken ice and pour
-  * 3/4 oz Lime Juice       unstrained into a goblet.
-  * 1 1/2 oz Orange Juice
-  * 1 tsp. Grenadine Syrup
- -----------------------------------------------------
-root@OpenWrt:~# 
-</code></pre><p>先更新一下软件源（和LuCI中的软件包刷新列表是一样的）：</p>
-<pre><code>opkg update
-opkg list-installed
-opkg list
-</code></pre><p>然后就可以按照自己的需求安装要用的软件了。</p>
 
           </div>
           <div class="toggle-input article-more-link"><a>Read More +</a></div>
@@ -1352,7 +1316,7 @@ setTimeout(function() {
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">18</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/">＊nix</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E8%AF%BE%E7%A8%8B/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">19</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/">＊nix</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E8%AF%BE%E7%A8%8B/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -1362,6 +1326,14 @@ setTimeout(function() {
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a class="text" href="/posts/openwrt-onu/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            OpenWrt访问桥接光猫</a>
+          </li>
         
           <li>
             <a class="text" href="/posts/docker-openwrt/">
@@ -1435,14 +1407,6 @@ setTimeout(function() {
             Hexo博客部署到VPS</a>
           </li>
         
-          <li>
-            <a class="text" href="/posts/word2vec/">
-              
-                <i class="fa-paperclip"></i> 
-              
-            向量空间中词表征的有效估计</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1453,7 +1417,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 20px; color: #aad4ff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 12px; color: #007fff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 21px; color: #bfdfff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 12px; color: #007fff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 

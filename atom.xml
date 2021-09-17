@@ -6,7 +6,7 @@
   <link href="https://liangzhenduo0608.github.io/atom.xml" rel="self"/>
   
   <link href="https://liangzhenduo0608.github.io/"/>
-  <updated>2020-11-22T10:26:36.748Z</updated>
+  <updated>2021-09-17T16:09:13.188Z</updated>
   <id>https://liangzhenduo0608.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>OpenWrt访问桥接光猫</title>
+    <link href="https://liangzhenduo0608.github.io/posts/openwrt-onu/"/>
+    <id>https://liangzhenduo0608.github.io/posts/openwrt-onu/</id>
+    <published>2021-09-15T13:11:11.000Z</published>
+    <updated>2021-09-17T16:09:13.188Z</updated>
+    
+    <content type="html"><![CDATA[<p>主路由使用OpenWrt进行拨号以后，发现无法直接通过<a href="http://192.168.1.1/">192.168.1.1</a>访问桥接过来的光猫了。之前使用Padavan的时候wan口接光猫时会作为光猫的DHCP客户端自动获取一个192.168.1.*的ip地址，下级设备都可以直接访问到光猫的地址；而OpenWrt却没有分配到光猫网段的地址，所以需要手动创建一个接口。</p><p>在<strong>网络-接口</strong>中创建一个新接口，名字可以叫<strong>man</strong>，协议选DHCP客户端，接口选择和<strong>wan</strong>口相同的接口，我这里是<strong>eth0.2</strong>。</p><p><img src="/img/onuinterface.png" alt="创建新接口"></p><p>创建后修改高级设置，禁用<strong>使用默认网关</strong>选项；在防火墙设置里，将防火墙区域选到<strong>wan</strong>上。</p><p><img src="/img/onuadvanced.png" alt="高级设置"></p><p><img src="/img/onufirewall.png" alt="防火墙设置"></p><p>最后保存后去接口里连接<strong>MAN</strong>就会发现可以获取到192.168.1.*网段下的地址了，然后光猫就可以访问了。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;主路由使用OpenWrt进行拨号以后，发现无法直接通过&lt;a href=&quot;http://192.168.1.1/&quot;&gt;192.168.1.1&lt;/a&gt;访问桥接过来的光猫了。之前使用Padavan的时候wan口接光猫时会作为光猫的DHCP客户端自动获取一个192.168.1.*的i</summary>
+      
+    
+    
+    
+    <category term="奇技淫巧" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    
+    <category term="路由器" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    
+    
+    <category term="OpenWrt" scheme="https://liangzhenduo0608.github.io/tags/OpenWrt/"/>
+    
+  </entry>
   
   <entry>
     <title>N1盒子Docker安装OpenWrt旁路由</title>
@@ -600,39 +626,6 @@
     <category term="舰队Collection" scheme="https://liangzhenduo0608.github.io/tags/%E8%88%B0%E9%98%9FCollection/"/>
     
     <category term="游戏" scheme="https://liangzhenduo0608.github.io/tags/%E6%B8%B8%E6%88%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>终端开发终极配置</title>
-    <link href="https://liangzhenduo0608.github.io/posts/terminal/"/>
-    <id>https://liangzhenduo0608.github.io/posts/terminal/</id>
-    <published>2016-11-11T13:11:11.000Z</published>
-    <updated>2019-11-01T14:49:37.548Z</updated>
-    
-    <content type="html"><![CDATA[<p>终端是每天要用到的工具，所以一定要配置成自己顺手的，才能发挥更高的效率。<strong>iTerm2+zsh+vim</strong>是我目前用过的感觉最强大的配置方案了。</p><h1 id="iTerm2"><a href="#iTerm2" class="headerlink" title="iTerm2"></a>iTerm2</h1><p><a href="https://www.iterm2.com/">iTerm2</a>是默认终端的终极替代方案，个性化、热键等方面表现非常出色，兼容性也非常好。</p><p><img src="/img/teriterm.png" alt="iTerm2"></p><p>直接到其<a href="https://www.iterm2.com/downloads.html">官网</a>下载安装即可。</p><p>对于终端里的特殊字符可能有的无法显示，要安装<code>powerline</code>字体：</p><pre><code>git clone https://github.com/powerline/fonts.git --depth=1cd fonts &amp;&amp; ./install.sh</code></pre><p>然后在Preferences - Profiles - Text - Font里选择powerline字体就可以了。</p><h1 id="zsh"><a href="#zsh" class="headerlink" title="zsh"></a>zsh</h1><p><strong>zsh</strong>在命令补全等很多方面上比bash智能很多，首先切换到zsh：</p><pre><code>chsh -s /bin/zsh</code></pre><p><a href="http://ohmyz.sh/">oh-my-zsh</a>是一个管理zsh配置的框架，包含各种插件和主题，可用以下脚本安装：</p><pre><code>sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;</code></pre><p><img src="/img/terzsh.png" alt="oh-my-zsh"></p><p>安装完成后编辑<code>~/.zshrc</code>，可以编辑<code>ZSH_THEME</code>修改主题，或者编辑<code>plugins</code>增加插件，对应的文件分别在<code>~/.oh-my-zsh/themes</code>和<code>~/.oh-my-zsh/plugins</code>下。</p><h1 id="vim"><a href="#vim" class="headerlink" title="vim"></a>vim</h1><p><a href="http://vim.spf13.com/">spf13-vim</a>是vim的终极配置之一，用以下脚本安装：</p><pre><code>curl https://j.mp/spf13-vim3 -L &gt; spf13-vim.sh &amp;&amp; sh spf13-vim.sh</code></pre><p><img src="/img/tervim.png" alt="spf13-vim"></p><p>配色文件在<code>~/.vim/bundle/vim-colorschemes/colors</code>下，指定名称修改配色：</p><pre><code>echo colorscheme $colorscheme_name  &gt;&gt; ~/.vimrc.local</code></pre>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;终端是每天要用到的工具，所以一定要配置成自己顺手的，才能发挥更高的效率。&lt;strong&gt;iTerm2+zsh+vim&lt;/strong&gt;是我目前用过的感觉最强大的配置方案了。&lt;/p&gt;
-&lt;h1 id=&quot;iTerm2&quot;&gt;&lt;a href=&quot;#iTerm2&quot; class=&quot;heade</summary>
-      
-    
-    
-    
-    <category term="奇技淫巧" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
-    
-    <category term="＊nix" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/"/>
-    
-    
-    <category term="Linux" scheme="https://liangzhenduo0608.github.io/tags/Linux/"/>
-    
-    <category term="macOS" scheme="https://liangzhenduo0608.github.io/tags/macOS/"/>
-    
-    <category term="Unix" scheme="https://liangzhenduo0608.github.io/tags/Unix/"/>
-    
-    <category term="shell" scheme="https://liangzhenduo0608.github.io/tags/shell/"/>
     
   </entry>
   

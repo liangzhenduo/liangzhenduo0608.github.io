@@ -106,6 +106,88 @@
         
           <section id="main" class='pjax'>
   
+    <article id="post-openwrt-onu" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/posts/openwrt-onu/" class="article-date">
+  <time datetime="2021-09-15T13:11:11.000Z" itemprop="datePublished">2021-09-15</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a>►<a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/onubanner.png" rel="gallery_cktojt4ky002fh7h8busv4090">
+        <img src="/img/onubanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/openwrt-onu/">OpenWrt访问桥接光猫</a>
+    </h1>
+  
+
+      </header>
+    
+    <footer class="article-footer">
+      <a data-url="https://liangzhenduo0608.github.io/posts/openwrt-onu/" data-id="cktojt4ky002fh7h8busv4090" class="article-share-link">Share</a>
+      
+        <a href="https://liangzhenduo0608.github.io/posts/openwrt-onu/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWrt/" rel="tag">OpenWrt</a></li></ul>
+
+    </footer>
+    <div class="article-entry article-index" itemprop="articleBody">
+      
+          
+        
+          <div class="toggle-content">
+            <p>主路由使用OpenWrt进行拨号以后，发现无法直接通过<a target="_blank" rel="noopener" href="http://192.168.1.1/">192.168.1.1</a>访问桥接过来的光猫了。之前使用Padavan的时候wan口接光猫时会作为光猫的DHCP客户端自动获取一个192.168.1.*的ip地址，下级设备都可以直接访问到光猫的地址；而OpenWrt却没有分配到光猫网段的地址，所以需要手动创建一个接口。</p>
+<p>在<strong>网络-接口</strong>中创建一个新接口，名字可以叫<strong>man</strong>，协议选DHCP客户端，接口选择和<strong>wan</strong>口相同的接口，我这里是<strong>eth0.2</strong>。</p>
+<p><img src="/img/onuinterface.png" alt="创建新接口"></p>
+<p>创建后修改高级设置，禁用<strong>使用默认网关</strong>选项；在防火墙设置里，将防火墙区域选到<strong>wan</strong>上。</p>
+<p><img src="/img/onuadvanced.png" alt="高级设置"></p>
+<p><img src="/img/onufirewall.png" alt="防火墙设置"></p>
+<p>最后保存后去接口里连接<strong>MAN</strong>就会发现可以获取到192.168.1.*网段下的地址了，然后光猫就可以访问了。</p>
+
+          </div>
+          <div class="toggle-input article-more-link"><a>Read More +</a></div>
+        
+      
+    </div>
+
+  </div>
+  
+</article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-9920928489161252"
+     data-ad-slot="3913131990"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+  
     <article id="post-docker-openwrt" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     
@@ -124,7 +206,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/dockeropenwrtbanner.png" rel="gallery_cklkxj6do000wzfh84crqaney">
+      <a class="article-gallery-img fancybox" href="/img/dockeropenwrtbanner.png" rel="gallery_cktojt4kh000wh7h8ahe52vg5">
         <img src="/img/dockeropenwrtbanner.png" itemprop="image">
       </a>
     
@@ -143,7 +225,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/docker-openwrt/" data-id="cklkxj6do000wzfh84crqaney" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/docker-openwrt/" data-id="cktojt4kh000wh7h8ahe52vg5" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/docker-openwrt/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -212,7 +294,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/tm-nas-banner.png" rel="gallery_cklkxj6eg003uzfh8hrzzbdbw">
+      <a class="article-gallery-img fancybox" href="/img/tm-nas-banner.png" rel="gallery_cktojt4lg003yh7h8a1sz3yr3">
         <img src="/img/tm-nas-banner.png" itemprop="image">
       </a>
     
@@ -231,7 +313,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/tm-nas/" data-id="cklkxj6eg003uzfh8hrzzbdbw" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/tm-nas/" data-id="cktojt4lg003yh7h8a1sz3yr3" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/tm-nas/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -306,7 +388,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/shadowsocks-v2ray-banner.png" rel="gallery_cklkxj6e7002uzfh8gjgsgr9t">
+      <a class="article-gallery-img fancybox" href="/img/shadowsocks-v2ray-banner.png" rel="gallery_cktojt4l4002yh7h8dyfkg1sq">
         <img src="/img/shadowsocks-v2ray-banner.png" itemprop="image">
       </a>
     
@@ -325,7 +407,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/shadowsocks-v2ray/" data-id="cklkxj6e7002uzfh8gjgsgr9t" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/shadowsocks-v2ray/" data-id="cktojt4l4002yh7h8dyfkg1sq" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/shadowsocks-v2ray/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -425,7 +507,7 @@ systemctl enable shadowsocks-libev
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/mathjaxbanner.png" rel="gallery_cklkxj6du001gzfh863vmeqgn">
+      <a class="article-gallery-img fancybox" href="/img/mathjaxbanner.png" rel="gallery_cktojt4kp001ih7h8ghblckzy">
         <img src="/img/mathjaxbanner.png" itemprop="image">
       </a>
     
@@ -444,7 +526,7 @@ systemctl enable shadowsocks-libev
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/hexo-mathjax/" data-id="cklkxj6du001gzfh863vmeqgn" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/hexo-mathjax/" data-id="cktojt4kp001ih7h8ghblckzy" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/hexo-mathjax/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -510,7 +592,7 @@ npm install hexo-renderer-kramed --save
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/ttlbanner.png" rel="gallery_cklkxj6eh003yzfh851im9j1q">
+      <a class="article-gallery-img fancybox" href="/img/ttlbanner.png" rel="gallery_cktojt4lh0042h7h82l0f2cmv">
         <img src="/img/ttlbanner.png" itemprop="image">
       </a>
     
@@ -529,7 +611,7 @@ npm install hexo-renderer-kramed --save
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/ttl/" data-id="cklkxj6eh003yzfh851im9j1q" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/ttl/" data-id="cktojt4lh0042h7h82l0f2cmv" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/ttl/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -625,7 +707,7 @@ npm install hexo-renderer-kramed --save
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/mactftpbanner.png" rel="gallery_cklkxj6dz001zzfh81hzg54z2">
+      <a class="article-gallery-img fancybox" href="/img/mactftpbanner.png" rel="gallery_cktojt4ku001zh7h80e1e8yo9">
         <img src="/img/mactftpbanner.png" itemprop="image">
       </a>
     
@@ -644,7 +726,7 @@ npm install hexo-renderer-kramed --save
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/mac-tftp/" data-id="cklkxj6dz001zzfh81hzg54z2" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/mac-tftp/" data-id="cktojt4ku001zh7h80e1e8yo9" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/mac-tftp/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -709,7 +791,7 @@ sudo launchctl start com.apple.tftpd
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/l2tpbanner.png" rel="gallery_cklkxj6dx001ozfh812f4fvwk">
+      <a class="article-gallery-img fancybox" href="/img/l2tpbanner.png" rel="gallery_cktojt4kr001oh7h8gif3eeag">
         <img src="/img/l2tpbanner.png" itemprop="image">
       </a>
     
@@ -728,7 +810,7 @@ sudo launchctl start com.apple.tftpd
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/l2tp/" data-id="cklkxj6dx001ozfh812f4fvwk" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/l2tp/" data-id="cktojt4kr001oh7h8gif3eeag" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/l2tp/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -836,7 +918,7 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/certbotbanner.png" rel="gallery_cklkxj6dh000jzfh8d90z20ht">
+      <a class="article-gallery-img fancybox" href="/img/certbotbanner.png" rel="gallery_cktojt4k9000jh7h8hhhqamb6">
         <img src="/img/certbotbanner.png" itemprop="image">
       </a>
     
@@ -855,7 +937,7 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/certbot/" data-id="cklkxj6dh000jzfh8d90z20ht" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/certbot/" data-id="cktojt4k9000jh7h8hhhqamb6" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/certbot/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -925,7 +1007,7 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/hexodbanner.png" rel="gallery_cklkxj6dt001czfh8fe1d0vt5">
+      <a class="article-gallery-img fancybox" href="/img/hexodbanner.png" rel="gallery_cktojt4kn001dh7h8hib33ew9">
         <img src="/img/hexodbanner.png" itemprop="image">
       </a>
     
@@ -944,7 +1026,7 @@ chkconfig xl2tpd on        #systemctl enable xl2tpd
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/hexo-deploy/" data-id="cklkxj6dt001czfh8fe1d0vt5" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/hexo-deploy/" data-id="cktojt4kn001dh7h8hib33ew9" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/hexo-deploy/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -975,118 +1057,6 @@ cd hooks
 <h1 id="服务器Nginx配置"><a href="#服务器Nginx配置" class="headerlink" title="服务器Nginx配置"></a>服务器Nginx配置</h1><p>进入<code>/etc/nginx/conf.d</code>目录新建一个配置文件<code>blog.conf</code>：</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span>  www.shintaku.cc;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/blog;</span><br><span class="line">        <span class="attribute">index</span>  index.html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_page</span>  <span class="number">404</span>              /<span class="number">404</span>.html;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_page</span>   <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">    <span class="attribute">location</span> = /50x.html &#123;</span><br><span class="line">        <span class="attribute">root</span>   /usr/share/nginx/html;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>保存后用<code>nginx -s reload</code>重载配置，打开上面配置的域名（首先应该配置过解析）应该就能访问Hexo博客了。这样只是http访问，之后可以按需配置https，这里不再赘述。</p>
-
-          </div>
-          <div class="toggle-input article-more-link"><a>Read More +</a></div>
-        
-      
-    </div>
-
-  </div>
-  
-</article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-9920928489161252"
-     data-ad-slot="3913131990"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-  
-    <article id="post-word2vec" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-<a href="/posts/word2vec/" class="article-date">
-  <time datetime="2017-05-20T12:20:20.000Z" itemprop="datePublished">2017-05-20</time>
-</a>
-
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>►<a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/">论文</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-      <a class="article-gallery-img fancybox" href="/img/w2vbanner.png" rel="gallery_cklkxj6ej0046zfh81teg9go5">
-        <img src="/img/w2vbanner.png" itemprop="image">
-      </a>
-    
-  </div>
-</div>
-
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/posts/word2vec/">向量空间中词表征的有效估计</a>
-    </h1>
-  
-
-      </header>
-    
-    <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/word2vec/" data-id="cklkxj6ej0046zfh81teg9go5" class="article-share-link">Share</a>
-      
-        <a href="https://liangzhenduo0608.github.io/posts/word2vec/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
-
-    </footer>
-    <div class="article-entry article-index" itemprop="articleBody">
-      
-          
-        
-          <div class="toggle-content">
-            <blockquote>
-<p>原文：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1301.3781.pdf">Efficient Estimation of Word Representations in Vector Space</a><br>源码：<a target="_blank" rel="noopener" href="https://code.google.com/archive/p/word2vec/">word2vec</a></p>
-</blockquote>
-<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>本文提出了两种新的模型结构，用于计算大型数据集中单词的连续向量表征。这些表征的质量是在单词相似性任务中衡量出来的，并将结果与​​之前基于不同类型<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BA%BA%E5%B7%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C">神经网络</a>（neural network）的最佳效果进行比较。我们观测到在低计算成本的精度上有大幅提高，只用不到一天的时间从16亿单词中学到高质量的词向量。此外，我们展示了这些向量在衡量句法和词义相似性上保证了最先进的性能。</p>
-<h1 id="绪论"><a href="#绪论" class="headerlink" title="绪论"></a>绪论</h1><p>当今先进的自然语言处理系统与技术都把词作为原子单元。总是被用作词表的索引，而不去考虑词间的相似性。这样做的好处在于简单且健壮，而且观察到简单模型在大量数据上训练的性能优于复杂模型在少量数据上的训练。统计语言模型中的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/N%E5%85%83%E8%AF%AD%E6%B3%95">N-gram</a>就是这样的典型例子，几乎可以在所有可用数据上训练（万亿词量）。</p>
-<p>然而简单的技术在很多领域都有其局限性。例如相关领域内的自动语音识别数据是有限的，简单模型的性能通常取决于转录的高质量的语音数据的大小，通常只有几百万的词。在机器翻译中，很多语音的已有的语料库的大小也只有几十亿。因此，对这些基本技术的简单升级并不会带来很大的性能提升，我们不得不考虑更复杂的高级技术。</p>
-<p>随着机器学习技术的发展，训练更大规模数据上的复杂模型成为可能，它们要远远超过那些简单模型。可能最成功的概念就是使用<strong>分布式词表征</strong>（distributed representations of words），例如基于神经网络的语言模型远优于N-gram模型。</p>
-<h2 id="本文目标"><a href="#本文目标" class="headerlink" title="本文目标"></a>本文目标</h2><p>本文的主要目标是介绍一种能从几十亿的语料库与几百万的词表的巨大数据集中学习高质量词表征的技术。据我们所知，迄今为止没有任何一个框架能以50～100维的词向量成功训练上亿的词表。</p>
-<p>使用最近提出的一项技术来衡量得到的向量表征的质量，该度量指标不但期望意思相近的词表征相近，而且还能表示词的<strong>多种相似性程度</strong>（multiple degrees of similarity）。这常见于<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%B1%88%E6%8A%98%E8%AF%AD">屈折语</a>（inflectional language）中，例如名词可能有多种词尾（后缀），如果在原始的向量子空间中搜索相似词，可能找到的是具有相似词尾的词。</p>
-<p>令人惊讶的是词表征的相似性远远超出了简单的语法规则。使用词偏置技术时，对词向量进行简单的代数操作，例如<em>vector(“King”)-vector(“Man”)+vector(“Woman”)</em>得到的向量与<em>Queen</em>比较近。</p>
-<p>本文通过开发新的模型结构来最大化向量操作的精度，从而保留词间的线性规则。我们设计了一个综合的测试集从语法和语义规则两方面衡量，以此来展示该模型可以以很高的精度学习到许多规则，并进一步讨论了模型的训练时间和精度取决于词向量的维度和训练数据集的大小。</p>
-<h2 id="前期工作"><a href="#前期工作" class="headerlink" title="前期工作"></a>前期工作</h2><p>将词表示为连续的向量的思想由来已久。一个很受欢迎的模型结构称为<strong>神经网络语言模型</strong>（neural network language model, NNLM），采用一个线性投影层加上一个非线性隐藏层来同时学习到词向量表征和统计语言模型。该工作得到后续很多工作的参考。</p>
-<p>另一个有趣的NNLM结构是先用一个隐藏层的神经网络来学习词向量，再使用这些词向量来训练NNLM。因此，词向量的学习不需要构建完整的NNLM。本文对这个结构进一步扩展，致力于使用一个简单的模型来学习词向量表征。</p>
-<p>后续会展示词向量表征可以用来显著改善和简化许多NLP应用。词向量本身的估计可以采用多种模型结构，在多种语料库上训练，其中一些学习到的词向量表征可以用作进一步的研究和对比。然而，据我们所知，这些模型的计算代价要远远高于最早的模型，一个例外是<a target="_blank" rel="noopener" href="http://machinelearning.wustl.edu/mlpapers/paper_files/icml2007_MnihH07.pdf">mnih2007three</a>中提出的采用对角权重矩阵的<strong>log-bilinear</strong>模型。</p>
-<h1 id="模型结构"><a href="#模型结构" class="headerlink" title="模型结构"></a>模型结构</h1><p>许多已经提出的不同的模型可以用来估计词的连续向量表征，包括广为人知的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%BD%9C%E5%9C%A8%E8%AF%AD%E4%B9%89%E5%AD%A6">潜在语义分析</a>（Latent Semantic Analysis, LSA）以及<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%9A%90%E5%90%AB%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%88%86%E5%B8%83">隐含狄利克雷分布</a>（Latent Dirichlet Allocation, LDA）。本文着重于用神经网络学习词的分布式表征，已有的工作表明，与LSA相比分布式表征可以更好的保留词间的线性规则。而LDA最大的缺点在于大数据集上的计算复杂度高。</p>
-<p>比较不同模型结构，首先用完整的训练模型所需要的参数的数量来定义模型计算的复杂度。接下来试图最大化精度，同时最小化计算复杂度。对于下面所有模型，训练复杂度遵循：</p>
-<script type="math/tex; mode=display">O=E\times T\times Q</script><p>其中\(E\)表示训练次数，\(T\)表示训练集单词数，\(Q\)表示模型结构进一步定义。通常\(E\)在3～50之间，\(T\)高达十亿。所有的模型采用<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent">随机梯度下降</a>和<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95">反向传播</a>。</p>
-<h2 id="前馈NNLM"><a href="#前馈NNLM" class="headerlink" title="前馈NNLM"></a>前馈NNLM</h2><p>概率<strong>前馈神经网络语言模型</strong>（Feedforward NNLM）包括<strong>输入</strong>（input）、<strong>投影</strong>（projection）、<strong>隐藏</strong>（hidden）、<strong>输出</strong>（output）四层。输入层中，前\(N\)个词编码为1-of-\(V\)，\(V\)为词表大小。输入层映射到\(N\times D\)维的投影层\(P\)。由于在任何时刻，仅\(N\)个输入是激活的，因此投影层的组合是相对简单的操作。</p>
-<p>NNLM结构的复杂计算在于投影层和隐藏层之间的计算，主要原因是投影层是稠密的。对于一个常见的选择\(N=10\)，投影层\(P\)的大小可能为500～2000，而隐藏层\(H\)的大小通常为500～1000。更进一步讲，隐藏层通常用来计算在整个词表上的概率分布，输出层的结果是\(V\)维的。因此每个训练实例的计算复杂度为：</p>
-<script type="math/tex; mode=display">Q=N\times D+N\times D\times H+H\times V</script><p>其中\(H\times V\)起决定作用。然而为了避免如此提出了一些实际的解决方案：使用<strong>Hierarchical Softmax</strong>，或者在训练的时候使用未归一化的模型来避免对模型的归一化。采用词表的二叉树表示，可以将输出单元的数量降低到\(\log_2(V)\)。这样模型的主要复杂度就在\(N\times D\times H\)了。</p>
-<p>本文的模型采用Hierarchical Softmax，其中词表表示为霍夫曼树。这样做主要是基于之前观测到的一个现象：词频对于在NNLM上获取分类非常有效。霍夫曼树给频繁出现的词以较短的编码，这样进一步减少了输出单元的数量。而平衡二叉树需要\(\log_2(V)\)输出来评估，基于霍夫曼树的Hierarchical Softmax仅仅需要\(\log_2(Unigram_perplexity(V))\)。例如当词表大小为100万时计算效率得到了两倍的加速。虽然对于NNLM来讲不是最关键的加速，因为主要的计算瓶颈在于\(N\times D\times H\)，后续提出的模型结构并没有隐藏层，而是主要取决于Softmax正则化。</p>
-<h2 id="递归NNLM"><a href="#递归NNLM" class="headerlink" title="递归NNLM"></a>递归NNLM</h2><p><strong>递归神经网络语言模型</strong>（Recurrent NNLM）的提出是为了克服前馈NNLM的一些局限性，例如需要指定上下文的长度（模型阶数N），因此理论上讲<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%80%92%E5%BD%92%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C">递归神经网络</a>（recurrent neural network）可以比<strong>浅层神经网络</strong>（shallow neural networks）更高效的表示更复杂的模式。RNN并没有投影层，只有输入、隐藏、输出三层。这类模型的特殊性在于递归矩阵，该矩阵用时间延迟将隐藏层与自身连接起来。这就允许递归模型形式化某种短时记忆，因为之前的信息能够表示为隐藏层中的状态，该状态可以根据当前的输入以及上个时间步的状态进行更新。</p>
-<p>RNN模型对于一个训练实例的时间复杂度是：</p>
-<script type="math/tex; mode=display">Q=H\times H+H\times V</script><p>其中词表征\(D\)具有与隐藏层\(H\)相同的维度。我们同样可以使用Hierarchical Softmax将\(H\times V\)有效降低为\(H\times\log_2(V)\)。主要计算复杂度在于\(H\times H\)。</p>
-<h2 id="神经网络的并行训练"><a href="#神经网络的并行训练" class="headerlink" title="神经网络的并行训练"></a>神经网络的并行训练</h2><p>在大规模数据集上训练模型时，已经基于大规模分布式框架<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/TensorFlow#DistBelief">DistBlief</a>实现了几个模型包括前馈NNLM以及本文中提出的新模型。该框架支持并行运行一个模型的多个副本，每个副本通过保持参数一致的中央服务器来同步梯度更新。对于并行训练，我们采用自适应的学习速率下的<strong>mini-batch异步梯度下降</strong>，整个过程称为<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent#AdaGrad">Adagrad</a>。在这种框架下，通常一个数据中心使用100多个模型副本，每个副本使用不同机器的多核。</p>
-<h1 id="对数线性模型"><a href="#对数线性模型" class="headerlink" title="对数线性模型"></a>对数线性模型</h1><p>本节提出两个以最小化计算复杂度来学习分布式词表征的模型结构。前文观测结果表明：模型计算的主要复杂度来自于非线性隐藏层。尽管这些隐藏层使神经网络更优雅，本文还是决定使用可能没有神经网络数据精确的更为简单的模型，但是至少能够高效的训练更多的数据。</p>
-<p>新结构的提出主要基于之前发现的NNLM可以通过两步进行训练：</p>
-<ul>
-<li>使用简单模型学习连续词向量表征</li>
-<li>基于分布式词表征训练N-gram神经网络语言模型</li>
-</ul>
-<h2 id="连续Bag-of-Words模型"><a href="#连续Bag-of-Words模型" class="headerlink" title="连续Bag-of-Words模型"></a>连续Bag-of-Words模型</h2><p><img src="/img/w2vcbow.png" alt="CBOW"></p>
-<p>首先提出的结构类似于前馈NNLM，去掉了其中的非线性隐层，所有词共享投影层（不只是投影矩阵）；所有的词投影到相同的位置（向量平均）。因为历史词序并不能影响投影，所以把这个结构称为<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B">词袋模型</a>（bag-of-words）。更何况也使用了未来的词。在下节提到的任务中，使用4个未来词和4个历史词作为输入取得了最优的性能，其中优化目标是能准确对当前词分类。训练复杂度为：</p>
-<script type="math/tex; mode=display">Q=N\times D+D\times\log_2(V)</script><p>将这个模型记为<strong>CBOW</strong>。与标准词袋模型不同，它使用上下文的连续分布式表征。注意输入层与投影层之间的权重矩阵与NNLM一样是所有词位置共享的。</p>
-<h2 id="连续Skip-Gram模型"><a href="#连续Skip-Gram模型" class="headerlink" title="连续Skip-Gram模型"></a>连续Skip-Gram模型</h2><p><img src="/img/w2vskip.png" alt="Skip-gram"></p>
-<p>第二个结构与CBOW类似，不同的是CBOW基于上下文预测当前词，这个模型尝试根据同一句子中的另外一个词来最大化一个词的分类。更准确的说法，使用当前词作为有连续投影层的对数线性分类器的输入，来预测词语所在当前词的前后范围。发现增加窗口的大小可以提高学习到的词向量的质量，但也增加了计算复杂度。因为离得越远的词通常与当前词越不相关，所以给那些离得较远的词较小的权重使得其被采样的概率变小。该结构的训练复杂度正比于：</p>
-<script type="math/tex; mode=display">Q=C\times(D+D\times\log_2(V))</script><p>其中\(C\)为词间的最大距离，对于每个训练词从\(<1;C>\)范围内选择随机数\(R\)，使用\(R\)个历史词与\(R\)个未来词作为当前词的标签。这就需要做\(R\times2\)个词分类，将当前词作为输入，\(R+R\)中的每个词作为输出。</p>
 
           </div>
           <div class="toggle-input article-more-link"><a>Read More +</a></div>
@@ -1166,7 +1136,7 @@ setTimeout(function() {
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">18</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/">＊nix</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E8%AF%BE%E7%A8%8B/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">19</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/">＊nix</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E8%AF%BE%E7%A8%8B/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -1176,6 +1146,14 @@ setTimeout(function() {
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a class="text" href="/posts/openwrt-onu/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            OpenWrt访问桥接光猫</a>
+          </li>
         
           <li>
             <a class="text" href="/posts/docker-openwrt/">
@@ -1249,14 +1227,6 @@ setTimeout(function() {
             Hexo博客部署到VPS</a>
           </li>
         
-          <li>
-            <a class="text" href="/posts/word2vec/">
-              
-                <i class="fa-paperclip"></i> 
-              
-            向量空间中词表征的有效估计</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1267,7 +1237,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 20px; color: #aad4ff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 12px; color: #007fff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 21px; color: #bfdfff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 12px; color: #007fff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 

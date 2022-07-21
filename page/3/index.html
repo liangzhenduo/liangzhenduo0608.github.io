@@ -51,7 +51,7 @@
   
 <link rel="stylesheet" href="/css/style.css">
 
-<meta name="generator" content="Hexo 5.2.0"></head>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body>
   <div id="container">
@@ -124,7 +124,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/terbanner.png" rel="gallery_cktojt4lf003uh7h8ceswezon">
+      <a class="article-gallery-img fancybox" href="/img/terbanner.png" rel="gallery_cl5uzv1j9003pybh8c8f02666">
         <img src="/img/terbanner.png" itemprop="image">
       </a>
     
@@ -143,7 +143,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/terminal/" data-id="cktojt4lf003uh7h8ceswezon" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/terminal/" data-id="cl5uzv1j9003pybh8c8f02666" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/terminal/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -218,7 +218,7 @@ cd fonts &amp;&amp; ./install.sh
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/mpbanner.png" rel="gallery_cktojt4kt001vh7h8b166ggvb">
+      <a class="article-gallery-img fancybox" href="/img/mpbanner.png" rel="gallery_cl5uzv1iy001uybh89y232zll">
         <img src="/img/mpbanner.png" itemprop="image">
       </a>
     
@@ -237,7 +237,7 @@ cd fonts &amp;&amp; ./install.sh
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/mac-php/" data-id="cktojt4kt001vh7h8b166ggvb" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/mac-php/" data-id="cl5uzv1iy001uybh89y232zll" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/mac-php/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -267,13 +267,13 @@ cd fonts &amp;&amp; ./install.sh
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">date.timezone</span> = <span class="string">&quot;Asia/Shanghai&quot;</span></span><br><span class="line"><span class="attr">pdo_mysql.default_socket</span> = /tmp/mysql.sock</span><br></pre></td></tr></table></figure>
 <p>因为我要用<strong><del>噫</del>yii</strong>框架，所以改了这一项，如果用到了MySQL的其他函数需要修改相应的<code>mysql.default_socket</code>或<code>mysqli.default_socket</code>。</p>
 <p>然后编辑<code>/private/etc/php-fpm.conf</code>，在里面指定一下<code>error_log</code>的路径：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error_log = /usr/<span class="built_in">local</span>/var/<span class="built_in">log</span>/php-fpm/error.log</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error_log = /usr/local/var/log/php-fpm/error.log</span><br></pre></td></tr></table></figure>
 <p>然后直接用<code>php-fpm</code>命令启动即可。</p>
 <p>接着去配置一下<code>/usr/local/etc/nginx/nginx.conf</code>，将php的一段去掉注释，并修改<code>fastcgi_param</code>：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span> <span class="regexp">~ \.php$</span> &#123;</span><br><span class="line">    <span class="attribute">root</span>           html;</span><br><span class="line">    <span class="attribute">fastcgi_pass</span>   <span class="number">127.0.0.1:9000</span>;</span><br><span class="line">    <span class="attribute">fastcgi_index</span>  index.php;</span><br><span class="line">    <span class="attribute">fastcgi_param</span>  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</span><br><span class="line">    <span class="attribute">include</span>        fastcgi_params;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">location</span> <span class="regexp">~ \.php$</span> &#123;</span><br><span class="line">    <span class="attribute">root</span>           html;</span><br><span class="line">    <span class="attribute">fastcgi_pass</span>   <span class="number">127.0.0.1:9000</span>;</span><br><span class="line">    <span class="attribute">fastcgi_index</span>  index.php;</span><br><span class="line">    <span class="attribute">fastcgi_param</span>  SCRIPT_FILENAME  <span class="variable">$document_root</span><span class="variable">$fastcgi_script_name</span>;</span><br><span class="line">    <span class="attribute">include</span>        fastcgi_params;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>然后执行<code>nginx -s reload</code>重新加载配置。</p>
 <p>然后也可以配置一下php-fpm的开机启动，直接新建<code>~/Library/LaunchAgents/net.php.php-fpm.plist</code>文件：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">plist</span> <span class="meta-keyword">PUBLIC</span> <span class="meta-string">&quot;-//Apple Computer//DTD PLIST 1.0//EN&quot;</span> <span class="meta-string">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>net.php.php-fpm<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Program<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/sbin/php-fpm<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">plist</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//Apple Computer//DTD PLIST 1.0//EN&quot;</span> <span class="string">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>net.php.php-fpm<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Program<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/sbin/php-fpm<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>保存后将其权限设为<strong>600</strong>即可，然后执行启动：</p>
 <pre><code>launchctl load ~/Library/LaunchAgents/net.php.php-fpm.plist
 </code></pre><p>如果提示<code>Service is disabled</code>，上面的命令加上<code>-w</code>参数再执行就行了。</p>
@@ -320,7 +320,7 @@ cd fonts &amp;&amp; ./install.sh
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/shbanner.png" rel="gallery_cktojt4l60036h7h8ah5ueujs">
+      <a class="article-gallery-img fancybox" href="/img/shbanner.png" rel="gallery_cl5uzv1j50031ybh8c8u1287d">
         <img src="/img/shbanner.png" itemprop="image">
       </a>
     
@@ -339,7 +339,7 @@ cd fonts &amp;&amp; ./install.sh
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/shell-parallel/" data-id="cktojt4l60036h7h8ah5ueujs" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/shell-parallel/" data-id="cl5uzv1j50031ybh8c8u1287d" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/shell-parallel/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -354,11 +354,11 @@ cd fonts &amp;&amp; ./install.sh
           <div class="toggle-content">
             <p>之前有一个每周数据统计的工作，需要每周的某一天定时从多台服务器上拉取日志进行汇总生成报表。</p>
 <h1 id="顺序执行"><a href="#顺序执行" class="headerlink" title="顺序执行"></a>顺序执行</h1><p>最初的思路是先做一个循环，遍历每台机器并在上面执行相应的数据处理脚本，然后将处理好的数据拉取到汇总的机器上，这样逐台进行，最后进行汇总处理，写出来的脚本是类似这样的：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">array=( \</span><br><span class="line">	<span class="string">&quot;10.144.1.1&quot;</span> \</span><br><span class="line">	<span class="string">&quot;10.144.1.2&quot;</span> \</span><br><span class="line">	<span class="string">&quot;10.144.1.3&quot;</span> \</span><br><span class="line">	<span class="string">&quot;10.144.1.4&quot;</span> \</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;array[@]&#125;</span></span><br><span class="line"><span class="keyword">do</span>  </span><br><span class="line">	ssh <span class="variable">$i</span> <span class="string">&quot;sh <span class="variable">$log_dir</span>/run.sh&quot;</span></span><br><span class="line">	scp <span class="variable">$i</span>:<span class="variable">$log_dir</span>/<span class="built_in">log</span> <span class="variable">$work_dir</span>/<span class="variable">$i</span>/</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">cat <span class="variable">$work_dir</span>/*/<span class="built_in">log</span> | sort | uniq &gt; <span class="variable">$work_dir</span>/<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">array=( \</span><br><span class="line">	<span class="string">&quot;10.144.1.1&quot;</span> \</span><br><span class="line">	<span class="string">&quot;10.144.1.2&quot;</span> \</span><br><span class="line">	<span class="string">&quot;10.144.1.3&quot;</span> \</span><br><span class="line">	<span class="string">&quot;10.144.1.4&quot;</span> \</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;array[@]&#125;</span></span><br><span class="line"><span class="keyword">do</span>  </span><br><span class="line">	ssh <span class="variable">$i</span> <span class="string">&quot;sh <span class="variable">$log_dir</span>/run.sh&quot;</span></span><br><span class="line">	scp <span class="variable">$i</span>:<span class="variable">$log_dir</span>/log <span class="variable">$work_dir</span>/<span class="variable">$i</span>/</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> <span class="variable">$work_dir</span>/*/log | <span class="built_in">sort</span> | <span class="built_in">uniq</span> &gt; <span class="variable">$work_dir</span>/log</span><br></pre></td></tr></table></figure>
 <p>这样写的执行时间大约是<strong>每台机器时间*台数+汇总时间</strong>，虽然不算快，但是凌晨一般也能执行完成。</p>
 <h1 id="并发执行"><a href="#并发执行" class="headerlink" title="并发执行"></a>并发执行</h1><p>后来到了国庆假期期间，服务流量骤增，再加上业务改版等一系列原因，导致数据量突然增大，执行时间翻了几倍，任务大概要到下午才能完成，这样一来就会耽误白天的工作。</p>
 <p>因为机器数量不少，分机器统计也是主要的时间消耗，因此想到既然几台机器各自的统计互不影响，可以让它们同时进行汇总工作。于是上网找了一下改进方法，改完了大致是这样的：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">array=( \</span><br><span class="line">	<span class="string">&quot;10.144.1.1&quot;</span> \</span><br><span class="line">	<span class="string">&quot;10.144.1.2&quot;</span> \</span><br><span class="line">	<span class="string">&quot;10.144.1.3&quot;</span> \</span><br><span class="line">	<span class="string">&quot;10.144.1.4&quot;</span> \</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;array[@]&#125;</span></span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">	ssh <span class="variable">$i</span> <span class="string">&quot;sh <span class="variable">$log_dir</span>/run.sh&quot;</span></span><br><span class="line">	scp <span class="variable">$i</span>:<span class="variable">$log_dir</span>/<span class="built_in">log</span> <span class="variable">$work_dir</span>/<span class="variable">$i</span>/</span><br><span class="line">&#125;&amp;</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">wait</span></span><br><span class="line"></span><br><span class="line">cat <span class="variable">$work_dir</span>/*/<span class="built_in">log</span> | sort | uniq &gt; <span class="variable">$work_dir</span>/<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">array=( \</span><br><span class="line">	<span class="string">&quot;10.144.1.1&quot;</span> \</span><br><span class="line">	<span class="string">&quot;10.144.1.2&quot;</span> \</span><br><span class="line">	<span class="string">&quot;10.144.1.3&quot;</span> \</span><br><span class="line">	<span class="string">&quot;10.144.1.4&quot;</span> \</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$&#123;array[@]&#125;</span></span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">	ssh <span class="variable">$i</span> <span class="string">&quot;sh <span class="variable">$log_dir</span>/run.sh&quot;</span></span><br><span class="line">	scp <span class="variable">$i</span>:<span class="variable">$log_dir</span>/log <span class="variable">$work_dir</span>/<span class="variable">$i</span>/</span><br><span class="line">&#125;&amp;</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">wait</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> <span class="variable">$work_dir</span>/*/log | <span class="built_in">sort</span> | <span class="built_in">uniq</span> &gt; <span class="variable">$work_dir</span>/log</span><br></pre></td></tr></table></figure>
 <p>可以发现主要的改动就在for循环的内容用<code>&#123;&#125;</code>括起来并在末尾加个<code>&amp;</code>，这样就可以实现多次循环一起执行了；另外在<code>done</code>后面加个<code>wait</code>是为了等待所有的循环都执行完成后再做后面的汇总工作，否则一旦有一个循环执行完成就会往下执行了。</p>
 <p>这样的执行时间大约是<strong>每台机器时间+汇总时间</strong>，可以看出比最初快了很多。</p>
 
@@ -404,7 +404,7 @@ cd fonts &amp;&amp; ./install.sh
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/sshconfbanner.png" rel="gallery_cktojt4lb003ih7h8130taslp">
+      <a class="article-gallery-img fancybox" href="/img/sshconfbanner.png" rel="gallery_cl5uzv1j7003dybh8e56m0fy3">
         <img src="/img/sshconfbanner.png" itemprop="image">
       </a>
     
@@ -423,7 +423,7 @@ cd fonts &amp;&amp; ./install.sh
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/ssh-conf/" data-id="cktojt4lb003ih7h8130taslp" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/ssh-conf/" data-id="cl5uzv1j7003dybh8e56m0fy3" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/ssh-conf/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -483,7 +483,7 @@ cd fonts &amp;&amp; ./install.sh
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/ngbanner.png" rel="gallery_cktojt4kx002bh7h8e34lfckt">
+      <a class="article-gallery-img fancybox" href="/img/ngbanner.png" rel="gallery_cl5uzv1j1002aybh8618l9n4g">
         <img src="/img/ngbanner.png" itemprop="image">
       </a>
     
@@ -502,7 +502,7 @@ cd fonts &amp;&amp; ./install.sh
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/ngrok/" data-id="cktojt4kx002bh7h8e34lfckt" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/ngrok/" data-id="cl5uzv1j1002aybh8618l9n4g" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/ngrok/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -621,7 +621,7 @@ opkg install libopenssl
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/dhbanner.png" rel="gallery_cktojt4kf000rh7h8df37gbf3">
+      <a class="article-gallery-img fancybox" href="/img/dhbanner.png" rel="gallery_cl5uzv1ip000rybh8bhfr2qh8">
         <img src="/img/dhbanner.png" itemprop="image">
       </a>
     
@@ -640,7 +640,7 @@ opkg install libopenssl
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/denyhosts/" data-id="cktojt4kf000rh7h8df37gbf3" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/denyhosts/" data-id="cl5uzv1ip000rybh8bhfr2qh8" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/denyhosts/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -716,7 +716,7 @@ systemctl enable denyhosts
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/gfwbanner.png" rel="gallery_cktojt4kj0014h7h8a9k3cgv5">
+      <a class="article-gallery-img fancybox" href="/img/gfwbanner.png" rel="gallery_cl5uzv1is0014ybh87sand242">
         <img src="/img/gfwbanner.png" itemprop="image">
       </a>
     
@@ -735,7 +735,7 @@ systemctl enable denyhosts
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/gfwlist/" data-id="cktojt4kj0014h7h8a9k3cgv5" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/gfwlist/" data-id="cl5uzv1is0014ybh87sand242" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/gfwlist/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -762,7 +762,7 @@ systemctl enable denyhosts
 <pre><code>wget https://www.shintaku.cc/files/shadowsocks-libev_2.4.8-3_ar71xx.ipk
 </code></pre><p>下载完成后使用<code>opkg install</code>命令直接安装即可。</p>
 <h1 id="配置ShadowSocks"><a href="#配置ShadowSocks" class="headerlink" title="配置ShadowSocks"></a>配置ShadowSocks</h1><p>编辑<code>/etc/shadowsocks.json</code>文件：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;server&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;server_port&quot;</span>: <span class="number">8388</span>,</span><br><span class="line">    <span class="attr">&quot;local_port&quot;</span>: <span class="number">1080</span>,</span><br><span class="line">    <span class="attr">&quot;password&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;timeout&quot;</span>: <span class="number">300</span>,</span><br><span class="line">    <span class="attr">&quot;method&quot;</span>: <span class="string">&quot;rc4-md5&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;server&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;server_port&quot;</span><span class="punctuation">:</span> <span class="number">8388</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;local_port&quot;</span><span class="punctuation">:</span> <span class="number">1080</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;password&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;timeout&quot;</span><span class="punctuation">:</span> <span class="number">300</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;rc4-md5&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 <p>修改<code>/etc/init.d/shadowsocks</code>成如下（就是把关于<code>ss-local</code>的注释掉再把<code>ss-redir</code>的解注释）：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh /etc/rc.common</span></span><br><span class="line"></span><br><span class="line">START=95</span><br><span class="line"></span><br><span class="line">SERVICE_USE_PID=1</span><br><span class="line">SERVICE_WRITE_PID=1</span><br><span class="line">SERVICE_DAEMONIZE=1</span><br><span class="line"></span><br><span class="line">CONFIG=/etc/shadowsocks.json</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">start</span></span>() &#123;</span><br><span class="line">	<span class="comment">#service_start /usr/bin/ss-local -c $CONFIG -b 0.0.0.0</span></span><br><span class="line">	service_start /usr/bin/ss-redir -c <span class="variable">$CONFIG</span> -b 0.0.0.0</span><br><span class="line">	<span class="comment">#service_start /usr/bin/ss-tunnel -c $CONFIG -b 0.0.0.0 -l 5353 -L 8.8.8.8:53 -u</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">stop</span></span>() &#123;</span><br><span class="line">	<span class="comment">#service_stop /usr/bin/ss-local</span></span><br><span class="line">	service_stop /usr/bin/ss-redir</span><br><span class="line">	<span class="comment">#service_stop /usr/bin/ss-tunnel</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>之后启动ShadowSocks并设置开机自启：</p>
@@ -821,7 +821,7 @@ systemctl enable denyhosts
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/adbbanner.png" rel="gallery_cktojt4k10007h7h8esikggw9">
+      <a class="article-gallery-img fancybox" href="/img/adbbanner.png" rel="gallery_cl5uzv1ih0007ybh86owb7vh0">
         <img src="/img/adbbanner.png" itemprop="image">
       </a>
     
@@ -840,7 +840,7 @@ systemctl enable denyhosts
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/adb/" data-id="cktojt4k10007h7h8esikggw9" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/adb/" data-id="cl5uzv1ih0007ybh86owb7vh0" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/adb/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -972,7 +972,7 @@ systemctl enable denyhosts
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/dubanner.png" rel="gallery_cktojt4k6000fh7h81gufbz7h">
+      <a class="article-gallery-img fancybox" href="/img/dubanner.png" rel="gallery_cl5uzv1ij000bybh80dqt7y6u">
         <img src="/img/dubanner.png" itemprop="image">
       </a>
     
@@ -991,7 +991,7 @@ systemctl enable denyhosts
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/baidu-interview/" data-id="cktojt4k6000fh7h81gufbz7h" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/baidu-interview/" data-id="cl5uzv1ij000bybh80dqt7y6u" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/baidu-interview/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1227,7 +1227,7 @@ systemctl enable denyhosts
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/dbbanner.png" rel="gallery_cktojt4ki0010h7h8cax28ky5">
+      <a class="article-gallery-img fancybox" href="/img/dbbanner.png" rel="gallery_cl5uzv1ir000wybh88q2aci4i">
         <img src="/img/dbbanner.png" itemprop="image">
       </a>
     
@@ -1246,7 +1246,7 @@ systemctl enable denyhosts
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/dropbear/" data-id="cktojt4ki0010h7h8cax28ky5" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/dropbear/" data-id="cl5uzv1ir000wybh88q2aci4i" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/dropbear/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1456,7 +1456,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 21px; color: #bfdfff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 12px; color: #007fff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 21px; color: #bfdfff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 12px; color: #007fff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 
@@ -1592,7 +1592,7 @@ setTimeout(function() {
       
     </div>
     <div id="footer-info" class="inner" align="center">
-      Powered by <a href="https:\/\/hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https:\/\/github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2021 Shintaku
+      Powered by <a href="https:\/\/hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https:\/\/github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2022 Shintaku
     </div>
   </div>
 </footer>
@@ -1660,7 +1660,6 @@ setTimeout(function() {
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

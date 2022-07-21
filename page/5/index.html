@@ -51,7 +51,7 @@
   
 <link rel="stylesheet" href="/css/style.css">
 
-<meta name="generator" content="Hexo 5.2.0"></head>
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 <body>
   <div id="container">
@@ -124,7 +124,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" target="_blank" href="https://wiki.openwrt.org/lib/tpl/openwrt/images/logo.png" rel="gallery_cktojt4l0002jh7h86bwldxfu noopener">
+      <a class="article-gallery-img fancybox" target="_blank" href="https://wiki.openwrt.org/lib/tpl/openwrt/images/logo.png" rel="gallery_cl5uzv1j1002eybh8a6x8djep noopener">
         <img src="https://wiki.openwrt.org/lib/tpl/openwrt/images/logo.png" itemprop="image">
       </a>
     
@@ -143,7 +143,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/openwrt/" data-id="cktojt4l0002jh7h86bwldxfu" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/openwrt/" data-id="cl5uzv1j1002eybh8a6x8djep" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/openwrt/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -270,7 +270,7 @@ opkg list
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/arbanner.png" rel="gallery_cktojt4k4000bh7h85mv97na5">
+      <a class="article-gallery-img fancybox" href="/img/arbanner.png" rel="gallery_cl5uzv1ii0009ybh8bcmxccqd">
         <img src="/img/arbanner.png" itemprop="image">
       </a>
     
@@ -289,7 +289,7 @@ opkg list
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/aria2/" data-id="cktojt4k4000bh7h85mv97na5" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/aria2/" data-id="cl5uzv1ii0009ybh8bcmxccqd" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/aria2/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -315,7 +315,7 @@ vi ~/.aria2/aria2.conf
 <pre><code>touch session.dat
 </code></pre><p><code>log</code>参数指定log路径，会自动生成。这时可以通过<code>aria2c</code>命令启动服务了。可以通过<code>ps aux | grep aria2c</code>命令检查是否启动成功。如果没有正常启动可以检查一下log。</p>
 <h1 id="开机启动"><a href="#开机启动" class="headerlink" title="开机启动"></a>开机启动</h1><p>若要配置macOS开机启动，可以在<code>~/Library/LaunchAgents</code>下创建一个plist文件<code>homebrew.mxcl.aria2.plist</code>，内容如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">plist</span> <span class="meta-keyword">PUBLIC</span> <span class="meta-string">&quot;-//Apple//DTD PLIST 1.0//EN&quot;</span> <span class="meta-string">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>homebrew.mxcl.aria2<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>KeepAlive<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Program<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/local/opt/aria2/bin/aria2c<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">plist</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//Apple//DTD PLIST 1.0//EN&quot;</span> <span class="string">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>homebrew.mxcl.aria2<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>KeepAlive<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Program<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/local/opt/aria2/bin/aria2c<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h1 id="配置GUI"><a href="#配置GUI" class="headerlink" title="配置GUI"></a>配置GUI</h1><p>由于aria2是一个命令行工具，所以在没有其他辅助的情况下需要通过命令行来操作。具体使用方法请参阅<a target="_blank" rel="noopener" href="https://aria2.github.io/">aria2.github.io</a>。</p>
 <p>为了更加便于使用，GitHub上的<a target="_blank" rel="noopener" href="https://github.com/ziahamza">ziahamza</a>开发了一个WebUI，可以通过网页界面来操作aria2：</p>
 <p><img src="/img/arui.png" alt="WebUI">    </p>
@@ -377,7 +377,7 @@ vi ~/.aria2/aria2.conf
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/ssbanner.png" rel="gallery_cktojt4l50032h7h84ik130ji">
+      <a class="article-gallery-img fancybox" href="/img/ssbanner.png" rel="gallery_cl5uzv1j5002xybh8aj5xfm2s">
         <img src="/img/ssbanner.png" itemprop="image">
       </a>
     
@@ -396,7 +396,7 @@ vi ~/.aria2/aria2.conf
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/shadowsocks/" data-id="cktojt4l50032h7h84ik130ji" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/shadowsocks/" data-id="cl5uzv1j5002xybh8aj5xfm2s" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/shadowsocks/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -419,10 +419,10 @@ vi ~/.aria2/aria2.conf
 </code></pre><p>之后通过pip安装ShadowSocks：</p>
 <pre><code>pip install shadowsocks
 </code></pre><p>安装完成后，在<code>/etc/</code>下新建一个叫<code>shadowsocks.json</code>的配置文件，内容如下：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">&quot;server&quot;</span> : <span class="string">&quot;::&quot;</span>,</span><br><span class="line">	<span class="attr">&quot;server_port&quot;</span> : <span class="number">8388</span>,</span><br><span class="line">	<span class="attr">&quot;local_address&quot;</span> : <span class="string">&quot;127.0.0.1&quot;</span>,</span><br><span class="line">	<span class="attr">&quot;local_port&quot;</span> : <span class="number">1080</span>,</span><br><span class="line">	<span class="attr">&quot;password&quot;</span> : <span class="string">&quot;PASSWORD&quot;</span>,</span><br><span class="line">	<span class="attr">&quot;timeout&quot;</span> : <span class="number">300</span>,</span><br><span class="line">	<span class="attr">&quot;method&quot;</span> : <span class="string">&quot;rc4-md5&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;server&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;::&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;server_port&quot;</span> <span class="punctuation">:</span> <span class="number">8388</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;local_address&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;127.0.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;local_port&quot;</span> <span class="punctuation">:</span> <span class="number">1080</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;password&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;PASSWORD&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;timeout&quot;</span> <span class="punctuation">:</span> <span class="number">300</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;method&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;rc4-md5&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 <p>其中<code>&quot;server&quot;</code>一栏之所以填<code>&quot;::&quot;</code>是为了同时监听IPv4/v6两个端口，因为本文的需求中我们需要双栈连接，如果VPS没有IPv6功能或仅是为了搭梯子用，这里面填写一个IPv4的地址就可以了。<code>&quot;password&quot;</code>栏填写自己要设置的密码。至于<code>&quot;method&quot;</code>加密方式一栏，主流的有<code>rc4-md5</code>和<code>aes-256-cfb</code>等等，据说前者速度快，后者更安全，可以根据个人喜好自行权衡。</p>
 <p>如果有多个用户需要使用而不想都使用一套端口和密码，可以如下写成多端口配置文件：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">&quot;server&quot;</span> : <span class="string">&quot;::&quot;</span>,</span><br><span class="line">	<span class="attr">&quot;local_address&quot;</span> : <span class="string">&quot;127.0.0.1&quot;</span>,</span><br><span class="line">	<span class="attr">&quot;local_port&quot;</span> : <span class="number">1080</span>,</span><br><span class="line">	<span class="attr">&quot;port_password&quot;</span>:</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="attr">&quot;8388&quot;</span>:<span class="string">&quot;PASSWORD0&quot;</span>,</span><br><span class="line">		<span class="attr">&quot;8389&quot;</span>:<span class="string">&quot;PASSWORD1&quot;</span>,</span><br><span class="line">		<span class="attr">&quot;8340&quot;</span>:<span class="string">&quot;PASSWORD2&quot;</span></span><br><span class="line">	&#125;,</span><br><span class="line">   	<span class="attr">&quot;timeout&quot;</span> : <span class="number">300</span>,</span><br><span class="line">	<span class="attr">&quot;method&quot;</span> : <span class="string">&quot;rc4-md5&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;server&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;::&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;local_address&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;127.0.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;local_port&quot;</span> <span class="punctuation">:</span> <span class="number">1080</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;port_password&quot;</span><span class="punctuation">:</span></span><br><span class="line">	<span class="punctuation">&#123;</span></span><br><span class="line">		<span class="attr">&quot;8388&quot;</span><span class="punctuation">:</span><span class="string">&quot;PASSWORD0&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;8389&quot;</span><span class="punctuation">:</span><span class="string">&quot;PASSWORD1&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;8340&quot;</span><span class="punctuation">:</span><span class="string">&quot;PASSWORD2&quot;</span></span><br><span class="line">	<span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">   	<span class="attr">&quot;timeout&quot;</span> <span class="punctuation">:</span> <span class="number">300</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;method&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;rc4-md5&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 <h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><p>保存配置文件后就可以通过以下命令启动和停止ShadowSocks服务了：</p>
 <pre><code>ssserver -c /etc/shadowsocks.json --fast-open -d start
 ssserver -d stop
@@ -508,7 +508,7 @@ bash serverSpeederInstaller.sh
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/dobanner.png" rel="gallery_cktojt4kg000th7h8a7jaa74h">
+      <a class="article-gallery-img fancybox" href="/img/dobanner.png" rel="gallery_cl5uzv1iq000tybh81sq034j0">
         <img src="/img/dobanner.png" itemprop="image">
       </a>
     
@@ -527,7 +527,7 @@ bash serverSpeederInstaller.sh
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/digitalocean/" data-id="cktojt4kg000th7h8a7jaa74h" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/digitalocean/" data-id="cl5uzv1iq000tybh81sq034j0" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/digitalocean/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -602,7 +602,7 @@ bash serverSpeederInstaller.sh
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/qtbanner.png" rel="gallery_cktojt4l0002mh7h8elwxan5l">
+      <a class="article-gallery-img fancybox" href="/img/qtbanner.png" rel="gallery_cl5uzv1j2002iybh83zi4bv3h">
         <img src="/img/qtbanner.png" itemprop="image">
       </a>
     
@@ -621,7 +621,7 @@ bash serverSpeederInstaller.sh
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/qt/" data-id="cktojt4l0002mh7h8elwxan5l" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/qt/" data-id="cl5uzv1j2002iybh83zi4bv3h" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/qt/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -759,7 +759,7 @@ Creating qt_uk.qm...
 <blockquote>
 <p>This application failed to start because it could not find or load the Qt platform plugin “windows”.</p>
 </blockquote>
-<p>则说明程序没有成功引用到动态链接库，这时应当修改源代码。<br>找到工程中的<code>main.cpp</code>文件，在主函数开头中加入一句<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QApplication::addLibraryPath(<span class="string">&quot;.&quot;</span>);</span><br></pre></td></tr></table></figure><br>重新编译并替换新文件夹中的.exe文件，再放到其他运行环境上就应该可以成功引用到链接库了。</p>
+<p>则说明程序没有成功引用到动态链接库，这时应当修改源代码。<br>找到工程中的<code>main.cpp</code>文件，在主函数开头中加入一句<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QApplication::<span class="built_in">addLibraryPath</span>(<span class="string">&quot;.&quot;</span>);</span><br></pre></td></tr></table></figure><br>重新编译并替换新文件夹中的.exe文件，再放到其他运行环境上就应该可以成功引用到链接库了。</p>
 <h1 id="打包程序发布"><a href="#打包程序发布" class="headerlink" title="打包程序发布"></a>打包程序发布</h1><p>这时我们就可以打包程序了。我使用的是一款叫做<a target="_blank" rel="noopener" href="http://enigmaprotector.com/en/aboutvb.html">Enigma Virtual Box</a>的封装工具，这个软件的名字和当年图灵破译的英格玛机一样。<br>软件装好后运行，从主界面选择输入目标文件和输出文件的路径，然后在下面<code>Files</code>里添加所有需要的链接库<br><img src="/img/qt3.png" alt="添加文件"><br>然后有一个<code>Files Options</code>里可选是否压缩文件，压缩后会比较小，然后点<code>Process</code>就行了<br><img src="/img/qt4.png" alt="压缩文件"><br>不久后会在选择的输出路径中生成最终打包好的程序，大功告成。</p>
 
           </div>
@@ -804,7 +804,7 @@ Creating qt_uk.qm...
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/gabanner.png" rel="gallery_cktojt4kk0017h7h85r3sa0w6">
+      <a class="article-gallery-img fancybox" href="/img/gabanner.png" rel="gallery_cl5uzv1it0016ybh84toj5cv0">
         <img src="/img/gabanner.png" itemprop="image">
       </a>
     
@@ -823,7 +823,7 @@ Creating qt_uk.qm...
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/goagent/" data-id="cktojt4kk0017h7h85r3sa0w6" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/goagent/" data-id="cl5uzv1it0016ybh84toj5cv0" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/goagent/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -892,7 +892,7 @@ Completed update of app: your_appid, version 1
 </blockquote>
 <p>这里请注意一下，如果你用的是老版本的goagent比如2.x.x的域名后缀应为<code>*.appspot.com/2</code>，而新版本的3.x.x的域名后缀应为<code>*.appspot.com/_gh/</code>，因此之前用老版本而现在更新到新版本的用户需要重新上传。</p>
 <h2 id="配置proxy-ini"><a href="#配置proxy-ini" class="headerlink" title="配置proxy.ini"></a>配置proxy.ini</h2><p>这一步做的就是上一步终端中最后一行说的，修改<code>/local/proxy.ini</code>中<code>gae</code>下的<code>appid</code>和<code>password</code>并保存：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[gae]</span></span><br><span class="line"><span class="attr">enable</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">appid</span> = your_appid</span><br><span class="line"><span class="attr">password</span> = your_password</span><br><span class="line"><span class="attr">path</span> = /_gh/</span><br><span class="line"><span class="attr">mode</span> = https</span><br><span class="line"><span class="attr">ipv6</span> = <span class="number">0</span></span><br><span class="line"><span class="attr">sslversion</span> = TLSv1</span><br><span class="line"><span class="attr">window</span> = <span class="number">7</span></span><br><span class="line"><span class="attr">cachesock</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">headfirst</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">keepalive</span> = <span class="number">0</span></span><br><span class="line"><span class="attr">obfuscate</span> = <span class="number">0</span></span><br><span class="line"><span class="attr">validate</span> = <span class="number">0</span></span><br><span class="line"><span class="attr">transport</span> = <span class="number">0</span></span><br><span class="line">options =</span><br><span class="line">regions =</span><br></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[gae]</span></span><br><span class="line"><span class="attr">enable</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">appid</span> = your_appid</span><br><span class="line"><span class="attr">password</span> = your_password</span><br><span class="line"><span class="attr">path</span> = /_gh/</span><br><span class="line"><span class="attr">mode</span> = https</span><br><span class="line"><span class="attr">ipv6</span> = <span class="number">0</span></span><br><span class="line"><span class="attr">sslversion</span> = TLSv1</span><br><span class="line"><span class="attr">window</span> = <span class="number">7</span></span><br><span class="line"><span class="attr">cachesock</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">headfirst</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">keepalive</span> = <span class="number">0</span></span><br><span class="line"><span class="attr">obfuscate</span> = <span class="number">0</span></span><br><span class="line"><span class="attr">validate</span> = <span class="number">0</span></span><br><span class="line"><span class="attr">transport</span> = <span class="number">0</span></span><br><span class="line"><span class="attr">options</span> =</span><br><span class="line">regions =</span><br></pre></td></tr></table></figure>
 <h1 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h1><h2 id="运行GoAgent"><a href="#运行GoAgent" class="headerlink" title="运行GoAgent"></a>运行GoAgent</h2><p>如果以上步骤都正确的话，Windows以管理员身份运行local下的goagent.exe了，Mac/Linux用户用Python运行proxy.py，应该会出现如下界面：</p>
 <pre><code>------------------------------------------------------
 GoAgent Version    : 3.2.3 (python/2.7.1 gevent/1.0 pyopenssl/0.13.1)
@@ -967,7 +967,7 @@ Pac File           : file:///goagent-3.0/local/proxy.pac
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://liangzhenduo0608.github.io/posts/hello-world/" data-id="cktojt4kl001ah7h837dgg3ar" class="article-share-link">Share</a>
+      <a data-url="https://liangzhenduo0608.github.io/posts/hello-world/" data-id="cl5uzv1it001aybh8ge240qa0" class="article-share-link">Share</a>
       
         <a href="https://liangzhenduo0608.github.io/posts/hello-world/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1167,7 +1167,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 21px; color: #bfdfff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 12px; color: #007fff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 21px; color: #bfdfff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 12px; color: #007fff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 
@@ -1303,7 +1303,7 @@ setTimeout(function() {
       
     </div>
     <div id="footer-info" class="inner" align="center">
-      Powered by <a href="https:\/\/hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https:\/\/github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2021 Shintaku
+      Powered by <a href="https:\/\/hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https:\/\/github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2022 Shintaku
     </div>
   </div>
 </footer>
@@ -1371,7 +1371,6 @@ setTimeout(function() {
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

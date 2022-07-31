@@ -78,7 +78,7 @@ sitemap:
   path: sitemap.xml
 
 baidusitemap:
-  url: https://www.shintaku.top
+  url: https://www.shintaku.xyz
   path: baidu-sitemap.xml
 
 ## Themes: https://hexo.io/themes/ß

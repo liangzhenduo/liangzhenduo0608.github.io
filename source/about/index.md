@@ -7,7 +7,7 @@ toc: false
 **天津大学 计算机科学与技术专业** ***2017届本科生***
 
 + 电子邮箱：[liangzhenduo0608@hotmail.com](mailto:liangzhenduo0608@hotmail.com)
-+ 个人主页：[https://www.shintaku.cc/](https://www.shintaku.cc/)
++ 个人主页：[https://liangzhenduo0608.github.io/](https://liangzhenduo0608.github.io/)
 + GitHub：[https://github.com/liangzhenduo0608](https://github.com/liangzhenduo0608)
 
 ## 个人能力
@@ -66,7 +66,7 @@ toc: false
 **Bachelor of Computer Science and Technology, Tianjin University**
 
 + Email：[liangzhenduo0608@hotmail.com](mailto:liangzhenduo0608@hotmail.com)
-+ Homepage：[https://www.shintaku.cc/](https://www.shintaku.cc/)
++ Homepage：[https://liangzhenduo0608.github.io/](https://liangzhenduo0608.github.io/)
 + GitHub：[https://github.com/liangzhenduo0608](https://github.com/liangzhenduo0608)
 
 ## Skills

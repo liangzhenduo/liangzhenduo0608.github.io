@@ -3,11 +3,11 @@
   <title>Shintaku&#39;s Blog</title>
   
   <subtitle>いいこと？暁の水平線に勝利を刻みなさい！</subtitle>
-  <link href="https://liangzhenduo0608.github.io/atom.xml" rel="self"/>
+  <link href="https://www.shintaku.xyz/atom.xml" rel="self"/>
   
-  <link href="https://liangzhenduo0608.github.io/"/>
+  <link href="https://www.shintaku.xyz/"/>
   <updated>2021-09-17T16:09:13.188Z</updated>
-  <id>https://liangzhenduo0608.github.io/</id>
+  <id>https://www.shintaku.xyz/</id>
   
   <author>
     <name>Shintaku</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>OpenWrt访问桥接光猫</title>
-    <link href="https://liangzhenduo0608.github.io/posts/openwrt-onu/"/>
-    <id>https://liangzhenduo0608.github.io/posts/openwrt-onu/</id>
+    <link href="https://www.shintaku.xyz/posts/openwrt-onu/"/>
+    <id>https://www.shintaku.xyz/posts/openwrt-onu/</id>
     <published>2021-09-15T13:11:11.000Z</published>
     <updated>2021-09-17T16:09:13.188Z</updated>
     
@@ -33,19 +33,19 @@
     
     
     
-    <category term="奇技淫巧" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    <category term="奇技淫巧" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
     
-    <category term="路由器" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    <category term="路由器" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
     
     
-    <category term="OpenWrt" scheme="https://liangzhenduo0608.github.io/tags/OpenWrt/"/>
+    <category term="OpenWrt" scheme="https://www.shintaku.xyz/tags/OpenWrt/"/>
     
   </entry>
   
   <entry>
     <title>N1盒子Docker安装OpenWrt旁路由</title>
-    <link href="https://liangzhenduo0608.github.io/posts/docker-openwrt/"/>
-    <id>https://liangzhenduo0608.github.io/posts/docker-openwrt/</id>
+    <link href="https://www.shintaku.xyz/posts/docker-openwrt/"/>
+    <id>https://www.shintaku.xyz/posts/docker-openwrt/</id>
     <published>2020-11-16T16:00:00.000Z</published>
     <updated>2020-11-22T10:26:36.748Z</updated>
     
@@ -60,25 +60,25 @@
     
     
     
-    <category term="奇技淫巧" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    <category term="奇技淫巧" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
     
-    <category term="＊nix" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/"/>
+    <category term="＊nix" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/"/>
     
     
-    <category term="Linux" scheme="https://liangzhenduo0608.github.io/tags/Linux/"/>
+    <category term="Linux" scheme="https://www.shintaku.xyz/tags/Linux/"/>
     
-    <category term="OpenWrt" scheme="https://liangzhenduo0608.github.io/tags/OpenWrt/"/>
+    <category term="OpenWrt" scheme="https://www.shintaku.xyz/tags/OpenWrt/"/>
     
-    <category term="Docker" scheme="https://liangzhenduo0608.github.io/tags/Docker/"/>
+    <category term="Docker" scheme="https://www.shintaku.xyz/tags/Docker/"/>
     
-    <category term="N1盒子" scheme="https://liangzhenduo0608.github.io/tags/N1%E7%9B%92%E5%AD%90/"/>
+    <category term="N1盒子" scheme="https://www.shintaku.xyz/tags/N1%E7%9B%92%E5%AD%90/"/>
     
   </entry>
   
   <entry>
     <title>Time Machine通过Samba备份到NAS</title>
-    <link href="https://liangzhenduo0608.github.io/posts/tm-nas/"/>
-    <id>https://liangzhenduo0608.github.io/posts/tm-nas/</id>
+    <link href="https://www.shintaku.xyz/posts/tm-nas/"/>
+    <id>https://www.shintaku.xyz/posts/tm-nas/</id>
     <published>2019-12-31T16:00:00.000Z</published>
     <updated>2020-01-18T09:21:40.013Z</updated>
     
@@ -92,25 +92,25 @@
     
     
     
-    <category term="奇技淫巧" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    <category term="奇技淫巧" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
     
-    <category term="macOS" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/"/>
+    <category term="macOS" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/"/>
     
     
-    <category term="Linux" scheme="https://liangzhenduo0608.github.io/tags/Linux/"/>
+    <category term="Linux" scheme="https://www.shintaku.xyz/tags/Linux/"/>
     
-    <category term="macOS" scheme="https://liangzhenduo0608.github.io/tags/macOS/"/>
+    <category term="macOS" scheme="https://www.shintaku.xyz/tags/macOS/"/>
     
-    <category term="OMV" scheme="https://liangzhenduo0608.github.io/tags/OMV/"/>
+    <category term="OMV" scheme="https://www.shintaku.xyz/tags/OMV/"/>
     
-    <category term="NAS" scheme="https://liangzhenduo0608.github.io/tags/NAS/"/>
+    <category term="NAS" scheme="https://www.shintaku.xyz/tags/NAS/"/>
     
   </entry>
   
   <entry>
     <title>ShadowSocks启用v2ray-plugin</title>
-    <link href="https://liangzhenduo0608.github.io/posts/shadowsocks-v2ray/"/>
-    <id>https://liangzhenduo0608.github.io/posts/shadowsocks-v2ray/</id>
+    <link href="https://www.shintaku.xyz/posts/shadowsocks-v2ray/"/>
+    <id>https://www.shintaku.xyz/posts/shadowsocks-v2ray/</id>
     <published>2019-11-10T16:00:00.000Z</published>
     <updated>2020-02-03T03:04:03.056Z</updated>
     
@@ -124,31 +124,31 @@
     
     
     
-    <category term="网络" scheme="https://liangzhenduo0608.github.io/categories/%E7%BD%91%E7%BB%9C/"/>
+    <category term="网络" scheme="https://www.shintaku.xyz/categories/%E7%BD%91%E7%BB%9C/"/>
     
-    <category term="科学上网" scheme="https://liangzhenduo0608.github.io/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    <category term="科学上网" scheme="https://www.shintaku.xyz/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
     
     
-    <category term="VPS" scheme="https://liangzhenduo0608.github.io/tags/VPS/"/>
+    <category term="VPS" scheme="https://www.shintaku.xyz/tags/VPS/"/>
     
-    <category term="科学上网" scheme="https://liangzhenduo0608.github.io/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    <category term="科学上网" scheme="https://www.shintaku.xyz/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
     
-    <category term="服务器" scheme="https://liangzhenduo0608.github.io/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    <category term="服务器" scheme="https://www.shintaku.xyz/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     
-    <category term="代理" scheme="https://liangzhenduo0608.github.io/tags/%E4%BB%A3%E7%90%86/"/>
+    <category term="代理" scheme="https://www.shintaku.xyz/tags/%E4%BB%A3%E7%90%86/"/>
     
-    <category term="Linux" scheme="https://liangzhenduo0608.github.io/tags/Linux/"/>
+    <category term="Linux" scheme="https://www.shintaku.xyz/tags/Linux/"/>
     
-    <category term="ShadowSocks" scheme="https://liangzhenduo0608.github.io/tags/ShadowSocks/"/>
+    <category term="ShadowSocks" scheme="https://www.shintaku.xyz/tags/ShadowSocks/"/>
     
-    <category term="V2Ray" scheme="https://liangzhenduo0608.github.io/tags/V2Ray/"/>
+    <category term="V2Ray" scheme="https://www.shintaku.xyz/tags/V2Ray/"/>
     
   </entry>
   
   <entry>
     <title>Hexo博客使用MathJax公式</title>
-    <link href="https://liangzhenduo0608.github.io/posts/hexo-mathjax/"/>
-    <id>https://liangzhenduo0608.github.io/posts/hexo-mathjax/</id>
+    <link href="https://www.shintaku.xyz/posts/hexo-mathjax/"/>
+    <id>https://www.shintaku.xyz/posts/hexo-mathjax/</id>
     <published>2019-01-20T06:14:14.000Z</published>
     <updated>2019-07-14T15:04:34.205Z</updated>
     
@@ -162,21 +162,21 @@
     
     
     
-    <category term="网络" scheme="https://liangzhenduo0608.github.io/categories/%E7%BD%91%E7%BB%9C/"/>
+    <category term="网络" scheme="https://www.shintaku.xyz/categories/%E7%BD%91%E7%BB%9C/"/>
     
-    <category term="网站部署" scheme="https://liangzhenduo0608.github.io/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/"/>
+    <category term="网站部署" scheme="https://www.shintaku.xyz/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/"/>
     
     
-    <category term="JavaScript" scheme="https://liangzhenduo0608.github.io/tags/JavaScript/"/>
+    <category term="JavaScript" scheme="https://www.shintaku.xyz/tags/JavaScript/"/>
     
-    <category term="Node.js" scheme="https://liangzhenduo0608.github.io/tags/Node-js/"/>
+    <category term="Node.js" scheme="https://www.shintaku.xyz/tags/Node-js/"/>
     
   </entry>
   
   <entry>
     <title>路由器TTL刷机救砖</title>
-    <link href="https://liangzhenduo0608.github.io/posts/ttl/"/>
-    <id>https://liangzhenduo0608.github.io/posts/ttl/</id>
+    <link href="https://www.shintaku.xyz/posts/ttl/"/>
+    <id>https://www.shintaku.xyz/posts/ttl/</id>
     <published>2018-12-31T16:00:00.000Z</published>
     <updated>2020-01-18T10:04:34.327Z</updated>
     
@@ -192,23 +192,23 @@
     
     
     
-    <category term="奇技淫巧" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    <category term="奇技淫巧" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
     
-    <category term="路由器" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    <category term="路由器" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
     
     
-    <category term="Linux" scheme="https://liangzhenduo0608.github.io/tags/Linux/"/>
+    <category term="Linux" scheme="https://www.shintaku.xyz/tags/Linux/"/>
     
-    <category term="路由器" scheme="https://liangzhenduo0608.github.io/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    <category term="路由器" scheme="https://www.shintaku.xyz/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
     
-    <category term="ssh" scheme="https://liangzhenduo0608.github.io/tags/ssh/"/>
+    <category term="ssh" scheme="https://www.shintaku.xyz/tags/ssh/"/>
     
   </entry>
   
   <entry>
     <title>macOS启用TFTP服务</title>
-    <link href="https://liangzhenduo0608.github.io/posts/mac-tftp/"/>
-    <id>https://liangzhenduo0608.github.io/posts/mac-tftp/</id>
+    <link href="https://www.shintaku.xyz/posts/mac-tftp/"/>
+    <id>https://www.shintaku.xyz/posts/mac-tftp/</id>
     <published>2018-08-17T16:00:00.000Z</published>
     <updated>2019-07-14T15:04:34.206Z</updated>
     
@@ -223,19 +223,19 @@
     
     
     
-    <category term="奇技淫巧" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    <category term="奇技淫巧" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
     
-    <category term="macOS" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/"/>
+    <category term="macOS" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/"/>
     
     
-    <category term="macOS" scheme="https://liangzhenduo0608.github.io/tags/macOS/"/>
+    <category term="macOS" scheme="https://www.shintaku.xyz/tags/macOS/"/>
     
   </entry>
   
   <entry>
     <title>搭建L2TP/IPSec VPN</title>
-    <link href="https://liangzhenduo0608.github.io/posts/l2tp/"/>
-    <id>https://liangzhenduo0608.github.io/posts/l2tp/</id>
+    <link href="https://www.shintaku.xyz/posts/l2tp/"/>
+    <id>https://www.shintaku.xyz/posts/l2tp/</id>
     <published>2017-09-10T15:33:33.000Z</published>
     <updated>2019-07-14T15:04:34.206Z</updated>
     
@@ -249,29 +249,29 @@
     
     
     
-    <category term="网络" scheme="https://liangzhenduo0608.github.io/categories/%E7%BD%91%E7%BB%9C/"/>
+    <category term="网络" scheme="https://www.shintaku.xyz/categories/%E7%BD%91%E7%BB%9C/"/>
     
-    <category term="科学上网" scheme="https://liangzhenduo0608.github.io/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    <category term="科学上网" scheme="https://www.shintaku.xyz/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
     
     
-    <category term="VPS" scheme="https://liangzhenduo0608.github.io/tags/VPS/"/>
+    <category term="VPS" scheme="https://www.shintaku.xyz/tags/VPS/"/>
     
-    <category term="科学上网" scheme="https://liangzhenduo0608.github.io/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    <category term="科学上网" scheme="https://www.shintaku.xyz/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
     
-    <category term="服务器" scheme="https://liangzhenduo0608.github.io/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    <category term="服务器" scheme="https://www.shintaku.xyz/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     
-    <category term="代理" scheme="https://liangzhenduo0608.github.io/tags/%E4%BB%A3%E7%90%86/"/>
+    <category term="代理" scheme="https://www.shintaku.xyz/tags/%E4%BB%A3%E7%90%86/"/>
     
-    <category term="Linux" scheme="https://liangzhenduo0608.github.io/tags/Linux/"/>
+    <category term="Linux" scheme="https://www.shintaku.xyz/tags/Linux/"/>
     
-    <category term="VPN" scheme="https://liangzhenduo0608.github.io/tags/VPN/"/>
+    <category term="VPN" scheme="https://www.shintaku.xyz/tags/VPN/"/>
     
   </entry>
   
   <entry>
     <title>Let&#39;s Encrypt SSL证书配置</title>
-    <link href="https://liangzhenduo0608.github.io/posts/certbot/"/>
-    <id>https://liangzhenduo0608.github.io/posts/certbot/</id>
+    <link href="https://www.shintaku.xyz/posts/certbot/"/>
+    <id>https://www.shintaku.xyz/posts/certbot/</id>
     <published>2017-06-18T14:22:22.000Z</published>
     <updated>2019-07-14T15:04:34.204Z</updated>
     
@@ -285,25 +285,25 @@
     
     
     
-    <category term="网络" scheme="https://liangzhenduo0608.github.io/categories/%E7%BD%91%E7%BB%9C/"/>
+    <category term="网络" scheme="https://www.shintaku.xyz/categories/%E7%BD%91%E7%BB%9C/"/>
     
-    <category term="网站部署" scheme="https://liangzhenduo0608.github.io/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/"/>
+    <category term="网站部署" scheme="https://www.shintaku.xyz/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/"/>
     
     
-    <category term="VPS" scheme="https://liangzhenduo0608.github.io/tags/VPS/"/>
+    <category term="VPS" scheme="https://www.shintaku.xyz/tags/VPS/"/>
     
-    <category term="服务器" scheme="https://liangzhenduo0608.github.io/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    <category term="服务器" scheme="https://www.shintaku.xyz/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     
-    <category term="Nginx" scheme="https://liangzhenduo0608.github.io/tags/Nginx/"/>
+    <category term="Nginx" scheme="https://www.shintaku.xyz/tags/Nginx/"/>
     
-    <category term="SSL" scheme="https://liangzhenduo0608.github.io/tags/SSL/"/>
+    <category term="SSL" scheme="https://www.shintaku.xyz/tags/SSL/"/>
     
   </entry>
   
   <entry>
     <title>Hexo博客部署到VPS</title>
-    <link href="https://liangzhenduo0608.github.io/posts/hexo-deploy/"/>
-    <id>https://liangzhenduo0608.github.io/posts/hexo-deploy/</id>
+    <link href="https://www.shintaku.xyz/posts/hexo-deploy/"/>
+    <id>https://www.shintaku.xyz/posts/hexo-deploy/</id>
     <published>2017-06-08T15:33:33.000Z</published>
     <updated>2019-07-14T15:04:34.205Z</updated>
     
@@ -317,25 +317,25 @@
     
     
     
-    <category term="网络" scheme="https://liangzhenduo0608.github.io/categories/%E7%BD%91%E7%BB%9C/"/>
+    <category term="网络" scheme="https://www.shintaku.xyz/categories/%E7%BD%91%E7%BB%9C/"/>
     
-    <category term="网站部署" scheme="https://liangzhenduo0608.github.io/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/"/>
+    <category term="网站部署" scheme="https://www.shintaku.xyz/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/"/>
     
     
-    <category term="VPS" scheme="https://liangzhenduo0608.github.io/tags/VPS/"/>
+    <category term="VPS" scheme="https://www.shintaku.xyz/tags/VPS/"/>
     
-    <category term="服务器" scheme="https://liangzhenduo0608.github.io/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    <category term="服务器" scheme="https://www.shintaku.xyz/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     
-    <category term="Nginx" scheme="https://liangzhenduo0608.github.io/tags/Nginx/"/>
+    <category term="Nginx" scheme="https://www.shintaku.xyz/tags/Nginx/"/>
     
-    <category term="Git" scheme="https://liangzhenduo0608.github.io/tags/Git/"/>
+    <category term="Git" scheme="https://www.shintaku.xyz/tags/Git/"/>
     
   </entry>
   
   <entry>
     <title>向量空间中词表征的有效估计</title>
-    <link href="https://liangzhenduo0608.github.io/posts/word2vec/"/>
-    <id>https://liangzhenduo0608.github.io/posts/word2vec/</id>
+    <link href="https://www.shintaku.xyz/posts/word2vec/"/>
+    <id>https://www.shintaku.xyz/posts/word2vec/</id>
     <published>2017-05-20T12:20:20.000Z</published>
     <updated>2019-07-14T15:04:34.208Z</updated>
     
@@ -350,19 +350,19 @@
     
     
     
-    <category term="机器学习" scheme="https://liangzhenduo0608.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://www.shintaku.xyz/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
-    <category term="论文" scheme="https://liangzhenduo0608.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/"/>
+    <category term="论文" scheme="https://www.shintaku.xyz/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/"/>
     
     
-    <category term="机器学习" scheme="https://liangzhenduo0608.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://www.shintaku.xyz/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
   <entry>
     <title>VPS开启TCP-BBR拥塞控制</title>
-    <link href="https://liangzhenduo0608.github.io/posts/tcp-bbr/"/>
-    <id>https://liangzhenduo0608.github.io/posts/tcp-bbr/</id>
+    <link href="https://www.shintaku.xyz/posts/tcp-bbr/"/>
+    <id>https://www.shintaku.xyz/posts/tcp-bbr/</id>
     <published>2017-05-11T03:11:11.000Z</published>
     <updated>2019-07-14T15:04:34.207Z</updated>
     
@@ -376,27 +376,27 @@
     
     
     
-    <category term="网络" scheme="https://liangzhenduo0608.github.io/categories/%E7%BD%91%E7%BB%9C/"/>
+    <category term="网络" scheme="https://www.shintaku.xyz/categories/%E7%BD%91%E7%BB%9C/"/>
     
-    <category term="科学上网" scheme="https://liangzhenduo0608.github.io/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    <category term="科学上网" scheme="https://www.shintaku.xyz/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
     
     
-    <category term="VPS" scheme="https://liangzhenduo0608.github.io/tags/VPS/"/>
+    <category term="VPS" scheme="https://www.shintaku.xyz/tags/VPS/"/>
     
-    <category term="科学上网" scheme="https://liangzhenduo0608.github.io/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    <category term="科学上网" scheme="https://www.shintaku.xyz/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
     
-    <category term="服务器" scheme="https://liangzhenduo0608.github.io/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    <category term="服务器" scheme="https://www.shintaku.xyz/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     
-    <category term="代理" scheme="https://liangzhenduo0608.github.io/tags/%E4%BB%A3%E7%90%86/"/>
+    <category term="代理" scheme="https://www.shintaku.xyz/tags/%E4%BB%A3%E7%90%86/"/>
     
-    <category term="Linux" scheme="https://liangzhenduo0608.github.io/tags/Linux/"/>
+    <category term="Linux" scheme="https://www.shintaku.xyz/tags/Linux/"/>
     
   </entry>
   
   <entry>
     <title>大型属性网络的语义社团识别</title>
-    <link href="https://liangzhenduo0608.github.io/posts/sci/"/>
-    <id>https://liangzhenduo0608.github.io/posts/sci/</id>
+    <link href="https://www.shintaku.xyz/posts/sci/"/>
+    <id>https://www.shintaku.xyz/posts/sci/</id>
     <published>2017-04-28T07:15:15.000Z</published>
     <updated>2019-07-14T15:04:34.207Z</updated>
     
@@ -411,19 +411,19 @@
     
     
     
-    <category term="机器学习" scheme="https://liangzhenduo0608.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://www.shintaku.xyz/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
-    <category term="论文" scheme="https://liangzhenduo0608.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/"/>
+    <category term="论文" scheme="https://www.shintaku.xyz/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/"/>
     
     
-    <category term="机器学习" scheme="https://liangzhenduo0608.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://www.shintaku.xyz/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
   <entry>
     <title>LINE：大规模信息网络嵌入</title>
-    <link href="https://liangzhenduo0608.github.io/posts/line/"/>
-    <id>https://liangzhenduo0608.github.io/posts/line/</id>
+    <link href="https://www.shintaku.xyz/posts/line/"/>
+    <id>https://www.shintaku.xyz/posts/line/</id>
     <published>2017-04-15T07:15:15.000Z</published>
     <updated>2019-07-14T15:04:34.206Z</updated>
     
@@ -438,19 +438,19 @@
     
     
     
-    <category term="机器学习" scheme="https://liangzhenduo0608.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://www.shintaku.xyz/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
-    <category term="论文" scheme="https://liangzhenduo0608.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/"/>
+    <category term="论文" scheme="https://www.shintaku.xyz/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/"/>
     
     
-    <category term="机器学习" scheme="https://liangzhenduo0608.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://www.shintaku.xyz/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
   <entry>
     <title>DeepWalk：社会表征的在线学习</title>
-    <link href="https://liangzhenduo0608.github.io/posts/deepwalk/"/>
-    <id>https://liangzhenduo0608.github.io/posts/deepwalk/</id>
+    <link href="https://www.shintaku.xyz/posts/deepwalk/"/>
+    <id>https://www.shintaku.xyz/posts/deepwalk/</id>
     <published>2017-03-28T07:15:15.000Z</published>
     <updated>2019-07-14T15:04:34.204Z</updated>
     
@@ -465,19 +465,19 @@
     
     
     
-    <category term="机器学习" scheme="https://liangzhenduo0608.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://www.shintaku.xyz/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
-    <category term="论文" scheme="https://liangzhenduo0608.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/"/>
+    <category term="论文" scheme="https://www.shintaku.xyz/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/"/>
     
     
-    <category term="机器学习" scheme="https://liangzhenduo0608.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://www.shintaku.xyz/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
   <entry>
     <title>PandoraBox路由器的IPv6穿透</title>
-    <link href="https://liangzhenduo0608.github.io/posts/nat6/"/>
-    <id>https://liangzhenduo0608.github.io/posts/nat6/</id>
+    <link href="https://www.shintaku.xyz/posts/nat6/"/>
+    <id>https://www.shintaku.xyz/posts/nat6/</id>
     <published>2017-03-13T05:13:13.000Z</published>
     <updated>2019-07-14T15:04:34.206Z</updated>
     
@@ -491,29 +491,29 @@
     
     
     
-    <category term="奇技淫巧" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    <category term="奇技淫巧" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
     
-    <category term="路由器" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    <category term="路由器" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
     
     
-    <category term="科学上网" scheme="https://liangzhenduo0608.github.io/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    <category term="科学上网" scheme="https://www.shintaku.xyz/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
     
-    <category term="ShadowSocks" scheme="https://liangzhenduo0608.github.io/tags/ShadowSocks/"/>
+    <category term="ShadowSocks" scheme="https://www.shintaku.xyz/tags/ShadowSocks/"/>
     
-    <category term="OpenWrt" scheme="https://liangzhenduo0608.github.io/tags/OpenWrt/"/>
+    <category term="OpenWrt" scheme="https://www.shintaku.xyz/tags/OpenWrt/"/>
     
-    <category term="路由器" scheme="https://liangzhenduo0608.github.io/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    <category term="路由器" scheme="https://www.shintaku.xyz/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
     
-    <category term="IPv6" scheme="https://liangzhenduo0608.github.io/tags/IPv6/"/>
+    <category term="IPv6" scheme="https://www.shintaku.xyz/tags/IPv6/"/>
     
-    <category term="PandoraBox" scheme="https://liangzhenduo0608.github.io/tags/PandoraBox/"/>
+    <category term="PandoraBox" scheme="https://www.shintaku.xyz/tags/PandoraBox/"/>
     
   </entry>
   
   <entry>
     <title>路由器刷breed引导第三方固件</title>
-    <link href="https://liangzhenduo0608.github.io/posts/breed/"/>
-    <id>https://liangzhenduo0608.github.io/posts/breed/</id>
+    <link href="https://www.shintaku.xyz/posts/breed/"/>
+    <id>https://www.shintaku.xyz/posts/breed/</id>
     <published>2017-02-24T04:12:12.000Z</published>
     <updated>2019-07-14T15:04:34.204Z</updated>
     
@@ -527,23 +527,23 @@
     
     
     
-    <category term="奇技淫巧" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    <category term="奇技淫巧" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
     
-    <category term="路由器" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    <category term="路由器" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
     
     
-    <category term="Linux" scheme="https://liangzhenduo0608.github.io/tags/Linux/"/>
+    <category term="Linux" scheme="https://www.shintaku.xyz/tags/Linux/"/>
     
-    <category term="OpenWrt" scheme="https://liangzhenduo0608.github.io/tags/OpenWrt/"/>
+    <category term="OpenWrt" scheme="https://www.shintaku.xyz/tags/OpenWrt/"/>
     
-    <category term="路由器" scheme="https://liangzhenduo0608.github.io/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    <category term="路由器" scheme="https://www.shintaku.xyz/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
     
   </entry>
   
   <entry>
     <title>树莓派SPI驱动OLED屏幕</title>
-    <link href="https://liangzhenduo0608.github.io/posts/raspi-oled/"/>
-    <id>https://liangzhenduo0608.github.io/posts/raspi-oled/</id>
+    <link href="https://www.shintaku.xyz/posts/raspi-oled/"/>
+    <id>https://www.shintaku.xyz/posts/raspi-oled/</id>
     <published>2017-02-07T13:11:11.000Z</published>
     <updated>2019-07-14T15:04:34.207Z</updated>
     
@@ -557,23 +557,23 @@
     
     
     
-    <category term="奇技淫巧" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    <category term="奇技淫巧" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
     
-    <category term="树莓派" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E6%A0%91%E8%8E%93%E6%B4%BE/"/>
+    <category term="树莓派" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E6%A0%91%E8%8E%93%E6%B4%BE/"/>
     
     
-    <category term="Linux" scheme="https://liangzhenduo0608.github.io/tags/Linux/"/>
+    <category term="Linux" scheme="https://www.shintaku.xyz/tags/Linux/"/>
     
-    <category term="树莓派" scheme="https://liangzhenduo0608.github.io/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/"/>
+    <category term="树莓派" scheme="https://www.shintaku.xyz/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/"/>
     
-    <category term="Python" scheme="https://liangzhenduo0608.github.io/tags/Python/"/>
+    <category term="Python" scheme="https://www.shintaku.xyz/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>macOS自动添加ssh密钥</title>
-    <link href="https://liangzhenduo0608.github.io/posts/ssh-add/"/>
-    <id>https://liangzhenduo0608.github.io/posts/ssh-add/</id>
+    <link href="https://www.shintaku.xyz/posts/ssh-add/"/>
+    <id>https://www.shintaku.xyz/posts/ssh-add/</id>
     <published>2017-01-23T14:22:22.000Z</published>
     <updated>2019-07-14T15:04:34.207Z</updated>
     
@@ -587,21 +587,21 @@
     
     
     
-    <category term="奇技淫巧" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    <category term="奇技淫巧" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
     
-    <category term="macOS" scheme="https://liangzhenduo0608.github.io/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/"/>
+    <category term="macOS" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/"/>
     
     
-    <category term="macOS" scheme="https://liangzhenduo0608.github.io/tags/macOS/"/>
+    <category term="macOS" scheme="https://www.shintaku.xyz/tags/macOS/"/>
     
-    <category term="ssh" scheme="https://liangzhenduo0608.github.io/tags/ssh/"/>
+    <category term="ssh" scheme="https://www.shintaku.xyz/tags/ssh/"/>
     
   </entry>
   
   <entry>
     <title>「艦これ」Android版運用</title>
-    <link href="https://liangzhenduo0608.github.io/posts/kancolle-android/"/>
-    <id>https://liangzhenduo0608.github.io/posts/kancolle-android/</id>
+    <link href="https://www.shintaku.xyz/posts/kancolle-android/"/>
+    <id>https://www.shintaku.xyz/posts/kancolle-android/</id>
     <published>2016-11-27T14:22:22.000Z</published>
     <updated>2019-07-14T15:04:34.205Z</updated>
     
@@ -616,16 +616,16 @@
     
     
     
-    <category term="ACG" scheme="https://liangzhenduo0608.github.io/categories/ACG/"/>
+    <category term="ACG" scheme="https://www.shintaku.xyz/categories/ACG/"/>
     
-    <category term="艦隊これくしょん" scheme="https://liangzhenduo0608.github.io/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/"/>
+    <category term="艦隊これくしょん" scheme="https://www.shintaku.xyz/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/"/>
     
     
-    <category term="Android" scheme="https://liangzhenduo0608.github.io/tags/Android/"/>
+    <category term="Android" scheme="https://www.shintaku.xyz/tags/Android/"/>
     
-    <category term="舰队Collection" scheme="https://liangzhenduo0608.github.io/tags/%E8%88%B0%E9%98%9FCollection/"/>
+    <category term="舰队Collection" scheme="https://www.shintaku.xyz/tags/%E8%88%B0%E9%98%9FCollection/"/>
     
-    <category term="游戏" scheme="https://liangzhenduo0608.github.io/tags/%E6%B8%B8%E6%88%8F/"/>
+    <category term="游戏" scheme="https://www.shintaku.xyz/tags/%E6%B8%B8%E6%88%8F/"/>
     
   </entry>
   

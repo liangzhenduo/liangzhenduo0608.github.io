@@ -98,7 +98,9 @@
                 formkey = o.googleFormkey,
                 sheetfield = o.googleSheetField;
 
-            $.getJSON("https://spreadsheets.google.com/feeds/list/" + key + "/" + sheet + "/public/values?alt=json", function(JData) {
+            var url = "https://spreadsheets.google.com/feeds/list/" + key + "/" + sheet + "/public/values?alt=json"
+            //var url = "https://sheets.googleapis.com/v4/spreadsheets/" + key + "/values/Sheet1"
+            $.getJSON(url, function(JData) {
                 for (var i = 0; i < JData.feed.entry.length; i++) {
                     $.ukagaka.talking[i] = JData.feed.entry[i].gsx$storedatabase.$t;
                 }

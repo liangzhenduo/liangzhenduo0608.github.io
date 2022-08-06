@@ -96,16 +96,17 @@
             var key = o.googleKey,
                 sheet = o.googleSheet,
                 formkey = o.googleFormkey,
-                sheetfield = o.googleSheetField;
+                sheetname = o.googleSheetName,
+                apikey = o.googleApiKey;
 
-            var url = "https://spreadsheets.google.com/feeds/list/" + key + "/" + sheet + "/public/values?alt=json"
-            //var url = "https://sheets.googleapis.com/v4/spreadsheets/" + key + "/values/Sheet1"
+            //var url = "https://spreadsheets.google.com/feeds/list/" + key + "/" + sheet + "/public/values?alt=json"
+            var url = "https://sheets.googleapis.com/v4/spreadsheets/" + key + "/values/" + sheetname + "?key=" + apikey
             $.getJSON(url, function(JData) {
-                for (var i = 0; i < JData.feed.entry.length; i++) {
-                    $.ukagaka.talking[i] = JData.feed.entry[i].gsx$storedatabase.$t;
+                for (var i = 1; i < JData.values.length; i++) {
+                    $.ukagaka.talking[i] = JData.values[i][1];
                 }
                 showText($.ukagaka.talking[Math.floor(Math.random() * $.ukagaka.talking.length)]);
-                $('input#ukagaka_addstring').attr('placeholder', ukagakaText + '学习了' + JData.feed.entry.length + '条人生经验');
+                $('input#ukagaka_addstring').attr('placeholder', ukagakaText + '学习了' + JData.values.length + '条人生经验');
             });
         }
 
@@ -541,7 +542,9 @@
         googleKey: '1V4ZjHqiItSJuNov0TkwfSTESALr5XEILfdzAu1xd9ys',
         googleFormkey: '1BPzP_o86Lruxu60S0C8_MHYEzwPk67BY3hkb-3wPu0M',
         googleSheet: "1",
+        googleSheetName: "Form Responses 1",
         googleSheetField: "entry.1522432738",
+        googleApiKey: "AIzaSyB4EFMxD0DaB-ljVLDPJaFkAnAUVS_bUFM",
         talkTime: 60000,
 
         ukagakaText: "提督",

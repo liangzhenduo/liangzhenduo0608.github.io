@@ -398,7 +398,7 @@
   </url>
   
   <url>
-    <loc>https://www.shintaku.xyz/posts/chinadns/</loc>
+    <loc>https://www.shintaku.xyz/posts/certbot/</loc>
     
     <lastmod>2019-07-14</lastmod>
     
@@ -407,7 +407,7 @@
   </url>
   
   <url>
-    <loc>https://www.shintaku.xyz/posts/certbot/</loc>
+    <loc>https://www.shintaku.xyz/posts/chinadns/</loc>
     
     <lastmod>2019-07-14</lastmod>
     
@@ -612,14 +612,14 @@
   </url>
   
   <url>
-    <loc>https://www.shintaku.xyz/tags/ChinaDNS/</loc>
+    <loc>https://www.shintaku.xyz/tags/SSL/</loc>
     <lastmod>2022-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.shintaku.xyz/tags/SSL/</loc>
+    <loc>https://www.shintaku.xyz/tags/ChinaDNS/</loc>
     <lastmod>2022-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -640,6 +640,13 @@
   </url>
   
   <url>
+    <loc>https://www.shintaku.xyz/tags/GFWlist/</loc>
+    <lastmod>2022-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://www.shintaku.xyz/tags/Docker/</loc>
     <lastmod>2022-08-06</lastmod>
     <changefreq>weekly</changefreq>
@@ -648,13 +655,6 @@
   
   <url>
     <loc>https://www.shintaku.xyz/tags/N1%E7%9B%92%E5%AD%90/</loc>
-    <lastmod>2022-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.shintaku.xyz/tags/GFWlist/</loc>
     <lastmod>2022-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

@@ -3008,7 +3008,7 @@ a.article-title:hover {
   height: auto;
   display: block;
   margin: auto;
-  background-color: #fff;
+  background-color: transparent;
 }
 .article-entry .button {
   cursor: pointer;

@@ -20,15 +20,6 @@
   </url>
   
   <url>
-    <loc>https://www.shintaku.xyz/about/index.html</loc>
-    
-    <lastmod>2021-02-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.shintaku.xyz/posts/docker-openwrt/</loc>
     
     <lastmod>2020-11-22</lastmod>
@@ -59,15 +50,6 @@
     <loc>https://www.shintaku.xyz/posts/tm-nas/</loc>
     
     <lastmod>2020-01-18</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.shintaku.xyz/gallery/index.html</loc>
-    
-    <lastmod>2019-12-28</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -128,7 +110,7 @@
   </url>
   
   <url>
-    <loc>https://www.shintaku.xyz/posts/shadowsocks/</loc>
+    <loc>https://www.shintaku.xyz/posts/sci/</loc>
     
     <lastmod>2019-07-14</lastmod>
     
@@ -137,7 +119,7 @@
   </url>
   
   <url>
-    <loc>https://www.shintaku.xyz/posts/sci/</loc>
+    <loc>https://www.shintaku.xyz/posts/shadowsocks/</loc>
     
     <lastmod>2019-07-14</lastmod>
     
@@ -236,7 +218,7 @@
   </url>
   
   <url>
-    <loc>https://www.shintaku.xyz/posts/ngrok/</loc>
+    <loc>https://www.shintaku.xyz/posts/minecraft/</loc>
     
     <lastmod>2019-07-14</lastmod>
     
@@ -254,7 +236,7 @@
   </url>
   
   <url>
-    <loc>https://www.shintaku.xyz/posts/minecraft/</loc>
+    <loc>https://www.shintaku.xyz/posts/ngrok/</loc>
     
     <lastmod>2019-07-14</lastmod>
     
@@ -344,6 +326,15 @@
   </url>
   
   <url>
+    <loc>https://www.shintaku.xyz/posts/hexo-mathjax/</loc>
+    
+    <lastmod>2019-07-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.shintaku.xyz/posts/kancolle-android/</loc>
     
     <lastmod>2019-07-14</lastmod>
@@ -354,15 +345,6 @@
   
   <url>
     <loc>https://www.shintaku.xyz/posts/kancolle-cookie/</loc>
-    
-    <lastmod>2019-07-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.shintaku.xyz/posts/hexo-mathjax/</loc>
     
     <lastmod>2019-07-14</lastmod>
     
@@ -389,7 +371,7 @@
   </url>
   
   <url>
-    <loc>https://www.shintaku.xyz/posts/breed/</loc>
+    <loc>https://www.shintaku.xyz/posts/centos-lemp/</loc>
     
     <lastmod>2019-07-14</lastmod>
     
@@ -398,7 +380,7 @@
   </url>
   
   <url>
-    <loc>https://www.shintaku.xyz/posts/centos-lemp/</loc>
+    <loc>https://www.shintaku.xyz/posts/breed/</loc>
     
     <lastmod>2019-07-14</lastmod>
     
@@ -425,7 +407,7 @@
   </url>
   
   <url>
-    <loc>https://www.shintaku.xyz/posts/dd/</loc>
+    <loc>https://www.shintaku.xyz/posts/deepwalk/</loc>
     
     <lastmod>2019-07-14</lastmod>
     
@@ -434,7 +416,7 @@
   </url>
   
   <url>
-    <loc>https://www.shintaku.xyz/posts/deepwalk/</loc>
+    <loc>https://www.shintaku.xyz/posts/dd/</loc>
     
     <lastmod>2019-07-14</lastmod>
     
@@ -556,20 +538,6 @@
   </url>
   
   <url>
-    <loc>https://www.shintaku.xyz/tags/macOS/</loc>
-    <lastmod>2022-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.shintaku.xyz/tags/Minecraft/</loc>
-    <lastmod>2022-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.shintaku.xyz/tags/%E4%B8%8B%E8%BD%BD/</loc>
     <lastmod>2022-08-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -578,6 +546,20 @@
   
   <url>
     <loc>https://www.shintaku.xyz/tags/Unix/</loc>
+    <lastmod>2022-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.shintaku.xyz/tags/macOS/</loc>
+    <lastmod>2022-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.shintaku.xyz/tags/Minecraft/</loc>
     <lastmod>2022-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -675,20 +657,6 @@
   </url>
   
   <url>
-    <loc>https://www.shintaku.xyz/tags/%E8%88%B0%E9%98%9FCollection/</loc>
-    <lastmod>2022-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.shintaku.xyz/tags/%E6%B8%B8%E6%88%8F/</loc>
-    <lastmod>2022-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.shintaku.xyz/tags/JavaScript/</loc>
     <lastmod>2022-08-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -697,6 +665,20 @@
   
   <url>
     <loc>https://www.shintaku.xyz/tags/Node-js/</loc>
+    <lastmod>2022-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.shintaku.xyz/tags/%E8%88%B0%E9%98%9FCollection/</loc>
+    <lastmod>2022-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.shintaku.xyz/tags/%E6%B8%B8%E6%88%8F/</loc>
     <lastmod>2022-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -731,13 +713,6 @@
   </url>
   
   <url>
-    <loc>https://www.shintaku.xyz/tags/V2Ray/</loc>
-    <lastmod>2022-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.shintaku.xyz/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/</loc>
     <lastmod>2022-08-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -746,6 +721,13 @@
   
   <url>
     <loc>https://www.shintaku.xyz/tags/Python/</loc>
+    <lastmod>2022-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.shintaku.xyz/tags/V2Ray/</loc>
     <lastmod>2022-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -817,6 +799,13 @@
   </url>
   
   <url>
+    <loc>https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/</loc>
+    <lastmod>2022-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/</loc>
     <lastmod>2022-08-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -832,13 +821,6 @@
   
   <url>
     <loc>https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Android/</loc>
-    <lastmod>2022-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/</loc>
     <lastmod>2022-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

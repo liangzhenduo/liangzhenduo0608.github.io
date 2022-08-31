@@ -6,7 +6,7 @@
   <link href="https://www.shintaku.xyz/atom.xml" rel="self"/>
   
   <link href="https://www.shintaku.xyz/"/>
-  <updated>2021-09-17T16:09:13.188Z</updated>
+  <updated>2022-08-31T14:38:08.858Z</updated>
   <id>https://www.shintaku.xyz/</id>
   
   <author>
@@ -21,14 +21,14 @@
     <link href="https://www.shintaku.xyz/posts/openwrt-onu/"/>
     <id>https://www.shintaku.xyz/posts/openwrt-onu/</id>
     <published>2021-09-15T13:11:11.000Z</published>
-    <updated>2021-09-17T16:09:13.188Z</updated>
+    <updated>2022-08-31T14:38:08.858Z</updated>
     
-    <content type="html"><![CDATA[<p>主路由使用OpenWrt进行拨号以后，发现无法直接通过<a href="http://192.168.1.1/">192.168.1.1</a>访问桥接过来的光猫了。之前使用Padavan的时候wan口接光猫时会作为光猫的DHCP客户端自动获取一个192.168.1.*的ip地址，下级设备都可以直接访问到光猫的地址；而OpenWrt却没有分配到光猫网段的地址，所以需要手动创建一个接口。</p><p>在<strong>网络-接口</strong>中创建一个新接口，名字可以叫<strong>man</strong>，协议选DHCP客户端，接口选择和<strong>wan</strong>口相同的接口，我这里是<strong>eth0.2</strong>。</p><p><img src="/img/onuinterface.png" alt="创建新接口"></p><p>创建后修改高级设置，禁用<strong>使用默认网关</strong>选项；在防火墙设置里，将防火墙区域选到<strong>wan</strong>上。</p><p><img src="/img/onuadvanced.png" alt="高级设置"></p><p><img src="/img/onufirewall.png" alt="防火墙设置"></p><p>最后保存后去接口里连接<strong>MAN</strong>就会发现可以获取到192.168.1.*网段下的地址了，然后光猫就可以访问了。</p>]]></content>
+    <content type="html"><![CDATA[<p>主路由使用N1盒子OpenWrt系统进行拨号以后，由于和光猫不在一个网段，下级设备无法直接通过<a href="http://192.168.1.1/">192.168.1.1</a>访问桥接过来的光猫了。之前使用Padavan的时候wan口接光猫时会作为光猫的DHCP客户端自动获取一个192.168.1.*的ip地址，下级设备都可以直接访问到光猫的地址；而OpenWrt却没有分配到光猫网段的地址，所以需要手动创建一个接口。</p><p>在<strong>网络-接口</strong>中创建一个新接口，名字可以叫<strong>man</strong>，协议选DHCP客户端，接口选择和<strong>wan</strong>口相同的接口，我这里是<strong>eth0.2</strong>。</p><p><img src="/img/onuinterface.png" alt="创建新接口"></p><p>创建后修改高级设置，禁用<strong>使用默认网关</strong>选项；在防火墙设置里，将防火墙区域选到<strong>wan</strong>上。</p><p><img src="/img/onuadvanced.png" alt="高级设置"></p><p><img src="/img/onufirewall.png" alt="防火墙设置"></p><p>最后保存后去接口里连接<strong>MAN</strong>就会发现可以获取到192.168.1.*网段下的地址了，然后光猫就可以访问了。</p>]]></content>
     
     
       
       
-    <summary type="html">&lt;p&gt;主路由使用OpenWrt进行拨号以后，发现无法直接通过&lt;a href=&quot;http://192.168.1.1/&quot;&gt;192.168.1.1&lt;/a&gt;访问桥接过来的光猫了。之前使用Padavan的时候wan口接光猫时会作为光猫的DHCP客户端自动获取一个192.168.1.*的i</summary>
+    <summary type="html">&lt;p&gt;主路由使用N1盒子OpenWrt系统进行拨号以后，由于和光猫不在一个网段，下级设备无法直接通过&lt;a href=&quot;http://192.168.1.1/&quot;&gt;192.168.1.1&lt;/a&gt;访问桥接过来的光猫了。之前使用Padavan的时候wan口接光猫时会作为光猫的DHCP客户</summary>
       
     
     
@@ -39,6 +39,36 @@
     
     
     <category term="OpenWrt" scheme="https://www.shintaku.xyz/tags/OpenWrt/"/>
+    
+    <category term="N1盒子" scheme="https://www.shintaku.xyz/tags/N1%E7%9B%92%E5%AD%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>N1盒子刷入OpenWrt做主路由</title>
+    <link href="https://www.shintaku.xyz/posts/n1-openwrt/"/>
+    <id>https://www.shintaku.xyz/posts/n1-openwrt/</id>
+    <published>2021-08-30T13:11:11.000Z</published>
+    <updated>2022-08-31T14:47:43.118Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="获取固件"><a href="#获取固件" class="headerlink" title="获取固件"></a>获取固件</h1><p>首先从<a href="https://www.right.com.cn/forum/thread-4076037-1-1.html">恩山论坛</a>上获取最新的flippy大神的固件，从网盘下载一般文件名为<strong>openwrt_s905d_n1_Rxx.xx.xx_kxx.xx.xx-flippy-xx+o.7z</strong>。</p><p>解压后得到img文件，用<a href="https://www.balena.io/etcher/">Etcher</a>或<a href="https://rufus.ie/zh/">Rufus</a>等工具烧录到U盘中。</p><h1 id="U盘启动"><a href="#U盘启动" class="headerlink" title="U盘启动"></a>U盘启动</h1><p>U盘插到N1盒子上电，就应该能直接进入OpenWrt系统。</p><p>如果之前刷过电视盒子系统进不去U盘启动，可以先在原系统下连上局域网并查到ip，电脑上adb连接并重启：</p><pre><code>adb connect 192.168.xxx.xxxadb shell reboot update</code></pre><p>应该就可以进入U盘系统了。</p><h1 id="修改ip地址"><a href="#修改ip地址" class="headerlink" title="修改ip地址"></a>修改ip地址</h1><p>有两种方法：</p><h2 id="HDMI连接显示器"><a href="#HDMI连接显示器" class="headerlink" title="HDMI连接显示器"></a>HDMI连接显示器</h2><p>如果hdmi无信号有可能是4K显示器不支持换一台试试。<br>在显示的终端里编辑<strong>/etc/config/network</strong>，将<strong>lan</strong>的<strong>ipaddr</strong>改成想要的地址（如<em>192.168.0.1</em>）并保存。<br>执行<code>/etc/init.d/network restart</code>重启网络生效。</p><h2 id="连接N1已开启的WiFi"><a href="#连接N1已开启的WiFi" class="headerlink" title="连接N1已开启的WiFi"></a>连接N1已开启的WiFi</h2><p>接入盒子自带的无线网（SSID：Phicomm_n1 密码：password），浏览器访问<a href="http://openwrt/">openwrt/</a>，修改<strong>网络-接口-LAN</strong>里的ip地址即可。</p><h1 id="常规设置"><a href="#常规设置" class="headerlink" title="常规设置"></a>常规设置</h1><h2 id="刷入EMMC"><a href="#刷入EMMC" class="headerlink" title="刷入EMMC"></a>刷入EMMC</h2><p>可以选择继续用U盘启动，也可以执行<code>sh /root/install-to-emmc.sh</code>选择刷入盒子的内置闪存，刷入之前最好用<code>ddbr</code>命令备份一下。</p><h2 id="配置WAN口"><a href="#配置WAN口" class="headerlink" title="配置WAN口"></a>配置WAN口</h2><p>在<strong>网络-接口</strong>里设置<strong>WAN</strong>接口（没有就添加一个），宽带拨号就用PPPoE协议；物理设置的接口自定义成<strong>eth0.2</strong>，因为只有一个网口，连到了交换机上的VLAN2上和光猫进行桥接；最后给wan配置防火墙。</p><h2 id="配置LAN口"><a href="#配置LAN口" class="headerlink" title="配置LAN口"></a>配置LAN口</h2><p>协议就是上面设置的静态地址；物理设置指定桥接接口，选中<strong>eth0</strong>和无线网络；给lan配置防火墙。</p><p>下面的DHCP服务器高级设置中选中<strong>动态DHCP</strong>和<strong>强制</strong>作为局域网内唯一的DHCP服务器。</p><h2 id="禁用IPv6-DNS"><a href="#禁用IPv6-DNS" class="headerlink" title="禁用IPv6 DNS"></a>禁用IPv6 DNS</h2><p>在<strong>网络-DHCP/DNS</strong>中的高级设置中<strong>禁止解析 IPv6 DNS 记录</strong>，防止在科学上网时梯子只支持IPv4的情况。</p><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="开启UPnP"><a href="#开启UPnP" class="headerlink" title="开启UPnP"></a>开启UPnP</h3><p>在<strong>服务-UPnP</strong>里开启，当在局域网里挂一些PCDN服务时会用到。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;获取固件&quot;&gt;&lt;a href=&quot;#获取固件&quot; class=&quot;headerlink&quot; title=&quot;获取固件&quot;&gt;&lt;/a&gt;获取固件&lt;/h1&gt;&lt;p&gt;首先从&lt;a href=&quot;https://www.right.com.cn/forum/thread-4076037-1-1.</summary>
+      
+    
+    
+    
+    <category term="奇技淫巧" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/"/>
+    
+    <category term="路由器" scheme="https://www.shintaku.xyz/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    
+    
+    <category term="OpenWrt" scheme="https://www.shintaku.xyz/tags/OpenWrt/"/>
+    
+    <category term="N1盒子" scheme="https://www.shintaku.xyz/tags/N1%E7%9B%92%E5%AD%90/"/>
     
   </entry>
   
@@ -294,9 +324,9 @@
     
     <category term="服务器" scheme="https://www.shintaku.xyz/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     
-    <category term="Nginx" scheme="https://www.shintaku.xyz/tags/Nginx/"/>
-    
     <category term="SSL" scheme="https://www.shintaku.xyz/tags/SSL/"/>
+    
+    <category term="Nginx" scheme="https://www.shintaku.xyz/tags/Nginx/"/>
     
   </entry>
   
@@ -595,37 +625,6 @@
     <category term="macOS" scheme="https://www.shintaku.xyz/tags/macOS/"/>
     
     <category term="ssh" scheme="https://www.shintaku.xyz/tags/ssh/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>「艦これ」Android版運用</title>
-    <link href="https://www.shintaku.xyz/posts/kancolle-android/"/>
-    <id>https://www.shintaku.xyz/posts/kancolle-android/</id>
-    <published>2016-11-27T14:22:22.000Z</published>
-    <updated>2019-07-14T15:04:34.205Z</updated>
-    
-    <content type="html"><![CDATA[<p>舰队Collection之前出了Android版，最开始需要预约抽签才能登录，2016年8月份开始全体提督都可以玩了。Android版有一个好处就是（除首次登录外）<strong>无需代理</strong>即可随时随地肝船了。</p><h1 id="下载安装DMM-Game-Store"><a href="#下载安装DMM-Game-Store" class="headerlink" title="下载安装DMM Game Store"></a>下载安装DMM Game Store</h1><p>先到<a href="http://www.dmm.com/app/-/appstore/download/">DMM App Store</a>下载<a href="http://portalapp.dmm.com/dmmappstore/DMMGameStore.apk">安装包</a>，安装完毕打开任意代理（只要不是中国大陆的地址就行）后打开游戏中心，点右上角游戏按钮登录：</p><p><img src="/img/kcastore.png" alt="DMM Game Store"></p><p>登录后选择<strong>艦隊これくしょん -艦これ-</strong>并下载：</p><p><img src="/img/kcadownload.png" alt="ダウンロード"></p><h1 id="安装运行「艦これ」"><a href="#安装运行「艦これ」" class="headerlink" title="安装运行「艦これ」"></a>安装运行「艦これ」</h1><p>下载完了直接安装就行了，此时就不需要代理了，然后直接启动：</p><p><img src="/img/kcastart.png" alt="スタート"></p><p>此时按<strong><del>ミュージック</del>スタート</strong>就进入游戏了，游戏本身和网页版大同小异：</p><p><img src="/img/kcaandroid.png" alt="Kan Colle"></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;舰队Collection之前出了Android版，最开始需要预约抽签才能登录，2016年8月份开始全体提督都可以玩了。Android版有一个好处就是（除首次登录外）&lt;strong&gt;无需代理&lt;/strong&gt;即可随时随地肝船了。&lt;/p&gt;
-&lt;h1 id=&quot;下载安装DMM-Gam</summary>
-      
-    
-    
-    
-    <category term="ACG" scheme="https://www.shintaku.xyz/categories/ACG/"/>
-    
-    <category term="艦隊これくしょん" scheme="https://www.shintaku.xyz/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/"/>
-    
-    
-    <category term="Android" scheme="https://www.shintaku.xyz/tags/Android/"/>
-    
-    <category term="舰队Collection" scheme="https://www.shintaku.xyz/tags/%E8%88%B0%E9%98%9FCollection/"/>
-    
-    <category term="游戏" scheme="https://www.shintaku.xyz/tags/%E6%B8%B8%E6%88%8F/"/>
     
   </entry>
   

@@ -114,6 +114,98 @@
         
           <section id="main" class='pjax'>
   
+    <article id="post-dropbear" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/posts/dropbear/" class="article-date">
+  <time datetime="2016-06-18T10:18:18.000Z" itemprop="datePublished">2016-06-18</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a>►<a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/">＊nix</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/dbbanner.png" rel="gallery_cl7hqgzcv000y9ih83k2926hi">
+        <img src="/img/dbbanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/dropbear/">OpenWrt上的ssh免密登录</a>
+    </h1>
+  
+
+      </header>
+    
+    <footer class="article-footer">
+      <a data-url="https://www.shintaku.xyz/posts/dropbear/" data-id="cl7hqgzcv000y9ih83k2926hi" class="article-share-link">Share</a>
+      
+        <a href="https://www.shintaku.xyz/posts/dropbear/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWrt/" rel="tag">OpenWrt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/" rel="tag">ssh</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" rel="tag">路由器</a></li></ul>
+
+    </footer>
+    <div class="article-entry article-index" itemprop="articleBody">
+      
+          
+        
+          <div class="toggle-content">
+            <p>一般在用OpenSSH服务器的系统上进行ssh登录时，我们只需要在本地生成密钥（yuè）对，将私钥（yuè）留在本地，将公钥（yuè）上传到目标服务器上就可以了，具体如下：</p>
+<pre><code>ssh-keygen
+cat ~/.ssh/id_rsa.pub | ssh remote_username@remote_host &#39;cat &gt;&gt; .ssh/authorized_keys&#39;
+</code></pre><p>然而OpenWrt上的ssh服务器却用的<a target="_blank" rel="noopener" href="https://matt.ucc.asn.au/dropbear/dropbear.html">Dropbear</a>，它是一种在较低内存和处理器资源的嵌入式系统中替代OpenSSH的软件，因此使用起来用诸多的不同。</p>
+<h1 id="免密登录到OpenWrt"><a href="#免密登录到OpenWrt" class="headerlink" title="免密登录到OpenWrt"></a>免密登录到OpenWrt</h1><p>如果本地是用<code>ssh-keygen</code>生成的密钥对，那么只需要将公钥上传到路由器的<code>/etc/dropbear/authorized_keys</code>中就行了：</p>
+<pre><code>cat ~/.ssh/id_rsa.pub | ssh root@192.168.1.1 &#39;cat &gt;&gt; /etc/dropbear/authorized_keys&#39;
+</code></pre><h1 id="从OpenWrt登录到其他机器"><a href="#从OpenWrt登录到其他机器" class="headerlink" title="从OpenWrt登录到其他机器"></a>从OpenWrt登录到其他机器</h1><p>首先登入到OpenWrt。但想从OpenWrt免密登录其他机器，也要先生成密钥对并将公钥上传。由于无法使用<code>ssh-keygen</code>，我们可以直接用<code>dropbearkey</code>生成：</p>
+<blockquote>
+<p>dropbearkey -t rsa -f ~/.ssh/id_rsa<br>Generating key, this may take a while…<br>Public key portion is:<br>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCn02fMyD2T1ECmDZso8EG1m/4eo5LJtNlbqCMu0SkABsOUvmTHozrPzoJ10SlcAhjnc84S//VGEAbNJxUTaYn0M7f7M8Q4NBSyPF9DMcNAWKM01OSll8BWLQafZeZneW+UOwO6h1LOd6UEaLS8lhKQUD05+dSzKhPHimZudlhkV2bO7KOkiFh3P4K1GakHBuXitB1V9QH144BKKlSqNXy7TZcJf5/oRkB76ZmdSDDMQtvfCHF1BZwggStgBsu9K6nAl8lz9MOVHCYs9AkEIurldrHLUKvoGJ4QA5yc3bEMQaMH7vu3G5YMysIY4w5+aVuZh5Wg4THoh6yXPfGUc7Mh root@OpenWrt<br>Fingerprint: md5 2d:8f:e9:e7:31:75:f0:f4:ba:b8:54:4c:2f:43:9b:33</p>
+</blockquote>
+<p>这样就将私钥生成到<code>~/.ssh/id_rsa</code>了，并将公钥打印到了屏幕上。建议将公钥也保存下来，以便以后使用：</p>
+<pre><code>echo &quot;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCn02fMyD2T1ECmDZso8EG1m/4eo5LJtNlbqCMu0SkABsOUvmTHozrPzoJ10SlcAhjnc84S//VGEAbNJxUTaYn0M7f7M8Q4NBSyPF9DMcNAWKM01OSll8BWLQafZeZneW+UOwO6h1LOd6UEaLS8lhKQUD05+dSzKhPHimZudlhkV2bO7KOkiFh3P4K1GakHBuXitB1V9QH144BKKlSqNXy7TZcJf5/oRkB76ZmdSDDMQtvfCHF1BZwggStgBsu9K6nAl8lz9MOVHCYs9AkEIurldrHLUKvoGJ4QA5yc3bEMQaMH7vu3G5YMysIY4w5+aVuZh5Wg4THoh6yXPfGUc7Mh root@OpenWrt&quot; &gt; ~/.ssh/id_rsa.pub
+</code></pre><p>然后就和原来一样，将公钥上传到目标服务器就可以了：</p>
+<pre><code>cat ~/.ssh/id_rsa.pub | ssh remote_username@remote_host &#39;cat &gt;&gt; .ssh/authorized_keys&#39;
+</code></pre><p>但是在登录的时候要注意，使用<code>ssh</code>命令需要加<code>-i</code>参数指定所用的私钥：</p>
+<pre><code>ssh -i ~/.ssh/id_rsa remote_username@remote_host
+</code></pre><p>记得使用<code>scp</code>等类似命令也要这样。</p>
+
+          </div>
+          <div class="toggle-input article-more-link"><a>Read More +</a></div>
+        
+      
+    </div>
+
+  </div>
+  
+</article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-9920928489161252"
+     data-ad-slot="3913131990"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+  
     <article id="post-chinadns" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     
@@ -132,7 +224,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/dnsbanner.png" rel="gallery_cl6rxi3st000kk1h8emgz6hm0">
+      <a class="article-gallery-img fancybox" href="/img/dnsbanner.png" rel="gallery_cl7hqgzcr000k9ih859xj29jd">
         <img src="/img/dnsbanner.png" itemprop="image">
       </a>
     
@@ -151,7 +243,7 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://www.shintaku.xyz/posts/chinadns/" data-id="cl6rxi3st000kk1h8emgz6hm0" class="article-share-link">Share</a>
+      <a data-url="https://www.shintaku.xyz/posts/chinadns/" data-id="cl7hqgzcr000k9ih859xj29jd" class="article-share-link">Share</a>
       
         <a href="https://www.shintaku.xyz/posts/chinadns/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -242,7 +334,7 @@ systemctl enable dnsmasq
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/appbanner.png" rel="gallery_cl6rxi3so000ck1h8bve47cys">
+      <a class="article-gallery-img fancybox" href="/img/appbanner.png" rel="gallery_cl7hqgzcl00089ih8611af1yq">
         <img src="/img/appbanner.png" itemprop="image">
       </a>
     
@@ -261,7 +353,7 @@ systemctl enable dnsmasq
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://www.shintaku.xyz/posts/app/" data-id="cl6rxi3so000ck1h8bve47cys" class="article-share-link">Share</a>
+      <a data-url="https://www.shintaku.xyz/posts/app/" data-id="cl7hqgzcl00089ih8611af1yq" class="article-share-link">Share</a>
       
         <a href="https://www.shintaku.xyz/posts/app/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -333,7 +425,7 @@ systemctl enable dnsmasq
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/vlbanner.png" rel="gallery_cl6rxi3tm0042k1h80lhm5gj8">
+      <a class="article-gallery-img fancybox" href="/img/vlbanner.png" rel="gallery_cl7hqgzdg00469ih82acy1go6">
         <img src="/img/vlbanner.png" itemprop="image">
       </a>
     
@@ -352,7 +444,7 @@ systemctl enable dnsmasq
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://www.shintaku.xyz/posts/verilog/" data-id="cl6rxi3tm0042k1h80lhm5gj8" class="article-share-link">Share</a>
+      <a data-url="https://www.shintaku.xyz/posts/verilog/" data-id="cl7hqgzdg00469ih82acy1go6" class="article-share-link">Share</a>
       
         <a href="https://www.shintaku.xyz/posts/verilog/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -429,7 +521,7 @@ systemctl enable dnsmasq
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/lempbanner.png" rel="gallery_cl6rxi3sp000dk1h8f52z6m17">
+      <a class="article-gallery-img fancybox" href="/img/lempbanner.png" rel="gallery_cl7hqgzcq000h9ih873j68txn">
         <img src="/img/lempbanner.png" itemprop="image">
       </a>
     
@@ -448,7 +540,7 @@ systemctl enable dnsmasq
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://www.shintaku.xyz/posts/centos-lemp/" data-id="cl6rxi3sp000dk1h8f52z6m17" class="article-share-link">Share</a>
+      <a data-url="https://www.shintaku.xyz/posts/centos-lemp/" data-id="cl7hqgzcq000h9ih873j68txn" class="article-share-link">Share</a>
       
         <a href="https://www.shintaku.xyz/posts/centos-lemp/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -558,7 +650,7 @@ systemctl enable nginx
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/kcbanner.png" rel="gallery_cl6rxi3t3001jk1h85q9t87u0">
+      <a class="article-gallery-img fancybox" href="/img/kcbanner.png" rel="gallery_cl7hqgzcz001j9ih8doxs3uh3">
         <img src="/img/kcbanner.png" itemprop="image">
       </a>
     
@@ -577,7 +669,7 @@ systemctl enable nginx
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://www.shintaku.xyz/posts/kancolle-cookie/" data-id="cl6rxi3t3001jk1h85q9t87u0" class="article-share-link">Share</a>
+      <a data-url="https://www.shintaku.xyz/posts/kancolle-cookie/" data-id="cl7hqgzcz001j9ih8doxs3uh3" class="article-share-link">Share</a>
       
         <a href="https://www.shintaku.xyz/posts/kancolle-cookie/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -658,7 +750,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/mcbanner.png" rel="gallery_cl6rxi3t70020k1h89xi6fmd6">
+      <a class="article-gallery-img fancybox" href="/img/mcbanner.png" rel="gallery_cl7hqgzd200209ih88nyo8bmo">
         <img src="/img/mcbanner.png" itemprop="image">
       </a>
     
@@ -677,7 +769,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://www.shintaku.xyz/posts/minecraft/" data-id="cl6rxi3t70020k1h89xi6fmd6" class="article-share-link">Share</a>
+      <a data-url="https://www.shintaku.xyz/posts/minecraft/" data-id="cl7hqgzd200209ih88nyo8bmo" class="article-share-link">Share</a>
       
         <a href="https://www.shintaku.xyz/posts/minecraft/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -754,7 +846,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/vpnbanner.png" rel="gallery_cl6rxi3tg0037k1h8d910bb6e">
+      <a class="article-gallery-img fancybox" href="/img/vpnbanner.png" rel="gallery_cl7hqgzda003a9ih8a3wh505k">
         <img src="/img/vpnbanner.png" itemprop="image">
       </a>
     
@@ -773,7 +865,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://www.shintaku.xyz/posts/softether/" data-id="cl6rxi3tg0037k1h8d910bb6e" class="article-share-link">Share</a>
+      <a data-url="https://www.shintaku.xyz/posts/softether/" data-id="cl7hqgzda003a9ih8a3wh505k" class="article-share-link">Share</a>
       
         <a href="https://www.shintaku.xyz/posts/softether/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -963,7 +1055,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/sslbanner.png" rel="gallery_cl6rxi3ti003jk1h81y3j7ppj">
+      <a class="article-gallery-img fancybox" href="/img/sslbanner.png" rel="gallery_cl7hqgzdc003m9ih88rt16gyr">
         <img src="/img/sslbanner.png" itemprop="image">
       </a>
     
@@ -982,7 +1074,7 @@ document.cookie = &quot;ckcy=1;expires=Sun, 09 Feb 2019 09:00:09 GMT;domain=log-
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://www.shintaku.xyz/posts/ssl/" data-id="cl6rxi3ti003jk1h81y3j7ppj" class="article-share-link">Share</a>
+      <a data-url="https://www.shintaku.xyz/posts/ssl/" data-id="cl7hqgzdc003m9ih88rt16gyr" class="article-share-link">Share</a>
       
         <a href="https://www.shintaku.xyz/posts/ssl/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1065,7 +1157,7 @@ scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/ddbanner.png" rel="gallery_cl6rxi3sw000rk1h8dzslagly">
+      <a class="article-gallery-img fancybox" href="/img/ddbanner.png" rel="gallery_cl7hqgzcr000l9ih8guyt7qxu">
         <img src="/img/ddbanner.png" itemprop="image">
       </a>
     
@@ -1084,7 +1176,7 @@ scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://www.shintaku.xyz/posts/dd/" data-id="cl6rxi3sw000rk1h8dzslagly" class="article-share-link">Share</a>
+      <a data-url="https://www.shintaku.xyz/posts/dd/" data-id="cl7hqgzcr000l9ih8guyt7qxu" class="article-share-link">Share</a>
       
         <a href="https://www.shintaku.xyz/posts/dd/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -1138,113 +1230,6 @@ scp 2_your_domain.key remote_username@remote_host:/usr/share/nginx/
 <p>Disk /dev/disk2 ejected</p>
 </blockquote>
 <p>说明弹出成功，全部完成。</p>
-
-          </div>
-          <div class="toggle-input article-more-link"><a>Read More +</a></div>
-        
-      
-    </div>
-
-  </div>
-  
-</article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-9920928489161252"
-     data-ad-slot="3913131990"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-  
-    <article id="post-6relayd" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    
-<a href="/posts/6relayd/" class="article-date">
-  <time datetime="2015-12-15T07:15:15.000Z" itemprop="datePublished">2015-12-15</time>
-</a>
-
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a>►<a class="article-category-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-      <a class="article-gallery-img fancybox" href="/img/6rbanner.png" rel="gallery_cl6rxi3si0003k1h89ef3a3kd">
-        <img src="/img/6rbanner.png" itemprop="image">
-      </a>
-    
-  </div>
-</div>
-
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/posts/6relayd/">OpenWrt路由器的IPv6代理</a>
-    </h1>
-  
-
-      </header>
-    
-    <footer class="article-footer">
-      <a data-url="https://www.shintaku.xyz/posts/6relayd/" data-id="cl6rxi3si0003k1h89ef3a3kd" class="article-share-link">Share</a>
-      
-        <a href="https://www.shintaku.xyz/posts/6relayd/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IPv6/" rel="tag">IPv6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWrt/" rel="tag">OpenWrt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ShadowSocks/" rel="tag">ShadowSocks</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" rel="tag">科学上网</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" rel="tag">路由器</a></li></ul>
-
-    </footer>
-    <div class="article-entry article-index" itemprop="articleBody">
-      
-          
-        
-          <div class="toggle-content">
-            <p>之前本来是想用路由器获取IPv6地址并使用双栈连接的代理服务器访问互联网。虽然之前网件自己的固件是有<strong>穿透模式</strong>并可以获取v6地址，但是无法安装ShadowSocks，所以才刷成了OpenWrt。但是这个固件默认是没有<strong>穿透模式</strong>的，所以需要自己配一发。</p>
-<p>现在我们需要用到以下软件：</p>
-<ul>
-<li>shadowsocks-libev-spec</li>
-<li>luci-app-shadowsocks-spec</li>
-<li>6relayd</li>
-</ul>
-<h1 id="安装ShadowSocks"><a href="#安装ShadowSocks" class="headerlink" title="安装ShadowSocks"></a>安装ShadowSocks</h1><p>在OpenWrt上我们可以安装<code>shdowsocks-libev</code>版本，顺便搭配LuCI界面的<code>luci-app</code>使用，这个项目在<a target="_blank" rel="noopener" href="https://sourceforge.net/projects/openwrt-dist/files/shadowsocks-libev/">sourceforge</a>有发布，可以从这里下载最新的。下载完成后使用<code>opkg</code>命令安装：</p>
-<pre><code>opkg install shadowsocks-libev-spec_2.4.6-1_ar71xx.ipk
-opkg install luci-app-shadowsocks-spec_1.4.0-1_all.ipk
-</code></pre><p>安装完成后<code>reboot</code>命令重启路由器，再次进入LuCI界面可以看到多了一个<code>Services</code>-<code>ShadowSocks</code>：</p>
-<p><img src="/img/opss.png" alt="ShadowSocks"></p>
-<p>就说明安装正确，在里面输入ShadowSocks服务器信息就可以自动代理了，凡是连上这台路由器的设备获取到的都是代理后的网络了。</p>
-<h1 id="安装6relayd"><a href="#安装6relayd" class="headerlink" title="安装6relayd"></a>安装6relayd</h1><p>由于现在即使通过代理上网也是消耗校内流量的，为了不走流量，我们只能借助IPv6网络。但是普通的路由器很少可以正常获取IPv6地址，即使路由器能获取到连接设备也很难获取，除了NETGEAR的部分路由器（包括WNR2200）的新版固件是有IPv6连接的，并且本人亲测使用<code>穿透模式</code>可以正常使用IPv6网络。所以我希望在OpenWrt上也能使用<code>穿透模式</code>，再通过ShadowSocks代理IPv6网络就可以免流量访问外网了。</p>
-<p>要使用<code>穿透模式</code>就少不了<a target="_blank" rel="noopener" href="https://wiki.openwrt.org/doc/uci/6relayd">6relayd</a>这个软件。可是官方源如今没提供这个包，于是可以获取我的备份并安装：</p>
-<pre><code>wget https://www.shintaku.cc/files/6relayd_2013-10-21_ar71xx.ipk
-opkg install 6relayd_2013-10-21_ar71xx.ipk
-</code></pre><p>安装完成之后编辑<code>/etc/config/6relayd</code>文件在默认配置后面加一组：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">config relay</span><br><span class="line">	option master   <span class="string">&#x27;wan&#x27;</span></span><br><span class="line">	option network  <span class="string">&#x27;lan&#x27;</span></span><br><span class="line">	option rd       <span class="string">&#x27;relay&#x27;</span></span><br><span class="line">	option dhcpv6   <span class="string">&#x27;relay&#x27;</span></span><br><span class="line">	option ndp      <span class="string">&#x27;relay&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>保存后使用下面的命令开启服务并设置为开机启动即可：</p>
-<pre><code>/etc/init.d/6relayd start
-/etc/init.d/6relayd enable
-</code></pre><h1 id="配置路由器"><a href="#配置路由器" class="headerlink" title="配置路由器"></a>配置路由器</h1><p>现在要到LuCI界面下找到<code>Network</code>-<code>Interfaces</code>并添加一个新的接口：</p>
-<p><img src="/img/opnew.png" alt="Add new interface"></p>
-<p>接口名叫<code>wan6</code>，协议选择<code>DHCPv6 client</code>，接口自定义为<code>@wan</code>：</p>
-<p><img src="/img/opwan6.png" alt="wan6"></p>
-<p>保存应用后重启路由器，就会发现多了一个WAN6接口，并且WAN口获取到IPv6地址了：</p>
-<p><img src="/img/opipv6.png" alt="IPv6地址"></p>
-<p>这时回到ShadowSocks的配置界面，将服务器地址改为VPS的IPv6地址就可以了：</p>
-<p><img src="/img/opsss.png" alt="ShadowSocks设置"></p>
-<p>记得要开全局代理，因为毕竟PPPoE拨着号呢，<del>在校园网11月30日改革后有线网拨号后不用登录就能上网让我很慌啊，路由器一直连着网终归是有偷跑流量的风险，所以打开IPv6全局代理最为保险，使得能通过代理的IPv6网络可以使用而IPv4网络因为通不过代理无法使用。</del>2016年春季学期开学后发现即使拨号路由器也无法获取IPv6地址了。</p>
-<p>于是现在得到的效果就是任何连接到这台路由器的设备无需任何登录即可<strong>访问外网</strong>，而且<strong>不消耗校内网流量</strong>，网络还<strong>自带科学上网Buff</strong>，从此妈妈再也不用担心我流量不够用了。</p>
 
           </div>
           <div class="toggle-input article-more-link"><a>Read More +</a></div>
@@ -1324,7 +1309,7 @@ setTimeout(function() {
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">19</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/">＊nix</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E8%AF%BE%E7%A8%8B/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">20</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/">＊nix</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E8%AF%BE%E7%A8%8B/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -1341,6 +1326,14 @@ setTimeout(function() {
                 <i class="fa-paperclip"></i> 
               
             OpenWrt访问桥接光猫</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/n1-openwrt/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            N1盒子刷入OpenWrt做主路由</a>
           </li>
         
           <li>
@@ -1407,14 +1400,6 @@ setTimeout(function() {
             Let&#39;s Encrypt SSL证书配置</a>
           </li>
         
-          <li>
-            <a class="text" href="/posts/hexo-deploy/">
-              
-                <i class="fa-paperclip"></i> 
-              
-            Hexo博客部署到VPS</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1425,7 +1410,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 21px; color: #bfdfff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 12px; color: #007fff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 22.15px; color: #d8ebff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 20.31px; color: #b1d8ff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23.08px; color: #ebf5ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 17.54px; color: #76baff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 16.62px; color: #62b0ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 21.23px; color: #c4e1ff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 19.38px; color: #9dceff">路由器</a> <a href="/tags/IPv6/" style="font-size: 12.92px; color: #1489ff">IPv6</a> <a href="/tags/Android/" style="font-size: 12.92px; color: #1489ff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 18.46px; color: #89c4ff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 12.92px; color: #1489ff">Minecraft</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 13.85px; color: #2793ff">Unix</a> <a href="/tags/SSL/" style="font-size: 12.92px; color: #1489ff">SSL</a> <a href="/tags/Nginx/" style="font-size: 15.69px; color: #4ea6ff">Nginx</a> <a href="/tags/LEMP/" style="font-size: 12.92px; color: #1489ff">LEMP</a> <a href="/tags/MySQL/" style="font-size: 12.92px; color: #1489ff">MySQL</a> <a href="/tags/PHP/" style="font-size: 12.92px; color: #1489ff">PHP</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 14.77px; color: #3b9dff">机器学习</a> <a href="/tags/ssh/" style="font-size: 17.54px; color: #76baff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 13.85px; color: #2793ff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 12.92px; color: #1489ff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 13.85px; color: #2793ff">游戏</a> <a href="/tags/VPN/" style="font-size: 12.92px; color: #1489ff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 12.92px; color: #1489ff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 

@@ -53,18 +53,19 @@
   
   <title>OpenWrt访问桥接光猫 | Shintaku&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="主路由使用OpenWrt进行拨号以后，发现无法直接通过192.168.1.1访问桥接过来的光猫了。之前使用Padavan的时候wan口接光猫时会作为光猫的DHCP客户端自动获取一个192.168.1.*的ip地址，下级设备都可以直接访问到光猫的地址；而OpenWrt却没有分配到光猫网段的地址，所以需要手动创建一个接口。 在网络-接口中创建一个新接口，名字可以叫man，协议选DHCP客户端，接口选择">
+  <meta name="description" content="主路由使用N1盒子OpenWrt系统进行拨号以后，由于和光猫不在一个网段，下级设备无法直接通过192.168.1.1访问桥接过来的光猫了。之前使用Padavan的时候wan口接光猫时会作为光猫的DHCP客户端自动获取一个192.168.1.*的ip地址，下级设备都可以直接访问到光猫的地址；而OpenWrt却没有分配到光猫网段的地址，所以需要手动创建一个接口。 在网络-接口中创建一个新接口，名字可以">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OpenWrt访问桥接光猫">
 <meta property="og:url" content="https://www.shintaku.xyz/posts/openwrt-onu/index.html">
 <meta property="og:site_name" content="Shintaku&#39;s Blog">
-<meta property="og:description" content="主路由使用OpenWrt进行拨号以后，发现无法直接通过192.168.1.1访问桥接过来的光猫了。之前使用Padavan的时候wan口接光猫时会作为光猫的DHCP客户端自动获取一个192.168.1.*的ip地址，下级设备都可以直接访问到光猫的地址；而OpenWrt却没有分配到光猫网段的地址，所以需要手动创建一个接口。 在网络-接口中创建一个新接口，名字可以叫man，协议选DHCP客户端，接口选择">
+<meta property="og:description" content="主路由使用N1盒子OpenWrt系统进行拨号以后，由于和光猫不在一个网段，下级设备无法直接通过192.168.1.1访问桥接过来的光猫了。之前使用Padavan的时候wan口接光猫时会作为光猫的DHCP客户端自动获取一个192.168.1.*的ip地址，下级设备都可以直接访问到光猫的地址；而OpenWrt却没有分配到光猫网段的地址，所以需要手动创建一个接口。 在网络-接口中创建一个新接口，名字可以">
 <meta property="og:locale">
 <meta property="og:image" content="https://www.shintaku.xyz/img/onubanner.png">
 <meta property="article:published_time" content="2021-09-15T13:11:11.000Z">
-<meta property="article:modified_time" content="2021-09-17T16:09:13.188Z">
+<meta property="article:modified_time" content="2022-08-31T14:38:08.858Z">
 <meta property="article:author" content="Shintaku">
 <meta property="article:tag" content="OpenWrt">
+<meta property="article:tag" content="N1盒子">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://www.shintaku.xyz/img/onubanner.png">
   <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
@@ -137,7 +138,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="/img/onubanner.png" rel="gallery_cl6rxi3t9002ck1h85d1gexmy">
+      <a class="article-gallery-img fancybox" href="/img/onubanner.png" rel="gallery_cl7hqgzd5002g9ih8ev8s7rcl">
         <img src="/img/onubanner.png" itemprop="image">
       </a>
     
@@ -156,19 +157,19 @@
       </header>
     
     <footer class="article-footer">
-      <a data-url="https://www.shintaku.xyz/posts/openwrt-onu/" data-id="cl6rxi3t9002ck1h85d1gexmy" class="article-share-link">Share</a>
+      <a data-url="https://www.shintaku.xyz/posts/openwrt-onu/" data-id="cl7hqgzd5002g9ih8ev8s7rcl" class="article-share-link">Share</a>
       
         <a href="https://www.shintaku.xyz/posts/openwrt-onu/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWrt/" rel="tag">OpenWrt</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/N1%E7%9B%92%E5%AD%90/" rel="tag">N1盒子</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWrt/" rel="tag">OpenWrt</a></li></ul>
 
     </footer>
     <div class="article-entry " itemprop="articleBody">
       
           
         
-          <p>主路由使用OpenWrt进行拨号以后，发现无法直接通过<a target="_blank" rel="noopener" href="http://192.168.1.1/">192.168.1.1</a>访问桥接过来的光猫了。之前使用Padavan的时候wan口接光猫时会作为光猫的DHCP客户端自动获取一个192.168.1.*的ip地址，下级设备都可以直接访问到光猫的地址；而OpenWrt却没有分配到光猫网段的地址，所以需要手动创建一个接口。</p>
+          <p>主路由使用N1盒子OpenWrt系统进行拨号以后，由于和光猫不在一个网段，下级设备无法直接通过<a target="_blank" rel="noopener" href="http://192.168.1.1/">192.168.1.1</a>访问桥接过来的光猫了。之前使用Padavan的时候wan口接光猫时会作为光猫的DHCP客户端自动获取一个192.168.1.*的ip地址，下级设备都可以直接访问到光猫的地址；而OpenWrt却没有分配到光猫网段的地址，所以需要手动创建一个接口。</p>
 <p>在<strong>网络-接口</strong>中创建一个新接口，名字可以叫<strong>man</strong>，协议选DHCP客户端，接口选择和<strong>wan</strong>口相同的接口，我这里是<strong>eth0.2</strong>。</p>
 <p><img src="/img/onuinterface.png" alt="创建新接口"></p>
 <p>创建后修改高级设置，禁用<strong>使用默认网关</strong>选项；在防火墙设置里，将防火墙区域选到<strong>wan</strong>上。</p>
@@ -201,9 +202,9 @@
 <nav id="article-nav">
   
   
-    <a href="/posts/docker-openwrt/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/posts/n1-openwrt/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">N1盒子Docker安装OpenWrt旁路由</div>
+      <div class="article-nav-title">N1盒子刷入OpenWrt做主路由</div>
     </a>
   
 </nav>
@@ -277,7 +278,7 @@ setTimeout(function() {
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">19</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/">＊nix</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E8%AF%BE%E7%A8%8B/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">20</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/">＊nix</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E8%AF%BE%E7%A8%8B/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a><span class="category-list-count">8</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -294,6 +295,14 @@ setTimeout(function() {
                 <i class="fa-paperclip"></i> 
               
             OpenWrt访问桥接光猫</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/n1-openwrt/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            N1盒子刷入OpenWrt做主路由</a>
           </li>
         
           <li>
@@ -360,14 +369,6 @@ setTimeout(function() {
             Let&#39;s Encrypt SSL证书配置</a>
           </li>
         
-          <li>
-            <a class="text" href="/posts/hexo-deploy/">
-              
-                <i class="fa-paperclip"></i> 
-              
-            Hexo博客部署到VPS</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -378,7 +379,7 @@ setTimeout(function() {
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
-      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 21px; color: #bfdfff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 18px; color: #80bfff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 17px; color: #6ab4ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 21px; color: #bfdfff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 20px; color: #aad4ff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/macOS/" style="font-size: 19px; color: #95caff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 13px; color: #158aff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 18px; color: #80bfff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 12px; color: #007fff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+      <a href="/tags/VPS/" style="font-size: 22.15px; color: #d8ebff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 20.31px; color: #b1d8ff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23.08px; color: #ebf5ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 17.54px; color: #76baff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/ShadowSocks/" style="font-size: 16.62px; color: #62b0ff">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 21.23px; color: #c4e1ff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 19.38px; color: #9dceff">路由器</a> <a href="/tags/IPv6/" style="font-size: 12.92px; color: #1489ff">IPv6</a> <a href="/tags/Android/" style="font-size: 12.92px; color: #1489ff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/macOS/" style="font-size: 18.46px; color: #89c4ff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 12.92px; color: #1489ff">Minecraft</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 13.85px; color: #2793ff">Unix</a> <a href="/tags/SSL/" style="font-size: 12.92px; color: #1489ff">SSL</a> <a href="/tags/Nginx/" style="font-size: 15.69px; color: #4ea6ff">Nginx</a> <a href="/tags/LEMP/" style="font-size: 12.92px; color: #1489ff">LEMP</a> <a href="/tags/MySQL/" style="font-size: 12.92px; color: #1489ff">MySQL</a> <a href="/tags/PHP/" style="font-size: 12.92px; color: #1489ff">PHP</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 14.77px; color: #3b9dff">机器学习</a> <a href="/tags/ssh/" style="font-size: 17.54px; color: #76baff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 13.85px; color: #2793ff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 12.92px; color: #1489ff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 13.85px; color: #2793ff">游戏</a> <a href="/tags/VPN/" style="font-size: 12.92px; color: #1489ff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 12.92px; color: #1489ff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
     </div>
   </div>
 

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" name="theme-color" content="#171714">
+  
+  <meta name="google-site-verification" content="fTlRYC4_eug8Q64ZK4Lzdv8mcunvs7S0Ec-39TBokv4">
+  
+  
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-132384849-1', 'auto');
+	ga('send', 'pageview');
+  </script>
+  <!-- End Google Analytics -->
+
+
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SFVJTQFBY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-8SFVJTQFBY');
+  </script>
+
+
+  
+  <!-- Google AdSense -->
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-9920928489161252",
+      enable_page_level_ads: true
+    });
+  </script>
+  <!-- End Google AdSense -->
+
+
+  
+  <link rel="alternative" href="/atom.xml" title="Shintaku&#39;s Blog" type="application/atom+xml">
+  
+  <link rel="manifest" href="manifest.json">
+  
+  <link rel="shortcut icon" href="/images/icon.png">
+  
+  
+  <title>Certbot配置SSL证书获得A+ | Shintaku&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="安装CertbotCertbot是一个自动生成Let’s Encrypt免费SSL证书的自由开源工具。CentOS可以通过yum直接安装： 1yum install certbot 获取Cloudflare API Key因为DNS解析是托管在CloudFlare上，通过DNS API去验证域名所有权并申请&#x2F;更新证书操作起来更简单。 在CloudFlare个人资料里获取Global API Key">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Certbot配置SSL证书获得A+">
+<meta property="og:url" content="https://www.shintaku.xyz/posts/certbot-ssl/index.html">
+<meta property="og:site_name" content="Shintaku&#39;s Blog">
+<meta property="og:description" content="安装CertbotCertbot是一个自动生成Let’s Encrypt免费SSL证书的自由开源工具。CentOS可以通过yum直接安装： 1yum install certbot 获取Cloudflare API Key因为DNS解析是托管在CloudFlare上，通过DNS API去验证域名所有权并申请&#x2F;更新证书操作起来更简单。 在CloudFlare个人资料里获取Global API Key">
+<meta property="og:locale">
+<meta property="og:image" content="https://www.shintaku.xyz/img/certbotsslbanner.png">
+<meta property="article:published_time" content="2022-10-01T14:22:22.000Z">
+<meta property="article:modified_time" content="2022-10-09T09:28:39.116Z">
+<meta property="article:author" content="Shintaku">
+<meta property="article:tag" content="VPS">
+<meta property="article:tag" content="服务器">
+<meta property="article:tag" content="Nginx">
+<meta property="article:tag" content="SSL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.shintaku.xyz/img/certbotsslbanner.png">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <script src="/js/jquery-3.3.1.min.js"></script>
+  <script src="/js/nprogress.js"></script>
+  <link href="/css/nprogress.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"><div id="banner-right"></div></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Shintaku&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          
+            <a class="main-nav-link" href="/"><i class=fa-home title='Home'></i> Home</a>
+          
+        
+          
+            <a class="main-nav-link" href="/archives"><i class=fa-archive title='Archives'></i> Archives</a>
+          
+        
+          
+            <a class="main-nav-link" href="/tags"><i class=fa-tags title='Tags'></i> Tags</a>
+          
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.shintaku.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        
+          <section id="main" class='pjax'><article id="post-certbot-ssl" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    
+<a href="/posts/certbot-ssl/" class="article-date">
+  <time datetime="2022-10-01T14:22:22.000Z" itemprop="datePublished">2022-10-01</time>
+</a>
+
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>►<a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/img/certbotsslbanner.png" rel="gallery_cl9153kvo000ho4h8a4xx7o29">
+        <img src="/img/certbotsslbanner.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Certbot配置SSL证书获得A+
+    </h1>
+  
+
+      </header>
+    
+    <footer class="article-footer">
+      <a data-url="https://www.shintaku.xyz/posts/certbot-ssl/" data-id="cl9153kvo000ho4h8a4xx7o29" class="article-share-link">Share</a>
+      
+        <a href="https://www.shintaku.xyz/posts/certbot-ssl/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSL/" rel="tag">SSL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/" rel="tag">VPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a></li></ul>
+
+    </footer>
+    <div class="article-entry " itemprop="articleBody">
+      
+          
+              <div id="toc" class="toc-article">
+              <h2 class="toc-title" align="center"><span>目录</span></h2>
+              
+                  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Certbot"><span class="toc-number">1.</span> <span class="toc-text">安装Certbot</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96Cloudflare-API-Key"><span class="toc-number">2.</span> <span class="toc-text">获取Cloudflare API Key</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%B3%E8%AF%B7%E8%AF%81%E4%B9%A6"><span class="toc-number">3.</span> <span class="toc-text">申请证书</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AENginx"><span class="toc-number">4.</span> <span class="toc-text">配置Nginx</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%81%E4%B9%A6%E7%BB%AD%E6%9C%9F"><span class="toc-number">5.</span> <span class="toc-text">证书续期</span></a></li></ol>
+              
+              </div>
+          
+        
+          <h1 id="安装Certbot"><a href="#安装Certbot" class="headerlink" title="安装Certbot"></a>安装Certbot</h1><p><a target="_blank" rel="noopener" href="https://certbot.eff.org/">Certbot</a>是一个自动生成<a target="_blank" rel="noopener" href="https://letsencrypt.org/">Let’s Encrypt</a>免费SSL证书的自由开源工具。CentOS可以通过yum直接安装：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install certbot</span><br></pre></td></tr></table></figure>
+<h1 id="获取Cloudflare-API-Key"><a href="#获取Cloudflare-API-Key" class="headerlink" title="获取Cloudflare API Key"></a>获取Cloudflare API Key</h1><p>因为DNS解析是托管在CloudFlare上，通过DNS API去验证域名所有权并申请/更新证书操作起来更简单。</p>
+<p>在<a target="_blank" rel="noopener" href="https://dash.cloudflare.com/profile/api-tokens">CloudFlare个人资料</a>里获取Global API Key，在VPS上创建<code>cf.ini</code>文件填入帐号和Key：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Cloudflare API credentials used by Certbot</span></span><br><span class="line"><span class="attr">dns_cloudflare_email</span> = cloudflare@example.com</span><br><span class="line"><span class="attr">dns_cloudflare_api_key</span> = <span class="number">0123456789</span>abcdef0123456789abcdef0123</span><br></pre></td></tr></table></figure>
+<h1 id="申请证书"><a href="#申请证书" class="headerlink" title="申请证书"></a>申请证书</h1><p>用DNS插件申请域名和二级域名的证书：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">certbot certonly -d <span class="string">&#x27;yourdomain.com&#x27;</span> -d <span class="string">&#x27;*.yourdomain.com&#x27;</span> \</span><br><span class="line">	--dns-cloudflare \</span><br><span class="line">	--dns-cloudflare-credentials /etc/nginx/cf.ini \</span><br><span class="line">	--dns-cloudflare-propagation-seconds 60</span><br></pre></td></tr></table></figure>
+<p>证书默认会保存在<code>/etc/letsencrypt/live/yourdomain.com</code>目录下面。</p>
+<h1 id="配置Nginx"><a href="#配置Nginx" class="headerlink" title="配置Nginx"></a>配置Nginx</h1><p>配置<code>/etc/nginx/nginx.conf</code>：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">443</span> ssl http2;</span><br><span class="line">    <span class="attribute">listen</span>       [::]:<span class="number">443</span> ssl http2;</span><br><span class="line">    <span class="attribute">server_name</span>  _;</span><br><span class="line">    <span class="attribute">root</span>         /usr/share/nginx/html;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl_certificate</span>      /etc/letsencrypt/live/yourdomain.com/fullchain.pem;</span><br><span class="line">    <span class="attribute">ssl_certificate_key</span>  /etc/letsencrypt/live/yourdomain.com/privkey.pem;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl_session_cache</span> shared:le_nginx_SSL:<span class="number">1m</span>;</span><br><span class="line">    <span class="attribute">ssl_session_timeout</span> <span class="number">1440m</span>;</span><br><span class="line">    <span class="attribute">ssl_session_tickets</span> <span class="literal">off</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl_dhparam</span> /etc/nginx/dhparam.pem;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl_protocols</span> TLSv1.<span class="number">2</span> TLSv1.<span class="number">3</span>;</span><br><span class="line">    <span class="attribute">ssl_prefer_server_ciphers</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">ssl_ciphers</span> HIGH:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!kRSA;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重启Nginx就对所有二级域名都生效了。可以到<a target="_blank" rel="noopener" href="https://www.ssllabs.com/">SSL Labs</a>检测一下SSL评分是不是A+。</p>
+<h1 id="证书续期"><a href="#证书续期" class="headerlink" title="证书续期"></a>证书续期</h1><p>证书有效期为90天，所以需要定期更新，离过期30天以内可以续期，续期命令（可以加<code>--dry-run</code>试一下）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">certbot renew \</span><br><span class="line">	--dns-cloudflare \</span><br><span class="line">	--dns-cloudflare-credentials /etc/nginx/cf.ini \</span><br><span class="line">	--dns-cloudflare-propagation-seconds 60</span><br></pre></td></tr></table></figure>
+<p>可以写个crontab定时任务每个月执行一次：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">55 7 1 * * /usr/bin/certbot renew --dns-cloudflare --dns-cloudflare-credentials /etc/nginx/cf.ini --dns-cloudflare-propagation-seconds 60 &gt;&gt; ~/cert.log &amp;&amp; systemctl restart nginx</span><br></pre></td></tr></table></figure>
+
+          
+              <div id="statement" class="copyright">
+  <ul>
+    <strong>本文作者：</strong>
+    Shintaku
+    </br>
+    <strong>本文链接：</strong>
+    <a href="https://www.shintaku.xyz/posts/certbot-ssl/" title="Certbot配置SSL证书获得A+">https://www.shintaku.xyz/posts/certbot-ssl/</a>
+    </br>
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.shintaku.xyz" title="" target="_blank">Shintaku's Blog</a> 。
+  </ul>
+</div>
+
+          
+        
+      
+    </div>
+
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/posts/openwrt-onu/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">OpenWrt访问桥接光猫</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-9920928489161252"
+     data-ad-slot="3913131990"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+          
+            <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">QR code</h3>
+  <div class="widget widget-background1">
+    <div align="center">
+      <img id="qrcode">
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="/js/awesome-qr.js"></script>
+<script type="text/javascript">
+var img = new Image;
+
+img.src = "/images/icon.png";
+
+setTimeout(function() {
+    new AwesomeQRCode().create({
+        text: window.location.href,
+        size: 160,
+        margin: 4,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        backgroundImage: img,
+        backgroundDimming: 'rgba(0,0,0,0)',
+        logoImage: undefined,
+        logoScale: 0.2,
+        logoMargin: 6,
+        logoCornerRadius: 8,
+        whiteMargin: true,
+        dotScale: 0.4,
+        autoColor: true,
+        binarize: false,
+        binarizeThreshold: 128,
+        callback: function(dataURI){},
+        bindElement: 'qrcode'
+    });
+}, 1000);
+</script>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/">ACG</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/Minecraft/">Minecraft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ACG/%E8%89%A6%E9%9A%8A%E3%81%93%E3%82%8C%E3%81%8F%E3%81%97%E3%82%87%E3%82%93/">艦隊これくしょん</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">20</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Windows/">Windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/macOS/">macOS</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%E8%B7%AF%E7%94%B1%E5%99%A8/">路由器</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/%EF%BC%8Anix/">＊nix</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/">手帐</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E5%AE%9E%E4%B9%A0/">实习</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%89%8B%E5%B8%90/%E8%AF%BE%E7%A8%8B/">课程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87/">论文</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/">科学上网</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%AB%99%E9%83%A8%E7%BD%B2/">网站部署</a><span class="category-list-count">9</span></li></ul></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a class="text" href="/posts/certbot-ssl/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Certbot配置SSL证书获得A+</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/openwrt-onu/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            OpenWrt访问桥接光猫</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/n1-openwrt/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            N1盒子刷入OpenWrt做主路由</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/docker-openwrt/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            N1盒子Docker安装OpenWrt旁路由</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/tm-nas/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Time Machine通过Samba备份到NAS</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/shadowsocks-v2ray/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            ShadowSocks启用v2ray-plugin</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/hexo-mathjax/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            Hexo博客使用MathJax公式</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/ttl/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            路由器TTL刷机救砖</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/mac-tftp/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            macOS启用TFTP服务</a>
+          </li>
+        
+          <li>
+            <a class="text" href="/posts/l2tp/">
+              
+                <i class="fa-paperclip"></i> 
+              
+            搭建L2TP/IPSec VPN</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <!--%- tagcloud({'amount': '1024', 'orderby': 'name', 'order': '1'}) %-->
+      <a href="/tags/VPS/" style="font-size: 22px; color: #d5eaff">VPS</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 20px; color: #aad4ff">科学上网</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 23px; color: #eaf4ff">服务器</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 17px; color: #6ab4ff">代理</a> <a href="/tags/Linux/" style="font-size: 24px; color: #fff">Linux</a> <a href="/tags/Android/" style="font-size: 13px; color: #158aff">Android</a> <a href="/tags/%E5%88%B7%E6%9C%BA/" style="font-size: 12px; color: #007fff">刷机</a> <a href="/tags/ShadowSocks/" style="font-size: 16px; color: #5af">ShadowSocks</a> <a href="/tags/OpenWrt/" style="font-size: 21px; color: #bfdfff">OpenWrt</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 19px; color: #95caff">路由器</a> <a href="/tags/IPv6/" style="font-size: 13px; color: #158aff">IPv6</a> <a href="/tags/macOS/" style="font-size: 18px; color: #80bfff">macOS</a> <a href="/tags/Minecraft/" style="font-size: 13px; color: #158aff">Minecraft</a> <a href="/tags/%E4%B8%8B%E8%BD%BD/" style="font-size: 12px; color: #007fff">下载</a> <a href="/tags/Unix/" style="font-size: 14px; color: #2b94ff">Unix</a> <a href="/tags/LEMP/" style="font-size: 13px; color: #158aff">LEMP</a> <a href="/tags/Nginx/" style="font-size: 16px; color: #5af">Nginx</a> <a href="/tags/MySQL/" style="font-size: 13px; color: #158aff">MySQL</a> <a href="/tags/PHP/" style="font-size: 13px; color: #158aff">PHP</a> <a href="/tags/SSL/" style="font-size: 14px; color: #2b94ff">SSL</a> <a href="/tags/ChinaDNS/" style="font-size: 12px; color: #007fff">ChinaDNS</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px; color: #409fff">机器学习</a> <a href="/tags/ssh/" style="font-size: 17px; color: #6ab4ff">ssh</a> <a href="/tags/Docker/" style="font-size: 12px; color: #007fff">Docker</a> <a href="/tags/N1%E7%9B%92%E5%AD%90/" style="font-size: 14px; color: #2b94ff">N1盒子</a> <a href="/tags/GFWlist/" style="font-size: 12px; color: #007fff">GFWlist</a> <a href="/tags/GoAgent/" style="font-size: 12px; color: #007fff">GoAgent</a> <a href="/tags/Git/" style="font-size: 12px; color: #007fff">Git</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #007fff">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 12px; color: #007fff">Node.js</a> <a href="/tags/%E8%88%B0%E9%98%9FCollection/" style="font-size: 13px; color: #158aff">舰队Collection</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 14px; color: #2b94ff">游戏</a> <a href="/tags/VPN/" style="font-size: 13px; color: #158aff">VPN</a> <a href="/tags/PandoraBox/" style="font-size: 12px; color: #007fff">PandoraBox</a> <a href="/tags/Qt/" style="font-size: 12px; color: #007fff">Qt</a> <a href="/tags/Windows/" style="font-size: 12px; color: #007fff">Windows</a> <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" style="font-size: 12px; color: #007fff">树莓派</a> <a href="/tags/Python/" style="font-size: 12px; color: #007fff">Python</a> <a href="/tags/V2Ray/" style="font-size: 12px; color: #007fff">V2Ray</a> <a href="/tags/shell/" style="font-size: 13px; color: #158aff">shell</a> <a href="/tags/SoftEther/" style="font-size: 12px; color: #007fff">SoftEther</a> <a href="/tags/OMV/" style="font-size: 12px; color: #007fff">OMV</a> <a href="/tags/NAS/" style="font-size: 12px; color: #007fff">NAS</a> <a href="/tags/Verilog/" style="font-size: 12px; color: #007fff">Verilog</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <!--h3 class="widget-title">Ad</h3>
+    <div class="widget widget-background1" align="center"-->
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<!-- sidebar -->
+		<ins class="adsbygoogle"
+     		 style="display:block"
+     		 data-ad-client="ca-pub-9920928489161252"
+     		 data-ad-slot="8654446491"
+     		 data-ad-format="auto"
+     		 data-full-width-responsive="true"></ins>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+    <!--/div-->
+</div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget widget-background1">
+      	<ul>
+		    <li>
+		    	<a href="https://github.com/liangzhenduo0608" target="_blank" title="github.com"><i class="fa-github"></i> GitHub </a>
+		    </li>
+
+	        <li>
+	        	<a href="https://liangzhenduo0608.github.io" target="_blank" title="liangzhenduo0608.github.io"><i class="fa-github-square"></i> Mirror Site </a>
+	        </li>
+
+			<li>
+	        	<a href="https://blog.hackroid.com/" target="_blank" title="blog.hackroid.com"><i class="fa-h-square"></i> Hackroid </a>
+	        </li>
+
+            <li>
+	        	<a href="https://leiblog.wang/" target="_blank" title="leiblog.wang"><i class="fa-h-square"></i> Lei Blog </a>
+	        </li>
+
+
+            <!--li>
+            	<a href="https://blog.mahoucoder.com/" target="_blank" title="blog.mahoucoder.com"><i class="fa-h-square"></i> 魔法コーダ </a>
+            </li>
+
+		    <li>
+		    	<a href="http://xzjqx.me/" target="_blank" title="xzjqx.me"><i class="fa-h-square"></i> 笑卒见清晰 </a>
+		    </li>
+
+	        <li>
+	        	<a href="http://muyus.cc/" target="_blank" title="muyus.cc"><i class="fa-wordpress"></i> 暮雨今夕 </a>
+	        </li>
+
+	        <li>
+	        	<a href="http://zhenlee.cn/" target="_blank" title="zhenlee.cn"><i class="fa-wordpress"></i> Fantasia </a>
+	        </li>
+
+	        <li>
+	        	<a href="https://steinslab.xyz/" target="_blank" title="steinslab.xyz"><i class="fa-wordpress"></i> SPtuan </a>
+	        </li>
+
+	        <li>
+	        	<a href="https://qyetfu.site/" target="_blank" title="qyetfu.site"><i class="fa-reorder"></i> Qyetfu </a>
+	        </li-->
+    	</ul>
+    </div>
+</div>
+
+</script>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Statistics</h3>
+    <div class="widget widget-background1" align="center">
+    	<!--a href="https://clustrmaps.com/site/19kh7" title="Visit tracker"><img src="//clustrmaps.com/map_v2.png?cl=eeeeee&w=220&t=n&d=3kNIfPXlC9a4s7N8RRFV04RgWWonJP-1hQ4Drq_rVj8&co=3d3d3b&ct=eeeeee" /></a-->
+    	<script type="text/javascript" src="//rf.revolvermaps.com/0/0/2.js?i=5gpp8v00aap&amp;m=8&amp;s=178&amp;c=fff600&amp;t=1" async="async"></script>
+      	<a target="_blank" rel="noopener" href="https://s05.flagcounter.com/more/779"><img src="https://s05.flagcounter.com/count2/779/bg_3D3D3B/txt_FFFFFF/border_3D3D3B/columns_2/maxflags_100/viewers_0/labels_1/pageviews_1/flags_0/percent_1/" alt="shintaku.xyz" border="0"></a>
+    </div>
+</div>
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">Reward</h3>
+    <div class="widget widget-background1" align="center">
+      	<img src="/images/alipay.png" alt="支付宝支付" width="220">
+      	<img src="/images/wechat.png" alt="微信支付" width="220">
+      	<a target="_blank" rel="noopener" href="https://www.paypal.me/liangzhenduo" title="PayPal支付" onclick="javascript:window.open('https://www.paypal.me/liangzhenduo','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" alt="PayPal支付" width="220"/></a>
+    </div>
+</div>
+  
+    <div id="ukagaka_panel"></div>
+<script src="/js/jquery-ui.min.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/ukagaka.js"></script>
+<script type="text/javascript">$('#ukagaka_panel').ukagaka();</script>
+
+  
+</aside>
+
+
+          
+        
+      </div>
+      <footer id="footer">
+  
+
+  <div class="outer" align="center">
+    <div id="wechat" style="display: none">
+      <img src="/images/mmqrcode.png" width="220" height="220">
+    </div>
+    <div class="social-group">
+      
+      <a href="https://github.com/liangzhenduo0608" target="_blank" title="GitHub"><i class="fa-github"></i></a>
+      
+      
+      
+      <a href="https://www.facebook.com/100005630052910" target="_blank" title="Facebook"><i class="fa-facebook"></i></a>
+      
+      
+      <a href="https://www.instagram.com/liangzhenduo" target="_blank" title="Instagram"><i class="fa-instagram"></i></a>
+      
+      
+      <a href="https://twitter.com/liangzhenduo" target="_blank" title="Twitter" ><i class="fa-twitter"></i></a>
+      
+      
+      <a href="https://www.linkedin.com/in/zhenduo-liang-795110131" target="_blank" title="LinkedIn"><i class="fa-linkedin"></i></a>
+      
+      
+      <a href="https://t.me/liangzhenduo" target="_blank" title="Telegram"><i class="fa-telegram"></i></a>
+      
+      <a href="/images/mmqrcode.png" title="WeChat" class="fancybox"><i class="fa-weixin"></i></a>
+      
+      
+      <a href="mailto:liangzhenduo0608@hotmail.com" target="_blank" title="Email" ><i class="fa-envelope"></i></a>
+      
+    </div>
+    <div id="footer-info" class="inner" align="center">
+      Powered by <a href="https:\/\/hexo.io/" target="_blank">Hexo</a> and Theme by <a href="https:\/\/github.com/hexojs/hexo-theme-landscape" target="_blank" title="landscape">landscape</a>     &copy; 2022 Shintaku
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'shintaku';
+  
+  var disqus_url = 'https://www.shintaku.xyz/posts/certbot-ssl/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/jquery.lazyload.js"></script>
+
+
+<script src="/js/jquery.als-1.6.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
